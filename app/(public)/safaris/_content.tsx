@@ -163,7 +163,7 @@ export default function SafarisContent() {
   const [showAdvanced, setShowAdvanced] = useState(
     !!(filters.difficulty || filters.tier),
   );
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const set = useCallback(
     <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
