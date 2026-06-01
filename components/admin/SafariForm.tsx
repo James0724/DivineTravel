@@ -1,0 +1,903 @@
+'use client'
+
+import { useState, KeyboardEvent } from 'react'
+import { useRouter } from 'next/navigation'
+import { useForm, useFieldArray, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Plus, Trash2, X, ChevronDown, ChevronUp, ArrowLeft, FolderOpen } from 'lucide-react'
+import toast from 'react-hot-toast'
+import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
+import Input, { Textarea, Select } from '@/components/ui/Input'
+import Button from '@/components/ui/Button'
+import ImageUpload from '@/components/admin/ImageUpload'
+import { SafariSchema, SafariFormValues } from '@/lib/validations/safari'
+import type { Safari } from '@/types'
+
+const MediaPicker = dynamic(() => import('@/components/admin/MediaPicker'), { ssr: false })
+
+/* ─── Constants ──────────────────────────────────────────────────────────── */
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December']
+
+const CATEGORIES = [
+  { value: 'wildlife',   label: 'Wildlife' },
+  { value: 'adventure',  label: 'Adventure' },
+  { value: 'cultural',   label: 'Cultural' },
+  { value: 'beach',      label: 'Beach' },
+  { value: 'mountain',   label: 'Mountain' },
+  { value: 'gorilla',    label: 'Gorilla' },
+]
+
+const DIFFICULTIES = [
+  { value: 'easy',        label: 'Easy' },
+  { value: 'moderate',    label: 'Moderate' },
+  { value: 'challenging', label: 'Challenging' },
+]
+
+/* ─── Defaults ───────────────────────────────────────────────────────────── */
+
+function blankItineraryDay(day: number) {
+  return {
+    day,
+    title: '',
+    description: '',
+    meals: [] as string[],
+    accommodation: '',
+    activities: [] as string[],
+  }
+}
+
+function blankPricingTier() {
+  return {
+    pricePerPerson: 0,
+    currency: 'USD',
+    description: '',
+    includes: [''],
+    accommodationType: '',
+  }
+}
+
+const defaultValues: SafariFormValues & {
+  coverImage: string
+  itinerary: ReturnType<typeof blankItineraryDay>[]
+} = {
+  name: '',
+  tagline: '',
+  description: '',
+  location: { country: '', region: '', park: '', coordinates: { lat: 0, lng: 0 } },
+  duration: 1,
+  highlights: [''],
+  included: [''],
+  excluded: [''],
+  itinerary: [blankItineraryDay(1)],
+  pricing: {
+    budget:   blankPricingTier(),
+    midRange: blankPricingTier(),
+    luxury:   blankPricingTier(),
+  },
+  category: ['wildlife'],
+  difficulty: 'easy',
+  maxGroupSize: 8,
+  minGroupSize: 2,
+  minAge: 5,
+  bestSeason: ['July'],
+  featured: false,
+  active: true,
+  coverImage: '',
+  seo: { metaTitle: '', metaDescription: '', keywords: [] },
+}
+
+/* ─── Helpers ────────────────────────────────────────────────────────────── */
+
+/** Inline tag-list editor for highlights, included, excluded, etc. */
+function ArrayField({
+  label,
+  values,
+  onChange,
+  placeholder = 'Add item…',
+  hint,
+}: {
+  label: string
+  values: string[]
+  onChange: (v: string[]) => void
+  placeholder?: string
+  hint?: string
+}) {
+  const [draft, setDraft] = useState('')
+
+  const add = () => {
+    const v = draft.trim()
+    if (v) { onChange([...values, v]); setDraft('') }
+  }
+
+  const remove = (i: number) => onChange(values.filter((_, idx) => idx !== i))
+
+  const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') { e.preventDefault(); add() }
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-bone-ink/80 font-sans">{label}</label>
+      {hint && <p className="text-xs text-bone-ink/45 font-sans -mt-1">{hint}</p>}
+
+      {values.filter(Boolean).length > 0 && (
+        <ul className="flex flex-col gap-1">
+          {values.filter(Boolean).map((v, i) => (
+            <li key={i} className="flex items-start gap-2 text-sm font-sans">
+              <span className="mt-0.5 text-bone-clay text-xs">–</span>
+              <span className="flex-1 text-bone-ink/80">{v}</span>
+              <button type="button" onClick={() => remove(i)} className="text-bone-ink/30 hover:text-red-500 transition-colors flex-shrink-0 mt-0.5">
+                <X size={13} />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={onKey}
+          placeholder={placeholder}
+          className="flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 transition-colors placeholder:text-bone-ink/35"
+        />
+        <button
+          type="button"
+          onClick={add}
+          className="h-9 px-3 rounded bg-bone-bg border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-forest hover:border-bone-forest transition-colors text-sm font-sans flex items-center gap-1"
+        >
+          <Plus size={13} /> Add
+        </button>
+      </div>
+    </div>
+  )
+}
+
+/** Single pricing tier section */
+function PricingTierSection({
+  tier,
+  label,
+  values,
+  onChange,
+  errors,
+}: {
+  tier: 'budget' | 'midRange' | 'luxury'
+  label: string
+  values: SafariFormValues['pricing']['budget']
+  onChange: (v: Partial<SafariFormValues['pricing']['budget']>) => void
+  errors?: Partial<Record<keyof SafariFormValues['pricing']['budget'], { message?: string }>>
+}) {
+  const colors: Record<string, string> = {
+    budget: 'border-l-blue-400',
+    midRange: 'border-l-amber-400',
+    luxury: 'border-l-bone-clay',
+  }
+
+  return (
+    <div className={`pl-4 border-l-2 ${colors[tier]} space-y-4`}>
+      <h4 className="text-sm font-semibold font-sans text-bone-ink uppercase tracking-wide">{label}</h4>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Input
+          label="Price per person (USD)"
+          type="number"
+          value={values.pricePerPerson || ''}
+          onChange={(e) => onChange({ pricePerPerson: Number(e.target.value) })}
+          min={0}
+          error={errors?.pricePerPerson?.message}
+          required
+        />
+        <Input
+          label="Accommodation type"
+          value={values.accommodationType}
+          onChange={(e) => onChange({ accommodationType: e.target.value })}
+          placeholder="e.g. En-suite Tented Lodge"
+          error={errors?.accommodationType?.message}
+          required
+        />
+      </div>
+
+      <Textarea
+        label="Tier description"
+        value={values.description}
+        onChange={(e) => onChange({ description: e.target.value })}
+        rows={3}
+        placeholder="What makes this tier special…"
+        error={errors?.description?.message}
+        required
+      />
+
+      <ArrayField
+        label="What's included"
+        values={values.includes}
+        onChange={(v) => onChange({ includes: v })}
+        placeholder="Add inclusion…"
+        hint="Press Enter or click Add"
+      />
+    </div>
+  )
+}
+
+/* ─── Main Component ─────────────────────────────────────────────────────── */
+
+export default function SafariForm({ existing }: { existing?: Safari }) {
+  const router = useRouter()
+  const isEdit = !!existing
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<SafariFormValues>({
+    resolver: zodResolver(SafariSchema),
+    defaultValues: existing
+      ? {
+          name: existing.name,
+          tagline: existing.tagline,
+          description: existing.description,
+          location: existing.location,
+          duration: existing.duration,
+          highlights: existing.highlights.length ? existing.highlights : [''],
+          included: existing.included.length ? existing.included : [''],
+          excluded: existing.excluded.length ? existing.excluded : [''],
+          itinerary: existing.itinerary.length ? existing.itinerary : [blankItineraryDay(1)],
+          pricing: existing.pricing,
+          category: existing.category,
+          difficulty: existing.difficulty,
+          maxGroupSize: existing.maxGroupSize,
+          minGroupSize: existing.minGroupSize,
+          minAge: existing.minAge,
+          bestSeason: existing.bestSeason,
+          featured: existing.featured,
+          active: existing.active,
+          seo: existing.seo ?? {},
+        }
+      : defaultValues,
+  })
+
+  // Extra fields not in SafariSchema
+  const [coverImage,          setCoverImage]          = useState(existing?.coverImage ?? '')
+  const [coverImagePublicId,  setCoverImagePublicId]  = useState(existing?.coverImagePublicId ?? '')
+  const [imageGallery, setImageGallery] = useState<{ url: string; alt: string; publicId: string }[]>(
+    existing?.images?.map((img) => ({ url: img.url, alt: img.alt, publicId: img.publicId ?? '' })) ?? []
+  )
+  const [galleryPickerOpen, setGalleryPickerOpen] = useState(false)
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    basic: true,
+    location: true,
+    details: true,
+    content: false,
+    itinerary: false,
+    pricing: true,
+    images: false,
+    seo: false,
+  })
+
+  const toggleSection = (key: string) =>
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }))
+
+  // Field arrays
+  const { fields: itineraryFields, append: appendDay, remove: removeDay } = useFieldArray({
+    control,
+    name: 'itinerary',
+  })
+
+  const watchedHighlights = watch('highlights') ?? ['']
+  const watchedIncluded  = watch('included')   ?? ['']
+  const watchedExcluded  = watch('excluded')   ?? ['']
+  const watchedBestSeason = watch('bestSeason') ?? []
+  const watchedCategory  = watch('category')   ?? []
+  const watchedFeatured  = watch('featured')
+  const watchedActive    = watch('active')
+
+  const toggleMonth = (month: string) => {
+    const current = watch('bestSeason') ?? []
+    setValue('bestSeason',
+      current.includes(month)
+        ? current.filter((m) => m !== month)
+        : [...current, month]
+    )
+  }
+
+  const toggleCategory = (cat: string) => {
+    const current = watch('category') ?? []
+    const next = current.includes(cat as never)
+      ? current.filter((c) => c !== cat)
+      : [...current, cat as never]
+    setValue('category', next as typeof current)
+  }
+
+  const onSubmit = async (data: SafariFormValues) => {
+    const payload = {
+      ...data,
+      coverImage,
+      coverImagePublicId,
+      images: imageGallery.map((img) => ({
+        url:      img.url,
+        publicId: img.publicId,
+        alt:      img.alt || data.name,
+      })),
+      // Filter blank strings from arrays
+      highlights: data.highlights.filter(Boolean),
+      included:   data.included.filter(Boolean),
+      excluded:   data.excluded.filter(Boolean),
+    }
+
+    try {
+      const url    = isEdit ? `/api/safaris/${existing!._id}` : '/api/safaris'
+      const method = isEdit ? 'PATCH' : 'POST'
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error ?? 'Failed to save safari')
+      }
+
+      toast.success(isEdit ? 'Safari updated!' : 'Safari created!')
+      router.push('/admin/safaris')
+      router.refresh()
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to save')
+    }
+  }
+
+  /* ── Section wrapper ── */
+  const Section = ({
+    id,
+    title,
+    subtitle,
+    children,
+  }: {
+    id: string
+    title: string
+    subtitle?: string
+    children: React.ReactNode
+  }) => (
+    <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden">
+      <button
+        type="button"
+        onClick={() => toggleSection(id)}
+        className="w-full flex items-center justify-between px-5 py-4 text-left"
+      >
+        <div>
+          <p className="font-sans font-semibold text-sm text-bone-ink">{title}</p>
+          {subtitle && <p className="text-xs text-bone-ink/45 font-sans mt-0.5">{subtitle}</p>}
+        </div>
+        {openSections[id]
+          ? <ChevronUp size={15} className="text-bone-ink/40 flex-shrink-0" />
+          : <ChevronDown size={15} className="text-bone-ink/40 flex-shrink-0" />}
+      </button>
+
+      {openSections[id] && (
+        <div className="px-5 pb-6 border-t border-[rgba(23,22,18,0.07)] pt-5 space-y-5">
+          {children}
+        </div>
+      )}
+    </div>
+  )
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 max-w-4xl">
+
+      {/* ── Back link ── */}
+      <Link
+        href="/admin/safaris"
+        className="inline-flex items-center gap-1.5 text-sm font-sans text-bone-ink/50 hover:text-bone-ink transition-colors"
+      >
+        <ArrowLeft size={14} /> Back to Safaris
+      </Link>
+
+      {/* ── Page title ── */}
+      <div>
+        <h1 className="font-serif text-2xl font-semibold text-bone-ink">
+          {isEdit ? 'Edit Safari' : 'Add New Safari'}
+        </h1>
+        <p className="text-sm text-bone-ink/45 font-sans mt-1">
+          {isEdit ? `Editing: ${existing!.name}` : 'Fill in the details below. Required fields are marked *.'}
+        </p>
+      </div>
+
+      {/* ════════════ 1 · BASIC INFO ════════════ */}
+      <Section id="basic" title="Basic Information" subtitle="Name, tagline, description and status">
+        <div className="grid grid-cols-1 gap-4">
+          <Input
+            label="Safari Name"
+            {...register('name')}
+            placeholder="e.g. Great Wildebeest Migration Safari"
+            error={errors.name?.message}
+            required
+          />
+          <Input
+            label="Tagline"
+            {...register('tagline')}
+            placeholder="One compelling sentence about this safari…"
+            error={errors.tagline?.message}
+            required
+          />
+          <Textarea
+            label="Full Description"
+            {...register('description')}
+            rows={6}
+            placeholder="Detailed description of the experience, what makes it special, what guests can expect…"
+            error={errors.description?.message}
+            required
+          />
+        </div>
+
+        {/* Status toggles */}
+        <div className="flex flex-wrap gap-6 pt-1">
+          <label className="flex items-center gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={watchedActive}
+              onChange={(e) => setValue('active', e.target.checked)}
+              className="w-4 h-4 accent-bone-forest rounded"
+            />
+            <span className="text-sm font-sans text-bone-ink/75">
+              Active <span className="text-bone-ink/40">(visible on site)</span>
+            </span>
+          </label>
+          <label className="flex items-center gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={watchedFeatured}
+              onChange={(e) => setValue('featured', e.target.checked)}
+              className="w-4 h-4 accent-bone-clay rounded"
+            />
+            <span className="text-sm font-sans text-bone-ink/75">
+              Featured <span className="text-bone-ink/40">(show on homepage)</span>
+            </span>
+          </label>
+        </div>
+      </Section>
+
+      {/* ════════════ 2 · LOCATION ════════════ */}
+      <Section id="location" title="Location" subtitle="Country, region, park and GPS coordinates">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input
+            label="Country"
+            {...register('location.country')}
+            placeholder="e.g. Kenya"
+            error={errors.location?.country?.message}
+            required
+          />
+          <Input
+            label="Region / Area"
+            {...register('location.region')}
+            placeholder="e.g. Rift Valley"
+            error={errors.location?.region?.message}
+            required
+          />
+          <Input
+            label="Park / Reserve"
+            {...register('location.park')}
+            placeholder="e.g. Masai Mara National Reserve"
+            error={errors.location?.park?.message}
+            required
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <Input
+            label="Latitude (optional)"
+            type="number"
+            step="any"
+            {...register('location.coordinates.lat', { valueAsNumber: true })}
+            placeholder="-1.5"
+          />
+          <Input
+            label="Longitude (optional)"
+            type="number"
+            step="any"
+            {...register('location.coordinates.lng', { valueAsNumber: true })}
+            placeholder="35.1"
+          />
+        </div>
+      </Section>
+
+      {/* ════════════ 3 · DETAILS ════════════ */}
+      <Section id="details" title="Safari Details" subtitle="Duration, group size, categories, best season">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <Input
+            label="Duration (days)"
+            type="number"
+            {...register('duration', { valueAsNumber: true })}
+            min={1}
+            max={60}
+            error={errors.duration?.message}
+            required
+          />
+          <Input
+            label="Min group size"
+            type="number"
+            {...register('minGroupSize', { valueAsNumber: true })}
+            min={1}
+            error={errors.minGroupSize?.message}
+          />
+          <Input
+            label="Max group size"
+            type="number"
+            {...register('maxGroupSize', { valueAsNumber: true })}
+            min={1}
+            error={errors.maxGroupSize?.message}
+          />
+          <Input
+            label="Minimum age"
+            type="number"
+            {...register('minAge', { valueAsNumber: true })}
+            min={0}
+            max={18}
+            error={errors.minAge?.message}
+          />
+        </div>
+
+        {/* Difficulty */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-bone-ink/80 font-sans">Difficulty <span className="text-bone-clay">*</span></label>
+          <div className="flex gap-3">
+            {DIFFICULTIES.map((d) => (
+              <label key={d.value} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  value={d.value}
+                  {...register('difficulty')}
+                  className="accent-bone-forest"
+                />
+                <span className="text-sm font-sans text-bone-ink/75">{d.label}</span>
+              </label>
+            ))}
+          </div>
+          {errors.difficulty && <p className="text-xs text-red-600 font-sans">{errors.difficulty.message}</p>}
+        </div>
+
+        {/* Categories */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-bone-ink/80 font-sans">Categories <span className="text-bone-clay">*</span></label>
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map((c) => {
+              const active = watchedCategory.includes(c.value as never)
+              return (
+                <button
+                  key={c.value}
+                  type="button"
+                  onClick={() => toggleCategory(c.value)}
+                  className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${
+                    active
+                      ? 'bg-bone-forest text-bone-paper border-bone-forest'
+                      : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-forest hover:text-bone-forest'
+                  }`}
+                >
+                  {c.label}
+                </button>
+              )
+            })}
+          </div>
+          {errors.category && <p className="text-xs text-red-600 font-sans">{errors.category.message as string}</p>}
+        </div>
+
+        {/* Best Season */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-bone-ink/80 font-sans">Best Season <span className="text-bone-clay">*</span></label>
+          <div className="flex flex-wrap gap-2">
+            {MONTHS.map((month) => {
+              const active = watchedBestSeason.includes(month)
+              return (
+                <button
+                  key={month}
+                  type="button"
+                  onClick={() => toggleMonth(month)}
+                  className={`text-xs font-sans px-2.5 py-1 rounded border transition-colors ${
+                    active
+                      ? 'bg-bone-clay text-white border-bone-clay'
+                      : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-clay hover:text-bone-clay'
+                  }`}
+                >
+                  {month.slice(0, 3)}
+                </button>
+              )
+            })}
+          </div>
+          {errors.bestSeason && <p className="text-xs text-red-600 font-sans">{errors.bestSeason.message as string}</p>}
+        </div>
+      </Section>
+
+      {/* ════════════ 4 · CONTENT ARRAYS ════════════ */}
+      <Section id="content" title="Highlights, Inclusions & Exclusions" subtitle="What guests experience, what's included and what's not">
+        <ArrayField
+          label="Highlights"
+          values={watchedHighlights}
+          onChange={(v) => setValue('highlights', v)}
+          placeholder="Add a highlight…"
+          hint="Key selling points — at least 3"
+        />
+        {errors.highlights && <p className="text-xs text-red-600 font-sans -mt-2">{errors.highlights.message as string}</p>}
+
+        <div className="h-px bg-[rgba(23,22,18,0.07)]" />
+
+        <ArrayField
+          label="What's Included"
+          values={watchedIncluded}
+          onChange={(v) => setValue('included', v)}
+          placeholder="Add inclusion…"
+          hint="e.g. All park fees, full board meals, professional guide"
+        />
+
+        <div className="h-px bg-[rgba(23,22,18,0.07)]" />
+
+        <ArrayField
+          label="What's Excluded"
+          values={watchedExcluded}
+          onChange={(v) => setValue('excluded', v)}
+          placeholder="Add exclusion…"
+          hint="e.g. International flights, visa fees, travel insurance"
+        />
+      </Section>
+
+      {/* ════════════ 5 · ITINERARY ════════════ */}
+      <Section id="itinerary" title="Day-by-Day Itinerary" subtitle="Detailed programme for each day of the safari">
+        <div className="space-y-5">
+          {itineraryFields.map((field, index) => (
+            <div
+              key={field.id}
+              className="border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden"
+            >
+              {/* Day header */}
+              <div className="flex items-center justify-between bg-bone-bg px-4 py-2.5">
+                <span className="font-sans text-xs font-semibold uppercase tracking-wider text-bone-ink/60">
+                  Day {index + 1}
+                </span>
+                {itineraryFields.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeDay(index)}
+                    className="text-bone-ink/30 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 size={13} />
+                  </button>
+                )}
+              </div>
+
+              <div className="px-4 py-4 space-y-4">
+                <Input
+                  label="Day title"
+                  {...register(`itinerary.${index}.title`)}
+                  placeholder="e.g. Nairobi → Masai Mara"
+                  error={errors.itinerary?.[index]?.title?.message}
+                  required
+                />
+                <Textarea
+                  label="Description"
+                  {...register(`itinerary.${index}.description`)}
+                  rows={3}
+                  placeholder="What happens on this day…"
+                  error={errors.itinerary?.[index]?.description?.message}
+                  required
+                />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-sm font-medium text-bone-ink/80 font-sans">Meals</label>
+                    <div className="flex flex-wrap gap-2">
+                      {['Breakfast', 'Lunch', 'Dinner', 'Bush Lunch', 'Packed Lunch'].map((meal) => {
+                        const meals = (watch(`itinerary.${index}.meals`) ?? []) as string[]
+                        const on = meals.includes(meal)
+                        return (
+                          <button
+                            key={meal}
+                            type="button"
+                            onClick={() => {
+                              const current = (watch(`itinerary.${index}.meals`) ?? []) as string[]
+                              setValue(
+                                `itinerary.${index}.meals`,
+                                on ? current.filter((m) => m !== meal) : [...current, meal]
+                              )
+                            }}
+                            className={`text-xs px-2.5 py-1 rounded border font-sans transition-colors ${on ? 'bg-bone-forest text-bone-paper border-bone-forest' : 'text-bone-ink/50 border-[rgba(23,22,18,0.18)] hover:border-bone-forest hover:text-bone-forest'}`}
+                          >
+                            {meal}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  <Input
+                    label="Accommodation"
+                    {...register(`itinerary.${index}.accommodation`)}
+                    placeholder="See tier / Camp name"
+                  />
+                </div>
+
+                <Controller
+                  control={control}
+                  name={`itinerary.${index}.activities`}
+                  render={({ field }) => (
+                    <ArrayField
+                      label="Activities"
+                      values={(field.value as string[]) ?? []}
+                      onChange={field.onChange}
+                      placeholder="Add activity…"
+                    />
+                  )}
+                />
+              </div>
+            </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={() => appendDay(blankItineraryDay(itineraryFields.length + 1))}
+            className="flex items-center gap-2 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors"
+          >
+            <Plus size={15} /> Add Day
+          </button>
+        </div>
+      </Section>
+
+      {/* ════════════ 6 · PRICING ════════════ */}
+      <Section id="pricing" title="Pricing Tiers" subtitle="Budget, mid-range and luxury pricing with inclusions">
+        <div className="space-y-8">
+          {(
+            [
+              { tier: 'budget'   as const, label: 'Budget' },
+              { tier: 'midRange' as const, label: 'Mid-Range' },
+              { tier: 'luxury'   as const, label: 'Luxury' },
+            ] as const
+          ).map(({ tier, label }) => (
+            <Controller
+              key={tier}
+              control={control}
+              name={`pricing.${tier}`}
+              render={({ field }) => (
+                <PricingTierSection
+                  tier={tier}
+                  label={label}
+                  values={field.value}
+                  onChange={(v) => field.onChange({ ...field.value, ...v })}
+                  errors={errors.pricing?.[tier] as Partial<Record<keyof SafariFormValues['pricing']['budget'], { message?: string }>>}
+                />
+              )}
+            />
+          ))}
+        </div>
+      </Section>
+
+      {/* ════════════ 7 · IMAGES ════════════ */}
+      <Section id="images" title="Images" subtitle="Cover image and gallery — upload from your machine or pick from media library">
+        {/* Cover image */}
+        <ImageUpload
+          label="Cover Image"
+          required
+          usage="safari-cover"
+          value={coverImage}
+          publicId={coverImagePublicId}
+          onChange={(url, publicId) => { setCoverImage(url); setCoverImagePublicId(publicId) }}
+          onClear={() => { setCoverImage(''); setCoverImagePublicId('') }}
+          aspectRatio="16/9"
+          hint="Main listing image and OG image — required"
+        />
+
+        {/* Gallery */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-medium text-bone-ink/80 font-sans">
+              Gallery Images
+              <span className="ml-1.5 text-bone-ink/40 font-normal">({imageGallery.length})</span>
+            </label>
+            <button
+              type="button"
+              onClick={() => setGalleryPickerOpen(true)}
+              className="flex items-center gap-1.5 text-xs font-sans text-bone-forest hover:text-bone-clay transition-colors"
+            >
+              <FolderOpen size={13} /> Add from library
+            </button>
+          </div>
+
+          {imageGallery.length > 0 && (
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+              {imageGallery.map((img, i) => (
+                <div key={i} className="relative group aspect-square rounded-md overflow-hidden border border-[rgba(23,22,18,0.12)]">
+                  <Image
+                    src={img.url}
+                    alt={img.alt || `Gallery ${i + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="120px"
+                    unoptimized
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setImageGallery(imageGallery.filter((_, idx) => idx !== i))}
+                    className="absolute top-1 right-1 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X size={10} className="text-white" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {imageGallery.length === 0 && (
+            <p className="text-xs text-bone-ink/40 font-sans">No gallery images yet — click "Add from library" above.</p>
+          )}
+        </div>
+
+        {/* Gallery picker modal */}
+        {galleryPickerOpen && (
+          <MediaPicker
+            usage="safari-gallery"
+            onSelect={(url, publicId) => {
+              setImageGallery(prev => [...prev, { url, publicId, alt: '' }])
+              setGalleryPickerOpen(false)
+            }}
+            onClose={() => setGalleryPickerOpen(false)}
+          />
+        )}
+      </Section>
+
+      {/* ════════════ 8 · SEO ════════════ */}
+      <Section id="seo" title="SEO" subtitle="Search engine meta title, description and keywords">
+        <Input
+          label="Meta Title"
+          {...register('seo.metaTitle')}
+          placeholder="e.g. Great Migration Safari Kenya | Divine Travel Nest Safaris"
+          hint="Max 60 characters"
+        />
+        <Textarea
+          label="Meta Description"
+          {...register('seo.metaDescription')}
+          rows={3}
+          placeholder="Compelling description for Google search results…"
+          hint="Max 160 characters"
+        />
+        <Controller
+          control={control}
+          name="seo.keywords"
+          render={({ field }) => (
+            <ArrayField
+              label="Keywords"
+              values={(field.value as string[]) ?? []}
+              onChange={field.onChange}
+              placeholder="Add keyword…"
+              hint="Press Enter or click Add"
+            />
+          )}
+        />
+      </Section>
+
+      {/* ════════════ SUBMIT ════════════ */}
+      <div className="flex items-center gap-3 pt-2">
+        <Button
+          type="submit"
+          variant="primary"
+          size="lg"
+          loading={isSubmitting}
+        >
+          {isEdit ? 'Save Changes' : 'Create Safari'}
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="lg"
+          onClick={() => router.push('/admin/safaris')}
+        >
+          Cancel
+        </Button>
+      </div>
+    </form>
+  )
+}

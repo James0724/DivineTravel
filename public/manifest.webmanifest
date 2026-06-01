@@ -1,0 +1,45 @@
+{
+  "name": "Divine Travel Nest Safaris",
+  "short_name": "Divine Safaris",
+  "description": "Expert-guided, tailor-made East Africa safari holidays — Kenya, Tanzania & Uganda. Budget to luxury.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf6ec",
+  "theme_color": "#2a3a2a",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["travel", "lifestyle"],
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/og-default.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "label": "Divine Travel Nest Safaris — East Africa Safari Experts"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kenya Safaris",
+      "url": "/safaris/kenya",
+      "description": "Browse Kenya safari packages"
+    },
+    {
+      "name": "Tanzania Safaris",
+      "url": "/safaris/tanzania",
+      "description": "Browse Tanzania safari packages"
+    },
+    {
+      "name": "Plan My Safari",
+      "url": "/contact",
+      "description": "Get a free personalised proposal"
+    }
+  ]
+}

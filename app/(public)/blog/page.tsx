@@ -1,0 +1,326 @@
+import type { Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
+import connectDB from '@/lib/db/mongoose'
+import PostModel from '@/lib/db/models/Post'
+import { BreadcrumbSchema } from '@/components/seo/StructuredData'
+import PageHero from '@/components/ui/PageHero'
+import type { BlogPost, PostCategory } from '@/types'
+
+export const revalidate = 300
+
+export const metadata: Metadata = {
+  title: 'Field Journal — Safari Stories, Guides & Tips from East Africa',
+  description:
+    'Expert safari planning guides, wildlife field reports, destination deep-dives and insider tips from the team at Divine Travel Nest Safaris. Fuel your African adventure.',
+  alternates: { canonical: '/blog' },
+  openGraph: {
+    title: 'Field Journal | Divine Travel Nest Safaris',
+    description: 'Expert guides and stories from East Africa.',
+    type: 'website',
+    images: [
+      {
+        url: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80',
+        width: 1200,
+        height: 630,
+        alt: 'Field Journal — Divine Travel Nest Safaris',
+      },
+    ],
+  },
+}
+
+const CATEGORY_LABELS: Record<PostCategory, string> = {
+  migration: 'Migration',
+  destinations: 'Destinations',
+  planning: 'Planning',
+  wildlife: 'Wildlife',
+  culture: 'Culture',
+  conservation: 'Conservation',
+  photography: 'Photography',
+  tips: 'Tips & Practical',
+}
+
+async function getPosts(category?: string): Promise<BlogPost[]> {
+  try {
+    await connectDB()
+    const query: Record<string, unknown> = { published: true }
+    if (category) query.category = category
+    const posts = await PostModel.find(query)
+      .sort({ publishedAt: -1 })
+      .limit(50)
+      .select('-body')
+      .lean()
+    return JSON.parse(JSON.stringify(posts)) as BlogPost[]
+  } catch {
+    return []
+  }
+}
+
+function formatDate(dateStr?: string) {
+  if (!dateStr) return ''
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+}
+
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>
+}) {
+  const { category } = await searchParams
+  const posts = await getPosts(category)
+  const featured = !category ? posts.find((p) => p.featured) ?? posts[0] : null
+  const regularPosts = posts.filter((p) => p._id !== featured?._id)
+
+  const allCategories: PostCategory[] = [
+    'migration', 'destinations', 'planning', 'wildlife',
+    'culture', 'conservation', 'photography', 'tips',
+  ]
+
+  return (
+    <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'Field Journal', href: '/blog' },
+        ]}
+      />
+
+      <PageHero
+        image="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1800&q=80"
+        imageAlt="Field Journal — stories from East Africa"
+        minHeight="min-h-[60vh]"
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Field Journal' },
+        ]}
+        eyebrow="Field Journal"
+        title={<>Stories from <em style={{ fontStyle: 'italic', color: '#f4d4a8' }}>the field</em>.</>}
+        description="Guides, destination deep-dives, wildlife reports and insider tips from our in-country team across Kenya, Tanzania and Uganda."
+        statsDivider
+        stats={[
+          { num: `${posts.length}+`, lbl: 'Articles & guides'    },
+          { num: '3',                lbl: 'Countries covered'     },
+          { num: '24/7',             lbl: 'Updated in the field'  },
+        ]}
+      />
+
+      {/* ── Featured post ────────────────────────────────────────── */}
+      {featured && !category && (
+        <section className="bg-bone-bg pb-24 pt-2">
+          <div className="container-site">
+            <Link
+              href={`/blog/${featured.slug}`}
+              className="group grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-8 lg:gap-16 items-stretch"
+            >
+              {/* Image */}
+              <div className="relative overflow-hidden bg-bone-paper" style={{ aspectRatio: '5/4' }}>
+                <Image
+                  src={featured.coverImage}
+                  alt={featured.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-cover transition-transform duration-[1400ms] group-hover:scale-[1.04]"
+                />
+                <div
+                  className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
+                  style={{ background: 'var(--clay, #9d4519)' }}
+                >
+                  {CATEGORY_LABELS[featured.category as PostCategory] ?? featured.category}
+                </div>
+              </div>
+              {/* Body */}
+              <div className="flex flex-col justify-center py-4">
+                <div className="flex gap-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-6">
+                  <span className="text-bone-clay">{CATEGORY_LABELS[featured.category as PostCategory] ?? featured.category}</span>
+                  <span>·</span>
+                  <span>{formatDate(featured.publishedAt)}</span>
+                  <span>·</span>
+                  <span>{featured.readingTime} min read</span>
+                </div>
+                <h2
+                  className="font-serif font-normal leading-[1.02] tracking-[-0.02em] text-bone-ink mb-6"
+                  style={{ fontSize: 'clamp(32px, 3.8vw, 52px)' }}
+                >
+                  {featured.title}
+                </h2>
+                <p className="text-[17px] leading-[1.65] text-bone-muted mb-8" style={{ maxWidth: '46ch' }}>
+                  {featured.excerpt}
+                </p>
+                {featured.author && (
+                  <div className="flex items-center gap-3 mb-8">
+                    {featured.authorAvatar && (
+                      <Image
+                        src={featured.authorAvatar}
+                        alt={featured.author}
+                        width={42}
+                        height={42}
+                        className="rounded-full object-cover"
+                      />
+                    )}
+                    <div>
+                      <div className="text-[13px] font-medium text-bone-ink">{featured.author}</div>
+                      {featured.authorTitle && (
+                        <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-muted">
+                          {featured.authorTitle}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                <span
+                  className="self-start inline-flex items-center gap-3 px-6 py-3.5 rounded-full text-[13px] tracking-[0.02em] text-bone-paper transition-all duration-200 group-hover:-translate-y-0.5"
+                  style={{ background: '#2a3a2a' }}
+                >
+                  Read article →
+                </span>
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* ── Category filter strip ────────────────────────────────── */}
+      <div
+        className="sticky top-14 z-30 bg-bone-paper border-t border-b border-[rgba(23,22,18,0.1)]"
+        style={{ padding: '22px 0' }}
+      >
+        <div className="container-site">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-bone-muted mr-4">
+              Filter by
+            </span>
+            <Link
+              href="/blog"
+              className={`px-4 py-2 border rounded-full text-[13px] transition-all duration-200 ${
+                !category
+                  ? 'bg-bone-forest text-bone-paper border-bone-forest'
+                  : 'border-[rgba(23,22,18,0.14)] text-bone-muted hover:text-bone-ink hover:border-bone-ink'
+              }`}
+            >
+              All
+            </Link>
+            {allCategories.map((cat) => (
+              <Link
+                key={cat}
+                href={`/blog?category=${cat}`}
+                className={`px-4 py-2 border rounded-full text-[13px] transition-all duration-200 ${
+                  category === cat
+                    ? 'bg-bone-forest text-bone-paper border-bone-forest'
+                    : 'border-[rgba(23,22,18,0.14)] text-bone-muted hover:text-bone-ink hover:border-bone-ink'
+                }`}
+              >
+                {CATEGORY_LABELS[cat]}
+              </Link>
+            ))}
+            <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted hidden sm:block">
+              {posts.length} articles
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Posts grid ──────────────────────────────────────────── */}
+      <section className="bg-bone-bg" style={{ padding: '96px 0 120px' }}>
+        <div className="container-site">
+          {regularPosts.length > 0 ? (
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+              style={{ gap: '56px 36px' }}
+            >
+              {regularPosts.map((post) => (
+                <Link
+                  key={post._id}
+                  href={`/blog/${post.slug}`}
+                  className="group flex flex-col gap-4 cursor-pointer"
+                >
+                  <div
+                    className="overflow-hidden bg-bone-paper"
+                    style={{ aspectRatio: '3/2' }}
+                  >
+                    <Image
+                      src={post.coverImage}
+                      alt={post.title}
+                      width={600}
+                      height={400}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
+                    />
+                  </div>
+                  <div className="flex gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
+                    <span className="text-bone-clay">
+                      {CATEGORY_LABELS[post.category as PostCategory] ?? post.category}
+                    </span>
+                    <span>·</span>
+                    <span>{formatDate(post.publishedAt)}</span>
+                  </div>
+                  <h3
+                    className="font-serif font-normal leading-[1.12] tracking-[-0.01em] text-bone-ink transition-colors duration-200 group-hover:text-bone-clay"
+                    style={{ fontSize: '27px' }}
+                  >
+                    {post.title}
+                  </h3>
+                  <p className="text-[14px] leading-[1.6] text-bone-muted">{post.excerpt}</p>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-bone-forest mt-auto pt-1">
+                    Read article →
+                  </span>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-24">
+              <p className="font-serif text-2xl text-bone-ink/50 mb-3">
+                No articles yet in this category.
+              </p>
+              <Link href="/blog" className="text-sm text-bone-clay hover:underline font-sans">
+                Browse all articles →
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── Newsletter CTA ──────────────────────────────────────── */}
+      <section className="bg-bone-forest text-bone-paper" style={{ padding: '96px 0' }}>
+        <div className="container-site">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div>
+              <h2
+                className="font-serif font-light leading-none tracking-[-0.02em]"
+                style={{ fontSize: 'clamp(36px, 4.4vw, 60px)', maxWidth: '14ch' }}
+              >
+                Ready for your{' '}
+                <em style={{ fontStyle: 'italic', color: '#f4d4a8' }}>African adventure</em>?
+              </h2>
+              <p className="text-[15px] leading-[1.65] mt-5" style={{ opacity: 0.82, maxWidth: '40ch' }}>
+                Our team is on the ground in East Africa every week. Tell us what you want
+                to see and we&apos;ll send a free, personalised itinerary within 24 hours.
+              </p>
+            </div>
+            <div>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-3.5 px-6 py-4 rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5 mb-4"
+                style={{ background: '#f4d4a8' }}
+              >
+                Plan my safari
+                <span
+                  className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
+                  style={{ background: '#9d4519' }}
+                >
+                  →
+                </span>
+              </Link>
+              <p className="font-mono text-[10px] uppercase tracking-[0.12em] opacity-60 mt-4">
+                Free · No obligation · Fast response guaranteed
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}

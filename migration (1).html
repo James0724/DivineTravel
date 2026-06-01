@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Migration · A Year in the Ecosystem</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Tailwind (Play CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg:     '#ece6da',
+          paper:  '#f4efe2',
+          ink:    '#171612',
+          forest: '#1a2e1a',
+          clay:   '#9d4519',
+        },
+        fontFamily: {
+          serif:  ['Italiana', 'serif'],
+          italic: ['"Cormorant Garamond"', 'serif'],
+          mono:   ['"Geist Mono"', 'ui-monospace', 'monospace'],
+          sans:   ['Inter', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html, body { margin: 0; background: #ece6da; }
+  /* Only the SVG pulse keyframes live here — everything else is Tailwind. */
+  @keyframes mig-pulse    { 0% { r: 6;  opacity: .85 } 100% { r: 28; opacity: 0 } }
+  @keyframes mig-pulse-sm { 0% { r: 4;  opacity: .8  } 100% { r: 18; opacity: 0 } }
+  .pulse    { animation: mig-pulse 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+  .pulse.delay { animation-delay: 1.2s; }
+  .pulse-sm { animation: mig-pulse-sm 2.6s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+  .chip-scroll::-webkit-scrollbar { height: 4px; }
+  .chip-scroll::-webkit-scrollbar-thumb { background: rgba(23,22,18,.2); border-radius: 4px; }
+</style>
+</head>
+<body class="bg-bg text-ink font-sans antialiased">
+
+<div id="app"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/framer-motion@10.18.0/dist/framer-motion.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="migration/Migration.jsx"></script>
+
+</body>
+</html>
