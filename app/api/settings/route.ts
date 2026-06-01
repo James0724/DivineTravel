@@ -8,12 +8,11 @@ import SettingModel from '@/lib/db/models/Setting'
 export async function GET() {
   try {
     await connectDB()
-    let settings = await SettingModel.findOne().lean()
-
-    if (!settings) {
-      // Bootstrap with defaults on first call
-      settings = (await SettingModel.create({})).toObject()
-    }
+    const settings = await SettingModel.findOneAndUpdate(
+      {},
+      { $setOnInsert: {} },
+      { upsert: true, new: true }
+    ).lean()
 
     return NextResponse.json(
       { success: true, data: settings },
