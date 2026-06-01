@@ -12,8 +12,7 @@ export async function GET() {
 
     if (!settings) {
       // Bootstrap with defaults on first call
-      settings = await SettingModel.create({})
-      settings = settings.toObject()
+      settings = (await SettingModel.create({})).toObject()
     }
 
     return NextResponse.json(
