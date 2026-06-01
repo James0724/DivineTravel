@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/db/mongoose'
 import SettingModel from '@/lib/db/models/Setting'
 
-/** GET /api/settings — returns (or creates default) site settings */
+/** GET /api/settings â€” returns (or creates default) site settings */
 export async function GET() {
   try {
     await connectDB()
@@ -26,7 +26,7 @@ export async function GET() {
   }
 }
 
-/** PATCH /api/settings — update site settings (admin only) */
+/** PATCH /api/settings â€” update site settings (admin only) */
 export async function PATCH(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)

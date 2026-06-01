@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/db/mongoose'
 import CommentModel from '@/lib/db/models/Comment'
 
-// GET: admin — list all comments with filters
+// GET: admin â€” list all comments with filters
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
   if (!session) {
