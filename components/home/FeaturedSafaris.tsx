@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useFeaturedSafaris } from '@/hooks/useSafaris'
 import { SafariCardSkeleton } from '@/components/ui/Skeleton'
+import Reveal, { Stagger, RevealItem } from '@/components/ui/Reveal'
 import type { Safari } from '@/types'
 
 interface FeaturedSafarisProps {
@@ -20,33 +21,35 @@ export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
     <section className="py-[140px] bg-bone-bg">
       <div className="container-site">
         {/* Header */}
-        <div className="section-hd">
-          <div>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              Signature Packages
+        <Reveal>
+          <div className="section-hd">
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Signature Packages
+              </div>
+              <h2
+                className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
+                style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
+              >
+                Our best{' '}
+                <em className="italic text-bone-clay">journeys</em>.
+              </h2>
             </div>
-            <h2
-              className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
-              style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
-            >
-              Our best{' '}
-              <em className="italic text-bone-clay">journeys</em>.
-            </h2>
+            <div className="flex flex-col justify-between gap-4">
+              <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
+                Handpicked itineraries designed by our in-country team — each one refined
+                through years of guiding guests across East Africa.
+              </p>
+              <Link
+                href="/safaris"
+                className="self-start font-mono text-[11px] uppercase tracking-[0.14em] text-bone-forest hover:text-bone-clay transition-colors"
+              >
+                View all safaris →
+              </Link>
+            </div>
           </div>
-          <div className="flex flex-col justify-between gap-4">
-            <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
-              Handpicked itineraries designed by our in-country team — each one refined
-              through years of guiding guests across East Africa.
-            </p>
-            <Link
-              href="/safaris"
-              className="self-start font-mono text-[11px] uppercase tracking-[0.14em] text-bone-forest hover:text-bone-clay transition-colors"
-            >
-              View all safaris →
-            </Link>
-          </div>
-        </div>
+        </Reveal>
 
         {/* Grid */}
         {isLoading ? (
@@ -56,11 +59,13 @@ export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
             {safaris.map((safari) => (
-              <SafariPackageCard key={safari._id} safari={safari} />
+              <RevealItem key={safari._id}>
+                <SafariPackageCard safari={safari} />
+              </RevealItem>
             ))}
-          </div>
+          </Stagger>
         )}
       </div>
     </section>
@@ -76,7 +81,7 @@ function SafariPackageCard({ safari }: { safari: Safari }) {
   return (
     <Link
       href={`/safaris/${safari.slug}`}
-      className="flex flex-col cursor-pointer group transition-transform duration-400 hover:-translate-y-1.5"
+      className="flex flex-col cursor-pointer group transition-transform duration-400 hover:-translate-y-1.5 h-full"
     >
       {/* Image */}
       <div

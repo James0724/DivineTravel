@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import Reveal from '@/components/ui/Reveal'
 
 const points = [
   { ic: '✦', title: 'Budget to Luxury', desc: 'Camping, mid-range lodges or ultra-luxury tented camps — we cover every tier.' },
@@ -16,7 +17,7 @@ export default function TailorMade() {
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-20 items-center">
           {/* Left */}
-          <div>
+          <Reveal variant="slideLeft">
             <div className="eyebrow mb-4">
               <span className="dot" />
               Custom Safari Design
@@ -62,18 +63,20 @@ export default function TailorMade() {
             >
               Start planning my safari →
             </Link>
-          </div>
+          </Reveal>
 
           {/* Photo */}
-          <div className="relative overflow-hidden" style={{ aspectRatio: '5/6' }}>
-            <Image
-              src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=900&q=80"
-              alt="Tailor-made safari planning"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
+          <Reveal variant="slideRight" delay={0.12}>
+            <div className="relative overflow-hidden" style={{ aspectRatio: '5/6' }}>
+              <Image
+                src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=900&q=80"
+                alt="Tailor-made safari planning"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

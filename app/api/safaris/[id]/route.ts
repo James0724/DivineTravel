@@ -45,6 +45,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       body.slug = slugify(body.name, { lower: true, strict: true })
     }
 
+    // Strip gallery images missing required fields so Mongoose validators don't reject the whole update
+    if (Array.isArray(body.images)) {
+      body.images = body.images.filter(
+        (img: { url?: string; publicId?: string }) =>
+          typeof img.url === 'string' && img.url.trim() &&
+          typeof img.publicId === 'string' && img.publicId.trim()
+      )
+    }
+
     const safari = await SafariModel.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
@@ -57,7 +66,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ success: true, data: safari })
   } catch (error) {
     console.error('[PATCH /api/safaris/[id]]', error)
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    // Return the actual Mongoose validation message so the form can surface it
+    const message =
+      error instanceof Error ? error.message : 'Server error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
 

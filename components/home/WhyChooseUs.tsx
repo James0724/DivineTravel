@@ -1,3 +1,5 @@
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal"
+
 const cells = [
   {
     num: "i.",
@@ -29,34 +31,36 @@ const cells = [
     title: "24/7\nSupport",
     body: "Our operations team is reachable around the clock — from the moment you first enquire to the day you return home safely.",
   },
-];
+]
 
 export default function WhyChooseUs() {
   return (
     <section className="py-16 sm:py-24 lg:py-[140px] bg-bone-bg">
       <div className="container-site">
         {/* Header */}
-        <div className="section-hd">
-          <div>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              Why Choose Us
+        <Reveal>
+          <div className="section-hd">
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Why Choose Us
+              </div>
+              <h2
+                className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
+                style={{ fontSize: "clamp(32px, 5.4vw, 76px)" }}
+              >
+                Africa with <em className="italic text-bone-clay">confidence</em>.
+              </h2>
             </div>
-            <h2
-              className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
-              style={{ fontSize: "clamp(32px, 5.4vw, 76px)" }}
-            >
-              Africa with <em className="italic text-bone-clay">confidence</em>.
-            </h2>
+            <p className="text-[14px] sm:text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
+              We've been the bridge between travellers and the African wild for
+              over a decade. Here's what sets Divine Travel Nest Safaris apart.
+            </p>
           </div>
-          <p className="text-[14px] sm:text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
-            We've been the bridge between travellers and the African wild for
-            over a decade. Here's what sets Divine Travel Nest Safaris apart.
-          </p>
-        </div>
+        </Reveal>
 
         {/* Grid */}
-        <div
+        <Stagger
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-b"
           style={{
             gap: "1px",
@@ -65,7 +69,7 @@ export default function WhyChooseUs() {
           }}
         >
           {cells.map((c) => (
-            <div
+            <RevealItem
               key={c.num}
               className="flex flex-col gap-4 px-5 sm:px-7 lg:px-9 pt-8 sm:pt-10 lg:pt-12 pb-10 sm:pb-12 lg:pb-14 bg-bone-bg"
             >
@@ -78,10 +82,10 @@ export default function WhyChooseUs() {
               <p className="text-[14px] leading-[1.65] text-bone-muted">
                 {c.body}
               </p>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
-  );
+  )
 }

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Reveal from '@/components/ui/Reveal'
 
 const features = [
   {
@@ -32,18 +33,20 @@ export default function StandOut() {
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Photo */}
-          <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
-            <Image
-              src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=900&q=80"
-              alt="Safari guide with guests"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
+          <Reveal variant="slideLeft">
+            <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
+              <Image
+                src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=900&q=80"
+                alt="Safari guide with guests"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
 
           {/* Content */}
-          <div>
+          <Reveal variant="slideRight" delay={0.12}>
             <div className="eyebrow mb-4">
               <span className="dot" />
               What sets us apart
@@ -87,7 +90,7 @@ export default function StandOut() {
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

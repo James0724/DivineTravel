@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
 
 interface CtaBandProps {
   heading: React.ReactNode;
@@ -27,33 +28,37 @@ export default function CtaBand({
       >
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-end">
-            <h2
-              className="font-serif font-light leading-[0.98] tracking-[-0.025em]"
-              style={{ fontSize: "clamp(44px, 5.5vw, 84px)", maxWidth: "15ch" }}
-            >
-              {heading}
-            </h2>
-            <div>
-              <p
-                className="text-[15px] leading-[1.7]"
-                style={{ opacity: 0.8, maxWidth: "38ch" }}
+            <Reveal variant="slideLeft">
+              <h2
+                className="font-serif font-light leading-[0.98] tracking-[-0.025em]"
+                style={{ fontSize: "clamp(44px, 5.5vw, 84px)", maxWidth: "15ch" }}
               >
-                {description}
-              </p>
-              <Link
-                href={buttonHref}
-                className="inline-flex items-center gap-3.5 mt-6 px-6 py-2 font-sans rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
-                style={{ background: "#f4efe2" }}
-              >
-                {buttonText}
-                <span
-                  className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
-                  style={{ background: "#9d4519" }}
+                {heading}
+              </h2>
+            </Reveal>
+            <Reveal variant="slideRight" delay={0.1}>
+              <div>
+                <p
+                  className="text-[15px] leading-[1.7]"
+                  style={{ opacity: 0.8, maxWidth: "38ch" }}
                 >
-                  →
-                </span>
-              </Link>
-            </div>
+                  {description}
+                </p>
+                <Link
+                  href={buttonHref}
+                  className="inline-flex items-center gap-3.5 mt-6 px-6 py-2 font-sans rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
+                  style={{ background: "#f4efe2" }}
+                >
+                  {buttonText}
+                  <span
+                    className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
+                    style={{ background: "#9d4519" }}
+                  >
+                    →
+                  </span>
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -64,23 +69,27 @@ export default function CtaBand({
     <section className="py-20 sm:py-28 bg-bone-forest text-bone-paper">
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <h2
-            className="font-serif font-light leading-[1.0] tracking-[-0.02em]"
-            style={{ fontSize: "clamp(36px, 5vw, 72px)" }}
-          >
-            {heading}
-          </h2>
-          <div>
-            <p className="text-bone-paper/65 text-base font-sans leading-relaxed mb-7">
-              {description}
-            </p>
-            <Link
-              href={buttonHref}
-              className="inline-flex items-center gap-3 px-7 py-2 bg-bone-clay text-bone-paper rounded-full text-sm font-sans font-medium hover:bg-[#c0612e] transition-colors"
+          <Reveal variant="slideLeft">
+            <h2
+              className="font-serif font-light leading-[1.0] tracking-[-0.02em]"
+              style={{ fontSize: "clamp(36px, 5vw, 72px)" }}
             >
-              {buttonText}
-            </Link>
-          </div>
+              {heading}
+            </h2>
+          </Reveal>
+          <Reveal variant="slideRight" delay={0.1}>
+            <div>
+              <p className="text-bone-paper/65 text-base font-sans leading-relaxed mb-7">
+                {description}
+              </p>
+              <Link
+                href={buttonHref}
+                className="inline-flex items-center gap-3 px-7 py-2 bg-bone-clay text-bone-paper rounded-full text-sm font-sans font-medium hover:bg-[#c0612e] transition-colors"
+              >
+                {buttonText}
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

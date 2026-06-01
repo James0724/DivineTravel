@@ -27,10 +27,50 @@ export default function EditBlogPostPage({ params }: Props) {
 
   if (loading) {
     return (
-      <div className="p-6 sm:p-8">
-        <div className="animate-pulse space-y-4 max-w-4xl">
-          <div className="h-8 bg-bone-bg rounded w-64" />
-          <div className="h-64 bg-bone-bg rounded" />
+      <div className="p-6 sm:p-8 animate-pulse space-y-6 max-w-4xl">
+        {/* Header row */}
+        <div className="flex items-center justify-between">
+          <div className="space-y-2">
+            <div className="h-7 w-36 bg-bone-bg rounded" />
+            <div className="h-3.5 w-52 bg-bone-bg rounded" />
+          </div>
+          <div className="flex gap-3">
+            <div className="h-9 w-20 bg-bone-bg rounded" />
+            <div className="h-9 w-28 bg-bone-bg rounded" />
+          </div>
+        </div>
+        {/* Content section */}
+        <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md p-6 space-y-5">
+          <div className="h-4 w-20 bg-bone-bg rounded" />
+          <div className="space-y-1.5">
+            <div className="h-3.5 w-16 bg-bone-bg rounded" />
+            <div className="h-10 bg-bone-bg rounded" />
+          </div>
+          <div className="space-y-1.5">
+            <div className="h-3.5 w-20 bg-bone-bg rounded" />
+            <div className="h-20 bg-bone-bg rounded" />
+          </div>
+          <div className="space-y-1.5">
+            <div className="h-3.5 w-16 bg-bone-bg rounded" />
+            <div className="h-64 bg-bone-bg rounded" />
+          </div>
+        </div>
+        {/* Cover image section */}
+        <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md p-6 space-y-4">
+          <div className="h-4 w-28 bg-bone-bg rounded" />
+          <div className="w-full max-w-sm aspect-video bg-bone-bg rounded-md" />
+        </div>
+        {/* Meta section */}
+        <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md p-6 space-y-4">
+          <div className="h-4 w-24 bg-bone-bg rounded" />
+          <div className="grid grid-cols-2 gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="space-y-1.5">
+                <div className="h-3.5 w-20 bg-bone-bg rounded" />
+                <div className="h-10 bg-bone-bg rounded" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     )

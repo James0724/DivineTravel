@@ -199,6 +199,7 @@ export default function AdminTestimonialsPage() {
   const [page, setPage] = useState(1)
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const [togglingId, setTogglingId] = useState<string | null>(null)
   const qc = useQueryClient()
 
   const { data, isLoading } = useQuery({
@@ -220,26 +221,46 @@ export default function AdminTestimonialsPage() {
   })
 
   const toggleFeatured = async (id: string, current: boolean) => {
-    const res = await fetch(`/api/testimonials/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ featured: !current }),
-    })
-    if (res.ok) {
-      qc.invalidateQueries({ queryKey: ['admin-testimonials'] })
-      toast.success(current ? 'Unfeatured' : 'Featured on homepage')
+    if (togglingId) return
+    setTogglingId(id + '-featured')
+    try {
+      const res = await fetch(`/api/testimonials/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ featured: !current }),
+      })
+      if (res.ok) {
+        qc.invalidateQueries({ queryKey: ['admin-testimonials'] })
+        toast.success(current ? 'Unfeatured' : 'Featured on homepage')
+      } else {
+        toast.error('Failed to update featured status')
+      }
+    } catch {
+      toast.error('Failed to update featured status')
+    } finally {
+      setTogglingId(null)
     }
   }
 
   const toggleVerified = async (id: string, current: boolean) => {
-    const res = await fetch(`/api/testimonials/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ verified: !current }),
-    })
-    if (res.ok) {
-      qc.invalidateQueries({ queryKey: ['admin-testimonials'] })
-      toast.success(current ? 'Marked unverified' : 'Marked verified')
+    if (togglingId) return
+    setTogglingId(id + '-verified')
+    try {
+      const res = await fetch(`/api/testimonials/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ verified: !current }),
+      })
+      if (res.ok) {
+        qc.invalidateQueries({ queryKey: ['admin-testimonials'] })
+        toast.success(current ? 'Marked unverified' : 'Marked verified')
+      } else {
+        toast.error('Failed to update verified status')
+      }
+    } catch {
+      toast.error('Failed to update verified status')
+    } finally {
+      setTogglingId(null)
     }
   }
 
@@ -319,25 +340,27 @@ export default function AdminTestimonialsPage() {
                     <td>
                       <button
                         onClick={() => toggleFeatured(t._id, t.featured)}
-                        className={`text-xs font-sans font-medium px-2 py-0.5 rounded-full transition-colors ${
+                        disabled={!!togglingId}
+                        className={`text-xs font-sans font-medium px-2 py-0.5 rounded-full transition-colors disabled:opacity-60 disabled:cursor-not-allowed ${
                           t.featured
                             ? 'bg-bone-forest/10 text-bone-forest hover:bg-bone-forest/20'
                             : 'bg-stone-100 text-stone-500 hover:bg-bone-forest/10 hover:text-bone-forest'
                         }`}
                       >
-                        {t.featured ? '✓ Featured' : 'Hidden'}
+                        {togglingId === t._id + '-featured' ? '…' : t.featured ? '✓ Featured' : 'Hidden'}
                       </button>
                     </td>
                     <td>
                       <button
                         onClick={() => toggleVerified(t._id, t.verified)}
-                        className={`text-xs font-sans font-medium px-2 py-0.5 rounded-full transition-colors ${
+                        disabled={!!togglingId}
+                        className={`text-xs font-sans font-medium px-2 py-0.5 rounded-full transition-colors disabled:opacity-60 disabled:cursor-not-allowed ${
                           t.verified
                             ? 'bg-green-100 text-green-700 hover:bg-green-200'
                             : 'bg-stone-100 text-stone-400 hover:bg-green-100 hover:text-green-700'
                         }`}
                       >
-                        {t.verified ? '✓ Verified' : 'Unverified'}
+                        {togglingId === t._id + '-verified' ? '…' : t.verified ? '✓ Verified' : 'Unverified'}
                       </button>
                     </td>
                     <td>

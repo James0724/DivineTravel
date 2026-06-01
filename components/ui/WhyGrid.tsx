@@ -1,3 +1,5 @@
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal"
+
 export interface WhyItem { n: string; title: React.ReactNode; body: string }
 
 interface WhyGridProps {
@@ -22,29 +24,32 @@ export default function WhyGrid({ id, eyebrow, heading, description, items, bg =
       }}
     >
       <div className="container-site">
-        <div className="section-hd">
-          <div>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              {eyebrow}
+        <Reveal>
+          <div className="section-hd">
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                {eyebrow}
+              </div>
+              <h2
+                className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
+                style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
+              >
+                {heading}
+              </h2>
             </div>
-            <h2
-              className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
-              style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
-            >
-              {heading}
-            </h2>
+            <p className="text-[15px] leading-[1.65] text-bone-muted" style={{ maxWidth: '56ch' }}>
+              {description}
+            </p>
           </div>
-          <p className="text-[15px] leading-[1.65] text-bone-muted" style={{ maxWidth: '56ch' }}>
-            {description}
-          </p>
-        </div>
-        <div
+        </Reveal>
+
+        <Stagger
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[rgba(31,29,24,0.14)]"
           style={{ border: '1px solid rgba(31,29,24,0.14)' }}
         >
           {items.map((w) => (
-            <div
+            <RevealItem
               key={w.n}
               className="bg-bone-bg flex flex-col gap-4"
               style={{ padding: '36px 32px' }}
@@ -57,9 +62,9 @@ export default function WhyGrid({ id, eyebrow, heading, description, items, bg =
                 {w.title}
               </h4>
               <p className="text-[14px] leading-[1.6] text-bone-muted">{w.body}</p>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   )

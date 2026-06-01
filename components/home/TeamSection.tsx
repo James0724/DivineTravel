@@ -1,3 +1,5 @@
+import Reveal, { Stagger, RevealItem } from '@/components/ui/Reveal'
+
 const team = [
   {
     name: 'James Kahoro',
@@ -33,54 +35,58 @@ export default function TeamSection() {
     >
       <div className="container-site">
         {/* Header */}
-        <div className="section-hd">
-          <div>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              The People Behind the Safari
+        <Reveal>
+          <div className="section-hd">
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                The People Behind the Safari
+              </div>
+              <h2
+                className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
+                style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
+              >
+                Meet your{' '}
+                <em className="italic text-bone-clay">guides</em>.
+              </h2>
             </div>
-            <h2
-              className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
-              style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
-            >
-              Meet your{' '}
-              <em className="italic text-bone-clay">guides</em>.
-            </h2>
+            <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
+              Every member of our team has spent years in the field. We don't just book
+              safaris — we live them. You're in expert hands from first enquiry to final
+              farewell.
+            </p>
           </div>
-          <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
-            Every member of our team has spent years in the field. We don't just book
-            safaris — we live them. You're in expert hands from first enquiry to final
-            farewell.
-          </p>
-        </div>
+        </Reveal>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-7">
+        <Stagger className="grid grid-cols-2 lg:grid-cols-4 gap-7" stagger={0.1}>
           {team.map((member) => (
-            <div key={member.name} className="group">
-              <div
-                className="overflow-hidden mb-4"
-                style={{ aspectRatio: '3/4', background: '#e4dac3' }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-[1.04]"
-                  style={{ filter: 'sepia(0.15) contrast(1.05)' }}
-                  loading="lazy"
-                />
+            <RevealItem key={member.name} variant="scaleUp">
+              <div className="group">
+                <div
+                  className="overflow-hidden mb-4"
+                  style={{ aspectRatio: '3/4', background: '#e4dac3' }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={member.photo}
+                    alt={member.name}
+                    className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-[1.04]"
+                    style={{ filter: 'sepia(0.15) contrast(1.05)' }}
+                    loading="lazy"
+                  />
+                </div>
+                <h3 className="font-serif italic text-[24px] leading-[1.1] text-bone-ink mb-0.5">
+                  {member.name}
+                </h3>
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-3">
+                  {member.role}
+                </p>
+                <p className="text-[13px] leading-[1.55] text-bone-muted">{member.bio}</p>
               </div>
-              <h3 className="font-serif italic text-[24px] leading-[1.1] text-bone-ink mb-0.5">
-                {member.name}
-              </h3>
-              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-3">
-                {member.role}
-              </p>
-              <p className="text-[13px] leading-[1.55] text-bone-muted">{member.bio}</p>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   )

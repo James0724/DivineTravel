@@ -163,7 +163,9 @@ export default function SafarisContent() {
   const [showAdvanced, setShowAdvanced] = useState(
     !!(filters.difficulty || filters.tier),
   );
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   const set = useCallback(
     <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
@@ -260,98 +262,7 @@ export default function SafarisContent() {
           {/* ── Mobile filter controls (< lg) ──────────────────────────── */}
           <div className="lg:hidden mb-8 space-y-3">
             {/* Search + sort + clear row */}
-            <div className="flex flex-wrap gap-2 items-center">
-              <div className="relative flex-1 min-w-[160px] max-w-sm">
-                <Search
-                  size={13}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                  style={{ color: "var(--muted)" }}
-                />
-                <input
-                  type="search"
-                  placeholder="Search parks, countries…"
-                  value={searchInput}
-                  onChange={(e) => handleSearchInput(e.target.value)}
-                  className="w-full h-9 pl-9 pr-3 font-sans text-[13px] border rounded-full focus:outline-none focus:border-[var(--forest)] transition-colors"
-                  style={{
-                    background: "var(--bg)",
-                    borderColor: "var(--line)",
-                    color: "var(--ink)",
-                  }}
-                />
-                {searchInput && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSearchInput("");
-                      set("search", "");
-                    }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors hover:text-[var(--clay)]"
-                    style={{ color: "var(--muted)" }}
-                    aria-label="Clear search"
-                  >
-                    <X size={12} />
-                  </button>
-                )}
-              </div>
-              <div className="relative">
-                <select
-                  value={filters.sort}
-                  onChange={(e) =>
-                    set(
-                      "sort",
-                      e.target.value as NonNullable<SafariFilters["sort"]>,
-                    )
-                  }
-                  className="h-9 pl-3 pr-8 font-mono text-[11px] uppercase tracking-[0.1em] border rounded-full appearance-none cursor-pointer focus:outline-none transition-colors"
-                  style={{
-                    background: "var(--bg)",
-                    borderColor: "var(--line)",
-                    color: "var(--muted)",
-                  }}
-                >
-                  {SORT_OPTIONS.map((s) => (
-                    <option key={s.value} value={s.value}>
-                      {s.label}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown
-                  size={11}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                  style={{ color: "var(--muted)" }}
-                />
-              </div>
-              {totalActive > 0 && (
-                <button
-                  type="button"
-                  onClick={resetAll}
-                  className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.1em] hover:opacity-70 transition-opacity"
-                  style={{ color: "var(--clay)" }}
-                >
-                  <X size={11} /> Clear all
-                </button>
-              )}
-            </div>
-
-            {/* Country pills */}
-            <div className="flex flex-wrap gap-1.5 items-center">
-              <span
-                className="font-mono text-[10px] uppercase tracking-[0.16em] w-[52px] flex-shrink-0"
-                style={{ color: "var(--muted)" }}
-              >
-                Country
-              </span>
-              {COUNTRIES.map((c) => (
-                <Pill
-                  key={c.value}
-                  active={filters.country === c.value}
-                  onClick={() => set("country", c.value)}
-                >
-                  {c.label}
-                </Pill>
-              ))}
-            </div>
+            <div className="flex flex-wrap gap-2 items-center"></div>
 
             {/* Category pills */}
             <div className="flex flex-wrap gap-1.5 items-center">

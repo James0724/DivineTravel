@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Link from "next/link"
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal"
 
 const bestsellers = [
   {
@@ -29,7 +30,7 @@ const bestsellers = [
       "Kenya + Tanzania + Uganda. Masai Mara, Serengeti, Bwindi — the full East Africa experience.",
     href: "/safaris",
   },
-];
+]
 
 export default function BestSellers() {
   return (
@@ -39,50 +40,53 @@ export default function BestSellers() {
     >
       <div className="container-site">
         {/* Header */}
-        <div className="section-hd">
-          <div>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              Most Booked Tours
+        <Reveal>
+          <div className="section-hd">
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Most Booked Tours
+              </div>
+              <h2
+                className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
+                style={{ fontSize: "clamp(40px, 5.4vw, 76px)" }}
+              >
+                Guest <em className="italic text-bone-clay">favourites</em>.
+              </h2>
             </div>
-            <h2
-              className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
-              style={{ fontSize: "clamp(40px, 5.4vw, 76px)" }}
-            >
-              Guest <em className="italic text-bone-clay">favourites</em>.
-            </h2>
+            <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
+              These are our most-requested itineraries — handpicked by our team
+              based on wildlife density, seasonal timing, and guest feedback.
+            </p>
           </div>
-          <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
-            These are our most-requested itineraries — handpicked by our team
-            based on wildlife density, seasonal timing, and guest feedback.
-          </p>
-        </div>
+        </Reveal>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {bestsellers.map((b) => (
-            <Link
-              key={b.num}
-              href={b.href}
-              className="flex flex-col gap-3.5 p-7 bg-bone-bg border transition-all duration-300 hover:border-bone-clay hover:-translate-y-0.5 group"
-              style={{ borderColor: "rgba(23,22,18,0.14)" }}
-            >
-              <span className="font-serif italic text-[14px] text-bone-clay">
-                {b.num}
-              </span>
-              <h3 className="font-serif font-normal text-[26px] leading-[1.1] tracking-[-0.01em] text-bone-ink">
-                <em>{b.title}</em>
-              </h3>
-              <p className="text-[13px] leading-[1.5] text-bone-muted flex-1">
-                {b.route}
-              </p>
-              <span className="mt-auto font-mono text-[11px] uppercase tracking-[0.14em] text-bone-forest inline-flex items-center gap-1.5 group-hover:text-bone-clay transition-colors">
-                View itinerary →
-              </span>
-            </Link>
+            <RevealItem key={b.num}>
+              <Link
+                href={b.href}
+                className="flex flex-col gap-3.5 p-7 bg-bone-bg border transition-all duration-300 hover:border-bone-clay hover:-translate-y-0.5 group h-full"
+                style={{ borderColor: "rgba(23,22,18,0.14)" }}
+              >
+                <span className="font-serif italic text-[14px] text-bone-clay">
+                  {b.num}
+                </span>
+                <h3 className="font-serif font-normal text-[26px] leading-[1.1] tracking-[-0.01em] text-bone-ink">
+                  <em>{b.title}</em>
+                </h3>
+                <p className="text-[13px] leading-[1.5] text-bone-muted flex-1">
+                  {b.route}
+                </p>
+                <span className="mt-auto font-mono text-[11px] uppercase tracking-[0.14em] text-bone-forest inline-flex items-center gap-1.5 group-hover:text-bone-clay transition-colors">
+                  View itinerary →
+                </span>
+              </Link>
+            </RevealItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
-  );
+  )
 }

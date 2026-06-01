@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import Reveal, { Stagger, RevealItem } from '@/components/ui/Reveal'
 
 const articles = [
   {
@@ -39,70 +40,73 @@ export default function JournalSection() {
     <section className="py-[140px] bg-bone-bg">
       <div className="container-site">
         {/* Header */}
-        <div className="section-hd">
-          <div>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              Safari Journal
+        <Reveal>
+          <div className="section-hd">
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Safari Journal
+              </div>
+              <h2
+                className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
+                style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
+              >
+                Stories from{' '}
+                <em className="italic text-bone-clay">the field</em>.
+              </h2>
             </div>
-            <h2
-              className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
-              style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
-            >
-              Stories from{' '}
-              <em className="italic text-bone-clay">the field</em>.
-            </h2>
+            <div>
+              <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
+                Guides, tips and behind-the-scenes stories from our in-country team and the
+                wildlife they follow across East Africa.
+              </p>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-1.5 mt-5 text-xs font-mono uppercase tracking-[0.12em] text-bone-clay hover:underline"
+              >
+                View all articles →
+              </Link>
+            </div>
           </div>
-          <div>
-            <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
-              Guides, tips and behind-the-scenes stories from our in-country team and the
-              wildlife they follow across East Africa.
-            </p>
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1.5 mt-5 text-xs font-mono uppercase tracking-[0.12em] text-bone-clay hover:underline"
-            >
-              View all articles →
-            </Link>
-          </div>
-        </div>
+        </Reveal>
 
         {/* Grid */}
-        <div className="grid gap-9 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
+        <Stagger className="grid gap-9 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
           {articles.map((a) => (
-            <Link
-              key={a.title}
-              href={a.href}
-              className="flex flex-col gap-[18px] cursor-pointer group"
-            >
-              <div
-                className="relative overflow-hidden"
-                style={{ aspectRatio: a.feat ? '16/11' : '4/3' }}
+            <RevealItem key={a.title}>
+              <Link
+                href={a.href}
+                className="flex flex-col gap-[18px] cursor-pointer group"
               >
-                <Image
-                  src={a.image}
-                  alt={a.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
-                />
-              </div>
-              <div className="flex gap-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
-                <span>{a.category}</span>
-                <span>·</span>
-                <span>{a.date}</span>
-              </div>
-              <h3
-                className={`font-serif leading-[1.1] tracking-[-0.01em] text-bone-ink group-hover:text-bone-clay transition-colors ${a.feat ? 'text-[40px]' : 'text-[28px]'}`}
-              >
-                {a.title}
-              </h3>
-              {a.feat && (
-                <p className="text-[14px] leading-[1.6] text-bone-muted">{a.excerpt}</p>
-              )}
-            </Link>
+                <div
+                  className="relative overflow-hidden"
+                  style={{ aspectRatio: a.feat ? '16/11' : '4/3' }}
+                >
+                  <Image
+                    src={a.image}
+                    alt={a.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
+                  />
+                </div>
+                <div className="flex gap-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
+                  <span>{a.category}</span>
+                  <span>·</span>
+                  <span>{a.date}</span>
+                </div>
+                <h3
+                  className={`font-serif leading-[1.1] tracking-[-0.01em] text-bone-ink group-hover:text-bone-clay transition-colors ${a.feat ? 'text-[40px]' : 'text-[28px]'}`}
+                >
+                  {a.title}
+                </h3>
+                {a.feat && (
+                  <p className="text-[14px] leading-[1.6] text-bone-muted">{a.excerpt}</p>
+                )}
+              </Link>
+            </RevealItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   )

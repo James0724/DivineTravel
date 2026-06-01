@@ -2,14 +2,14 @@
 
 import { useState, KeyboardEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm, useFieldArray, Controller } from 'react-hook-form'
+import { useForm, useFieldArray, Controller, FieldErrors } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus, Trash2, X, ChevronDown, ChevronUp, ArrowLeft, FolderOpen } from 'lucide-react'
+import { Plus, Trash2, X, ChevronDown, ChevronUp, ArrowLeft, FolderOpen, AlertCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import Input, { Textarea, Select } from '@/components/ui/Input'
+import Input, { Textarea } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import ImageUpload from '@/components/admin/ImageUpload'
 import { SafariSchema, SafariFormValues } from '@/lib/validations/safari'
@@ -92,7 +92,6 @@ const defaultValues: SafariFormValues & {
 
 /* ─── Helpers ────────────────────────────────────────────────────────────── */
 
-/** Inline tag-list editor for highlights, included, excluded, etc. */
 function ArrayField({
   label,
   values,
@@ -159,7 +158,6 @@ function ArrayField({
   )
 }
 
-/** Single pricing tier section */
 function PricingTierSection({
   tier,
   label,
@@ -224,6 +222,55 @@ function PricingTierSection({
   )
 }
 
+/* ─── CollapsibleSection ─────────────────────────────────────────────────────
+   Defined OUTSIDE SafariForm so React never treats it as a new component type
+   across re-renders. Keeping it inside the parent causes full unmount/remount
+   on every state change, losing input focus and scrolling the page to top.
+────────────────────────────────────────────────────────────────────────────── */
+
+function CollapsibleSection({
+  title,
+  subtitle,
+  isOpen,
+  hasError,
+  onToggle,
+  children,
+}: {
+  title: string
+  subtitle?: string
+  isOpen: boolean
+  hasError?: boolean
+  onToggle: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <div className={`bg-bone-paper border rounded-md overflow-hidden ${hasError ? 'border-red-400' : 'border-[rgba(23,22,18,0.12)]'}`}>
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full flex items-center justify-between px-5 py-4 text-left"
+      >
+        <div className="flex items-center gap-2">
+          {hasError && <AlertCircle size={14} className="text-red-500 flex-shrink-0" />}
+          <div>
+            <p className={`font-sans font-semibold text-sm ${hasError ? 'text-red-600' : 'text-bone-ink'}`}>{title}</p>
+            {subtitle && <p className="text-xs text-bone-ink/45 font-sans mt-0.5">{subtitle}</p>}
+          </div>
+        </div>
+        {isOpen
+          ? <ChevronUp size={15} className="text-bone-ink/40 flex-shrink-0" />
+          : <ChevronDown size={15} className="text-bone-ink/40 flex-shrink-0" />}
+      </button>
+
+      {isOpen && (
+        <div className="px-5 pb-6 border-t border-[rgba(23,22,18,0.07)] pt-5 space-y-5">
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ─── Main Component ─────────────────────────────────────────────────────── */
 
 export default function SafariForm({ existing }: { existing?: Safari }) {
@@ -264,13 +311,16 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       : defaultValues,
   })
 
-  // Extra fields not in SafariSchema
   const [coverImage,          setCoverImage]          = useState(existing?.coverImage ?? '')
   const [coverImagePublicId,  setCoverImagePublicId]  = useState(existing?.coverImagePublicId ?? '')
   const [imageGallery, setImageGallery] = useState<{ url: string; alt: string; publicId: string }[]>(
-    existing?.images?.map((img) => ({ url: img.url, alt: img.alt, publicId: img.publicId ?? '' })) ?? []
+    // Only keep gallery images that have both url and publicId so Mongoose validators don't reject the update
+    existing?.images
+      ?.filter((img) => img.url && img.publicId)
+      ?.map((img) => ({ url: img.url, alt: img.alt, publicId: img.publicId ?? '' })) ?? []
   )
   const [galleryPickerOpen, setGalleryPickerOpen] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     basic: true,
     location: true,
@@ -285,19 +335,18 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const toggleSection = (key: string) =>
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }))
 
-  // Field arrays
   const { fields: itineraryFields, append: appendDay, remove: removeDay } = useFieldArray({
     control,
     name: 'itinerary',
   })
 
-  const watchedHighlights = watch('highlights') ?? ['']
-  const watchedIncluded  = watch('included')   ?? ['']
-  const watchedExcluded  = watch('excluded')   ?? ['']
-  const watchedBestSeason = watch('bestSeason') ?? []
-  const watchedCategory  = watch('category')   ?? []
-  const watchedFeatured  = watch('featured')
-  const watchedActive    = watch('active')
+  const watchedHighlights  = watch('highlights') ?? ['']
+  const watchedIncluded    = watch('included')   ?? ['']
+  const watchedExcluded    = watch('excluded')   ?? ['']
+  const watchedBestSeason  = watch('bestSeason') ?? []
+  const watchedCategory    = watch('category')   ?? []
+  const watchedFeatured    = watch('featured')
+  const watchedActive      = watch('active')
 
   const toggleMonth = (month: string) => {
     const current = watch('bestSeason') ?? []
@@ -316,17 +365,20 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     setValue('category', next as typeof current)
   }
 
+  /* ── Submit ── */
   const onSubmit = async (data: SafariFormValues) => {
+    setSaveError(null)
     const payload = {
       ...data,
       coverImage,
       coverImagePublicId,
-      images: imageGallery.map((img) => ({
-        url:      img.url,
-        publicId: img.publicId,
-        alt:      img.alt || data.name,
-      })),
-      // Filter blank strings from arrays
+      images: imageGallery
+        .filter((img) => img.url.trim() && img.publicId.trim())
+        .map((img) => ({
+          url:      img.url,
+          publicId: img.publicId,
+          alt:      img.alt || data.name,
+        })),
       highlights: data.highlights.filter(Boolean),
       included:   data.included.filter(Boolean),
       excluded:   data.excluded.filter(Boolean),
@@ -342,56 +394,85 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         body: JSON.stringify(payload),
       })
 
+      const json = await res.json()
+
       if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.error ?? 'Failed to save safari')
+        throw new Error(json.error ?? 'Failed to save safari')
       }
 
-      toast.success(isEdit ? 'Safari updated!' : 'Safari created!')
+      toast.success(isEdit ? 'Safari updated successfully!' : 'Safari created!')
+      // Small delay so the toast renders before navigation unmounts the layout
+      await new Promise((r) => setTimeout(r, 800))
       router.push('/admin/safaris')
       router.refresh()
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to save')
+      const msg = err instanceof Error ? err.message : 'Failed to save safari'
+      setSaveError(msg)
+      toast.error(msg)
     }
   }
 
-  /* ── Section wrapper ── */
-  const Section = ({
-    id,
-    title,
-    subtitle,
-    children,
-  }: {
-    id: string
-    title: string
-    subtitle?: string
-    children: React.ReactNode
-  }) => (
-    <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden">
-      <button
-        type="button"
-        onClick={() => toggleSection(id)}
-        className="w-full flex items-center justify-between px-5 py-4 text-left"
-      >
-        <div>
-          <p className="font-sans font-semibold text-sm text-bone-ink">{title}</p>
-          {subtitle && <p className="text-xs text-bone-ink/45 font-sans mt-0.5">{subtitle}</p>}
-        </div>
-        {openSections[id]
-          ? <ChevronUp size={15} className="text-bone-ink/40 flex-shrink-0" />
-          : <ChevronDown size={15} className="text-bone-ink/40 flex-shrink-0" />}
-      </button>
+  /* ── Validation error handler — surfaces which sections have problems ── */
+  const onValidationError = (errs: FieldErrors<SafariFormValues>) => {
+    const sectionMap: Record<string, boolean> = {
+      basic:    !!(errs.name || errs.tagline || errs.description),
+      location: !!errs.location,
+      details:  !!(errs.duration || errs.difficulty || errs.category || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
+      content:  !!(errs.highlights || errs.included || errs.excluded),
+      itinerary: !!errs.itinerary,
+      pricing:  !!errs.pricing,
+      seo:      !!errs.seo,
+    }
 
-      {openSections[id] && (
-        <div className="px-5 pb-6 border-t border-[rgba(23,22,18,0.07)] pt-5 space-y-5">
-          {children}
-        </div>
-      )}
-    </div>
-  )
+    // Open every section that contains an error so the user can see the red fields
+    setOpenSections((prev) => ({
+      ...prev,
+      ...Object.fromEntries(
+        Object.entries(sectionMap)
+          .filter(([, hasErr]) => hasErr)
+          .map(([key]) => [key, true])
+      ),
+    }))
+
+    // Pick the first useful message to surface in the toast
+    const firstMsg =
+      (errs.name?.message) ||
+      (errs.tagline?.message) ||
+      (errs.description?.message) ||
+      (errs.location?.country?.message) ||
+      (errs.duration?.message) ||
+      (errs.highlights?.message as string | undefined) ||
+      (errs.itinerary?.message as string | undefined) ||
+      (errs.pricing?.budget?.description?.message) ||
+      'Please fix the highlighted errors before saving'
+
+    toast.error(firstMsg as string)
+  }
+
+  /* ── Section error flags (passed as hasError to open sections) ── */
+  const sectionErrors = {
+    basic:    !!(errors.name || errors.tagline || errors.description),
+    location: !!errors.location,
+    details:  !!(errors.duration || errors.difficulty || errors.category || errors.bestSeason),
+    content:  !!(errors.highlights || errors.included || errors.excluded),
+    itinerary: !!errors.itinerary,
+    pricing:  !!errors.pricing,
+    images:   false,
+    seo:      !!errors.seo,
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 max-w-4xl">
+    <form onSubmit={handleSubmit(onSubmit, onValidationError)} className="space-y-5 max-w-4xl">
+
+      {/* ── Full-page saving overlay ── */}
+      {isSubmitting && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-bone-paper/80 backdrop-blur-[2px]">
+          <div className="w-10 h-10 border-2 border-bone-forest border-t-transparent rounded-full animate-spin" />
+          <p className="font-sans text-sm text-bone-ink/70">
+            {isEdit ? 'Saving changes…' : 'Creating safari…'}
+          </p>
+        </div>
+      )}
 
       {/* ── Back link ── */}
       <Link
@@ -411,8 +492,22 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         </p>
       </div>
 
+      {/* ── Inline save error banner ── */}
+      {saveError && (
+        <div className="flex items-start gap-3 px-4 py-3 rounded-md bg-red-50 border border-red-200">
+          <AlertCircle size={16} className="text-red-500 flex-shrink-0 mt-0.5" />
+          <p className="text-sm font-sans text-red-700">{saveError}</p>
+        </div>
+      )}
+
       {/* ════════════ 1 · BASIC INFO ════════════ */}
-      <Section id="basic" title="Basic Information" subtitle="Name, tagline, description and status">
+      <CollapsibleSection
+        title="Basic Information"
+        subtitle="Name, tagline, description and status"
+        isOpen={openSections.basic}
+        hasError={sectionErrors.basic}
+        onToggle={() => toggleSection('basic')}
+      >
         <div className="grid grid-cols-1 gap-4">
           <Input
             label="Safari Name"
@@ -432,13 +527,12 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             label="Full Description"
             {...register('description')}
             rows={6}
-            placeholder="Detailed description of the experience, what makes it special, what guests can expect…"
+            placeholder="Detailed description of the experience…"
             error={errors.description?.message}
             required
           />
         </div>
 
-        {/* Status toggles */}
         <div className="flex flex-wrap gap-6 pt-1">
           <label className="flex items-center gap-2.5 cursor-pointer">
             <input
@@ -463,10 +557,16 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             </span>
           </label>
         </div>
-      </Section>
+      </CollapsibleSection>
 
       {/* ════════════ 2 · LOCATION ════════════ */}
-      <Section id="location" title="Location" subtitle="Country, region, park and GPS coordinates">
+      <CollapsibleSection
+        title="Location"
+        subtitle="Country, region, park and GPS coordinates"
+        isOpen={openSections.location}
+        hasError={sectionErrors.location}
+        onToggle={() => toggleSection('location')}
+      >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
             label="Country"
@@ -507,10 +607,16 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             placeholder="35.1"
           />
         </div>
-      </Section>
+      </CollapsibleSection>
 
       {/* ════════════ 3 · DETAILS ════════════ */}
-      <Section id="details" title="Safari Details" subtitle="Duration, group size, categories, best season">
+      <CollapsibleSection
+        title="Safari Details"
+        subtitle="Duration, group size, categories, best season"
+        isOpen={openSections.details}
+        hasError={sectionErrors.details}
+        onToggle={() => toggleSection('details')}
+      >
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Input
             label="Duration (days)"
@@ -545,7 +651,6 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           />
         </div>
 
-        {/* Difficulty */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-bone-ink/80 font-sans">Difficulty <span className="text-bone-clay">*</span></label>
           <div className="flex gap-3">
@@ -564,7 +669,6 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           {errors.difficulty && <p className="text-xs text-red-600 font-sans">{errors.difficulty.message}</p>}
         </div>
 
-        {/* Categories */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-bone-ink/80 font-sans">Categories <span className="text-bone-clay">*</span></label>
           <div className="flex flex-wrap gap-2">
@@ -589,7 +693,6 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           {errors.category && <p className="text-xs text-red-600 font-sans">{errors.category.message as string}</p>}
         </div>
 
-        {/* Best Season */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-bone-ink/80 font-sans">Best Season <span className="text-bone-clay">*</span></label>
           <div className="flex flex-wrap gap-2">
@@ -613,10 +716,16 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           </div>
           {errors.bestSeason && <p className="text-xs text-red-600 font-sans">{errors.bestSeason.message as string}</p>}
         </div>
-      </Section>
+      </CollapsibleSection>
 
       {/* ════════════ 4 · CONTENT ARRAYS ════════════ */}
-      <Section id="content" title="Highlights, Inclusions & Exclusions" subtitle="What guests experience, what's included and what's not">
+      <CollapsibleSection
+        title="Highlights, Inclusions & Exclusions"
+        subtitle="What guests experience, what's included and what's not"
+        isOpen={openSections.content}
+        hasError={sectionErrors.content}
+        onToggle={() => toggleSection('content')}
+      >
         <ArrayField
           label="Highlights"
           values={watchedHighlights}
@@ -645,17 +754,22 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           placeholder="Add exclusion…"
           hint="e.g. International flights, visa fees, travel insurance"
         />
-      </Section>
+      </CollapsibleSection>
 
       {/* ════════════ 5 · ITINERARY ════════════ */}
-      <Section id="itinerary" title="Day-by-Day Itinerary" subtitle="Detailed programme for each day of the safari">
+      <CollapsibleSection
+        title="Day-by-Day Itinerary"
+        subtitle="Detailed programme for each day of the safari"
+        isOpen={openSections.itinerary}
+        hasError={sectionErrors.itinerary}
+        onToggle={() => toggleSection('itinerary')}
+      >
         <div className="space-y-5">
           {itineraryFields.map((field, index) => (
             <div
               key={field.id}
               className="border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden"
             >
-              {/* Day header */}
               <div className="flex items-center justify-between bg-bone-bg px-4 py-2.5">
                 <span className="font-sans text-xs font-semibold uppercase tracking-wider text-bone-ink/60">
                   Day {index + 1}
@@ -746,10 +860,16 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             <Plus size={15} /> Add Day
           </button>
         </div>
-      </Section>
+      </CollapsibleSection>
 
       {/* ════════════ 6 · PRICING ════════════ */}
-      <Section id="pricing" title="Pricing Tiers" subtitle="Budget, mid-range and luxury pricing with inclusions">
+      <CollapsibleSection
+        title="Pricing Tiers"
+        subtitle="Budget, mid-range and luxury pricing with inclusions"
+        isOpen={openSections.pricing}
+        hasError={sectionErrors.pricing}
+        onToggle={() => toggleSection('pricing')}
+      >
         <div className="space-y-8">
           {(
             [
@@ -774,11 +894,15 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             />
           ))}
         </div>
-      </Section>
+      </CollapsibleSection>
 
       {/* ════════════ 7 · IMAGES ════════════ */}
-      <Section id="images" title="Images" subtitle="Cover image and gallery — upload from your machine or pick from media library">
-        {/* Cover image */}
+      <CollapsibleSection
+        title="Images"
+        subtitle="Cover image and gallery — upload from your machine or pick from media library"
+        isOpen={openSections.images}
+        onToggle={() => toggleSection('images')}
+      >
         <ImageUpload
           label="Cover Image"
           required
@@ -791,7 +915,6 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           hint="Main listing image and OG image — required"
         />
 
-        {/* Gallery */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium text-bone-ink/80 font-sans">
@@ -836,7 +959,6 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           )}
         </div>
 
-        {/* Gallery picker modal */}
         {galleryPickerOpen && (
           <MediaPicker
             usage="safari-gallery"
@@ -847,10 +969,16 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             onClose={() => setGalleryPickerOpen(false)}
           />
         )}
-      </Section>
+      </CollapsibleSection>
 
       {/* ════════════ 8 · SEO ════════════ */}
-      <Section id="seo" title="SEO" subtitle="Search engine meta title, description and keywords">
+      <CollapsibleSection
+        title="SEO"
+        subtitle="Search engine meta title, description and keywords"
+        isOpen={openSections.seo}
+        hasError={sectionErrors.seo}
+        onToggle={() => toggleSection('seo')}
+      >
         <Input
           label="Meta Title"
           {...register('seo.metaTitle')}
@@ -877,7 +1005,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             />
           )}
         />
-      </Section>
+      </CollapsibleSection>
 
       {/* ════════════ SUBMIT ════════════ */}
       <div className="flex items-center gap-3 pt-2">

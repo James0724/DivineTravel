@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Reveal from '@/components/ui/Reveal'
 
 export default function IntroSection() {
   return (
@@ -6,7 +7,7 @@ export default function IntroSection() {
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-24 items-start">
           {/* Left */}
-          <div>
+          <Reveal variant="slideLeft">
             <div className="eyebrow mb-[18px]">
               <span className="dot" />
               Divine Travel Nest Safaris
@@ -47,10 +48,10 @@ export default function IntroSection() {
                 </span>
               </Link>
             </div>
-          </div>
+          </Reveal>
 
           {/* Right */}
-          <div>
+          <Reveal variant="slideRight" delay={0.1}>
             <p
               className="text-[16px] sm:text-[19px] leading-[1.6] text-bone-ink mb-6"
               style={{ position: 'relative' }}
@@ -88,7 +89,7 @@ export default function IntroSection() {
               To create experience-rich, safe, and value-driven African safaris that bring
               you closer to wildlife, culture, and the magic of East Africa.
             </blockquote>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

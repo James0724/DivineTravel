@@ -1,3 +1,5 @@
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal"
+
 export interface ChooseCell { want: string; go: string }
 
 interface ChooseGridProps {
@@ -27,31 +29,34 @@ export default function ChooseGrid({
   return (
     <section id={id} className={bg} style={{ padding: '120px 0' }}>
       <div className="container-site">
-        <div className="section-hd">
-          <div>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              {eyebrow}
+        <Reveal>
+          <div className="section-hd">
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                {eyebrow}
+              </div>
+              <h2
+                className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
+                style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
+              >
+                {heading}
+              </h2>
             </div>
-            <h2
-              className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
-              style={{ fontSize: 'clamp(40px, 5.4vw, 76px)' }}
-            >
-              {heading}
-            </h2>
+            <p className="text-[15px] leading-[1.65] text-bone-muted" style={{ maxWidth: '56ch' }}>
+              {description}
+            </p>
           </div>
-          <p className="text-[15px] leading-[1.65] text-bone-muted" style={{ maxWidth: '56ch' }}>
-            {description}
-          </p>
-        </div>
-        <div
+        </Reveal>
+
+        <Stagger
           className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[rgba(31,29,24,0.14)]"
           style={{ border: '1px solid rgba(31,29,24,0.14)' }}
         >
           {cells.map((c) => {
             const parts = c.go.split(' ')
             return (
-              <div
+              <RevealItem
                 key={c.want}
                 className="bg-bone-bg hover:bg-bone-paper transition-colors"
                 style={{ padding: '30px 26px' }}
@@ -72,10 +77,10 @@ export default function ChooseGrid({
                     <em className="italic text-bone-clay">{c.go}</em>
                   )}
                 </div>
-              </div>
+              </RevealItem>
             )
           })}
-        </div>
+        </Stagger>
         {actions}
       </div>
     </section>
