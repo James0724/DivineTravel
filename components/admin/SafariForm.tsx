@@ -57,6 +57,7 @@ function blankPricingTier() {
     description: '',
     includes: [''],
     accommodationType: '',
+    hotels: [] as { name: string; rating: number }[],
   }
 }
 
@@ -218,6 +219,62 @@ function PricingTierSection({
         placeholder="Add inclusion…"
         hint="Press Enter or click Add"
       />
+
+      {/* ── Hotels ── */}
+      <div className="flex flex-col gap-2">
+        <div>
+          <label className="text-sm font-medium text-bone-ink/80 font-sans">
+            Accommodation Hotels
+          </label>
+          <p className="text-xs text-bone-ink/45 font-sans mt-0.5">
+            1–3 hotels shown on the public safari page (name + star rating)
+          </p>
+        </div>
+
+        {(values.hotels ?? []).map((hotel, i) => (
+          <div key={i} className="flex gap-2 items-center">
+            <input
+              type="text"
+              value={hotel.name}
+              onChange={(e) => {
+                const updated = [...(values.hotels ?? [])]
+                updated[i] = { ...updated[i], name: e.target.value }
+                onChange({ hotels: updated })
+              }}
+              placeholder="Hotel name…"
+              className="flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 transition-colors placeholder:text-bone-ink/35"
+            />
+            <select
+              value={hotel.rating}
+              onChange={(e) => {
+                const updated = [...(values.hotels ?? [])]
+                updated[i] = { ...updated[i], rating: Number(e.target.value) }
+                onChange({ hotels: updated })
+              }}
+              className="h-9 px-2 font-sans text-sm text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest transition-colors"
+            >
+              {[1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>{'★'.repeat(n)} ({n})</option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onClick={() => onChange({ hotels: (values.hotels ?? []).filter((_, idx) => idx !== i) })}
+              className="text-bone-ink/30 hover:text-red-500 transition-colors flex-shrink-0"
+            >
+              <X size={13} />
+            </button>
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={() => onChange({ hotels: [...(values.hotels ?? []), { name: '', rating: 3 }] })}
+          className="flex items-center gap-1.5 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors self-start"
+        >
+          <Plus size={13} /> Add Hotel
+        </button>
+      </div>
     </div>
   )
 }

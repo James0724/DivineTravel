@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1200&q=80",
+        url: "https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
         width: 1200,
         height: 630,
         alt: "Mountain gorilla trekking Uganda",
@@ -247,7 +247,7 @@ export default async function UgandaSafarisPage() {
       />
 
       <PageHero
-        image="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1800&q=80"
+        image="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
         imageAlt="Mountain gorilla in Bwindi Impenetrable Forest, Uganda"
         breadcrumbs={[
           { label: "Home", href: "/" },
@@ -263,9 +263,9 @@ export default async function UgandaSafarisPage() {
         }
         description="A face-to-face hour with a wild mountain gorilla in the Bwindi Impenetrable Forest or Mgahinga — one of Africa's most powerful wildlife encounters."
         stats={[
-          { num: "50%+", lbl: "World's mountain gorillas" },
-          { num: "98%", lbl: "Sighting success rate" },
-          { num: "$800", lbl: "Permit · vs $1,500 Rwanda" },
+          { num: "50",   sup: "%+", lbl: "World's gorilla population" },
+          { num: "98",   sup: "%",  lbl: "Gorilla sighting success"   },
+          { num: "$800", sup: "",   lbl: "Permit · vs $1,500 Rwanda"  },
         ]}
       />
       <CtaBand
@@ -296,8 +296,8 @@ export default async function UgandaSafarisPage() {
             >
               <div className="overflow-hidden" style={{ aspectRatio: "3/4" }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600&q=80"
-                  alt="Traveller meeting a gorilla family"
+                  src="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=600&q=80"
+                  alt="Mountain gorilla in Bwindi forest, Uganda"
                   width={400}
                   height={530}
                   className="w-full h-full object-cover"
@@ -308,8 +308,8 @@ export default async function UgandaSafarisPage() {
                 style={{ aspectRatio: "3/4" }}
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=600&q=80"
-                  alt="Silverback in the rainforest"
+                  src="https://images.pexels.com/photos/12635318/pexels-photo-12635318.jpeg?auto=compress&cs=tinysrgb&w=600&q=80"
+                  alt="Chimpanzee in the wild forest, Uganda"
                   width={400}
                   height={530}
                   className="w-full h-full object-cover"
@@ -435,8 +435,8 @@ export default async function UgandaSafarisPage() {
                   style={{ aspectRatio: "5/4", minHeight: "340px" }}
                 >
                   <Image
-                    src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80"
-                    alt="Bwindi Impenetrable National Park"
+                    src="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                    alt="Mountain gorilla in Bwindi Impenetrable National Park"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
@@ -575,8 +575,8 @@ export default async function UgandaSafarisPage() {
                   style={{ aspectRatio: "5/4", minHeight: "340px" }}
                 >
                   <Image
-                    src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&q=80"
-                    alt="Mgahinga Gorilla National Park with Virunga volcanoes"
+                    src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                    alt="Silverback gorilla in the Virunga mountains, Mgahinga"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
@@ -741,8 +741,8 @@ export default async function UgandaSafarisPage() {
               style={{ aspectRatio: "4/5" }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80"
-                alt="Trekkers in Bwindi forest"
+                src="https://images.pexels.com/photos/36478037/pexels-photo-36478037.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                alt="Silverback gorilla in the forest"
                 fill
                 sizes="(max-width: 1024px) 100vw, 45vw"
                 className="object-cover"

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useFeaturedSafaris } from '@/hooks/useSafaris'
 import { SafariCardSkeleton } from '@/components/ui/Skeleton'
 import Reveal, { Stagger, RevealItem } from '@/components/ui/Reveal'
+import SiteLink from '@/components/ui/SiteLink'
 import type { Safari } from '@/types'
 
 interface FeaturedSafarisProps {
@@ -41,12 +42,9 @@ export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
                 Handpicked itineraries designed by our in-country team — each one refined
                 through years of guiding guests across East Africa.
               </p>
-              <Link
-                href="/safaris"
-                className="self-start font-mono text-[11px] uppercase tracking-[0.14em] text-bone-forest hover:text-bone-clay transition-colors"
-              >
-                View all safaris →
-              </Link>
+              <SiteLink href="/safaris" variant="ghost-mono" arrow className="self-start">
+                View all safaris
+              </SiteLink>
             </div>
           </div>
         </Reveal>

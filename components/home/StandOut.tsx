@@ -36,8 +36,8 @@ export default function StandOut() {
           <Reveal variant="slideLeft">
             <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
               <Image
-                src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=900&q=80"
-                alt="Safari guide with guests"
+                src="https://images.pexels.com/photos/16444284/pexels-photo-16444284.jpeg?auto=compress&cs=tinysrgb&w=900&q=80"
+                alt="Safari vehicle on a game drive through the African bush"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"

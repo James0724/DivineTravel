@@ -105,7 +105,7 @@ export default function ContactPage() {
       <LocalBusinessSchema />
 
       <PageHero
-        image="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1800&q=80"
+        image="https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
         imageAlt="Plan your African safari"
         minHeight="min-h-[60vh]"
         imageOpacity={0.45}

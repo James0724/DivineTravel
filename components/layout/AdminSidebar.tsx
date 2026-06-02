@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
+import { useAdminPendingBookingsCount } from '@/hooks/useBooking'
 
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard, exact: true },
@@ -34,6 +35,7 @@ const navItems = [
 export default function AdminSidebar() {
   const pathname = usePathname()
   const { adminSidebarCollapsed, toggleAdminSidebar } = useUIStore()
+  const { data: pendingCount = 0 } = useAdminPendingBookingsCount()
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname.startsWith(href)
@@ -79,11 +81,13 @@ export default function AdminSidebar() {
         <ul className="space-y-0.5 px-2">
           {navItems.map(({ label, href, icon: Icon, exact }) => {
             const active = isActive(href, exact)
+            const isBookings = label === 'Bookings'
+            const showBadge = isBookings && pendingCount > 0
             return (
               <li key={href}>
                 <Link
                   href={href}
-                  title={adminSidebarCollapsed ? label : undefined}
+                  title={adminSidebarCollapsed ? (showBadge ? `${label} (${pendingCount} pending)` : label) : undefined}
                   className={cn(
                     'flex items-center gap-3 px-3 py-2.5 rounded text-sm font-sans',
                     'transition-colors duration-150',
@@ -93,8 +97,18 @@ export default function AdminSidebar() {
                     adminSidebarCollapsed && 'justify-center'
                   )}
                 >
-                  <Icon size={17} className="flex-shrink-0" />
-                  {!adminSidebarCollapsed && <span>{label}</span>}
+                  <span className="relative flex-shrink-0">
+                    <Icon size={17} />
+                    {showBadge && adminSidebarCollapsed && (
+                      <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-400" />
+                    )}
+                  </span>
+                  {!adminSidebarCollapsed && <span className="flex-1">{label}</span>}
+                  {!adminSidebarCollapsed && showBadge && (
+                    <span className="ml-auto min-w-[20px] h-5 px-1.5 flex items-center justify-center rounded-full bg-amber-400 text-amber-900 font-bold text-[10px] leading-none">
+                      {pendingCount > 99 ? '99+' : pendingCount}
+                    </span>
+                  )}
                 </Link>
               </li>
             )

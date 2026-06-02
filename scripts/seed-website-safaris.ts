@@ -22,6 +22,7 @@ const PricingTierSchema = new mongoose.Schema({
   description:       String,
   includes:          [String],
   accommodationType: String,
+  hotels:            [{ name: String, rating: Number }],
 }, { _id: false })
 
 const SafariSchema = new mongoose.Schema({
@@ -143,25 +144,42 @@ const packages = [
     ],
     pricing: {
       budget: {
-        pricePerPerson:    650,
+        pricePerPerson:    380,
         currency:          'USD',
         description:       'A comfortable, value-for-money Masai Mara experience staying in well-equipped tented camps with en-suite facilities. Road transfer from Nairobi included.',
         includes:          ['En-suite tented camp accommodation', 'Road transfer Nairobi ↔ Mara', 'Shared 4×4 game drive vehicle', 'Full board meals', 'Park fees'],
         accommodationType: 'En-suite Tented Camp',
+        hotels: [
+          { name: 'Miti Mingi Eco Camp',    rating: 3 },
+          { name: 'Rhino Tourist Camp',     rating: 3 },
+          { name: 'Lenchada Tourist Camp',  rating: 3 },
+        ],
       },
       midRange: {
-        pricePerPerson:    950,
+        pricePerPerson:    650,
         currency:          'USD',
         description:       'Elevated comfort in a private conservancy camp with superior rooms, dedicated guide, and off-road access. Road transfer from Nairobi included.',
         includes:          ['Private conservancy camp accommodation', 'Road transfer Nairobi ↔ Mara', 'Private 4×4 game drive vehicle', 'Full board + house wines', 'Conservancy and park fees', 'Night drives available'],
         accommodationType: 'Private Conservancy Camp',
+        hotels: [
+          { name: 'Enkorok Mara Camp',  rating: 4 },
+          { name: 'Mara Chui Lodge',    rating: 4 },
+          { name: 'AA Lodge Mara',      rating: 4 },
+          { name: 'Jambo Mara Lodge',   rating: 4 },
+        ],
       },
       luxury: {
-        pricePerPerson:    1650,
+        pricePerPerson:    1200,
         currency:          'USD',
         description:       'Five-star luxury in an exclusive tented lodge with private plunge pool, gourmet dining and scheduled light aircraft transfers for a truly seamless experience.',
         includes:          ['Luxury lodge / exclusive tented villa', 'Scheduled flight Nairobi Wilson → Mara (return)', 'Private game drive vehicle + specialist guide', 'All meals, selected premium beverages', 'Conservancy + park fees', 'Guided bush walk', 'Maasai cultural evening'],
         accommodationType: 'Exclusive Luxury Tented Lodge',
+        hotels: [
+          { name: 'Sarova Mara Game Camp',    rating: 5 },
+          { name: 'Mara Serena Safari Lodge', rating: 5 },
+          { name: 'Mara Engai Lodge',         rating: 5 },
+          { name: 'Neptune Mara Rianta Camp', rating: 5 },
+        ],
       },
     },
     category:      ['wildlife'],
@@ -302,6 +320,11 @@ const packages = [
         description:       'Full 8-day circuit staying at Sopa Lodge standard rooms. Comfortable en-suite accommodation, full board at all lodges and shared game drive vehicles.',
         includes:          ['Sopa Lodge standard rooms (7 nights)', 'Full board meals at all lodges', 'Shared 4×4 game drive vehicles', 'All park and reserve fees', 'Professional guide'],
         accommodationType: 'Sopa Lodge Standard Room',
+        hotels: [
+          { name: 'Amboseli Sopa Lodge',    rating: 3 },
+          { name: 'Lake Nakuru Sopa Lodge', rating: 3 },
+          { name: 'Mara Sopa Lodge',        rating: 3 },
+        ],
       },
       midRange: {
         pricePerPerson:    2550,
@@ -309,6 +332,11 @@ const packages = [
         description:       'Superior room category at all four Sopa Lodges with private game drive vehicle throughout, house wines at dinner, and complimentary laundry service.',
         includes:          ['Sopa Lodge superior rooms (7 nights)', 'Full board + house wines at dinner', 'Private 4×4 Land Cruiser + guide', 'All park and reserve fees', 'Complimentary laundry'],
         accommodationType: 'Sopa Lodge Superior Room',
+        hotels: [
+          { name: 'Amboseli Sopa Lodge Superior',    rating: 4 },
+          { name: 'Lake Nakuru Sopa Lodge Superior', rating: 4 },
+          { name: 'Mara Sopa Lodge Superior',        rating: 4 },
+        ],
       },
       luxury: {
         pricePerPerson:    3800,
@@ -316,6 +344,11 @@ const packages = [
         description:       'Premium suite accommodation at all lodges, internal flight upgrades where available, personal butler, premium beverages, and exclusive activities including a hot air balloon safari in the Mara.',
         includes:          ['Sopa Lodge suites (7 nights)', 'Full board + premium beverages', 'Private game drive vehicle', 'Masai Mara hot air balloon safari', 'Internal flight where available', 'Personal butler service', 'All fees and taxes'],
         accommodationType: 'Sopa Lodge Suite',
+        hotels: [
+          { name: 'Amboseli Sopa Lodge Suite',    rating: 5 },
+          { name: 'Lake Nakuru Sopa Lodge Suite', rating: 5 },
+          { name: 'Mara Sopa Lodge Suite',        rating: 5 },
+        ],
       },
     },
     category:      ['wildlife', 'cultural'],
@@ -428,6 +461,11 @@ const packages = [
         description:       'Comfortable tented camp and budget lodge accommodation at each park. Shared game vehicles and full board meals throughout. Great value 5-park circuit.',
         includes:          ['Tented camp / budget lodge accommodation (4 nights)', 'Full board meals', 'Shared safari vehicle', 'All park fees', 'Professional guide'],
         accommodationType: 'Tented Camp / Budget Lodge',
+        hotels: [
+          { name: 'The Ark Lodge',          rating: 3 },
+          { name: 'Lake Nakuru Sopa Lodge', rating: 3 },
+          { name: 'Mara Simba Lodge',       rating: 3 },
+        ],
       },
       midRange: {
         pricePerPerson:    1650,
@@ -435,6 +473,11 @@ const packages = [
         description:       'Mid-range lodge accommodation at all three parks with private game vehicle, dedicated guide, and house beverages at dinner.',
         includes:          ['Mid-range lodge accommodation (4 nights)', 'Full board + house wines', 'Private 4×4 safari vehicle', 'All park and reserve fees', 'Dedicated certified guide'],
         accommodationType: 'Mid-Range Safari Lodge',
+        hotels: [
+          { name: 'Aberdare Country Club', rating: 4 },
+          { name: 'Sarova Lion Hill Lodge', rating: 4 },
+          { name: 'Ashnil Mara Camp',       rating: 4 },
+        ],
       },
       luxury: {
         pricePerPerson:    2800,
@@ -442,6 +485,11 @@ const packages = [
         description:       'Premium lodge and tented camp experience including exclusive conservancy access in the Mara, top-tier cuisine, and the option to add a hot air balloon flight.',
         includes:          ['Premium lodge / luxury tented camp (4 nights)', 'Full board + premium beverages', 'Private game vehicle', 'All fees', 'Conservancy access for off-road drives', 'Optional balloon flight (at extra cost)'],
         accommodationType: 'Luxury Lodge & Tented Camp',
+        hotels: [
+          { name: 'Serena Mountain Lodge',      rating: 5 },
+          { name: 'Sarova Lion Hill Suite',     rating: 5 },
+          { name: 'Angama Mara',                rating: 5 },
+        ],
       },
     },
     category:      ['wildlife', 'adventure'],
@@ -471,22 +519,19 @@ async function run() {
   await mongoose.connect(MONGODB_URI)
   console.log('✅ Connected to MongoDB:', MONGODB_URI.split('/').pop()?.split('?')[0])
 
-  let inserted = 0
-  let skipped  = 0
+  let upserted = 0
 
   for (const pkg of packages) {
-    const exists = await Safari.findOne({ slug: pkg.slug })
-    if (exists) {
-      console.log(`⏭  Skipped (already exists): ${pkg.name}`)
-      skipped++
-      continue
-    }
-    await Safari.create(pkg)
-    console.log(`✅ Inserted: ${pkg.name}`)
-    inserted++
+    await Safari.findOneAndUpdate(
+      { slug: pkg.slug },
+      { $set: pkg },
+      { upsert: true, new: true }
+    )
+    console.log(`✅ Upserted: ${pkg.name}`)
+    upserted++
   }
 
-  console.log(`\n🎉 Done — ${inserted} inserted, ${skipped} skipped`)
+  console.log(`\n🎉 Done — ${upserted} upserted`)
   await mongoose.disconnect()
 }
 

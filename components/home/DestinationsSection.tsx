@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import SiteLink from "@/components/ui/SiteLink";
 
 const destinations = [
   {
@@ -225,12 +225,9 @@ export default function DestinationsSection() {
                 ))}
               </ul>
 
-              <Link
-                href={dest.href}
-                className="mt-7 sm:mt-8 font-sans inline-flex items-center gap-3 px-4 py-2 bg-bone-forest text-bone-paper rounded-full text-sm tracking-[0.02em] self-start transition-all duration-200 hover:bg-bone-clay hover:-translate-y-0.5"
-              >
-                Explore {dest.tab} safaris →
-              </Link>
+              <SiteLink href={dest.href} variant="solid" size="md" className="mt-7 sm:mt-8 self-start">
+                Explore {dest.tab} safaris
+              </SiteLink>
             </div>
           </motion.div>
         </AnimatePresence>

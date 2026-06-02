@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: 'Kenya Safari Packages | Divine Travel Nest Safaris',
     description: 'Best Kenya safari tours 2026/2027 — Masai Mara, Amboseli, Tsavo & more.',
     type: 'website',
-    images: [{ url: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80', width: 1200, height: 630, alt: 'Kenya Safari' }],
+    images: [{ url: 'https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80', width: 1200, height: 630, alt: 'Kenya Safari' }],
   },
 }
 
@@ -69,7 +69,7 @@ export default async function KenyaSafarisPage() {
         idPrefix="kp"
         countryName="Kenya"
         hero={{
-          image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1800&q=80',
+          image: 'https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80',
           imageAlt: 'Sunrise over the Kenyan savannah — Masai Mara',
           breadcrumbs: [
             { label: 'Home', href: '/' },
@@ -79,9 +79,9 @@ export default async function KenyaSafarisPage() {
           title: <>Kenya safari<br /><em style={{ color: '#f4d4a8', fontStyle: 'italic' }}>packages</em>.</>,
           description: 'From short Masai Mara introductions to the eight-day Sopa circuit and cross-border combos — every itinerary tailored to your dates, party size and budget.',
           stats: [
-            { num: '12+',        lbl: 'Parks & reserves' },
-            { num: 'Big 5',      lbl: 'In a single country' },
-            { num: 'Year-round', lbl: 'Safari season' },
+            { num: '12',         sup: '+', lbl: 'Parks & reserves'   },
+            { num: 'Big 5',      sup: '',  lbl: 'In a single country' },
+            { num: 'Year-round', sup: '',  lbl: 'Safari season'       },
           ],
         }}
         packages={{
@@ -160,7 +160,7 @@ export default async function KenyaSafarisPage() {
             { ic: 'iv',  b: 'Photography safaris',              s: 'private vehicle, a guide who shoots' },
             { ic: 'v',   b: 'Kenya–Tanzania combinations',      s: 'two countries, one seamless trip' },
           ],
-          image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=900&q=80',
+          image: 'https://images.pexels.com/photos/13932855/pexels-photo-13932855.jpeg?auto=compress&cs=tinysrgb&w=900&q=80',
           imageAlt: 'Kenya safari vehicle on the plains',
         }}
         faq={{

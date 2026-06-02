@@ -313,8 +313,8 @@ export default function AboutPage() {
             style={{ aspectRatio: "16 / 6.6", background: "#e4dbd0" }}
           >
             <Image
-              src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1700&q=70"
-              alt="Golden-hour savannah, East Africa — Divine Travel Nest Safaris"
+              src="https://res.cloudinary.com/dk2j3k15k/image/upload/v1780301052/Gallarey/WhatsApp-Image-2026-03-30-at-13.52.07_oeexgx.jpg"
+              alt="Janet Wanjiru — Divine Travel Nest Safaris"
               fill
               sizes="100vw"
               className="object-cover"
@@ -729,21 +729,6 @@ export default function AboutPage() {
           </>
         }
         faqs={faqs}
-      />
-
-      {/* ── 10. CTA BAND ─────────────────────────────────────────────────── */}
-      <CtaBand
-        variant="large"
-        heading={
-          <>
-            Ready to start your
-            <br />
-            African adventure?
-          </>
-        }
-        description="Tell us your dates, your dream wildlife and your budget — we will design an itinerary around you and send a transparent quote within 24 hours."
-        buttonText="Plan my safari →"
-        buttonHref="/contact"
       />
     </>
   );

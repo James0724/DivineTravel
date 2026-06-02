@@ -32,6 +32,8 @@
 
   html {
     scroll-behavior: smooth;
+    /* Leave room for sticky nav when jumping to anchors */
+    scroll-padding-top: 80px;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -435,6 +437,25 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+/* Framer Motion respects this via MotionConfig reducedMotion="user".
+   These CSS rules catch any remaining transitions / CSS animations. */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

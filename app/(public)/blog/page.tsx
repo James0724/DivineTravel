@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80',
+        url: 'https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80',
         width: 1200,
         height: 630,
         alt: 'Field Journal — Divine Travel Nest Safaris',
@@ -87,7 +87,7 @@ export default async function BlogPage({
       />
 
       <PageHero
-        image="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1800&q=80"
+        image="https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
         imageAlt="Field Journal — stories from East Africa"
         minHeight="min-h-[60vh]"
         breadcrumbs={[
@@ -99,9 +99,9 @@ export default async function BlogPage({
         description="Guides, destination deep-dives, wildlife reports and insider tips from our in-country team across Kenya, Tanzania and Uganda."
         statsDivider
         stats={[
-          { num: `${posts.length}+`, lbl: 'Articles & guides'    },
-          { num: '3',                lbl: 'Countries covered'     },
-          { num: '24/7',             lbl: 'Updated in the field'  },
+          { num: String(posts.length), sup: '+', lbl: 'Articles & guides'     },
+          { num: '3',                  sup: '',   lbl: 'East African countries' },
+          { num: '24/7',               sup: '',   lbl: 'Updated from the field' },
         ]}
       />
 

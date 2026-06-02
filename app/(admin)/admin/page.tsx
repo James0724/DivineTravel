@@ -90,6 +90,20 @@ export default async function AdminDashboard() {
         <p className="text-sm text-bone-ink/50 font-sans mt-1">Welcome back. Here's what's happening.</p>
       </div>
 
+      {/* New pending bookings alert */}
+      {stats.pendingBookings > 0 && (
+        <Link
+          href="/admin/bookings?status=pending"
+          className="flex items-center gap-3 px-4 py-3 rounded-md bg-blue-50 border border-blue-200 hover:bg-blue-100 transition-colors"
+        >
+          <CalendarCheck size={16} className="text-blue-600 flex-shrink-0" />
+          <span className="text-sm font-sans font-medium text-blue-700">
+            {stats.pendingBookings} new booking{stats.pendingBookings !== 1 ? 's' : ''} awaiting review
+          </span>
+          <span className="ml-auto text-xs font-sans text-blue-600 font-medium">Review →</span>
+        </Link>
+      )}
+
       {/* Pending comments alert */}
       {stats.pendingComments > 0 && (
         <Link

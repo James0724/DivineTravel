@@ -1,11 +1,17 @@
 import { z } from 'zod'
 
+const HotelSchema = z.object({
+  name:   z.string().min(2, 'Hotel name is required'),
+  rating: z.number().min(1).max(5),
+})
+
 const PricingTierSchema = z.object({
-  pricePerPerson: z.number().min(1, 'Price must be at least $1'),
-  currency: z.string().default('USD'),
-  description: z.string().min(10, 'Description must be at least 10 characters'),
-  includes: z.array(z.string()).min(1, 'Add at least one inclusion'),
+  pricePerPerson:    z.number().min(1, 'Price must be at least $1'),
+  currency:          z.string().default('USD'),
+  description:       z.string().min(10, 'Description must be at least 10 characters'),
+  includes:          z.array(z.string()).min(1, 'Add at least one inclusion'),
   accommodationType: z.string().min(3, 'Accommodation type is required'),
+  hotels:            z.array(HotelSchema).optional(),
 })
 
 const ItineraryDaySchema = z.object({

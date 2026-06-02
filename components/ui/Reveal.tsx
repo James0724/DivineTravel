@@ -2,23 +2,25 @@
 
 import { motion, type Variants } from "framer-motion"
 
-// ─── Shared constants ─────────────────────────────────────────────────────────
-
 type RevealVariant = "fadeUp" | "fadeIn" | "slideLeft" | "slideRight" | "scaleUp"
 
+// Expo-out — strong initial acceleration, smooth landing; feels deliberate and premium
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
+
+// Smaller translate values: less travel = lighter, more refined movement
 const VARIANTS: Record<RevealVariant, Variants> = {
-  fadeUp:     { hidden: { opacity: 0, y: 32 },       visible: { opacity: 1, y: 0 } },
+  fadeUp:     { hidden: { opacity: 0, y: 22 },       visible: { opacity: 1, y: 0 } },
   fadeIn:     { hidden: { opacity: 0 },              visible: { opacity: 1 } },
-  slideLeft:  { hidden: { opacity: 0, x: -44 },      visible: { opacity: 1, x: 0 } },
-  slideRight: { hidden: { opacity: 0, x: 44 },       visible: { opacity: 1, x: 0 } },
-  scaleUp:    { hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, scale: 1 } },
+  slideLeft:  { hidden: { opacity: 0, x: -30 },      visible: { opacity: 1, x: 0 } },
+  slideRight: { hidden: { opacity: 0, x: 30 },       visible: { opacity: 1, x: 0 } },
+  scaleUp:    { hidden: { opacity: 0, scale: 0.97 }, visible: { opacity: 1, scale: 1 } },
 }
 
-const EASE: [number, number, number, number] = [0.25, 1, 0.5, 1]
-const VIEWPORT = { once: true, margin: "-60px" } as const
+// Trigger when element top is ~80 px from the bottom of the viewport so the
+// animation is already running (not just starting) when the user's eye lands on it.
+const VIEWPORT = { once: true, margin: "0px 0px -80px 0px" } as const
 
 // ─── Reveal ───────────────────────────────────────────────────────────────────
-// Standalone scroll-triggered reveal wrapper.
 
 interface RevealProps {
   children: React.ReactNode
@@ -33,7 +35,7 @@ export default function Reveal({
   children,
   variant = "fadeUp",
   delay = 0,
-  duration = 0.55,
+  duration = 0.5,
   className,
   style,
 }: RevealProps) {
@@ -53,7 +55,6 @@ export default function Reveal({
 }
 
 // ─── Stagger ──────────────────────────────────────────────────────────────────
-// Container that staggers the reveal of its RevealItem children.
 
 interface StaggerProps {
   children: React.ReactNode
@@ -63,7 +64,7 @@ interface StaggerProps {
   style?: React.CSSProperties
 }
 
-export function Stagger({ children, stagger = 0.08, delay = 0, className, style }: StaggerProps) {
+export function Stagger({ children, stagger = 0.07, delay = 0, className, style }: StaggerProps) {
   return (
     <motion.div
       className={className}
@@ -82,7 +83,6 @@ export function Stagger({ children, stagger = 0.08, delay = 0, className, style 
 }
 
 // ─── RevealItem ───────────────────────────────────────────────────────────────
-// Direct child of Stagger — inherits the hidden/visible orchestration.
 
 interface RevealItemProps {
   children: React.ReactNode
@@ -95,7 +95,7 @@ interface RevealItemProps {
 export function RevealItem({
   children,
   variant = "fadeUp",
-  duration = 0.5,
+  duration = 0.45,
   className,
   style,
 }: RevealItemProps) {

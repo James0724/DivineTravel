@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import Reveal from '@/components/ui/Reveal'
+import SiteLink from '@/components/ui/SiteLink'
 
 const points = [
   { ic: '✦', title: 'Budget to Luxury', desc: 'Camping, mid-range lodges or ultra-luxury tented camps — we cover every tier.' },
@@ -57,20 +57,17 @@ export default function TailorMade() {
               ))}
             </ul>
 
-            <Link
-              href="/contact"
-              className="mt-8 inline-flex items-center gap-3 px-6 py-4 bg-bone-forest text-bone-paper rounded-full text-[14px] tracking-[0.01em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-0.5"
-            >
-              Start planning my safari →
-            </Link>
+            <SiteLink href="/contact" variant="solid" size="lg" className="mt-8">
+              Start planning my safari
+            </SiteLink>
           </Reveal>
 
           {/* Photo */}
           <Reveal variant="slideRight" delay={0.12}>
             <div className="relative overflow-hidden" style={{ aspectRatio: '5/6' }}>
               <Image
-                src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=900&q=80"
-                alt="Tailor-made safari planning"
+                src="https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=900&q=80"
+                alt="Wildebeest and zebras grazing in the Masai Mara, Kenya"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"

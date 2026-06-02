@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Phone, Mail, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import SiteLink from "@/components/ui/SiteLink";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NAV DATA
@@ -611,12 +612,15 @@ export default function Navbar() {
 
           {/* Right CTA */}
           <div className="flex items-center justify-end gap-4">
-            <Link
+            <SiteLink
               href="/plan-my-safari"
-              className="hidden font-sans lg:inline-flex items-center px-[20px] py-[8px] bg-bone-forest text-bone-paper rounded-full text-sm tracking-[0.01em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-px"
+              variant="solid"
+              size="sm"
+              arrow={false}
+              className="hidden lg:inline-flex"
             >
               Plan My Safari
-            </Link>
+            </SiteLink>
 
             <motion.button
               className="lg:hidden font-mono text-sm uppercase tracking-[0.14em] text-bone-ink/70 hover:text-bone-clay transition-colors min-w-[36px] text-right"
@@ -695,12 +699,14 @@ export default function Navbar() {
               animate="visible"
               className="px-6 pt-6 pb-4 flex-shrink-0"
             >
-              <Link
+              <SiteLink
                 href="/plan-my-safari"
-                className="flex font-sans items-center justify-center gap-2.5 w-full py-[17px] bg-bone-forest text-bone-paper rounded-full text-[15px] font-medium tracking-[0.01em] hover:bg-bone-clay transition-colors duration-200"
+                variant="solid"
+                size="lg"
+                className="w-full justify-center"
               >
-                Plan My Safari <span>→</span>
-              </Link>
+                Plan My Safari
+              </SiteLink>
             </motion.div>
 
             <div className="px-6 pb-8 flex-shrink-0 flex flex-col gap-1.5 font-mono text-[12px] tracking-[0.06em] text-bone-muted">

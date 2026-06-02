@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
+import SiteLink from "@/components/ui/SiteLink";
 
 export default function Footer() {
   return (
@@ -24,19 +25,9 @@ export default function Footer() {
                 waiting to be written. Request a free custom safari quote now —
                 fast response guaranteed.
               </p>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3.5 mt-6 px-4 py-3 font-mono rounded-full text-sm text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
-                style={{ background: "#f4efe2" }}
-              >
+              <SiteLink href="/contact" variant="paper" size="lg" className="mt-6">
                 Request a free quote
-                <span
-                  className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
-                  style={{ background: "#9d4519" }}
-                >
-                  →
-                </span>
-              </Link>
+              </SiteLink>
             </div>
           </Reveal>
         </div>

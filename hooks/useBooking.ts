@@ -43,6 +43,20 @@ export function useAdminBookings(params?: Record<string, string>) {
   })
 }
 
+export function useAdminPendingBookingsCount() {
+  return useQuery({
+    queryKey: ['admin-pending-bookings-count'],
+    queryFn: async () => {
+      const res = await fetch('/api/bookings?status=pending&limit=1')
+      if (!res.ok) return 0
+      const data = await res.json()
+      return (data.pagination?.total as number) ?? 0
+    },
+    staleTime: 1000 * 30,
+    refetchInterval: 1000 * 30,
+  })
+}
+
 export function useUpdateBookingStatus() {
   const qc = useQueryClient()
   return useMutation({

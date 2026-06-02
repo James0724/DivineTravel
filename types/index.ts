@@ -12,12 +12,18 @@ export type SafariDifficulty = 'easy' | 'moderate' | 'challenging'
 
 export type PriceTier = 'budget' | 'midRange' | 'luxury'
 
+export interface Hotel {
+  name: string
+  rating: number // 1–5
+}
+
 export interface PricingTier {
   pricePerPerson: number
   currency: string
   description: string
   includes: string[]
   accommodationType: string
+  hotels?: Hotel[]
 }
 
 export interface ItineraryDay {

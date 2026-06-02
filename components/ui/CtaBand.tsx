@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
+import SiteLink from "@/components/ui/SiteLink";
 
 interface CtaBandProps {
   heading: React.ReactNode;
@@ -44,19 +44,9 @@ export default function CtaBand({
                 >
                   {description}
                 </p>
-                <Link
-                  href={buttonHref}
-                  className="inline-flex items-center gap-3.5 mt-6 px-6 py-2 font-sans rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
-                  style={{ background: "#f4efe2" }}
-                >
+                <SiteLink href={buttonHref} variant="paper" size="lg" className="mt-6">
                   {buttonText}
-                  <span
-                    className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
-                    style={{ background: "#9d4519" }}
-                  >
-                    →
-                  </span>
-                </Link>
+                </SiteLink>
               </div>
             </Reveal>
           </div>
@@ -82,12 +72,9 @@ export default function CtaBand({
               <p className="text-bone-paper/65 text-base font-sans leading-relaxed mb-7">
                 {description}
               </p>
-              <Link
-                href={buttonHref}
-                className="inline-flex items-center gap-3 px-7 py-2 bg-bone-clay text-bone-paper rounded-full text-sm font-sans font-medium hover:bg-[#c0612e] transition-colors"
-              >
+              <SiteLink href={buttonHref} variant="paper" size="md" arrow={false}>
                 {buttonText}
-              </Link>
+              </SiteLink>
             </div>
           </Reveal>
         </div>

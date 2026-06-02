@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80",
+        url: "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
         width: 1200,
         height: 630,
         alt: "East Africa Safari — Divine Travel Nest Safaris",
@@ -70,7 +70,7 @@ export default function SafarisPage() {
       />
 
       <PageHero
-        image="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1800&q=80"
+        image="https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
         imageAlt="Safari vehicles crossing the open plains of East Africa at golden hour"
         breadcrumbs={[
           { label: "Home", href: "/" },
@@ -88,9 +88,9 @@ export default function SafarisPage() {
         }
         description="Our complete catalogue — short Mara introductions, the eight-day Sopa circuit, cross-border combos and Uganda gorilla trekking. Every itinerary rewritable for your dates, party size and budget."
         stats={[
-          { num: "3", lbl: "Countries covered" },
-          { num: "Big 5", lbl: "In a single circuit" },
-          { num: "Year-round", lbl: "Safari season" },
+          { num: "3",     sup: "",  lbl: "East African countries" },
+          { num: "50",    sup: "+", lbl: "Curated packages"       },
+          { num: "Big 5", sup: "",  lbl: "In a single circuit"    },
         ]}
       />
 

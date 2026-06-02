@@ -6,7 +6,7 @@ import Link from "next/link";
 import { X, AlignJustify } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import PkgCard from "@/components/safaris/PkgCard";
-import PageHero from "@/components/ui/PageHero";
+import PageHero, { type HeroStat } from "@/components/ui/PageHero";
 import JumpNav, { type JumpNavLink } from "@/components/ui/JumpNav";
 import WhyGrid, { type WhyItem } from "@/components/ui/WhyGrid";
 import ChooseGrid, { type ChooseCell } from "@/components/ui/ChooseGrid";
@@ -38,7 +38,7 @@ export interface CountrySafariPageConfig {
     breadcrumbs: { label: string; href?: string }[];
     title: React.ReactNode;
     description: string;
-    stats: { num: string; lbl: string }[];
+    stats: HeroStat[];
   };
 
   packages: {

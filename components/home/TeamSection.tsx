@@ -5,25 +5,21 @@ const team = [
     name: 'James Kahoro',
     role: 'Founder & Lead Guide',
     bio: '15+ years guiding across East Africa. Specialist in Kenya and Tanzania wildlife circuits. Certified by KWS and Eco-Tourism Kenya.',
-    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80',
   },
   {
     name: 'Grace Wanjiru',
     role: 'Safari Consultant',
     bio: 'Expert in tailor-made itinerary design. Grace has personally visited over 40 parks and reserves across Kenya, Tanzania and Uganda.',
-    photo: 'https://images.unsplash.com/photo-1494790108755-2616b612b77c?w=400&q=80',
   },
   {
     name: 'David Ochieng',
     role: 'Operations & Logistics',
     bio: 'Ensures every transfer, lodge booking and activity runs seamlessly. David is the backbone of our on-the-ground operations.',
-    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
   },
   {
     name: 'Amina Hassan',
     role: 'Tanzania Specialist',
     bio: 'Born in Arusha, Amina knows the Serengeti and Ngorongoro like her own back yard. She leads our Tanzanian safari design.',
-    photo: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',
   },
 ]
 
@@ -64,17 +60,15 @@ export default function TeamSection() {
             <RevealItem key={member.name} variant="scaleUp">
               <div className="group">
                 <div
-                  className="overflow-hidden mb-4"
-                  style={{ aspectRatio: '3/4', background: '#e4dac3' }}
+                  className="overflow-hidden mb-4 flex items-center justify-center"
+                  style={{ aspectRatio: '3/4', background: '#2a3a2a' }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={member.photo}
-                    alt={member.name}
-                    className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-[1.04]"
-                    style={{ filter: 'sepia(0.15) contrast(1.05)' }}
-                    loading="lazy"
-                  />
+                  <span
+                    className="font-serif italic text-bone-paper select-none"
+                    style={{ fontSize: 'clamp(48px, 6vw, 72px)', opacity: 0.45 }}
+                  >
+                    {member.name.split(' ').map((w) => w[0]).join('')}
+                  </span>
                 </div>
                 <h3 className="font-serif italic text-[24px] leading-[1.1] text-bone-ink mb-0.5">
                   {member.name}

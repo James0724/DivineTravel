@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: 'Tanzania Safari Packages | Divine Travel Nest Safaris',
     description: 'Best Tanzania safari tours 2026/2027 — Serengeti, Ngorongoro, Tarangire & more.',
     type: 'website',
-    images: [{ url: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1200&q=80', width: 1200, height: 630, alt: 'Tanzania Safari' }],
+    images: [{ url: 'https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80', width: 1200, height: 630, alt: 'Tanzania Safari' }],
   },
 }
 
@@ -68,7 +68,7 @@ export default async function TanzaniaSafarisPage() {
         idPrefix="tz"
         countryName="Tanzania"
         hero={{
-          image: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1800&q=80',
+          image: 'https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80',
           imageAlt: "Wildebeest crossing the Mara River in Tanzania's Serengeti",
           breadcrumbs: [
             { label: 'Home', href: '/' },
@@ -78,9 +78,9 @@ export default async function TanzaniaSafarisPage() {
           title: <>Tanzania safari<br /><em style={{ color: '#f4d4a8', fontStyle: 'italic' }}>packages</em>.</>,
           description: "The Serengeti, Ngorongoro Crater, Tarangire's elephant kingdom, the wild south — and the option to finish on Zanzibar. Every itinerary rewritable for your dates and budget.",
           stats: [
-            { num: '15+',  lbl: 'Parks & reserves' },
-            { num: '1.5M', lbl: 'Wildebeest in the migration' },
-            { num: 'Year-round', lbl: 'Wildlife viewing' },
+            { num: '15',         sup: '+', lbl: 'Parks & reserves'        },
+            { num: '1.5',        sup: 'M', lbl: 'Wildebeest in migration' },
+            { num: 'Year-round', sup: '',  lbl: 'Wildlife viewing'         },
           ],
         }}
         packages={{
@@ -159,7 +159,7 @@ export default async function TanzaniaSafarisPage() {
             { ic: 'iv',  b: 'Photography safaris',              s: 'private vehicle, a guide who shoots' },
             { ic: 'v',   b: 'Kenya–Tanzania combinations',      s: 'two countries, one seamless trip' },
           ],
-          image: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=80',
+          image: 'https://images.pexels.com/photos/25950513/pexels-photo-25950513.jpeg?auto=compress&cs=tinysrgb&w=900&q=80',
           imageAlt: 'Serengeti plains Tanzania',
         }}
         faq={{

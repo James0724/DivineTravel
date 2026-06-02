@@ -2,26 +2,22 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import SiteLink from "@/components/ui/SiteLink";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   SLIDES  — swap these for production images when ready
-═══════════════════════════════════════════════════════════════════════════ */
-
 const slides = [
   {
-    src: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1920&q=80",
-    alt: "African savanna sunset with acacia trees",
+    src: "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80",
+    alt: "Lone acacia tree on the vast East African savanna at golden hour",
   },
   {
-    src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1920&q=80",
-    alt: "Nice hotel with swimming pool with mountain backdrop",
+    src: "https://images.pexels.com/photos/16444284/pexels-photo-16444284.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80",
+    alt: "Safari vehicle on a game drive through the African bush",
   },
   {
-    src: "https://images.unsplash.com/photo-1521651201144-634f700b36ef?auto=format&fit=crop&w=1920&q=80",
-    alt: "Elephant walking in the savanna",
+    src: "https://images.pexels.com/photos/86413/pexels-photo-86413.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80",
+    alt: "African elephant herd at a waterhole in the savanna",
   },
 ];
 
@@ -213,31 +209,12 @@ export default function Hero() {
           {/* Mobile — stacked */}
           <div className="flex flex-col gap-4 sm:hidden">
             <div className="flex flex-wrap gap-2.5 items-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full
-                           text-[13px] tracking-[0.01em]
-                           transition-all duration-200 hover:-translate-y-0.5"
-                style={{ background: "#f4efe2", color: "#171612" }}
-              >
+              <SiteLink href="/contact" variant="paper" size="sm">
                 Plan my safari
-                <span
-                  className="w-[24px] h-[24px] rounded-full flex items-center justify-center
-                             text-[12px] text-white flex-shrink-0"
-                  style={{ background: "#9d4519" }}
-                >
-                  →
-                </span>
-              </Link>
-              <Link
-                href="/safaris"
-                className="inline-flex items-center px-4 py-2 rounded-full
-                           text-[13px] tracking-[0.01em] text-white
-                           transition-all duration-200 hover:bg-white/10"
-                style={{ border: "1px solid rgba(244,239,226,0.4)" }}
-              >
+              </SiteLink>
+              <SiteLink href="/safaris" variant="outline-light" size="sm" arrow={false}>
                 Explore our journeys
-              </Link>
+              </SiteLink>
             </div>
 
             {/* <div className="flex items-end gap-6">
@@ -270,31 +247,12 @@ export default function Hero() {
             style={{ gridTemplateColumns: "auto 1fr" }}
           >
             <div className="flex flex-wrap gap-3 items-end">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-full
-                           text-[14px] tracking-[0.01em]
-                           transition-all duration-200 hover:-translate-y-0.5"
-                style={{ background: "#f4efe2", color: "#171612" }}
-              >
+              <SiteLink href="/contact" variant="paper" size="md">
                 Plan my safari
-                <span
-                  className="w-[26px] h-[26px] rounded-full flex items-center justify-center
-                             text-[13px] text-white flex-shrink-0"
-                  style={{ background: "#9d4519" }}
-                >
-                  →
-                </span>
-              </Link>
-              <Link
-                href="/safaris"
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-full
-                           text-[14px] tracking-[0.01em] text-white
-                           transition-all duration-200 hover:bg-white/10"
-                style={{ border: "1px solid rgba(244,239,226,0.4)" }}
-              >
+              </SiteLink>
+              <SiteLink href="/safaris" variant="outline-light" size="md" arrow={false}>
                 Explore our journeys
-              </Link>
+              </SiteLink>
             </div>
 
             <div className="flex items-end justify-end gap-6 lg:gap-9 flex-wrap">

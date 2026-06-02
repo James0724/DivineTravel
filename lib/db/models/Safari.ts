@@ -28,13 +28,22 @@ const LocationSchema = new Schema(
   { _id: false }
 )
 
+const HotelSchema = new Schema(
+  {
+    name:   { type: String, required: true },
+    rating: { type: Number, required: true, min: 1, max: 5 },
+  },
+  { _id: false }
+)
+
 const PricingTierSchema = new Schema(
   {
-    pricePerPerson: { type: Number, required: true, min: 0 },
-    currency: { type: String, default: 'USD' },
-    description: { type: String, required: true },
-    includes: [{ type: String }],
+    pricePerPerson:    { type: Number, required: true, min: 0 },
+    currency:          { type: String, default: 'USD' },
+    description:       { type: String, required: true },
+    includes:          [{ type: String }],
     accommodationType: { type: String, required: true },
+    hotels:            [HotelSchema],
   },
   { _id: false }
 )
