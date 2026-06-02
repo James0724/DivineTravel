@@ -10,6 +10,7 @@ import WhyGrid from "@/components/ui/WhyGrid";
 import SectionFaq from "@/components/ui/SectionFaq";
 import CtaBand from "@/components/ui/CtaBand";
 import PageHero from "@/components/ui/PageHero";
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { MessageSquare, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -264,6 +265,7 @@ export default function AboutPage() {
             </span>
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-20 items-end">
+            <Reveal variant="slideLeft">
             <h1
               className="font-serif font-light leading-[0.92] tracking-[-0.028em] text-bone-ink"
               style={{ fontSize: "clamp(52px, 7.6vw, 120px)" }}
@@ -273,6 +275,8 @@ export default function AboutPage() {
               Divine <em className="italic text-bone-clay">Travel&nbsp;Nest</em>
               .
             </h1>
+            </Reveal>
+            <Reveal variant="slideRight">
             <div>
               <p className="text-[18px] leading-[1.62] text-bone-ink">
                 A Kenya-based,{" "}
@@ -301,6 +305,7 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -308,9 +313,10 @@ export default function AboutPage() {
       {/* ── 2. PORTRAIT ─────────────────────────────────────────────────── */}
       <section className="bg-bone-bg pb-3">
         <div className="container-site">
+          {/* Removed inline aspect-ratio and replaced with responsive Tailwind classes */}
           <div
-            className="relative overflow-hidden"
-            style={{ aspectRatio: "16 / 6.6", background: "#e4dbd0" }}
+            className="relative overflow-hidden aspect-[4/3] md:aspect-[16/6.6]"
+            style={{ background: "#e4dbd0" }}
           >
             <Image
               src="https://res.cloudinary.com/dk2j3k15k/image/upload/v1780301052/Gallarey/WhatsApp-Image-2026-03-30-at-13.52.07_oeexgx.jpg"
@@ -323,7 +329,7 @@ export default function AboutPage() {
           </div>
           <div className="flex flex-wrap justify-between gap-2 pt-4 font-mono text-[10px] tracking-[0.14em] uppercase text-bone-muted">
             <span>Spur Mall · Nairobi, Kenya</span>
-            <span>Woman-led · Kenya · Tanzania · Uganda</span>
+            <span className="hidden md:block">Kenya · Tanzania · Uganda</span>
           </div>
         </div>
       </section>
@@ -333,6 +339,7 @@ export default function AboutPage() {
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.45fr] gap-10 lg:gap-24 items-start">
             {/* Left — eyebrow + heading */}
+            <Reveal variant="slideLeft">
             <div>
               <div className="eyebrow">
                 <span className="dot" />
@@ -347,8 +354,10 @@ export default function AboutPage() {
                 of the <em className="italic text-bone-clay">wild</em>.
               </h2>
             </div>
+            </Reveal>
 
             {/* Right — body */}
+            <Reveal variant="slideRight">
             <div>
               <p className="font-serif italic text-[20px] leading-[1.55] text-bone-ink mb-5">
                 Divine Travel Nest Safaris was born from a simple dream — to
@@ -406,6 +415,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -419,11 +429,12 @@ export default function AboutPage() {
         }}
       >
         <div className="container-site">
-          <div
+          <Stagger
             className="grid grid-cols-2 lg:grid-cols-4 gap-px"
             style={{ background: "rgba(31,29,24,0.14)" }}
           >
             {/* 100+ */}
+            <RevealItem>
             <div
               className="bg-bone-paper flex flex-col gap-3"
               style={{ padding: "56px 36px" }}
@@ -440,7 +451,9 @@ export default function AboutPage() {
                 across East Africa
               </div>
             </div>
+            </RevealItem>
             {/* 3 */}
+            <RevealItem>
             <div
               className="bg-bone-paper flex flex-col gap-3"
               style={{ padding: "56px 36px" }}
@@ -457,7 +470,9 @@ export default function AboutPage() {
                 Tanzania · Uganda
               </div>
             </div>
+            </RevealItem>
             {/* 24/7 */}
+            <RevealItem>
             <div
               className="bg-bone-paper flex flex-col gap-3"
               style={{ padding: "56px 36px" }}
@@ -474,7 +489,9 @@ export default function AboutPage() {
                 during &amp; after
               </div>
             </div>
+            </RevealItem>
             {/* 100% */}
+            <RevealItem>
             <div
               className="bg-bone-paper flex flex-col gap-3"
               style={{ padding: "56px 36px" }}
@@ -491,7 +508,8 @@ export default function AboutPage() {
                 itineraries
               </div>
             </div>
-          </div>
+            </RevealItem>
+          </Stagger>
         </div>
       </section>
 
@@ -522,6 +540,7 @@ export default function AboutPage() {
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Photo */}
+            <Reveal variant="slideLeft">
             <div
               className="relative overflow-hidden"
               style={{ aspectRatio: "4 / 5" }}
@@ -535,8 +554,10 @@ export default function AboutPage() {
                 loading="lazy"
               />
             </div>
+            </Reveal>
 
             {/* Content */}
+            <Reveal variant="slideRight">
             <div>
               <div className="eyebrow">
                 <span className="dot" />
@@ -592,6 +613,7 @@ export default function AboutPage() {
                 ))}
               </div>
             </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -624,9 +646,10 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9">
             {team.map((member) => (
-              <div key={member.name} className="group">
+              <RevealItem key={member.name}>
+              <div className="group">
                 <div
                   className="relative overflow-hidden mb-5"
                   style={{ aspectRatio: "4 / 5", background: "#e4dbd0" }}
@@ -654,8 +677,9 @@ export default function AboutPage() {
                   {member.bio}
                 </p>
               </div>
+              </RevealItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 

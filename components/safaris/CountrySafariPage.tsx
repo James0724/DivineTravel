@@ -12,6 +12,7 @@ import WhyGrid, { type WhyItem } from "@/components/ui/WhyGrid";
 import ChooseGrid, { type ChooseCell } from "@/components/ui/ChooseGrid";
 import SectionFaq from "@/components/ui/SectionFaq";
 import CtaBand from "@/components/ui/CtaBand";
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import type { Safari } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,24 @@ export interface TailorPoint {
   ic: string;
   b: string;
   s: string;
+}
+
+export interface LodgeItem {
+  name: string;
+  stars: number; // 3 | 4 | 5
+}
+
+export interface LodgeTier {
+  label: string;       // "Budget options"
+  fromPrice: string;   // "From $380 / person"
+  lodges: LodgeItem[];
+}
+
+export interface LodgeSection {
+  eyebrow?: string;
+  heading: React.ReactNode;
+  description: string;
+  tiers: LodgeTier[];
 }
 
 export interface CountrySafariPageConfig {
@@ -91,6 +110,8 @@ export interface CountrySafariPageConfig {
     description: string;
     buttonText: string;
   };
+
+  lodges?: LodgeSection;
 }
 
 interface Props extends CountrySafariPageConfig {
@@ -112,6 +133,7 @@ export default function CountrySafariPage({
   tailor,
   faq,
   cta,
+  lodges,
   safaris,
 }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -252,6 +274,93 @@ export default function CountrySafariPage({
                 </Link>
               </div>
 
+              {/* ── Lodge listing section ──────────────────────────────── */}
+              {lodges && (
+                <section
+                  id={`${idPrefix}-lodges`}
+                  style={{
+                    padding: "96px 0",
+                    borderTop: "1px solid rgba(31,29,24,0.14)",
+                    background: "var(--paper)",
+                  }}
+                >
+                  <Reveal>
+                    <div className="eyebrow mb-4">
+                      <span className="dot" />
+                      {lodges.eyebrow ?? "Where you will stay"}
+                    </div>
+                    <h2
+                      className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4 mb-4"
+                      style={{ fontSize: "clamp(36px, 4.8vw, 64px)" }}
+                    >
+                      {lodges.heading}
+                    </h2>
+                    <p
+                      className="text-[15px] leading-[1.65] text-bone-muted mb-12"
+                      style={{ maxWidth: "56ch" }}
+                    >
+                      {lodges.description}
+                    </p>
+                  </Reveal>
+
+                  <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-7">
+                    {lodges.tiers.map((tier) => (
+                      <RevealItem key={tier.label}>
+                        <div
+                          style={{
+                            padding: "28px",
+                            background: "var(--bg)",
+                            border: "1px solid rgba(31,29,24,0.14)",
+                          }}
+                        >
+                          <h3
+                            className="font-serif font-normal leading-tight mb-1"
+                            style={{ fontSize: "26px" }}
+                          >
+                            {tier.label.split(" ").slice(0, -1).join(" ")}{" "}
+                            <em
+                              className="italic"
+                              style={{ color: "var(--clay)" }}
+                            >
+                              {tier.label.split(" ").slice(-1)[0]}
+                            </em>
+                          </h3>
+                          <div
+                            className="font-mono text-[10px] uppercase tracking-[0.14em] mb-5"
+                            style={{ color: "var(--muted)" }}
+                          >
+                            {tier.fromPrice}
+                          </div>
+                          <ul>
+                            {tier.lodges.map((lodge, i) => (
+                              <li
+                                key={lodge.name}
+                                className="flex justify-between items-baseline text-[14px]"
+                                style={{
+                                  padding: "12px 0",
+                                  borderTop:
+                                    i === 0
+                                      ? "none"
+                                      : "1px solid rgba(31,29,24,0.14)",
+                                }}
+                              >
+                                <span>{lodge.name}</span>
+                                <span
+                                  className="font-mono text-[11px] ml-3 flex-shrink-0"
+                                  style={{ color: "var(--clay)" }}
+                                >
+                                  {"★".repeat(lodge.stars)}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </RevealItem>
+                    ))}
+                  </Stagger>
+                </section>
+              )}
+
               <ChooseGrid
                 id={`${idPrefix}-destinations`}
                 eyebrow={choose.eyebrow}
@@ -326,10 +435,13 @@ export default function CountrySafariPage({
                       {bestTime.intro}
                     </p>
                   </div>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                  <Stagger className="grid grid-cols-1 lg:grid-cols-2 gap-7">
                     {bestTime.seasons.map((s, i) => (
-                      <div
+                      <RevealItem
                         key={i}
+                        variant={i % 2 === 0 ? "slideLeft" : "slideRight"}
+                      >
+                      <div
                         style={{
                           padding: "40px",
                           border: "1px solid rgba(244,239,226,0.22)",
@@ -370,8 +482,9 @@ export default function CountrySafariPage({
                           ))}
                         </ul>
                       </div>
+                      </RevealItem>
                     ))}
-                  </div>
+                  </Stagger>
                 </div>
               </section>
 
@@ -382,6 +495,7 @@ export default function CountrySafariPage({
                 style={{ padding: "140px 0" }}
               >
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-20 items-center">
+                  <Reveal variant="slideLeft">
                   <div>
                     <div className="eyebrow mb-4">
                       <span className="dot" />
@@ -437,6 +551,8 @@ export default function CountrySafariPage({
                       Chat with a safari expert — planning is free →
                     </Link>
                   </div>
+                  </Reveal>
+                  <Reveal variant="slideRight">
                   <div
                     className="overflow-hidden"
                     style={{ aspectRatio: "5/6" }}
@@ -449,6 +565,7 @@ export default function CountrySafariPage({
                       className="w-full h-full object-cover"
                     />
                   </div>
+                  </Reveal>
                 </div>
               </section>
 

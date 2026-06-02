@@ -8,12 +8,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
-    src: "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80",
-    alt: "Lone acacia tree on the vast East African savanna at golden hour",
+    src: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1920&q=80",
+    alt: "African savanna sunset with acacia trees",
   },
   {
-    src: "https://images.pexels.com/photos/16444284/pexels-photo-16444284.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80",
-    alt: "Safari vehicle on a game drive through the African bush",
+    src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1920&q=80",
+    alt: "Nice hotel with swimming pool with mountain backdrop",
   },
   {
     src: "https://images.pexels.com/photos/86413/pexels-photo-86413.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80",
@@ -212,7 +212,12 @@ export default function Hero() {
               <SiteLink href="/contact" variant="paper" size="sm">
                 Plan my safari
               </SiteLink>
-              <SiteLink href="/safaris" variant="outline-light" size="sm" arrow={false}>
+              <SiteLink
+                href="/safaris"
+                variant="outline-light"
+                size="sm"
+                arrow={false}
+              >
                 Explore our journeys
               </SiteLink>
             </div>
@@ -250,7 +255,12 @@ export default function Hero() {
               <SiteLink href="/contact" variant="paper" size="md">
                 Plan my safari
               </SiteLink>
-              <SiteLink href="/safaris" variant="outline-light" size="md" arrow={false}>
+              <SiteLink
+                href="/safaris"
+                variant="outline-light"
+                size="md"
+                arrow={false}
+              >
                 Explore our journeys
               </SiteLink>
             </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Check } from 'lucide-react'
 import { useCreateBooking } from '@/hooks/useBooking'
 
@@ -52,6 +52,13 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
   const [success, setSuccess] = useState<{ bookingRef: string } | null>(null)
 
   const createBooking = useCreateBooking()
+
+  // Lock body scroll while modal is open
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [])
 
   const pricePerPerson = safari.pricing?.[tier]?.pricePerPerson ?? 0
   const groupSize = adults + children
@@ -110,9 +117,9 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
   // ── Success state ──────────────────────────────────────────────────────────
   if (success) {
     return (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" onClick={onClose} />
-        <div className="relative bg-[var(--paper)] p-8 max-w-md w-full text-center shadow-2xl">
+      <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-[3px]" onClick={onClose} />
+        <div className="relative bg-[var(--paper)] p-8 max-w-md w-full text-center shadow-2xl mx-auto">
           <div className="w-16 h-16 rounded-full bg-[var(--forest)] flex items-center justify-center mx-auto mb-5">
             <Check size={30} className="text-[var(--paper)]" strokeWidth={2.5} />
           </div>
@@ -140,9 +147,9 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
 
   // ── Booking form ───────────────────────────────────────────────────────────
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" onClick={onClose} />
-      <div className="relative bg-[var(--paper)] w-full sm:max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl">
+    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-[3px]" onClick={onClose} />
+      <div className="relative bg-[var(--paper)] w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl mx-auto">
 
         {/* Header */}
         <div className="sticky top-0 z-10 bg-[var(--forest)] text-[var(--paper)] px-6 py-4 flex items-start justify-between gap-4">
@@ -163,7 +170,7 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto flex-1 overscroll-contain">
 
           {/* Tier selection */}
           <div>

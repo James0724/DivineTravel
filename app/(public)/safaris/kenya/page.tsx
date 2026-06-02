@@ -177,6 +177,42 @@ export default async function KenyaSafarisPage() {
           description: "Tell us your budget, dates, wildlife interests and who's travelling. Our experts choose the best parks, lodges and routes and send a free, no-obligation proposal — usually within half an hour.",
           buttonText: 'Get your free quote',
         }}
+        lodges={{
+          eyebrow: 'Where you will stay',
+          heading: <>Handpicked lodges, <em style={{ fontStyle: 'italic', color: 'var(--clay)' }}>three</em> tiers.</>,
+          description: 'Whether you prefer a budget tented camp, a mid-range lodge, or a luxury safari camp inside the reserve — we work with vetted partners across the full range.',
+          tiers: [
+            {
+              label: 'Budget options',
+              fromPrice: 'From $380 / person',
+              lodges: [
+                { name: 'Miti Mingi Eco Camp', stars: 3 },
+                { name: 'Rhino Tourist Camp', stars: 3 },
+                { name: 'Lenchada Tourist Camp', stars: 3 },
+              ],
+            },
+            {
+              label: 'Mid-range options',
+              fromPrice: 'From $650 / person',
+              lodges: [
+                { name: 'Enkorok Mara Camp', stars: 4 },
+                { name: 'Mara Chui Lodge', stars: 4 },
+                { name: 'AA Lodge Mara', stars: 4 },
+                { name: 'Jambo Mara Lodge', stars: 4 },
+              ],
+            },
+            {
+              label: 'Luxury options',
+              fromPrice: 'From $1,200 / person',
+              lodges: [
+                { name: 'Sarova Mara Game Camp', stars: 5 },
+                { name: 'Mara Serena Safari Lodge', stars: 5 },
+                { name: 'Mara Engai Lodge', stars: 5 },
+                { name: 'Neptune Mara Rianta Camp', stars: 5 },
+              ],
+            },
+          ],
+        }}
       />
     </>
   )

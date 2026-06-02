@@ -174,6 +174,12 @@ export default function Footer() {
             © {new Date().getFullYear()} Divine Travel Nest Safaris · Nairobi,
             Kenya
           </span>
+          <Link
+            href="/terms"
+            className="hover:text-[#f4d4a8] hover:opacity-100 transition-colors"
+          >
+            Terms &amp; Conditions
+          </Link>
         </div>
       </div>
     </footer>

@@ -6,6 +6,7 @@ import {
   LocalBusinessSchema,
 } from "@/components/seo/StructuredData";
 import PageHero from "@/components/ui/PageHero";
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "Contact Us — Plan Your Safari | Divine Travel Nest Safaris",
@@ -145,9 +146,10 @@ export default function ContactPage() {
       {/* How we work */}
       <section className="py-16 sm:py-20 bg-bone-paper border-b border-[rgba(23,22,18,0.08)]">
         <div className="container-site">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+          <Stagger className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
             {processSteps.map((step) => (
-              <div key={step.num} className="text-center sm:text-left">
+              <RevealItem key={step.num}>
+              <div className="text-center sm:text-left">
                 <div className="font-mono text-3xl text-bone-clay/30 font-light mb-3">
                   {step.num}
                 </div>
@@ -158,8 +160,9 @@ export default function ContactPage() {
                   {step.desc}
                 </p>
               </div>
+              </RevealItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -168,7 +171,7 @@ export default function ContactPage() {
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
             {/* Left: Contact info + FAQ */}
-            <div className="lg:col-span-2 space-y-8">
+            <Reveal variant="slideLeft" className="lg:col-span-2 space-y-8">
               <div>
                 <div className="eyebrow mb-4">
                   <span className="dot" />
@@ -265,10 +268,10 @@ export default function ContactPage() {
                   ))}
                 </ul>
               </div>
-            </div>
+            </Reveal>
 
             {/* Right: Form */}
-            <div className="lg:col-span-3">
+            <Reveal variant="slideRight" className="lg:col-span-3">
               <div className="bg-bone-paper border border-[rgba(23,22,18,0.10)] rounded-sm p-6 sm:p-8">
                 <div className="eyebrow mb-4">
                   <span className="dot" />
@@ -286,7 +289,7 @@ export default function ContactPage() {
                 </p>
                 <ContactForm />
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -294,14 +297,15 @@ export default function ContactPage() {
       {/* Trust band */}
       <section className="py-12 bg-bone-forest text-bone-paper border-t border-bone-paper/10">
         <div className="container-site">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+          <Stagger className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             {[
               { num: "500+", lbl: "Safaris delivered" },
               { num: "4.9★", lbl: "Average guest rating" },
               { num: "24h", lbl: "Proposal turnaround" },
               { num: "100%", lbl: "Custom itineraries" },
             ].map((s) => (
-              <div key={s.lbl}>
+              <RevealItem key={s.lbl}>
+              <div>
                 <div className="font-serif text-3xl sm:text-4xl text-[#f4d4a8] leading-none mb-1">
                   {s.num}
                 </div>
@@ -309,8 +313,9 @@ export default function ContactPage() {
                   {s.lbl}
                 </div>
               </div>
+              </RevealItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
     </>
