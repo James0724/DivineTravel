@@ -16,7 +16,7 @@ const slides = [
     alt: "Nice hotel with swimming pool with mountain backdrop",
   },
   {
-    src: "https://images.pexels.com/photos/86413/pexels-photo-86413.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80",
+    src: "https://images.unsplash.com/photo-1521651201144-634f700b36ef?auto=format&fit=crop&w=1920&q=80",
     alt: "African elephant herd at a waterhole in the savanna",
   },
 ];
