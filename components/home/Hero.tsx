@@ -32,8 +32,7 @@ export default function Hero() {
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* ── Height formula (same as before) ── */
-  const heroHeight = "clamp(400px, calc(100vh - 116px), 92vh)";
+  const heroHeight = "calc(100dvh - var(--navbar-h, 90px))";
 
   /* ── Navigation helpers ── */
   const goTo = useCallback(
@@ -56,7 +55,7 @@ export default function Hero() {
   return (
     <section
       className="relative text-white overflow-hidden"
-      style={{ minHeight: heroHeight }}
+      style={{ height: heroHeight }}
       aria-label="Hero"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -107,7 +106,7 @@ export default function Hero() {
           "px-5 sm:px-8 lg:px-12",
           "pt-6 pb-5 sm:pt-14 sm:pb-8 lg:pt-20 lg:pb-14",
         ].join(" ")}
-        style={{ minHeight: heroHeight }}
+        style={{ height: "100%" }}
       >
         {/* Eyebrow */}
         <div

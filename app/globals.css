@@ -5,6 +5,7 @@
 /* ─── CSS Custom Properties ──────────────────────────────────────────────── */
 
 :root {
+  --navbar-h: 90px; /* overridden at runtime by Navbar's ResizeObserver */
   --bg: #ece6da;
   --bg-soft: #e4dbd0;
   --bg-deep: #dbd0c4;
@@ -38,13 +39,19 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: clip;
+    overflow-x: hidden; /* fallback for browsers without clip support */
+    overflow-x: clip;   /* preferred: clips without breaking position:sticky */
+    width: 100%;
+    max-width: 100%;
   }
 
   body {
     @apply font-sans text-bone-ink bg-bone-bg;
     min-height: 100dvh;
-    overflow-x: clip;
+    overflow-x: hidden; /* fallback */
+    overflow-x: clip;   /* preferred */
+    width: 100%;
+    max-width: 100%;
   }
 
   h1,
@@ -166,7 +173,7 @@
     z-index: 2;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 48px 72px;
+    padding: 0 clamp(20px, 4vw, 48px) 72px;
     width: 100%;
   }
   .article-hero .back {
@@ -218,7 +225,7 @@
 
   .article-body { background: var(--bg); padding: 88px 0 100px; }
 
-  .article-col { max-width: 720px; margin: 0 auto; padding: 0 48px; }
+  .article-col { max-width: 720px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
 
   /* ── Article prose ──────────────────────────────────────────────────────── */
 

@@ -6,6 +6,7 @@ import {
   LocalBusinessSchema,
 } from "@/components/seo/StructuredData";
 import PageHero from "@/components/ui/PageHero";
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "Plan My Safari — Free Custom Itinerary | Divine Travel Nest Safaris",
@@ -100,6 +101,7 @@ export default function PlanSafariPage() {
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
             {/* Left: contact side */}
+            <Reveal>
             <div>
               <div className="eyebrow mb-4">
                 <span className="dot" />
@@ -149,8 +151,10 @@ export default function PlanSafariPage() {
                 ))}
               </div>
             </div>
+            </Reveal>
 
             {/* Right: form */}
+            <Reveal delay={0.1}>
             <div className="bg-bone-paper border border-[rgba(23,22,18,0.10)] p-8 sm:p-10">
               <h3 className="font-serif font-normal text-[28px] mb-1.5">
                 Request a <em className="italic text-bone-clay">free</em> custom
@@ -161,6 +165,7 @@ export default function PlanSafariPage() {
               </p>
               <SafariPlanForm />
             </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -168,23 +173,23 @@ export default function PlanSafariPage() {
       {/* Trust band */}
       <section className="py-12 bg-bone-forest text-bone-paper border-t border-bone-paper/10">
         <div className="container-site">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+          <Stagger className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             {[
               { num: "500+", lbl: "Safaris delivered" },
               { num: "4.9★", lbl: "Average guest rating" },
               { num: "24h", lbl: "Proposal turnaround" },
               { num: "100%", lbl: "Custom itineraries" },
             ].map((s) => (
-              <div key={s.lbl}>
+              <RevealItem key={s.lbl}>
                 <div className="font-serif text-3xl sm:text-4xl text-[#f4d4a8] leading-none mb-1">
                   {s.num}
                 </div>
                 <div className="text-xs text-bone-paper/55 font-mono uppercase tracking-[0.1em]">
                   {s.lbl}
                 </div>
-              </div>
+              </RevealItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
     </>

@@ -33,7 +33,7 @@ export default function StandOut() {
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Photo */}
-          <Reveal variant="slideLeft">
+          <Reveal variant="fadeUp">
             <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
               <Image
                 src="https://images.pexels.com/photos/16444284/pexels-photo-16444284.jpeg?auto=compress&cs=tinysrgb&w=900&q=80"
@@ -46,7 +46,7 @@ export default function StandOut() {
           </Reveal>
 
           {/* Content */}
-          <Reveal variant="slideRight" delay={0.12}>
+          <Reveal variant="fadeUp" delay={0.12}>
             <div className="eyebrow mb-4">
               <span className="dot" />
               What sets us apart

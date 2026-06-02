@@ -448,13 +448,13 @@ export default async function UgandaSafarisPage() {
                     01 · <strong>Bwindi</strong>
                   </div>
                 </div>
-                <div style={{ padding: "44px 48px" }}>
+                <div className="p-5 sm:p-8 lg:p-11">
                   <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
                     19+ habituated families · 4 sectors
                   </div>
                   <h3
                     className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
-                    style={{ fontSize: "36px" }}
+                    style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
                   >
                     Bwindi Impenetrable{" "}
                     <em className="italic text-bone-clay">National Park</em>
@@ -466,7 +466,7 @@ export default async function UgandaSafarisPage() {
                     terrain is steep and tangled, and the reward is an hour you
                     will never forget.
                   </p>
-                  <div className="grid grid-cols-2 gap-6 mb-8">
+                  <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6 mb-8">
                     {[
                       {
                         heading: "Northern sectors",
@@ -519,15 +519,14 @@ export default async function UgandaSafarisPage() {
                 style={{ border: "1px solid rgba(31,29,24,0.14)" }}
               >
                 <div
-                  className="order-2 lg:order-1"
-                  style={{ padding: "44px 48px" }}
+                  className="order-2 lg:order-1 p-5 sm:p-8 lg:p-11"
                 >
                   <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
                     The Nyakagezi family · Golden monkeys
                   </div>
                   <h3
                     className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
-                    style={{ fontSize: "36px" }}
+                    style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
                   >
                     Mgahinga Gorilla{" "}
                     <em className="italic text-bone-clay">National Park</em>
@@ -708,8 +707,8 @@ export default async function UgandaSafarisPage() {
                       </div>
                     </div>
                     <div
-                      className="font-serif italic text-bone-clay"
-                      style={{ fontSize: "36px", lineHeight: "1" }}
+                      className="font-serif italic text-bone-clay shrink-0 ml-4"
+                      style={{ fontSize: "clamp(24px, 3.5vw, 36px)", lineHeight: "1" }}
                     >
                       {p.amount}
                     </div>

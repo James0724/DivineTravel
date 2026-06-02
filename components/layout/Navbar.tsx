@@ -477,6 +477,22 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
   const lastScrollY = useRef(0);
+  const topbarRef = useRef<HTMLDivElement>(null);
+  const stickyHeaderRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const update = () => {
+      const h =
+        (topbarRef.current?.offsetHeight ?? 0) +
+        (stickyHeaderRef.current?.offsetHeight ?? 0);
+      document.documentElement.style.setProperty("--navbar-h", `${h}px`);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    if (topbarRef.current) ro.observe(topbarRef.current);
+    if (stickyHeaderRef.current) ro.observe(stickyHeaderRef.current);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -516,8 +532,8 @@ export default function Navbar() {
   return (
     <>
       {/* TOPBAR */}
-      <div className="z-[50] bg-bone-ink text-[rgba(244,239,226,0.82)] font-mono text-[11px] tracking-[0.1em] px-6 lg:px-12 py-[9px] flex justify-between items-center">
-        <div className="flex gap-4 items-center flex-wrap">
+      <div ref={topbarRef} className="w-full z-[50] bg-bone-ink text-[rgba(244,239,226,0.82)] font-mono text-[11px] tracking-[0.1em] px-6 lg:px-12 py-[9px] flex justify-between items-center overflow-hidden">
+        <div className="flex gap-4 items-center flex-wrap min-w-0">
           <a
             href="tel:+254722595916"
             className="flex items-center gap-1.5 transition-colors hover:text-[#e8c080]"
@@ -563,7 +579,8 @@ export default function Navbar() {
 
       {/* STICKY NAV */}
       <motion.header
-        className="sticky top-0 z-[100]"
+        ref={stickyHeaderRef}
+        className="sticky top-0 z-[100] w-full"
         animate={{ y: navVisible ? 0 : "-100%" }}
         transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
       >

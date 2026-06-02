@@ -8,6 +8,7 @@ import SafariModel from "@/lib/db/models/Safari";
 import type { Safari } from "@/types";
 import { BreadcrumbSchema } from "@/components/seo/StructuredData";
 import BookingButton from "@/components/ui/BookingButton";
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 
 export const revalidate = 3600;
 
@@ -277,6 +278,7 @@ export default async function SafariDetailPage({ params }: Props) {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-20 items-start">
             {/* ── LEFT — Itinerary ──────────────────────────────────────── */}
             <div>
+              <Reveal>
               <div className="mb-12 sm:mb-14">
                 <Eyebrow>The Itinerary</Eyebrow>
                 <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5">
@@ -290,12 +292,13 @@ export default async function SafariDetailPage({ params }: Props) {
                   {safari.description}
                 </p>
               </div>
+              </Reveal>
 
               {/* Day-by-day */}
               {safari.itinerary?.length > 0 ? (
                 safari.itinerary.map((day) => (
+                  <Reveal key={day.day}>
                   <div
-                    key={day.day}
                     className="py-9 border-t border-[var(--line)] [&:last-child]:border-b grid grid-cols-1 xs:grid-cols-[56px_1fr] md:grid-cols-[120px_1fr] gap-2 xs:gap-[18px] md:gap-9"
                   >
                     {/* Day number */}
@@ -352,6 +355,7 @@ export default async function SafariDetailPage({ params }: Props) {
                       )}
                     </div>
                   </div>
+                  </Reveal>
                 ))
               ) : (
                 <p className="text-[15px] text-[var(--muted)] pt-5">
@@ -364,6 +368,7 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* ── RIGHT — Sidebar ───────────────────────────────────────── */}
             <aside className="lg:sticky lg:top-24">
               {/* Trip facts */}
+              <Reveal>
               <SideBox>
                 <SideBoxTitle>Trip facts</SideBoxTitle>
                 <ul className="list-none p-0 m-0">
@@ -384,9 +389,11 @@ export default async function SafariDetailPage({ params }: Props) {
                   ))}
                 </ul>
               </SideBox>
+              </Reveal>
 
               {/* What's included */}
               {safari.included?.length > 0 && (
+                <Reveal delay={0.05}>
                 <SideBox>
                   <SideBoxTitle>What&apos;s included</SideBoxTitle>
                   <ul className="list-none p-0 m-0">
@@ -407,10 +414,12 @@ export default async function SafariDetailPage({ params }: Props) {
                     ))}
                   </ul>
                 </SideBox>
+                </Reveal>
               )}
 
               {/* What's excluded */}
               {safari.excluded?.length > 0 && (
+                <Reveal delay={0.1}>
                 <SideBox>
                   <SideBoxTitle>What&apos;s excluded</SideBoxTitle>
                   <ul className="list-none p-0 m-0">
@@ -431,9 +440,11 @@ export default async function SafariDetailPage({ params }: Props) {
                     ))}
                   </ul>
                 </SideBox>
+                </Reveal>
               )}
 
               {/* Booking CTA */}
+              <Reveal delay={0.15}>
               <SideBox dark>
                 <SideBoxTitle dark>Begin this trip</SideBoxTitle>
                 <p className="font-serif italic text-[20px] leading-[1.25] mb-[18px]">
@@ -445,6 +456,7 @@ export default async function SafariDetailPage({ params }: Props) {
                   className="block w-full text-center bg-[#f4d4a8] text-[var(--forest)] py-3 px-4 text-[13px] rounded font-medium transition-opacity hover:opacity-90"
                 />
               </SideBox>
+              </Reveal>
             </aside>
           </div>
         </div>
@@ -455,6 +467,7 @@ export default async function SafariDetailPage({ params }: Props) {
       ════════════════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-[var(--paper)] border-t border-[var(--line)]">
         <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
+          <Reveal>
           <Eyebrow>Where you will stay</Eyebrow>
           <h2 className="font-serif font-normal text-[clamp(36px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-[14px] mb-[14px]">
             Handpicked lodges,{" "}
@@ -465,8 +478,9 @@ export default async function SafariDetailPage({ params }: Props) {
             luxury safari camp inside the reserve — we work with vetted partners
             across the full range.
           </p>
+          </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-7">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-7">
             {(
               [
                 { tier: "budget", label: "Budget", em: "options" },
@@ -477,7 +491,7 @@ export default async function SafariDetailPage({ params }: Props) {
               const t = safari.pricing?.[tier];
               if (!t) return null;
               return (
-                <div
+                <RevealItem
                   key={tier}
                   className="p-7 bg-[var(--bg)] border border-[var(--line)]"
                 >
@@ -513,10 +527,10 @@ export default async function SafariDetailPage({ params }: Props) {
                       {t.description}
                     </p>
                   )}
-                </div>
+                </RevealItem>
               );
             })}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -526,10 +540,13 @@ export default async function SafariDetailPage({ params }: Props) {
       {safari.highlights?.length > 0 && (
         <section className="py-16 sm:py-20 lg:py-24 bg-[var(--bg)] border-t border-[var(--line)]">
           <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
+            <Reveal>
             <Eyebrow>Safari highlights</Eyebrow>
             <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5 mb-10">
               What to <em className="italic text-[var(--clay)]">expect</em>.
             </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
             <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-px bg-[var(--line)] border border-[var(--line)]">
               {safari.highlights.map((hl, i) => (
                 <div
@@ -545,6 +562,7 @@ export default async function SafariDetailPage({ params }: Props) {
                 </div>
               ))}
             </div>
+            </Reveal>
           </div>
         </section>
       )}
@@ -555,6 +573,7 @@ export default async function SafariDetailPage({ params }: Props) {
       {related.length > 0 && (
         <section className="py-16 sm:py-20 lg:py-24 bg-[var(--paper)] border-t border-[var(--line)]">
           <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
+            <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
               <div>
                 <Eyebrow>You may also like</Eyebrow>
@@ -571,8 +590,9 @@ export default async function SafariDetailPage({ params }: Props) {
                 All safari packages →
               </Link>
             </div>
+            </Reveal>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-9">
+            <Stagger className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-9">
               {related.map((r) => {
                 const lowestPrice = r.pricing?.budget?.pricePerPerson ?? 0;
                 const rNights = Math.max(r.duration - 1, 0);
@@ -585,10 +605,13 @@ export default async function SafariDetailPage({ params }: Props) {
                     : "Wildlife";
 
                 return (
-                  <Link
+                  <RevealItem
                     key={r._id}
-                    href={`/safaris/${r.slug}`}
                     className="flex flex-col"
+                  >
+                  <Link
+                    href={`/safaris/${r.slug}`}
+                    className="flex flex-col h-full"
                   >
                     {/* Image */}
                     <div className="aspect-[4/3.4] overflow-hidden bg-[var(--bg-deep)] mb-5 relative">
@@ -649,9 +672,10 @@ export default async function SafariDetailPage({ params }: Props) {
                       </span>
                     </div>
                   </Link>
+                  </RevealItem>
                 );
               })}
-            </div>
+            </Stagger>
           </div>
         </section>
       )}

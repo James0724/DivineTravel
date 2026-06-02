@@ -17,7 +17,7 @@ export default function TailorMade() {
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-20 items-center">
           {/* Left */}
-          <Reveal variant="slideLeft">
+          <Reveal variant="fadeUp">
             <div className="eyebrow mb-4">
               <span className="dot" />
               Custom Safari Design
@@ -63,7 +63,7 @@ export default function TailorMade() {
           </Reveal>
 
           {/* Photo */}
-          <Reveal variant="slideRight" delay={0.12}>
+          <Reveal variant="fadeUp" delay={0.12}>
             <div className="relative overflow-hidden" style={{ aspectRatio: '5/6' }}>
               <Image
                 src="https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=900&q=80"

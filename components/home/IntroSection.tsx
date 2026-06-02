@@ -7,7 +7,7 @@ export default function IntroSection() {
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-24 items-start">
           {/* Left */}
-          <Reveal variant="slideLeft">
+          <Reveal variant="fadeUp">
             <div className="eyebrow mb-[18px]">
               <span className="dot" />
               Divine Travel Nest Safaris
@@ -51,7 +51,7 @@ export default function IntroSection() {
           </Reveal>
 
           {/* Right */}
-          <Reveal variant="slideRight" delay={0.1}>
+          <Reveal variant="fadeUp" delay={0.1}>
             <p
               className="text-[16px] sm:text-[19px] leading-[1.6] text-bone-ink mb-6"
               style={{ position: 'relative' }}

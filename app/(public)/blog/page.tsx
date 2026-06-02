@@ -7,6 +7,7 @@ import PostModel from '@/lib/db/models/Post'
 import { BreadcrumbSchema } from '@/components/seo/StructuredData'
 import PageHero from '@/components/ui/PageHero'
 import BlogFilterSidebar from '@/components/blog/BlogFilterSidebar'
+import Reveal, { Stagger, RevealItem } from '@/components/ui/Reveal'
 import type { BlogPost, PostCategory } from '@/types'
 
 export const revalidate = 300
@@ -109,6 +110,7 @@ export default async function BlogPage({
       {featured && !category && (
         <section className="bg-bone-bg pb-24 pt-2">
           <div className="container-site">
+            <Reveal>
             <Link
               href={`/blog/${featured.slug}`}
               className="group grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-8 lg:gap-16 items-stretch"
@@ -176,6 +178,7 @@ export default async function BlogPage({
                 </span>
               </div>
             </Link>
+            </Reveal>
           </div>
         </section>
       )}
@@ -204,15 +207,15 @@ export default async function BlogPage({
               </div>
 
               {regularPosts.length > 0 ? (
-                <div
+                <Stagger
                   className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
                   style={{ gap: '56px 36px' }}
                 >
                   {regularPosts.map((post) => (
+                    <RevealItem key={post._id} className="flex flex-col gap-4">
                     <Link
-                      key={post._id}
                       href={`/blog/${post.slug}`}
-                      className="group flex flex-col gap-4 cursor-pointer"
+                      className="group flex flex-col gap-4 cursor-pointer h-full"
                     >
                       <div
                         className="overflow-hidden bg-bone-paper"
@@ -245,8 +248,9 @@ export default async function BlogPage({
                         Read article →
                       </span>
                     </Link>
+                    </RevealItem>
                   ))}
-                </div>
+                </Stagger>
               ) : (
                 <div className="text-center py-24">
                   <p className="font-serif text-2xl text-bone-ink/50 mb-3">
@@ -266,6 +270,7 @@ export default async function BlogPage({
       <section className="bg-bone-forest text-bone-paper" style={{ padding: '96px 0' }}>
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <Reveal>
             <div>
               <h2
                 className="font-serif font-light leading-none tracking-[-0.02em]"
@@ -279,6 +284,8 @@ export default async function BlogPage({
                 to see and we&apos;ll send a free, personalised itinerary within 24 hours.
               </p>
             </div>
+            </Reveal>
+            <Reveal delay={0.1}>
             <div>
               <Link
                 href="/contact"
@@ -297,6 +304,7 @@ export default async function BlogPage({
                 Free · No obligation · Fast response guaranteed
               </p>
             </div>
+            </Reveal>
           </div>
         </div>
       </section>

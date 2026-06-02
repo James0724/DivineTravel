@@ -261,7 +261,7 @@ export default function DestinationPageTemplate({
             <section id={`${slug}-why`} className=" bg-bone-bg">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-10 items-center">
                 {/* Staggered image pair */}
-                <Reveal variant="slideLeft">
+                <Reveal variant="fadeUp">
                   <div className="relative aspect-[4/5] rounded-sm overflow-hidden">
                     <Image
                       src={data.why.images[1].src}
@@ -283,7 +283,7 @@ export default function DestinationPageTemplate({
                 </Reveal>
 
                 {/* Text */}
-                <Reveal variant="slideRight" delay={0.1}>
+                <Reveal variant="fadeUp" delay={0.1}>
                   <div className="eyebrow mb-5">
                     <span className="dot" />
                     {data.why.eyebrow}
@@ -354,7 +354,7 @@ export default function DestinationPageTemplate({
                       {/* Image — always first in DOM (mobile stays image→content);
                             on lg odd parks: pushed right via order-last */}
                       <div className={flip ? "md:order-last" : undefined}>
-                        <Reveal variant={flip ? "slideRight" : "slideLeft"}>
+                        <Reveal variant="fadeUp">
                           <div className="relative aspect-[4/5] overflow-hidden group bg-[var(--bg-deep)]">
                             <Image
                               src={park.image}
@@ -375,7 +375,7 @@ export default function DestinationPageTemplate({
 
                       {/* Content — always second in DOM; on lg odd parks: sits in left column */}
                       <Reveal
-                        variant={flip ? "slideLeft" : "slideRight"}
+                        variant="fadeUp"
                         delay={0.1}
                       >
                         <div>
@@ -699,7 +699,7 @@ export default function DestinationPageTemplate({
             >
               <div className="container-site">
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-16">
-                  <Reveal variant="slideLeft">
+                  <Reveal variant="fadeUp">
                     <div className="eyebrow mb-4">
                       <span className="dot" />
                       {data.faqHeader.eyebrow}

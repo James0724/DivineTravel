@@ -7,6 +7,7 @@ import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
 import { BreadcrumbSchema } from "@/components/seo/StructuredData";
 import CommentSection from "@/components/blog/CommentSection";
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import type { BlogPost, PostCategory } from "@/types";
 
 export const revalidate = 3600;
@@ -319,6 +320,7 @@ export default async function BlogDetailPage({ params }: Props) {
           }}
         >
           <div className="container-site">
+            <Reveal>
             <div className="section-hd" style={{ marginBottom: "48px" }}>
               <div>
                 <div className="eyebrow mb-4">
@@ -339,15 +341,16 @@ export default async function BlogDetailPage({ params }: Props) {
                 View all articles →
               </Link>
             </div>
-            <div
+            </Reveal>
+            <Stagger
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
               style={{ gap: "36px" }}
             >
               {related.map((rp) => (
+                <RevealItem key={rp._id} className="flex flex-col gap-4">
                 <Link
-                  key={rp._id}
                   href={`/blog/${rp.slug}`}
-                  className="group flex flex-col gap-4 cursor-pointer"
+                  className="group flex flex-col gap-4 cursor-pointer h-full"
                 >
                   <div
                     className="overflow-hidden"
@@ -377,8 +380,9 @@ export default async function BlogDetailPage({ params }: Props) {
                     {rp.title}
                   </h3>
                 </Link>
+                </RevealItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
       )}
@@ -390,6 +394,7 @@ export default async function BlogDetailPage({ params }: Props) {
       >
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-end">
+            <Reveal>
             <h2
               className="font-serif font-light leading-[0.98] tracking-[-0.025em]"
               style={{ fontSize: "clamp(44px, 5.5vw, 84px)", maxWidth: "15ch" }}
@@ -402,6 +407,8 @@ export default async function BlogDetailPage({ params }: Props) {
               </em>
               ?
             </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
             <div>
               <p
                 className="text-[15px] leading-[1.7]"
@@ -425,6 +432,7 @@ export default async function BlogDetailPage({ params }: Props) {
                 </span>
               </Link>
             </div>
+            </Reveal>
           </div>
         </div>
       </section>

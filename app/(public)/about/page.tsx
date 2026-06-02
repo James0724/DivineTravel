@@ -437,11 +437,11 @@ export default function AboutPage() {
             <RevealItem>
             <div
               className="bg-bone-paper flex flex-col gap-3"
-              style={{ padding: "56px 36px" }}
+              style={{ padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)" }}
             >
               <div
                 className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                style={{ fontSize: "clamp(52px, 5vw, 80px)" }}
+                style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
               >
                 <em className="italic text-bone-clay">100</em>+
               </div>
@@ -456,11 +456,11 @@ export default function AboutPage() {
             <RevealItem>
             <div
               className="bg-bone-paper flex flex-col gap-3"
-              style={{ padding: "56px 36px" }}
+              style={{ padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)" }}
             >
               <div
                 className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                style={{ fontSize: "clamp(52px, 5vw, 80px)" }}
+                style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
               >
                 3
               </div>
@@ -475,11 +475,11 @@ export default function AboutPage() {
             <RevealItem>
             <div
               className="bg-bone-paper flex flex-col gap-3"
-              style={{ padding: "56px 36px" }}
+              style={{ padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)" }}
             >
               <div
                 className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                style={{ fontSize: "clamp(52px, 5vw, 80px)" }}
+                style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
               >
                 <em className="italic text-bone-clay">24</em>/7
               </div>
@@ -494,11 +494,11 @@ export default function AboutPage() {
             <RevealItem>
             <div
               className="bg-bone-paper flex flex-col gap-3"
-              style={{ padding: "56px 36px" }}
+              style={{ padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)" }}
             >
               <div
                 className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                style={{ fontSize: "clamp(52px, 5vw, 80px)" }}
+                style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
               >
                 100%
               </div>

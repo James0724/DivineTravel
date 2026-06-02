@@ -11,7 +11,7 @@ export default function PublicLayout({
   return (
     <MotionProvider>
       <Navbar />
-      <main>{children}</main>
+      <main className="w-full min-w-0 [overflow-x:clip]">{children}</main>
       <Footer />
       <ScrollToTop />
     </MotionProvider>

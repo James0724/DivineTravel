@@ -9,7 +9,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 // Smaller translate values: less travel = lighter, more refined movement
 const VARIANTS: Record<RevealVariant, Variants> = {
-  fadeUp:     { hidden: { opacity: 0, y: 22 },       visible: { opacity: 1, y: 0 } },
+  fadeUp:     { hidden: { opacity: 0, y: 30 },       visible: { opacity: 1, y: 0 } },
   fadeIn:     { hidden: { opacity: 0 },              visible: { opacity: 1 } },
   slideLeft:  { hidden: { opacity: 0, x: -30 },      visible: { opacity: 1, x: 0 } },
   slideRight: { hidden: { opacity: 0, x: 30 },       visible: { opacity: 1, x: 0 } },
@@ -35,7 +35,7 @@ export default function Reveal({
   children,
   variant = "fadeUp",
   delay = 0,
-  duration = 0.5,
+  duration = 0.65,
   className,
   style,
 }: RevealProps) {
@@ -95,7 +95,7 @@ interface RevealItemProps {
 export function RevealItem({
   children,
   variant = "fadeUp",
-  duration = 0.45,
+  duration = 0.55,
   className,
   style,
 }: RevealItemProps) {

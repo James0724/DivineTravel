@@ -439,7 +439,6 @@ export default function CountrySafariPage({
                     {bestTime.seasons.map((s, i) => (
                       <RevealItem
                         key={i}
-                        variant={i % 2 === 0 ? "slideLeft" : "slideRight"}
                       >
                       <div
                         style={{
@@ -495,7 +494,7 @@ export default function CountrySafariPage({
                 style={{ padding: "140px 0" }}
               >
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-20 items-center">
-                  <Reveal variant="slideLeft">
+                  <Reveal variant="fadeUp">
                   <div>
                     <div className="eyebrow mb-4">
                       <span className="dot" />
@@ -552,7 +551,7 @@ export default function CountrySafariPage({
                     </Link>
                   </div>
                   </Reveal>
-                  <Reveal variant="slideRight">
+                  <Reveal variant="fadeUp" delay={0.1}>
                   <div
                     className="overflow-hidden"
                     style={{ aspectRatio: "5/6" }}
