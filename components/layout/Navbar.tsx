@@ -603,7 +603,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav links */}
-          <nav className="hidden md:flex items-center justify-center gap-6">
+          <nav className="hidden lg:flex items-center justify-center gap-6">
             {navLinks.map((link) => (
               <DesktopNavLink key={link.href} link={link} pathname={pathname} />
             ))}
@@ -613,13 +613,13 @@ export default function Navbar() {
           <div className="flex items-center justify-end gap-4">
             <Link
               href="/plan-my-safari"
-              className="hidden font-sans md:inline-flex items-center px-[20px] py-[8px] bg-bone-forest text-bone-paper rounded-full text-sm tracking-[0.01em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-px"
+              className="hidden font-sans lg:inline-flex items-center px-[20px] py-[8px] bg-bone-forest text-bone-paper rounded-full text-sm tracking-[0.01em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-px"
             >
               Plan My Safari
             </Link>
 
             <motion.button
-              className="md:hidden font-mono text-sm uppercase tracking-[0.14em] text-bone-ink/70 hover:text-bone-clay transition-colors min-w-[36px] text-right"
+              className="lg:hidden font-mono text-sm uppercase tracking-[0.14em] text-bone-ink/70 hover:text-bone-clay transition-colors min-w-[36px] text-right"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
@@ -651,7 +651,7 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: "100%", pointerEvents: "none" }}
             transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
-            className="fixed inset-0 z-[200] bg-bone-paper flex flex-col md:hidden"
+            className="fixed inset-0 z-[200] bg-bone-paper flex flex-col xl:hidden"
           >
             <div className="flex items-center justify-between px-6 pt-[22px] mb-6 flex-shrink-0">
               <span className="font-serif text-[22px] tracking-[-0.01em] text-bone-ink">

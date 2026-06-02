@@ -119,22 +119,17 @@ export default async function CrossCountrySafarisPage() {
         <div className="container-site">
           <div className="lg:flex lg:gap-12 xl:gap-16 lg:items-start">
 
-            {/* Jump nav — mobile collapsible + desktop sticky sidebar */}
-            <div
-              className="mb-10 lg:mb-0 lg:flex-shrink-0 lg:w-[156px] lg:sticky"
-              style={{ top: '90px' }}
-            >
-              <JumpNav
-                vertical
-                label="On this page"
-                links={[
-                  { label: 'Packages',    href: '#cc-packages' },
-                  { label: 'Circuits',    href: '#cc-circuits'  },
-                  { label: 'Why combine', href: '#cc-why'       },
-                  { label: 'FAQs',        href: '#cc-faq'       },
-                ]}
-              />
-            </div>
+            {/* Jump nav — mobile trigger + desktop sticky sidebar */}
+            <JumpNav
+              vertical
+              label="On this page"
+              links={[
+                { label: 'Packages',    href: '#cc-packages' },
+                { label: 'Circuits',    href: '#cc-circuits'  },
+                { label: 'Why combine', href: '#cc-why'       },
+                { label: 'FAQs',        href: '#cc-faq'       },
+              ]}
+            />
 
             {/* Main content */}
             <div className="flex-1 min-w-0">

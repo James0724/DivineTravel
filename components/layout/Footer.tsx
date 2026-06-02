@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-bone-forest text-bone-paper">
       <div className="container-site pt-24 pb-12">
         {/* ── CTA band ───────────────────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-16 items-end pb-24 border-b border-[rgba(244,239,226,0.18)]">
+        <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 lg:gap-16 items-end pb-24 border-b border-[rgba(244,239,226,0.18)]">
           <Reveal variant="fadeUp">
             <h2
               className="font-serif font-light leading-[0.98] tracking-[-0.025em]"
@@ -26,7 +26,7 @@ export default function Footer() {
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-3.5 mt-6 px-6 py-4 rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-3.5 mt-6 px-4 py-3 font-mono rounded-full text-sm text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
                 style={{ background: "#f4efe2" }}
               >
                 Request a free quote
@@ -62,8 +62,8 @@ export default function Footer() {
               </div>
               <p className="text-[14px] leading-[1.6] opacity-70 max-w-[38ch]">
                 Divine Travel Nest Safaris offers Kenya safari tours, Tanzania
-                safaris, combined Kenya/Tanzania safari packages and Uganda tours
-                — start your African journey with us today.
+                safaris, combined Kenya/Tanzania safari packages and Uganda
+                tours — start your African journey with us today.
               </p>
             </div>
 
@@ -183,7 +183,6 @@ export default function Footer() {
             © {new Date().getFullYear()} Divine Travel Nest Safaris · Nairobi,
             Kenya
           </span>
-          <span>KWS · Eco-Tourism Kenya · TripAdvisor · SafariBookings</span>
         </div>
       </div>
     </footer>

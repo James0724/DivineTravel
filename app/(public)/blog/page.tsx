@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import connectDB from '@/lib/db/mongoose'
 import PostModel from '@/lib/db/models/Post'
 import { BreadcrumbSchema } from '@/components/seo/StructuredData'
 import PageHero from '@/components/ui/PageHero'
+import BlogFilterSidebar from '@/components/blog/BlogFilterSidebar'
 import type { BlogPost, PostCategory } from '@/types'
 
 export const revalidate = 300
@@ -74,11 +76,6 @@ export default async function BlogPage({
   const posts = await getPosts(category)
   const featured = !category ? posts.find((p) => p.featured) ?? posts[0] : null
   const regularPosts = posts.filter((p) => p._id !== featured?._id)
-
-  const allCategories: PostCategory[] = [
-    'migration', 'destinations', 'planning', 'wildlife',
-    'culture', 'conservation', 'photography', 'tips',
-  ]
 
   return (
     <>
@@ -183,103 +180,85 @@ export default async function BlogPage({
         </section>
       )}
 
-      {/* ── Category filter strip ────────────────────────────────── */}
-      <div
-        className="sticky top-14 z-30 bg-bone-paper border-t border-b border-[rgba(23,22,18,0.1)]"
-        style={{ padding: '22px 0' }}
-      >
+      {/* ── Posts section: sidebar + grid ───────────────────────── */}
+      <section className="bg-bone-bg" style={{ paddingTop: '60px', paddingBottom: '120px' }}>
         <div className="container-site">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-bone-muted mr-4">
-              Filter by
-            </span>
-            <Link
-              href="/blog"
-              className={`px-4 py-2 border rounded-full text-[13px] transition-all duration-200 ${
-                !category
-                  ? 'bg-bone-forest text-bone-paper border-bone-forest'
-                  : 'border-[rgba(23,22,18,0.14)] text-bone-muted hover:text-bone-ink hover:border-bone-ink'
-              }`}
-            >
-              All
-            </Link>
-            {allCategories.map((cat) => (
-              <Link
-                key={cat}
-                href={`/blog?category=${cat}`}
-                className={`px-4 py-2 border rounded-full text-[13px] transition-all duration-200 ${
-                  category === cat
-                    ? 'bg-bone-forest text-bone-paper border-bone-forest'
-                    : 'border-[rgba(23,22,18,0.14)] text-bone-muted hover:text-bone-ink hover:border-bone-ink'
-                }`}
-              >
-                {CATEGORY_LABELS[cat]}
-              </Link>
-            ))}
-            <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted hidden sm:block">
-              {posts.length} articles
-            </span>
-          </div>
-        </div>
-      </div>
+          <div className="lg:flex lg:gap-8 2xl:gap-10 lg:items-start">
 
-      {/* ── Posts grid ──────────────────────────────────────────── */}
-      <section className="bg-bone-bg" style={{ padding: '96px 0 120px' }}>
-        <div className="container-site">
-          {regularPosts.length > 0 ? (
-            <div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-              style={{ gap: '56px 36px' }}
-            >
-              {regularPosts.map((post) => (
-                <Link
-                  key={post._id}
-                  href={`/blog/${post.slug}`}
-                  className="group flex flex-col gap-4 cursor-pointer"
+            {/* Filter sidebar — mobile drawer + desktop panel */}
+            <Suspense fallback={null}>
+              <BlogFilterSidebar postCount={posts.length} />
+            </Suspense>
+
+            {/* Main content */}
+            <div className="flex-1 min-w-0">
+              {/* Result count (desktop) */}
+              <div className="hidden lg:block mb-6">
+                <span
+                  className="font-mono text-[11px] uppercase tracking-[0.1em]"
+                  style={{ color: 'var(--muted)' }}
                 >
-                  <div
-                    className="overflow-hidden bg-bone-paper"
-                    style={{ aspectRatio: '3/2' }}
-                  >
-                    <Image
-                      src={post.coverImage}
-                      alt={post.title}
-                      width={600}
-                      height={400}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
-                    />
-                  </div>
-                  <div className="flex gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
-                    <span className="text-bone-clay">
-                      {CATEGORY_LABELS[post.category as PostCategory] ?? post.category}
-                    </span>
-                    <span>·</span>
-                    <span>{formatDate(post.publishedAt)}</span>
-                  </div>
-                  <h3
-                    className="font-serif font-normal leading-[1.12] tracking-[-0.01em] text-bone-ink transition-colors duration-200 group-hover:text-bone-clay"
-                    style={{ fontSize: '27px' }}
-                  >
-                    {post.title}
-                  </h3>
-                  <p className="text-[14px] leading-[1.6] text-bone-muted">{post.excerpt}</p>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-bone-forest mt-auto pt-1">
-                    Read article →
-                  </span>
-                </Link>
-              ))}
+                  {posts.length} article{posts.length !== 1 ? 's' : ''}
+                  {category && ` · ${CATEGORY_LABELS[category as PostCategory] ?? category}`}
+                </span>
+              </div>
+
+              {regularPosts.length > 0 ? (
+                <div
+                  className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
+                  style={{ gap: '56px 36px' }}
+                >
+                  {regularPosts.map((post) => (
+                    <Link
+                      key={post._id}
+                      href={`/blog/${post.slug}`}
+                      className="group flex flex-col gap-4 cursor-pointer"
+                    >
+                      <div
+                        className="overflow-hidden bg-bone-paper"
+                        style={{ aspectRatio: '3/2' }}
+                      >
+                        <Image
+                          src={post.coverImage}
+                          alt={post.title}
+                          width={600}
+                          height={400}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
+                        />
+                      </div>
+                      <div className="flex gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
+                        <span className="text-bone-clay">
+                          {CATEGORY_LABELS[post.category as PostCategory] ?? post.category}
+                        </span>
+                        <span>·</span>
+                        <span>{formatDate(post.publishedAt)}</span>
+                      </div>
+                      <h3
+                        className="font-serif font-normal leading-[1.12] tracking-[-0.01em] text-bone-ink transition-colors duration-200 group-hover:text-bone-clay"
+                        style={{ fontSize: '27px' }}
+                      >
+                        {post.title}
+                      </h3>
+                      <p className="text-[14px] leading-[1.6] text-bone-muted">{post.excerpt}</p>
+                      <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-bone-forest mt-auto pt-1">
+                        Read article →
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-24">
+                  <p className="font-serif text-2xl text-bone-ink/50 mb-3">
+                    No articles yet in this category.
+                  </p>
+                  <Link href="/blog" className="text-sm text-bone-clay hover:underline font-sans">
+                    Browse all articles →
+                  </Link>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="text-center py-24">
-              <p className="font-serif text-2xl text-bone-ink/50 mb-3">
-                No articles yet in this category.
-              </p>
-              <Link href="/blog" className="text-sm text-bone-clay hover:underline font-sans">
-                Browse all articles →
-              </Link>
-            </div>
-          )}
+          </div>
         </div>
       </section>
 

@@ -22,16 +22,16 @@ export default function CtaBand({
 }: CtaBandProps) {
   if (variant === "large") {
     return (
-      <section
-        className="bg-bone-forest text-bone-paper"
-        style={{ padding: "110px 0" }}
-      >
+      <section className="bg-bone-forest text-bone-paper py-8 sm:py-10">
         <div className="container-site">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-10 md:gap-16  items-center">
             <Reveal variant="slideLeft">
               <h2
                 className="font-serif font-light leading-[0.98] tracking-[-0.025em]"
-                style={{ fontSize: "clamp(44px, 5.5vw, 84px)", maxWidth: "15ch" }}
+                style={{
+                  fontSize: "clamp(44px, 5.5vw, 84px)",
+                  maxWidth: "15ch",
+                }}
               >
                 {heading}
               </h2>

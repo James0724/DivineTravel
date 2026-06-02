@@ -250,7 +250,7 @@ export default function SignaturePackages({
           </p>
           <Link
             href="/safaris"
-            className="flex-shrink-0 inline-flex items-center gap-3 px-6 py-3.5 bg-bone-forest text-bone-paper rounded-full text-[13px] tracking-[0.02em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-0.5"
+            className="font-sans flex-shrink-0 inline-flex items-center gap-3 px-4 py-2 bg-bone-forest text-bone-paper rounded-full text-sm tracking-[0.02em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-0.5"
           >
             View all safari packages
             <span className="w-6 h-6 rounded-full bg-bone-paper/15 flex items-center justify-center text-[11px]">

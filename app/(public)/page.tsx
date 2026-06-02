@@ -21,7 +21,7 @@ import SafariModel from "@/lib/db/models/Safari";
 import TestimonialModel from "@/lib/db/models/Testimonial";
 import type { Safari, Testimonial } from "@/types";
 
-export const revalidate = 300 // ISR — revalidate every 5 minutes
+export const revalidate = 300; // ISR — revalidate every 5 minutes
 
 export const metadata: Metadata = {
   title:
@@ -66,36 +66,37 @@ async function getHomeData() {
 
 const HOME_FAQS = [
   {
-    question: 'When is the best time to visit Kenya for the Great Migration?',
+    question: "When is the best time to visit Kenya for the Great Migration?",
     answer:
-      'The most famous part of the Great Migration — the Mara River crossings — occurs from July to October when the herds are in the Masai Mara. January–February offers calving season in the southern Serengeti, while June–July features the dramatic Grumeti River crossings in Tanzania.',
+      "The most famous part of the Great Migration — the Mara River crossings — occurs from July to October when the herds are in the Masai Mara. January–February offers calving season in the southern Serengeti, while June–July features the dramatic Grumeti River crossings in Tanzania.",
   },
   {
-    question: 'How far in advance should I book a gorilla trekking permit?',
+    question: "How far in advance should I book a gorilla trekking permit?",
     answer:
-      'Gorilla trekking permits in Uganda (Bwindi Impenetrable Forest) sell out months in advance, especially during peak season (July–September and December–January). We recommend booking at least 6 months ahead, and up to 12 months for peak season travel. We handle all permit applications on your behalf.',
+      "Gorilla trekking permits in Uganda (Bwindi Impenetrable Forest) sell out months in advance, especially during peak season (July–September and December–January). We recommend booking at least 6 months ahead, and up to 12 months for peak season travel. We handle all permit applications on your behalf.",
   },
   {
-    question: 'What is included in a typical safari package?',
+    question: "What is included in a typical safari package?",
     answer:
-      'A standard Divine Travel Nest Safaris package includes: park fees and conservation levies, all listed game drives and activities, accommodation (lodge or tented camp), full board (breakfast, lunch and dinner), airport and inter-park transfers, and an English-speaking licensed guide. International flights, travel insurance and personal gratuities are not included.',
+      "A standard Divine Travel Nest Safaris package includes: park fees and conservation levies, all listed game drives and activities, accommodation (lodge or tented camp), full board (breakfast, lunch and dinner), airport and inter-park transfers, and an English-speaking licensed guide. International flights, travel insurance and personal gratuities are not included.",
   },
   {
-    question: 'Can you customise a safari for families with young children?',
+    question: "Can you customise a safari for families with young children?",
     answer:
       "Absolutely — family safaris are one of our specialties. We select family-friendly lodges with dedicated children's programs, experienced child-friendly guides, and age-appropriate activities. Minimum age restrictions apply for certain activities (gorilla trekking requires guests to be 15+).",
   },
   {
-    question: 'What is the difference between a budget, mid-range and luxury safari?',
+    question:
+      "What is the difference between a budget, mid-range and luxury safari?",
     answer:
-      'Budget safaris use shared minibus vehicles and tented camps or basic lodges. Mid-range safaris offer private vehicles and comfortable lodge rooms with en-suite facilities. Luxury safaris feature exclusive-use vehicles, private guides, and world-class tented camps or lodges with exceptional service. All tiers include the same wildlife access and expert guiding.',
+      "Budget safaris use shared minibus vehicles and tented camps or basic lodges. Mid-range safaris offer private vehicles and comfortable lodge rooms with en-suite facilities. Luxury safaris feature exclusive-use vehicles, private guides, and world-class tented camps or lodges with exceptional service. All tiers include the same wildlife access and expert guiding.",
   },
   {
-    question: 'Do I need a visa and vaccinations for Kenya and Tanzania?',
+    question: "Do I need a visa and vaccinations for Kenya and Tanzania?",
     answer:
-      'Most nationalities require a visa for Kenya and Tanzania, both available online via e-visa portals. Yellow Fever vaccination is mandatory if arriving from a yellow fever-endemic country. We strongly recommend consulting your travel health clinic at least 6–8 weeks before departure for current vaccination advice including malaria prophylaxis.',
+      "Most nationalities require a visa for Kenya and Tanzania, both available online via e-visa portals. Yellow Fever vaccination is mandatory if arriving from a yellow fever-endemic country. We strongly recommend consulting your travel health clinic at least 6–8 weeks before departure for current vaccination advice including malaria prophylaxis.",
   },
-]
+];
 
 export default async function HomePage() {
   const { safaris, signatureSafaris, testimonials } = await getHomeData();
@@ -119,7 +120,7 @@ export default async function HomePage() {
       <SignaturePackages initialData={signatureSafaris} />
 
       {/* 06 · Featured safari packages (DB-driven) */}
-      {/* <FeaturedSafaris initialData={safaris} /> */}
+      <FeaturedSafaris initialData={safaris} />
 
       {/* 07 · Best-selling tours */}
       <BestSellers />

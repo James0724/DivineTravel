@@ -142,7 +142,7 @@ export default function Hero() {
             Africa safari.
           </h1>
 
-          <p className="mt-4 sm:mt-7 max-w-[48ch] text-[13px] sm:text-[14px] leading-[1.6] opacity-90">
+          <p className="hidden md:block mt-4 sm:mt-7 max-w-[48ch] text-[13px] sm:text-[14px] leading-[1.6] opacity-90">
             Divine Travel Nest Safaris offers Kenya safari tours, Tanzania
             safaris and combined Kenya–Tanzania circuits, plus Uganda gorilla
             trekking. Tailor-made by an in-country team — start your African
@@ -249,7 +249,7 @@ export default function Hero() {
                 <div key={s.label}>
                   <div
                     className="font-serif leading-none"
-                    style={{ fontSize: "clamp(24px, 6vw, 32px)" }}
+                    style={{ fontSize: "clamp(27px, 3.24vw, 37.8px)" }}
                   >
                     {s.num}
                     <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>
@@ -306,7 +306,7 @@ export default function Hero() {
                 <div key={s.label}>
                   <div
                     className="font-serif leading-none"
-                    style={{ fontSize: "clamp(30px, 3.6vw, 42px)" }}
+                    style={{ fontSize: "clamp(20px, 2.4vw, 28px)" }}
                   >
                     {s.num}
                     <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>

@@ -1,8 +1,15 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Search, X, SlidersHorizontal, ChevronDown } from "lucide-react";
+import {
+  Search,
+  X,
+  SlidersHorizontal,
+  ChevronDown,
+  Filter,
+} from "lucide-react";
 import { useSafaris } from "@/hooks/useSafaris";
 import PkgCard from "@/components/safaris/PkgCard";
 import Pagination from "@/components/ui/Pagination";
@@ -167,6 +174,8 @@ export default function SafarisContent() {
     undefined,
   );
 
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   const set = useCallback(
     <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
       setFilters((prev) => ({
@@ -211,6 +220,21 @@ export default function SafarisContent() {
     const qs = p.toString();
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
   }, [filters, pathname, router]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setMobileOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const dur = DURATIONS.find((d) => d.value === filters.duration);
 
@@ -259,58 +283,40 @@ export default function SafarisContent() {
         }}
       >
         <div className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-20 max-w-[1920px] mx-auto">
-          {/* ── Mobile filter controls (< lg) ──────────────────────────── */}
-          <div className="lg:hidden mb-8 space-y-3">
-            {/* Search + sort + clear row */}
-            <div className="flex flex-wrap gap-2 items-center"></div>
+          {/* ── Mobile: result count + filter trigger (< lg) ─────────────── */}
+          <div
+            className="lg:hidden sticky z-20 flex items-center justify-end py-3 mb-3 -mx-4 px-4 sm:-mx-6 sm:px-6"
+            style={{ top: "50px" }}
+          >
+            {/* <span
+              className="font-mono text-[11px] uppercase tracking-[0.1em] px-3 py-1.5 bg-bone-bg border-2 rounded-full"
+              style={{ color: "var(--muted)" }}
+            >
+              {pagination
+                ? `${pagination.total} safari${pagination.total !== 1 ? "s" : ""}`
+                : " "}
+            </span> */}
 
-            {/* Category pills */}
-            <div className="flex flex-wrap gap-1.5 items-center">
-              <span
-                className="font-mono text-[10px] uppercase tracking-[0.16em] w-[52px] flex-shrink-0"
-                style={{ color: "var(--muted)" }}
-              >
-                Type
-              </span>
-              {CATEGORIES.map((c) => (
-                <Pill
-                  key={c.value}
-                  active={filters.category === c.value}
-                  onClick={() => set("category", c.value)}
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-bone-bg border-2 rounded-full font-mono text-[10px] uppercase tracking-[0.12em] transition-all duration-200 hover:border-[var(--forest)] hover:text-[var(--forest)]"
+              style={{
+                borderColor: totalActive > 0 ? "var(--forest)" : "var(--line)",
+                color: totalActive > 0 ? "var(--forest)" : "var(--muted)",
+              }}
+            >
+              <Filter size={11} />
+              Filters
+              {totalActive > 0 && (
+                <span
+                  className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[9px]"
+                  style={{ background: "var(--clay)", color: "var(--paper)" }}
                 >
-                  {c.label}
-                </Pill>
-              ))}
-            </div>
-
-            {/* Duration pills */}
-            <div className="flex flex-wrap gap-1.5 items-center">
-              <span
-                className="font-mono text-[10px] uppercase tracking-[0.16em] w-[52px] flex-shrink-0"
-                style={{ color: "var(--muted)" }}
-              >
-                Length
-              </span>
-              {DURATIONS.map((d) => (
-                <Pill
-                  key={d.value}
-                  active={filters.duration === d.value}
-                  onClick={() => set("duration", d.value)}
-                >
-                  {d.label}
-                </Pill>
-              ))}
-            </div>
-
-            {/* Result count */}
-            {pagination && (
-              <p
-                className="font-mono text-[11px] uppercase tracking-[0.1em]"
-                style={{ color: "var(--muted)" }}
-              >
-                {pagination.total} safari{pagination.total !== 1 ? "s" : ""}
-              </p>
-            )}
+                  {totalActive}
+                </span>
+              )}
+            </button>
           </div>
 
           {/* ── Desktop layout: sidebar + grid ─────────────────────────── */}
@@ -648,6 +654,286 @@ export default function SafarisContent() {
       {/* ════════════════════════════════════════════════════════════════════
           CTA BAND
       ════════════════════════════════════════════════════════════════════ */}
+
+      {/* ── Mobile: slide-in filter drawer (< lg) ──────────────────────── */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="lg:hidden fixed inset-0 z-50"
+              style={{ background: "rgba(0,0,0,0.45)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setMobileOpen(false)}
+            />
+
+            {/* Drawer panel */}
+            <motion.div
+              className="lg:hidden fixed top-0 left-0 h-full z-50 flex flex-col border-r"
+              style={{
+                width: "min(360px, 90vw)",
+                background: "var(--paper)",
+                borderColor: "var(--line)",
+                overflowY: "auto",
+              }}
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+            >
+              {/* Drawer header */}
+              <div
+                className="flex items-center justify-between px-5 py-3.5 flex-shrink-0"
+                style={{ borderBottom: "1px solid var(--line-soft)" }}
+              >
+                <span
+                  className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em]"
+                  style={{ color: "var(--muted)" }}
+                >
+                  Filters
+                  {totalActive > 0 && (
+                    <span
+                      className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[9px]"
+                      style={{
+                        background: "var(--clay)",
+                        color: "var(--paper)",
+                      }}
+                    >
+                      {totalActive}
+                    </span>
+                  )}
+                </span>
+                <div className="flex items-center gap-3">
+                  {totalActive > 0 && (
+                    <button
+                      type="button"
+                      onClick={resetAll}
+                      className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.1em] transition-opacity hover:opacity-70"
+                      style={{ color: "var(--clay)" }}
+                    >
+                      <X size={9} /> Clear
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setMobileOpen(false)}
+                    className="transition-colors hover:text-[var(--clay)]"
+                    style={{ color: "var(--muted)" }}
+                    aria-label="Close filters"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Search */}
+              <FilterGroup label="Search">
+                <div className="relative">
+                  <Search
+                    size={12}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{ color: "var(--muted)" }}
+                  />
+                  <input
+                    type="search"
+                    placeholder="Parks, countries…"
+                    value={searchInput}
+                    onChange={(e) => handleSearchInput(e.target.value)}
+                    className="w-full h-8 pl-8 pr-3 font-sans text-[12px] border rounded-full focus:outline-none focus:border-[var(--forest)] transition-colors"
+                    style={{
+                      background: "var(--bg)",
+                      borderColor: "var(--line)",
+                      color: "var(--ink)",
+                    }}
+                  />
+                  {searchInput && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearchInput("");
+                        set("search", "");
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors hover:text-[var(--clay)]"
+                      style={{ color: "var(--muted)" }}
+                      aria-label="Clear search"
+                    >
+                      <X size={11} />
+                    </button>
+                  )}
+                </div>
+              </FilterGroup>
+
+              {/* Country */}
+              <FilterGroup label="Country">
+                <div className="flex flex-wrap gap-1.5">
+                  {COUNTRIES.map((c) => (
+                    <Pill
+                      key={c.value}
+                      active={filters.country === c.value}
+                      onClick={() => set("country", c.value)}
+                    >
+                      {c.label}
+                    </Pill>
+                  ))}
+                </div>
+              </FilterGroup>
+
+              {/* Type */}
+              <FilterGroup label="Type">
+                <div className="flex flex-wrap gap-1.5">
+                  {CATEGORIES.map((c) => (
+                    <Pill
+                      key={c.value}
+                      active={filters.category === c.value}
+                      onClick={() => set("category", c.value)}
+                    >
+                      {c.label}
+                    </Pill>
+                  ))}
+                </div>
+              </FilterGroup>
+
+              {/* Length */}
+              <FilterGroup label="Length">
+                <div className="flex flex-wrap gap-1.5">
+                  {DURATIONS.map((d) => (
+                    <Pill
+                      key={d.value}
+                      active={filters.duration === d.value}
+                      onClick={() => set("duration", d.value)}
+                    >
+                      {d.label}
+                    </Pill>
+                  ))}
+                </div>
+              </FilterGroup>
+
+              {/* Sort */}
+              <FilterGroup label="Sort by">
+                <div className="relative">
+                  <select
+                    value={filters.sort}
+                    onChange={(e) =>
+                      set(
+                        "sort",
+                        e.target.value as NonNullable<SafariFilters["sort"]>,
+                      )
+                    }
+                    className="w-full h-8 pl-3 pr-8 font-mono text-[11px] tracking-[0.06em] border rounded-sm appearance-none cursor-pointer focus:outline-none transition-colors"
+                    style={{
+                      background: "var(--bg)",
+                      borderColor: "var(--line)",
+                      color: "var(--muted)",
+                    }}
+                  >
+                    {SORT_OPTIONS.map((s) => (
+                      <option key={s.value} value={s.value}>
+                        {s.label}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    size={11}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{ color: "var(--muted)" }}
+                  />
+                </div>
+              </FilterGroup>
+
+              {/* More filters toggle */}
+              <div className="px-5 py-4">
+                <button
+                  type="button"
+                  onClick={() => setShowAdvanced((v) => !v)}
+                  className="flex items-center justify-between w-full font-mono text-[9px] uppercase tracking-[0.18em] transition-colors"
+                  style={{
+                    color: showAdvanced ? "var(--forest)" : "var(--muted)",
+                  }}
+                >
+                  <span className="flex items-center gap-2">
+                    <SlidersHorizontal size={11} />
+                    More filters
+                    {advancedActive > 0 && (
+                      <span
+                        className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[9px]"
+                        style={{
+                          background: "var(--clay)",
+                          color: "var(--paper)",
+                        }}
+                      >
+                        {advancedActive}
+                      </span>
+                    )}
+                  </span>
+                  <ChevronDown
+                    size={11}
+                    className={`transition-transform duration-200 ${showAdvanced ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
+
+              {/* Advanced: Difficulty + Tier */}
+              <AnimatePresence>
+                {showAdvanced && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <FilterGroup label="Difficulty">
+                      <div className="flex flex-wrap gap-1.5">
+                        {DIFFICULTIES.map((d) => (
+                          <Pill
+                            key={d.value}
+                            active={filters.difficulty === d.value}
+                            onClick={() => set("difficulty", d.value)}
+                          >
+                            {d.label}
+                          </Pill>
+                        ))}
+                      </div>
+                    </FilterGroup>
+                    <FilterGroup label="Budget tier">
+                      <div className="flex flex-wrap gap-1.5">
+                        {TIERS.map((t) => (
+                          <Pill
+                            key={t.value}
+                            active={filters.tier === t.value}
+                            onClick={() => set("tier", t.value)}
+                          >
+                            {t.label}
+                          </Pill>
+                        ))}
+                      </div>
+                    </FilterGroup>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* View results */}
+              <div
+                className="px-5 py-5 mt-auto flex-shrink-0"
+                style={{ borderTop: "1px solid var(--line-soft)" }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  className="w-full h-10 rounded-full font-mono text-[12px] uppercase tracking-[0.12em] transition-all duration-200 hover:opacity-90"
+                  style={{ background: "var(--forest)", color: "var(--paper)" }}
+                >
+                  View {pagination?.total ?? "…"} safari
+                  {pagination?.total !== 1 ? "s" : ""}
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
