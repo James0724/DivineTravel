@@ -12,12 +12,41 @@ export const metadata: Metadata = {
   title: "Plan My Safari — Free Custom Itinerary | Divine Travel Nest Safaris",
   description:
     "Tell us your dates and interests. We draft a tailor-made itinerary with transparent pricing — fast response guaranteed. Or pick up the phone: +254 722-595-916.",
+  keywords: [
+    "plan my safari",
+    "custom safari itinerary",
+    "safari proposal",
+    "tailor-made safari",
+    "safari planner",
+    "East Africa safari planning",
+    "personalized safari",
+    "Kenya Tanzania Uganda safari",
+  ],
+  authors: [{ name: "Divine Travel Nest Safaris" }],
+  creator: "Divine Travel Nest Safaris",
   alternates: { canonical: "/plan-my-safari" },
   openGraph: {
     title: "Plan My Safari — Divine Travel Nest Safaris",
     description:
       "Free personalised safari proposals within 24 hours. No obligations.",
     type: "website",
+    url: "/plan-my-safari",
+    images: [
+      {
+        url: "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+        width: 1200,
+        height: 630,
+        alt: "Plan your African safari",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Plan My Safari — Divine Travel Nest Safaris",
+    description: "Free personalised safari proposals within 24 hours.",
+    images: [
+      "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+    ],
   },
 };
 
@@ -102,69 +131,70 @@ export default function PlanSafariPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
             {/* Left: contact side */}
             <Reveal>
-            <div>
-              <div className="eyebrow mb-4">
-                <span className="dot" />
-                Reach us directly
-              </div>
-              <h2 className="font-serif font-light text-[clamp(2.5rem,5vw,4rem)] leading-[1] tracking-[-0.02em] mt-4 mb-6">
-                Reservation
-                <br />
-                by <em className="italic text-bone-clay">phone</em>, email
-                <br />
-                or message.
-              </h2>
-              <p className="text-bone-muted text-[17px] leading-[1.65] mb-9 max-w-[52ch]">
-                We believe a great safari is a seamless blend of untamed
-                wilderness and meticulous design. From tracking the Great
-                Migration across the savannah to securing the perfect hidden
-                bush camp, we handle the logistics so you can focus on the
-                moment. Every itinerary is entirely bespoke, crafted by experts
-                who know the rhythm of the wild and the nuances of the terrain,
-                ensuring an unforgettable journey into the heart of Africa.
-              </p>
-
               <div>
-                {contactDetails.map(({ lbl, val, href, external, last }) => (
-                  <div
-                    key={lbl}
-                    className={`grid grid-cols-[120px_1fr] gap-4 py-4 border-t border-[rgba(23,22,18,0.14)] ${last ? "border-b" : ""}`}
-                  >
-                    <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-bone-muted pt-1">
-                      {lbl}
-                    </span>
-                    {href ? (
-                      <a
-                        href={href}
-                        target={external ? "_blank" : undefined}
-                        rel={external ? "noopener noreferrer" : undefined}
-                        className="font-serif italic text-[22px] leading-tight border-b border-bone-clay pb-0.5 w-fit hover:text-bone-clay transition-colors"
-                      >
-                        {val}
-                      </a>
-                    ) : (
-                      <span className="font-serif italic text-[22px] leading-tight">
-                        {val}
+                <div className="eyebrow mb-4">
+                  <span className="dot" />
+                  Reach us directly
+                </div>
+                <h2 className="font-serif font-light text-[clamp(2.5rem,5vw,4rem)] leading-[1] tracking-[-0.02em] mt-4 mb-6">
+                  Reservation
+                  <br />
+                  by <em className="italic text-bone-clay">phone</em>, email
+                  <br />
+                  or message.
+                </h2>
+                <p className="text-bone-muted text-[17px] leading-[1.65] mb-9 max-w-[52ch]">
+                  We believe a great safari is a seamless blend of untamed
+                  wilderness and meticulous design. From tracking the Great
+                  Migration across the savannah to securing the perfect hidden
+                  bush camp, we handle the logistics so you can focus on the
+                  moment. Every itinerary is entirely bespoke, crafted by
+                  experts who know the rhythm of the wild and the nuances of the
+                  terrain, ensuring an unforgettable journey into the heart of
+                  Africa.
+                </p>
+
+                <div>
+                  {contactDetails.map(({ lbl, val, href, external, last }) => (
+                    <div
+                      key={lbl}
+                      className={`grid grid-cols-[120px_1fr] gap-4 py-4 border-t border-[rgba(23,22,18,0.14)] ${last ? "border-b" : ""}`}
+                    >
+                      <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-bone-muted pt-1">
+                        {lbl}
                       </span>
-                    )}
-                  </div>
-                ))}
+                      {href ? (
+                        <a
+                          href={href}
+                          target={external ? "_blank" : undefined}
+                          rel={external ? "noopener noreferrer" : undefined}
+                          className="font-serif italic text-[22px] leading-tight border-b border-bone-clay pb-0.5 w-fit hover:text-bone-clay transition-colors"
+                        >
+                          {val}
+                        </a>
+                      ) : (
+                        <span className="font-serif italic text-[22px] leading-tight">
+                          {val}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
             </Reveal>
 
             {/* Right: form */}
             <Reveal delay={0.1}>
-            <div className="bg-bone-paper border border-[rgba(23,22,18,0.10)] p-8 sm:p-10">
-              <h3 className="font-serif font-normal text-[28px] mb-1.5">
-                Request a <em className="italic text-bone-clay">free</em> custom
-                quote
-              </h3>
-              <p className="text-[10px] font-mono uppercase tracking-[0.14em] text-bone-muted mb-8">
-                Fast response guaranteed
-              </p>
-              <SafariPlanForm />
-            </div>
+              <div className="bg-bone-paper border border-[rgba(23,22,18,0.10)] p-8 sm:p-10">
+                <h3 className="font-serif font-normal text-[28px] mb-1.5">
+                  Request a <em className="italic text-bone-clay">free</em>{" "}
+                  custom quote
+                </h3>
+                <p className="text-[10px] font-mono uppercase tracking-[0.14em] text-bone-muted mb-8">
+                  Fast response guaranteed
+                </p>
+                <SafariPlanForm />
+              </div>
             </Reveal>
           </div>
         </div>

@@ -5,9 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
-import { BreadcrumbSchema } from "@/components/seo/StructuredData";
+import { BreadcrumbSchema, ArticleSchema } from "@/components/seo/StructuredData";
 import CommentSection from "@/components/blog/CommentSection";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
+import { buildAbsoluteUrl } from "@/lib/utils";
 import type { BlogPost, PostCategory } from "@/types";
 
 export const revalidate = 3600;
@@ -122,34 +123,17 @@ export default async function BlogDetailPage({ params }: Props) {
           { name: post.title, href: `/blog/${post.slug}` },
         ]}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
-            description: post.excerpt,
-            image: post.coverImage,
-            datePublished: post.publishedAt,
-            dateModified: post.updatedAt,
-            author: { "@type": "Person", name: post.author },
-            publisher: {
-              "@type": "Organization",
-              name: "Divine Travel Nest Safaris",
-              logo: {
-                "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://divinetravelnestsafaris.com"}/logo.png`,
-              },
-            },
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": `https://www.divinetravelnestsafaris.com/blog/${post.slug}`,
-            },
-            keywords: post.tags.join(", "),
-            articleSection: categoryLabel,
-          }),
-        }}
+      <ArticleSchema
+        title={post.title}
+        description={post.excerpt}
+        url={buildAbsoluteUrl(`/blog/${post.slug}`)}
+        image={post.coverImage}
+        author={post.author}
+        publishedDate={post.publishedAt}
+        modifiedDate={post.updatedAt}
+        category={categoryLabel}
+        keywords={post.tags}
+        readingTime={post.readingTime}
       />
 
       {post.faqs && post.faqs.length > 0 && (

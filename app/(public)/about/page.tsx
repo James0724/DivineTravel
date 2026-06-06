@@ -17,11 +17,25 @@ export const metadata: Metadata = {
   title: "About Us | Divine Travel Nest Safaris — Kenya-Based Safari Company",
   description:
     "A Kenya-based, woman-led safari house planning unforgettable journeys across Kenya, Tanzania and Uganda — one traveller at a time. Learn our story, values, and meet the team.",
+  keywords: [
+    "about Divine Travel Nest Safaris",
+    "Kenya-based safari company",
+    "woman-led safari house",
+    "East Africa safari experts",
+    "safari company values",
+    "conservation safari",
+    "wildlife tourism Kenya",
+    "custom safari itineraries",
+  ],
+  authors: [{ name: "Divine Travel Nest Safaris" }],
+  creator: "Divine Travel Nest Safaris",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About Divine Travel Nest Safaris",
     description:
       "A Kenya-based, woman-led safari house planning unforgettable journeys across Kenya, Tanzania and Uganda — one traveller at a time.",
+    type: "website",
+    url: "/about",
     images: [
       {
         url: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1200&q=80",
@@ -30,7 +44,6 @@ export const metadata: Metadata = {
         alt: "Golden-hour savannah, East Africa",
       },
     ],
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
@@ -266,45 +279,45 @@ export default function AboutPage() {
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-20 items-end">
             <Reveal variant="slideLeft">
-            <h1
-              className="font-serif font-light leading-[0.92] tracking-[-0.028em] text-bone-ink"
-              style={{ fontSize: "clamp(52px, 7.6vw, 120px)" }}
-            >
-              We are
-              <br />
-              Divine <em className="italic text-bone-clay">Travel&nbsp;Nest</em>
-              .
-            </h1>
+              <h1
+                className="font-serif font-light leading-[0.92] tracking-[-0.028em] text-bone-ink"
+                style={{ fontSize: "clamp(52px, 7.6vw, 120px)" }}
+              >
+                We are
+                <br />
+                Divine{" "}
+                <em className="italic text-bone-clay">Travel&nbsp;Nest</em>.
+              </h1>
             </Reveal>
             <Reveal variant="slideRight">
-            <div>
-              <p className="text-[18px] leading-[1.62] text-bone-ink">
-                A Kenya-based,{" "}
-                <strong className="font-medium">woman-led</strong> safari house,
-                planning unforgettable journeys across Kenya, Tanzania and
-                Uganda — one traveller at a time.
-              </p>
-              <p className="text-[15px] leading-[1.62] text-bone-muted mt-4">
-                Founded from a simple dream: to connect people to the soul of
-                the wild. The team who answer your first message are the same
-                people who design your route and stay with you to the last game
-                drive.
-              </p>
-              <div className="flex flex-wrap items-center gap-6 mt-8">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-bone-forest text-bone-paper rounded-full text-[14px] tracking-[0.01em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-0.5"
-                >
-                  Plan my safari →
-                </Link>
-                <div className="font-mono text-[13px] text-bone-ink tracking-[0.03em]">
-                  <span className="block text-[9px] tracking-[0.16em] uppercase text-bone-muted mb-0.5">
-                    Talk to us
-                  </span>
-                  +254 722-595-916
+              <div>
+                <p className="text-[18px] leading-[1.62] text-bone-ink">
+                  A Kenya-based,{" "}
+                  <strong className="font-medium">woman-led</strong> safari
+                  house, planning unforgettable journeys across Kenya, Tanzania
+                  and Uganda — one traveller at a time.
+                </p>
+                <p className="text-[15px] leading-[1.62] text-bone-muted mt-4">
+                  Founded from a simple dream: to connect people to the soul of
+                  the wild. The team who answer your first message are the same
+                  people who design your route and stay with you to the last
+                  game drive.
+                </p>
+                <div className="flex flex-wrap items-center gap-6 mt-8">
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 bg-bone-forest text-bone-paper rounded-full text-[14px] tracking-[0.01em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-0.5"
+                  >
+                    Plan my safari →
+                  </Link>
+                  <div className="font-mono text-[13px] text-bone-ink tracking-[0.03em]">
+                    <span className="block text-[9px] tracking-[0.16em] uppercase text-bone-muted mb-0.5">
+                      Talk to us
+                    </span>
+                    +254 722-595-916
+                  </div>
                 </div>
               </div>
-            </div>
             </Reveal>
           </div>
         </div>
@@ -340,81 +353,81 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.45fr] gap-10 lg:gap-24 items-start">
             {/* Left — eyebrow + heading */}
             <Reveal variant="slideLeft">
-            <div>
-              <div className="eyebrow">
-                <span className="dot" />
-                Our story
+              <div>
+                <div className="eyebrow">
+                  <span className="dot" />
+                  Our story
+                </div>
+                <h2
+                  className="font-serif font-normal leading-[1.0] tracking-[-0.02em] text-bone-ink mt-4"
+                  style={{ fontSize: "clamp(36px, 4.2vw, 58px)" }}
+                >
+                  Born from a dream
+                  <br />
+                  of the <em className="italic text-bone-clay">wild</em>.
+                </h2>
               </div>
-              <h2
-                className="font-serif font-normal leading-[1.0] tracking-[-0.02em] text-bone-ink mt-4"
-                style={{ fontSize: "clamp(36px, 4.2vw, 58px)" }}
-              >
-                Born from a dream
-                <br />
-                of the <em className="italic text-bone-clay">wild</em>.
-              </h2>
-            </div>
             </Reveal>
 
             {/* Right — body */}
             <Reveal variant="slideRight">
-            <div>
-              <p className="font-serif italic text-[20px] leading-[1.55] text-bone-ink mb-5">
-                Divine Travel Nest Safaris was born from a simple dream — to
-                create unforgettable journeys that connect people to the soul of
-                the wild.
-              </p>
-              <p className="text-[16px] leading-[1.72] text-bone-muted mb-5">
-                We are a{" "}
-                <strong className="text-bone-ink font-medium">
-                  Kenya-based, woman-led safari company
-                </strong>
-                , built on a deep commitment to excellence, integrity and
-                genuinely personal service. We specialise in{" "}
-                <strong className="text-bone-ink font-medium">
-                  Kenya safaris
-                </strong>
-                ,{" "}
-                <strong className="text-bone-ink font-medium">
-                  Tanzania safaris
-                </strong>
-                , combined{" "}
-                <strong className="text-bone-ink font-medium">
-                  Kenya–Tanzania circuits
-                </strong>{" "}
-                and{" "}
-                <strong className="text-bone-ink font-medium">
-                  Uganda gorilla trekking
-                </strong>{" "}
-                — the routes we know intimately rather than a catalogue of
-                everywhere.
-              </p>
-              <p className="text-[16px] leading-[1.72] text-bone-muted mb-9">
-                Every itinerary is guided by your desires: chasing sunsets
-                across the savannah, tracking elephants over golden plains, or
-                unwinding at a lodge beneath the stars. Our planners and locally
-                born guides know every corner of East Africa — and with us, you
-                are never just a traveller. You are family.
-              </p>
-
-              {/* Mission box */}
-              <div
-                className="bg-bone-paper"
-                style={{
-                  padding: "28px 30px",
-                  border: "1px solid rgba(31,29,24,0.14)",
-                }}
-              >
-                <span className="block font-mono text-[10px] tracking-[0.16em] uppercase text-bone-clay mb-3">
-                  Our mission
-                </span>
-                <p className="font-serif italic text-[24px] leading-[1.32] text-bone-ink">
-                  To craft experience-rich, safe and genuinely good-value
-                  African safaris that bring you closer to the wildlife, the
-                  people and the magic of East Africa.
+              <div>
+                <p className="font-serif italic text-[20px] leading-[1.55] text-bone-ink mb-5">
+                  Divine Travel Nest Safaris was born from a simple dream — to
+                  create unforgettable journeys that connect people to the soul
+                  of the wild.
                 </p>
+                <p className="text-[16px] leading-[1.72] text-bone-muted mb-5">
+                  We are a{" "}
+                  <strong className="text-bone-ink font-medium">
+                    Kenya-based, woman-led safari company
+                  </strong>
+                  , built on a deep commitment to excellence, integrity and
+                  genuinely personal service. We specialise in{" "}
+                  <strong className="text-bone-ink font-medium">
+                    Kenya safaris
+                  </strong>
+                  ,{" "}
+                  <strong className="text-bone-ink font-medium">
+                    Tanzania safaris
+                  </strong>
+                  , combined{" "}
+                  <strong className="text-bone-ink font-medium">
+                    Kenya–Tanzania circuits
+                  </strong>{" "}
+                  and{" "}
+                  <strong className="text-bone-ink font-medium">
+                    Uganda gorilla trekking
+                  </strong>{" "}
+                  — the routes we know intimately rather than a catalogue of
+                  everywhere.
+                </p>
+                <p className="text-[16px] leading-[1.72] text-bone-muted mb-9">
+                  Every itinerary is guided by your desires: chasing sunsets
+                  across the savannah, tracking elephants over golden plains, or
+                  unwinding at a lodge beneath the stars. Our planners and
+                  locally born guides know every corner of East Africa — and
+                  with us, you are never just a traveller. You are family.
+                </p>
+
+                {/* Mission box */}
+                <div
+                  className="bg-bone-paper"
+                  style={{
+                    padding: "28px 30px",
+                    border: "1px solid rgba(31,29,24,0.14)",
+                  }}
+                >
+                  <span className="block font-mono text-[10px] tracking-[0.16em] uppercase text-bone-clay mb-3">
+                    Our mission
+                  </span>
+                  <p className="font-serif italic text-[24px] leading-[1.32] text-bone-ink">
+                    To craft experience-rich, safe and genuinely good-value
+                    African safaris that bring you closer to the wildlife, the
+                    people and the magic of East Africa.
+                  </p>
+                </div>
               </div>
-            </div>
             </Reveal>
           </div>
         </div>
@@ -435,79 +448,87 @@ export default function AboutPage() {
           >
             {/* 100+ */}
             <RevealItem>
-            <div
-              className="bg-bone-paper flex flex-col gap-3"
-              style={{ padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)" }}
-            >
               <div
-                className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                className="bg-bone-paper flex flex-col gap-3"
+                style={{
+                  padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
+                }}
               >
-                <em className="italic text-bone-clay">100</em>+
+                <div
+                  className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
+                  style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                >
+                  <em className="italic text-bone-clay">100</em>+
+                </div>
+                <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
+                  Safari packages
+                  <br />
+                  across East Africa
+                </div>
               </div>
-              <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
-                Safari packages
-                <br />
-                across East Africa
-              </div>
-            </div>
             </RevealItem>
             {/* 3 */}
             <RevealItem>
-            <div
-              className="bg-bone-paper flex flex-col gap-3"
-              style={{ padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)" }}
-            >
               <div
-                className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                className="bg-bone-paper flex flex-col gap-3"
+                style={{
+                  padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
+                }}
               >
-                3
+                <div
+                  className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
+                  style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                >
+                  3
+                </div>
+                <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
+                  Countries — Kenya
+                  <br />
+                  Tanzania · Uganda
+                </div>
               </div>
-              <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
-                Countries — Kenya
-                <br />
-                Tanzania · Uganda
-              </div>
-            </div>
             </RevealItem>
             {/* 24/7 */}
             <RevealItem>
-            <div
-              className="bg-bone-paper flex flex-col gap-3"
-              style={{ padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)" }}
-            >
               <div
-                className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                className="bg-bone-paper flex flex-col gap-3"
+                style={{
+                  padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
+                }}
               >
-                <em className="italic text-bone-clay">24</em>/7
+                <div
+                  className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
+                  style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                >
+                  <em className="italic text-bone-clay">24</em>/7
+                </div>
+                <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
+                  Support — before,
+                  <br />
+                  during &amp; after
+                </div>
               </div>
-              <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
-                Support — before,
-                <br />
-                during &amp; after
-              </div>
-            </div>
             </RevealItem>
             {/* 100% */}
             <RevealItem>
-            <div
-              className="bg-bone-paper flex flex-col gap-3"
-              style={{ padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)" }}
-            >
               <div
-                className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                className="bg-bone-paper flex flex-col gap-3"
+                style={{
+                  padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
+                }}
               >
-                100%
+                <div
+                  className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
+                  style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                >
+                  100%
+                </div>
+                <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
+                  Tailor-made
+                  <br />
+                  itineraries
+                </div>
               </div>
-              <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
-                Tailor-made
-                <br />
-                itineraries
-              </div>
-            </div>
             </RevealItem>
           </Stagger>
         </div>
@@ -541,78 +562,78 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Photo */}
             <Reveal variant="slideLeft">
-            <div
-              className="relative overflow-hidden"
-              style={{ aspectRatio: "4 / 5" }}
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1000&q=70"
-                alt="Open-roof safari Land Cruiser — Divine Travel Nest Safaris"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-                loading="lazy"
-              />
-            </div>
+              <div
+                className="relative overflow-hidden"
+                style={{ aspectRatio: "4 / 5" }}
+              >
+                <Image
+                  src="https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1000&q=70"
+                  alt="Open-roof safari Land Cruiser — Divine Travel Nest Safaris"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  loading="lazy"
+                />
+              </div>
             </Reveal>
 
             {/* Content */}
             <Reveal variant="slideRight">
-            <div>
-              <div className="eyebrow">
-                <span className="dot" />
-                Why travellers choose us
-              </div>
-              <h2
-                className="font-serif font-normal leading-[1.0] tracking-[-0.02em] text-bone-ink mt-4 mb-4"
-                style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
-              >
-                One <em className="italic text-bone-clay">house</em>,
-                <br />
-                start to finish.
-              </h2>
-              <p
-                className="text-[15px] leading-[1.65] text-bone-muted mb-8"
-                style={{ maxWidth: "48ch" }}
-              >
-                The practical promises behind the brochure — the things that
-                make a Divine Travel Nest safari run smoothly from the first
-                email to the drive back to the airport.
-              </p>
+              <div>
+                <div className="eyebrow">
+                  <span className="dot" />
+                  Why travellers choose us
+                </div>
+                <h2
+                  className="font-serif font-normal leading-[1.0] tracking-[-0.02em] text-bone-ink mt-4 mb-4"
+                  style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
+                >
+                  One <em className="italic text-bone-clay">house</em>,
+                  <br />
+                  start to finish.
+                </h2>
+                <p
+                  className="text-[15px] leading-[1.65] text-bone-muted mb-8"
+                  style={{ maxWidth: "48ch" }}
+                >
+                  The practical promises behind the brochure — the things that
+                  make a Divine Travel Nest safari run smoothly from the first
+                  email to the drive back to the airport.
+                </p>
 
-              {/* Feature list */}
-              <div className="flex flex-col">
-                {standoutItems.map((f, i) => (
-                  <div
-                    key={f.ic}
-                    className="py-6 border-t grid gap-[18px] items-start"
-                    style={{
-                      borderColor: "rgba(31,29,24,0.14)",
-                      gridTemplateColumns: "36px 1fr",
-                      borderBottom:
-                        i === standoutItems.length - 1
-                          ? "1px solid rgba(31,29,24,0.14)"
-                          : undefined,
-                    }}
-                  >
+                {/* Feature list */}
+                <div className="flex flex-col">
+                  {standoutItems.map((f, i) => (
                     <div
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-white font-serif italic text-[16px] flex-shrink-0"
-                      style={{ background: "#9d4519" }}
+                      key={f.ic}
+                      className="py-6 border-t grid gap-[18px] items-start"
+                      style={{
+                        borderColor: "rgba(31,29,24,0.14)",
+                        gridTemplateColumns: "36px 1fr",
+                        borderBottom:
+                          i === standoutItems.length - 1
+                            ? "1px solid rgba(31,29,24,0.14)"
+                            : undefined,
+                      }}
                     >
-                      {f.ic}
+                      <div
+                        className="w-9 h-9 rounded-full flex items-center justify-center text-white font-serif italic text-[16px] flex-shrink-0"
+                        style={{ background: "#9d4519" }}
+                      >
+                        {f.ic}
+                      </div>
+                      <div>
+                        <h4 className="font-serif font-medium text-[22px] text-bone-ink mb-1 leading-[1.1]">
+                          {f.title}
+                        </h4>
+                        <p className="text-[14px] leading-[1.55] text-bone-muted">
+                          {f.body}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-serif font-medium text-[22px] text-bone-ink mb-1 leading-[1.1]">
-                        {f.title}
-                      </h4>
-                      <p className="text-[14px] leading-[1.55] text-bone-muted">
-                        {f.body}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
             </Reveal>
           </div>
         </div>
@@ -649,34 +670,34 @@ export default function AboutPage() {
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9">
             {team.map((member) => (
               <RevealItem key={member.name}>
-              <div className="group">
-                <div
-                  className="relative overflow-hidden mb-5"
-                  style={{ aspectRatio: "4 / 5", background: "#e4dbd0" }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={member.photo}
-                    alt={`${member.name}, ${member.role} — Divine Travel Nest Safaris`}
-                    className="w-full h-full object-cover object-top transition-all duration-1000 group-hover:scale-[1.03]"
-                    style={{ filter: "sepia(0.12) contrast(1.03)" }}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                <div className="group">
+                  <div
+                    className="relative overflow-hidden mb-5"
+                    style={{ aspectRatio: "4 / 5", background: "#e4dbd0" }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={member.photo}
+                      alt={`${member.name}, ${member.role} — Divine Travel Nest Safaris`}
+                      className="w-full h-full object-cover object-top transition-all duration-1000 group-hover:scale-[1.03]"
+                      style={{ filter: "sepia(0.12) contrast(1.03)" }}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <h3 className="font-serif italic text-[30px] leading-[1.05] text-bone-ink mb-1">
+                    {member.name}
+                  </h3>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-clay mb-3">
+                    {member.role}
+                  </p>
+                  <p
+                    className="text-[14px] leading-[1.6] text-bone-muted"
+                    style={{ maxWidth: "38ch" }}
+                  >
+                    {member.bio}
+                  </p>
                 </div>
-                <h3 className="font-serif italic text-[30px] leading-[1.05] text-bone-ink mb-1">
-                  {member.name}
-                </h3>
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-clay mb-3">
-                  {member.role}
-                </p>
-                <p
-                  className="text-[14px] leading-[1.6] text-bone-muted"
-                  style={{ maxWidth: "38ch" }}
-                >
-                  {member.bio}
-                </p>
-              </div>
               </RevealItem>
             ))}
           </Stagger>

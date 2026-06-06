@@ -12,12 +12,41 @@ export const metadata: Metadata = {
   title: "Contact Us — Plan Your Safari | Divine Travel Nest Safaris",
   description:
     "Get in touch with our safari experts in Nairobi. Free personalised safari proposals within 24 hours — call, WhatsApp or email us to start planning your East Africa adventure.",
+  keywords: [
+    "contact Divine Travel Nest",
+    "safari contact Nairobi",
+    "plan safari contact",
+    "safari proposal",
+    "customize safari itinerary",
+    "East Africa safari booking",
+    "safari planning help",
+    "Nairobi safari company contact",
+  ],
+  authors: [{ name: "Divine Travel Nest Safaris" }],
+  creator: "Divine Travel Nest Safaris",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact Divine Travel Nest Safaris",
     description:
       "Free personalised safari proposals within 24 hours. No obligations.",
     type: "website",
+    url: "/contact",
+    images: [
+      {
+        url: "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+        width: 1200,
+        height: 630,
+        alt: "Plan your African safari",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Divine Travel Nest Safaris",
+    description: "Free personalised safari proposals within 24 hours.",
+    images: [
+      "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+    ],
   },
 };
 
@@ -149,17 +178,17 @@ export default function ContactPage() {
           <Stagger className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
             {processSteps.map((step) => (
               <RevealItem key={step.num}>
-              <div className="text-center sm:text-left">
-                <div className="font-mono text-3xl text-bone-clay/30 font-light mb-3">
-                  {step.num}
+                <div className="text-center sm:text-left">
+                  <div className="font-mono text-3xl text-bone-clay/30 font-light mb-3">
+                    {step.num}
+                  </div>
+                  <h3 className="font-serif text-lg text-bone-ink mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs text-bone-muted leading-relaxed font-sans">
+                    {step.desc}
+                  </p>
                 </div>
-                <h3 className="font-serif text-lg text-bone-ink mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-xs text-bone-muted leading-relaxed font-sans">
-                  {step.desc}
-                </p>
-              </div>
               </RevealItem>
             ))}
           </Stagger>
@@ -305,14 +334,14 @@ export default function ContactPage() {
               { num: "100%", lbl: "Custom itineraries" },
             ].map((s) => (
               <RevealItem key={s.lbl}>
-              <div>
-                <div className="font-serif text-3xl sm:text-4xl text-[#f4d4a8] leading-none mb-1">
-                  {s.num}
+                <div>
+                  <div className="font-serif text-3xl sm:text-4xl text-[#f4d4a8] leading-none mb-1">
+                    {s.num}
+                  </div>
+                  <div className="text-xs text-bone-paper/55 font-mono uppercase tracking-[0.1em]">
+                    {s.lbl}
+                  </div>
                 </div>
-                <div className="text-xs text-bone-paper/55 font-mono uppercase tracking-[0.1em]">
-                  {s.lbl}
-                </div>
-              </div>
               </RevealItem>
             ))}
           </Stagger>
