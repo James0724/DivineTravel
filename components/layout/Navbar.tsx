@@ -184,7 +184,7 @@ const navLiftVars = {
 } as const;
 
 /* Optimized custom easing curve for a high-end feel */
-const smoothTransition = { duration: 0.22, ease: [0.25, 1, 0.5, 1] };
+const smoothTransition = { duration: 0.38, ease: [0.25, 1, 0.5, 1] };
 
 function DesktopNavLink({
   link,
@@ -335,7 +335,7 @@ function DesktopNavLink({
 const menuContainerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.04, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
   },
 };
 
@@ -344,7 +344,7 @@ const menuLinkVariants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.25, ease: [0.25, 1, 0.5, 1] },
+    transition: { duration: 0.55, ease: [0.25, 1, 0.5, 1] },
   },
 };
 
@@ -353,7 +353,7 @@ const menuCtaVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.25, ease: [0.25, 1, 0.5, 1], delay: 0.25 },
+    transition: { duration: 0.55, ease: [0.25, 1, 0.5, 1], delay: 0.55 },
   },
 };
 
@@ -424,7 +424,7 @@ function MobileNavItem({
         >
           <motion.span
             animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.22, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
             className="flex items-center justify-center"
           >
             <ChevronDown size={22} strokeWidth={1.5} />
@@ -439,7 +439,7 @@ function MobileNavItem({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
+            transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
             className="overflow-hidden"
           >
             <div className="pl-4 pt-1 pb-3 space-y-1">
@@ -479,6 +479,9 @@ export default function Navbar() {
   const lastScrollY = useRef(0);
   const topbarRef = useRef<HTMLDivElement>(null);
   const stickyHeaderRef = useRef<HTMLElement>(null);
+  // Ref so the scroll handler can read the latest mobileOpen without being
+  // re-created every time the mobile menu opens/closes.
+  const mobileOpenRef = useRef(false);
 
   useEffect(() => {
     const update = () => {
@@ -494,8 +497,17 @@ export default function Navbar() {
     return () => ro.disconnect();
   }, []);
 
+  // Keep ref in sync so the scroll handler always sees the latest value.
+  useEffect(() => {
+    mobileOpenRef.current = mobileOpen;
+  }, [mobileOpen]);
+
   useEffect(() => {
     const onScroll = () => {
+      // When the mobile menu is open the user is scrolling inside the overlay.
+      // Bail out completely so the menu doesn't close mid-scroll.
+      if (mobileOpenRef.current) return;
+
       const y = window.scrollY;
       const atTop = y < 60;
 
@@ -505,7 +517,6 @@ export default function Navbar() {
         setNavVisible(true);
       } else if (y > lastScrollY.current + 8) {
         setNavVisible(false);
-        setMobileOpen(false);
         setOpenDropdown(null);
       } else if (y < lastScrollY.current - 8) {
         setNavVisible(true);
@@ -582,7 +593,7 @@ export default function Navbar() {
         ref={stickyHeaderRef}
         className="sticky top-0 z-[100] w-full"
         animate={{ y: navVisible ? 0 : "-100%" }}
-        transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+        transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
       >
         <div
           className={cn(
@@ -652,7 +663,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: mobileOpen ? -3 : 3 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: mobileOpen ? 3 : -3 }}
-                  transition={{ duration: 0.15, ease: "linear" }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
                   className="block"
                 >
                   {mobileOpen ? "Close" : "Menu"}
@@ -671,7 +682,7 @@ export default function Navbar() {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%", pointerEvents: "none" }}
-            transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+            transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
             className="fixed inset-0 z-[200] bg-bone-paper flex flex-col xl:hidden"
           >
             <div className="flex items-center justify-between px-6 pt-[22px] mb-6 flex-shrink-0">

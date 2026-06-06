@@ -35,7 +35,7 @@ export default function Reveal({
   children,
   variant = "fadeUp",
   delay = 0,
-  duration = 0.65,
+  duration = 0.9,
   className,
   style,
 }: RevealProps) {
@@ -64,7 +64,7 @@ interface StaggerProps {
   style?: React.CSSProperties
 }
 
-export function Stagger({ children, stagger = 0.07, delay = 0, className, style }: StaggerProps) {
+export function Stagger({ children, stagger = 0.13, delay = 0, className, style }: StaggerProps) {
   return (
     <motion.div
       className={className}
@@ -95,7 +95,7 @@ interface RevealItemProps {
 export function RevealItem({
   children,
   variant = "fadeUp",
-  duration = 0.55,
+  duration = 0.8,
   className,
   style,
 }: RevealItemProps) {

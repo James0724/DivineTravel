@@ -32,7 +32,9 @@ export default function Hero() {
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const heroHeight = "calc(100dvh - var(--navbar-h, 90px))";
+  // svh (small viewport height) is stable on mobile — it doesn't grow when the
+  // browser chrome retracts, which prevents the "pumpy" resize during scroll.
+  const heroHeight = "calc(100svh - var(--navbar-h, 90px))";
 
   /* ── Navigation helpers ── */
   const goTo = useCallback(

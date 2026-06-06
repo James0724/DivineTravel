@@ -155,7 +155,7 @@ export default function DestinationsSection() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.28, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-16 items-start lg:items-stretch"
           >
             {/* ── Image ─────────────────────────────────────────────────── */}
