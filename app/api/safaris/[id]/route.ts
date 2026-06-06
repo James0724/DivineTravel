@@ -92,7 +92,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
     // Optionally clean up Cloudinary folder
     try {
-      await deleteFolder(`acacia-safaris/safaris/${safari.slug}`)
+      await deleteFolder(`divine-travel-nest-safaris/safaris/${safari.slug}`)
     } catch {
       // Non-fatal
     }

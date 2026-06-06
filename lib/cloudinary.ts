@@ -17,8 +17,8 @@ export const CLOUDINARY_FOLDERS = {
   team:           'web_images/team',
   misc:           'web_images/misc',
   // Legacy (kept for backward compatibility)
-  safaris:     (slug: string) => `acacia-safaris/safaris/${slug}`,
-  testimonials:'acacia-safaris/testimonials',
+  safaris:     (slug: string) => `divine-travel-nest-safaris/safaris/${slug}`,
+  testimonials:'divine-travel-nest-safaris/testimonials',
 } as const
 
 export type ImageUsage = 'safari-cover' | 'safari-gallery' | 'blog-cover' | 'portfolio' | 'team' | 'misc'

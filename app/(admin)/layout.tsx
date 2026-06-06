@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth'
 import AdminSidebar from '@/components/layout/AdminSidebar'
 
 export const metadata: Metadata = {
-  title: { default: 'Admin', template: '%s | Acacia Admin' },
+  title: { default: 'Admin', template: '%s | Divine Travel Nest Admin' },
   robots: { index: false, follow: false },
 }
 

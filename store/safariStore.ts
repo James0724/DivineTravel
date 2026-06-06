@@ -57,7 +57,7 @@ export const useSafariStore = create<SafariState>()(
         setSelectedTier: (selectedTier) => set({ selectedTier }),
       }),
       {
-        name: 'acacia-safari-store',
+        name: 'divine-travel-nest-safari-store',
         partialize: (state) => ({
           selectedTier: state.selectedTier,
           filters: state.filters,

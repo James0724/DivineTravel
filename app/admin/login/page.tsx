@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
             </svg>
           </div>
           <h1 className="font-serif text-2xl font-semibold text-bone-paper">
-            Acacia Safaris
+            Divine Travel Nest Safaris
           </h1>
           <p className="text-bone-paper/55 text-sm font-sans mt-1">Admin Panel</p>
         </div>
@@ -106,7 +106,7 @@ export default function AdminLoginPage() {
         </div>
 
         <p className="text-center text-xs text-bone-paper/30 font-sans mt-6">
-          © {new Date().getFullYear()} Acacia Safaris Ltd
+          © {new Date().getFullYear()} Divine Travel Nest Safaris Ltd
         </p>
       </div>
     </div>

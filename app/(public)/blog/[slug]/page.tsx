@@ -129,8 +129,8 @@ export default async function BlogDetailPage({ params }: Props) {
         url={buildAbsoluteUrl(`/blog/${post.slug}`)}
         image={post.coverImage}
         author={post.author}
-        publishedDate={post.publishedAt}
-        modifiedDate={post.updatedAt}
+        publishedDate={post.publishedAt ?? new Date().toISOString()}
+        modifiedDate={post.updatedAt ?? post.publishedAt ?? new Date().toISOString()}
         category={categoryLabel}
         keywords={post.tags}
         readingTime={post.readingTime}
@@ -204,7 +204,7 @@ export default async function BlogDetailPage({ params }: Props) {
       <section className="article-body">
         <div className="article-col">
           <div
-            className="prose-acacia"
+            className="prose-blog"
             dangerouslySetInnerHTML={{ __html: post.body }}
           />
 

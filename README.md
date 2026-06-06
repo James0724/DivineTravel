@@ -1,4 +1,4 @@
-# Acacia Safaris — Full-Stack Next.js Application
+# Divine Travel Nest Safaris — Full-Stack Next.js Application
 
 A production-ready safari booking platform with public frontend, REST API, and admin panel.
 
@@ -21,7 +21,7 @@ A production-ready safari booking platform with public frontend, REST API, and a
 ## Project Structure
 
 ```
-acacia-safaris/
+divine-travel-nest-safaris/
 ├── app/
 │   ├── (public)/          # Public-facing routes (no auth required)
 │   │   ├── page.tsx       # Home
@@ -98,7 +98,7 @@ Open [http://localhost:3000](http://localhost:3000) for the public site.
 Open [http://localhost:3000/admin](http://localhost:3000/admin) for the admin panel.
 
 Default admin credentials:
-- Email: `admin@acaciasafaris.com`
+- Email: `admin@divinetravelnest.com`
 - Password: `Admin@2025!`
 
 ## Cloudinary Folder Structure
@@ -106,7 +106,7 @@ Default admin credentials:
 Images are stored in well-organised Cloudinary folders:
 
 ```
-acacia-safaris/
+divine-travel-nest-safaris/
 ├── safaris/
 │   ├── {safari-slug}/     # Safari gallery images
 ├── blog/                  # Blog post images

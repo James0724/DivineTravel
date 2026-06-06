@@ -229,13 +229,13 @@
 
   /* ── Article prose ──────────────────────────────────────────────────────── */
 
-  .prose-acacia > p:first-child {
+  .prose-blog > p:first-child {
     font-size: 22px;
     line-height: 1.55;
     color: var(--ink);
     margin-bottom: 30px;
   }
-  .prose-acacia > p:first-child::first-letter {
+  .prose-blog > p:first-child::first-letter {
     font-family: 'Cormorant Garamond', serif;
     font-size: 72px;
     line-height: 0.8;
@@ -245,13 +245,13 @@
     font-weight: 400;
   }
 
-  .prose-acacia p {
+  .prose-blog p {
     font-size: 17px;
     line-height: 1.78;
     color: #36322b;
     margin-bottom: 26px;
   }
-  .prose-acacia h2 {
+  .prose-blog h2 {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
     font-size: 38px;
@@ -260,8 +260,8 @@
     color: var(--ink);
     margin: 52px 0 22px;
   }
-  .prose-acacia h2 em { font-style: italic; color: var(--clay); }
-  .prose-acacia h3 {
+  .prose-blog h2 em { font-style: italic; color: var(--clay); }
+  .prose-blog h3 {
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
     letter-spacing: 0.16em;
@@ -269,19 +269,19 @@
     color: var(--clay);
     margin: 44px 0 16px;
   }
-  .prose-acacia ul {
+  .prose-blog ul {
     list-style: none;
     padding-left: 0;
     margin: 0 0 30px;
   }
-  .prose-acacia ul li {
+  .prose-blog ul li {
     position: relative;
     padding: 0 0 12px 28px;
     font-size: 16.5px;
     line-height: 1.62;
     color: #36322b;
   }
-  .prose-acacia ul li::before {
+  .prose-blog ul li::before {
     content: '';
     position: absolute;
     left: 4px;
@@ -291,7 +291,7 @@
     background: var(--clay);
     border-radius: 50%;
   }
-  .prose-acacia blockquote {
+  .prose-blog blockquote {
     margin: 48px 0;
     padding: 4px 0 4px 32px;
     border-left: 3px solid var(--clay);
@@ -302,15 +302,15 @@
     line-height: 1.28;
     color: var(--forest);
   }
-  .prose-acacia figure {
+  .prose-blog figure {
     margin: 48px 0;
   }
-  .prose-acacia figure img {
+  .prose-blog figure img {
     width: 100%;
     height: auto;
     display: block;
   }
-  .prose-acacia figcaption {
+  .prose-blog figcaption {
     font-family: 'Geist Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.12em;
@@ -318,7 +318,7 @@
     color: var(--muted);
     margin-top: 12px;
   }
-  .prose-acacia a {
+  .prose-blog a {
     color: var(--clay);
     text-decoration: underline;
     text-underline-offset: 3px;

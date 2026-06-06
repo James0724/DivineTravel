@@ -34,12 +34,10 @@ const nextConfig: NextConfig = {
       "@radix-ui/react-tooltip",
       "date-fns",
     ],
-  },
-  // Keep prefetched page data fresh for 60 s in the client router cache so
-  // revisiting pages feels instant without stale flicker.
-  staleTimes: {
-    dynamic: 60,
-    static: 180,
+    staleTimes: {
+      dynamic: 60,
+      static: 180,
+    },
   },
   poweredByHeader: false,
   compress: true,

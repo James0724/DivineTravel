@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     // In production, you'd send an email here:
     // await sendEmail({
-    //   to: 'hello@acaciasafaris.com',
+    //   to: 'hello@divinetravelnest.com',
     //   subject: `New enquiry: ${body.subject}`,
     //   html: `<p>From: ${body.name} (${body.email})</p><p>${body.message}</p>`,
     // })
