@@ -5,7 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
-import { BreadcrumbSchema, ArticleSchema } from "@/components/seo/StructuredData";
+import {
+  BreadcrumbSchema,
+  ArticleSchema,
+} from "@/components/seo/StructuredData";
 import CommentSection from "@/components/blog/CommentSection";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { buildAbsoluteUrl } from "@/lib/utils";
@@ -130,7 +133,9 @@ export default async function BlogDetailPage({ params }: Props) {
         image={post.coverImage}
         author={post.author}
         publishedDate={post.publishedAt ?? new Date().toISOString()}
-        modifiedDate={post.updatedAt ?? post.publishedAt ?? new Date().toISOString()}
+        modifiedDate={
+          post.updatedAt ?? post.publishedAt ?? new Date().toISOString()
+        }
         category={categoryLabel}
         keywords={post.tags}
         readingTime={post.readingTime}
@@ -232,7 +237,7 @@ export default async function BlogDetailPage({ params }: Props) {
                     key={i}
                     className="group border border-[rgba(31,29,24,0.14)] rounded-sm overflow-hidden"
                   >
-                    <summary className="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none select-none font-sans text-[15px] font-medium text-bone-ink hover:bg-[rgba(31,29,24,0.03)] transition-colors">
+                    <summary className="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none select-none font-sans text-sm font-medium text-bone-ink hover:bg-[rgba(31,29,24,0.03)] transition-colors">
                       <span>{faq.question}</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -305,26 +310,26 @@ export default async function BlogDetailPage({ params }: Props) {
         >
           <div className="container-site">
             <Reveal>
-            <div className="section-hd" style={{ marginBottom: "48px" }}>
-              <div>
-                <div className="eyebrow mb-4">
-                  <span className="dot" />
-                  More from the journal
+              <div className="section-hd" style={{ marginBottom: "48px" }}>
+                <div>
+                  <div className="eyebrow mb-4">
+                    <span className="dot" />
+                    More from the journal
+                  </div>
+                  <h2
+                    className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-3"
+                    style={{ fontSize: "clamp(32px, 3.5vw, 48px)" }}
+                  >
+                    Keep <em className="italic text-bone-clay">reading</em>.
+                  </h2>
                 </div>
-                <h2
-                  className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-3"
-                  style={{ fontSize: "clamp(32px, 3.5vw, 48px)" }}
+                <Link
+                  href="/blog"
+                  className="text-[13px] text-bone-clay hover:underline font-sans self-end"
                 >
-                  Keep <em className="italic text-bone-clay">reading</em>.
-                </h2>
+                  View all articles →
+                </Link>
               </div>
-              <Link
-                href="/blog"
-                className="text-[13px] text-bone-clay hover:underline font-sans self-end"
-              >
-                View all articles →
-              </Link>
-            </div>
             </Reveal>
             <Stagger
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -332,38 +337,38 @@ export default async function BlogDetailPage({ params }: Props) {
             >
               {related.map((rp) => (
                 <RevealItem key={rp._id} className="flex flex-col gap-4">
-                <Link
-                  href={`/blog/${rp.slug}`}
-                  className="group flex flex-col gap-4 cursor-pointer h-full"
-                >
-                  <div
-                    className="overflow-hidden"
-                    style={{ aspectRatio: "3/2" }}
+                  <Link
+                    href={`/blog/${rp.slug}`}
+                    className="group flex flex-col gap-4 cursor-pointer h-full"
                   >
-                    <Image
-                      src={rp.coverImage}
-                      alt={rp.title}
-                      width={600}
-                      height={400}
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
-                    />
-                  </div>
-                  <div className="flex gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
-                    <span className="text-bone-clay">
-                      {CATEGORY_LABELS[rp.category as PostCategory] ??
-                        rp.category}
-                    </span>
-                    <span>·</span>
-                    <span>{rp.readingTime} min read</span>
-                  </div>
-                  <h3
-                    className="font-serif font-normal leading-[1.12] tracking-[-0.01em] text-bone-ink transition-colors group-hover:text-bone-clay"
-                    style={{ fontSize: "27px" }}
-                  >
-                    {rp.title}
-                  </h3>
-                </Link>
+                    <div
+                      className="overflow-hidden"
+                      style={{ aspectRatio: "3/2" }}
+                    >
+                      <Image
+                        src={rp.coverImage}
+                        alt={rp.title}
+                        width={600}
+                        height={400}
+                        sizes="(max-width: 640px) 100vw, 33vw"
+                        className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
+                      />
+                    </div>
+                    <div className="flex gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
+                      <span className="text-bone-clay">
+                        {CATEGORY_LABELS[rp.category as PostCategory] ??
+                          rp.category}
+                      </span>
+                      <span>·</span>
+                      <span>{rp.readingTime} min read</span>
+                    </div>
+                    <h3
+                      className="font-serif font-normal leading-[1.12] tracking-[-0.01em] text-bone-ink transition-colors group-hover:text-bone-clay"
+                      style={{ fontSize: "27px" }}
+                    >
+                      {rp.title}
+                    </h3>
+                  </Link>
                 </RevealItem>
               ))}
             </Stagger>
@@ -379,43 +384,47 @@ export default async function BlogDetailPage({ params }: Props) {
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-end">
             <Reveal>
-            <h2
-              className="font-serif font-light leading-[0.98] tracking-[-0.025em]"
-              style={{ fontSize: "clamp(44px, 5.5vw, 84px)", maxWidth: "15ch" }}
-            >
-              Ready to see it
-              <br />
-              for{" "}
-              <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>
-                yourself
-              </em>
-              ?
-            </h2>
+              <h2
+                className="font-serif font-light leading-[0.98] tracking-[-0.025em]"
+                style={{
+                  fontSize: "clamp(44px, 5.5vw, 84px)",
+                  maxWidth: "15ch",
+                }}
+              >
+                Ready to see it
+                <br />
+                for{" "}
+                <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>
+                  yourself
+                </em>
+                ?
+              </h2>
             </Reveal>
             <Reveal delay={0.1}>
-            <div>
-              <p
-                className="text-[15px] leading-[1.7]"
-                style={{ opacity: 0.8, maxWidth: "38ch" }}
-              >
-                Every dispatch here is a place we&apos;ll happily take you. Tell
-                us your dates and interests and we&apos;ll build a tailor-made
-                itinerary — free, no obligation, answered by a real person.
-              </p>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3.5 mt-6 px-6 py-4 rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
-                style={{ background: "#f4efe2" }}
-              >
-                Plan my safari
-                <span
-                  className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
-                  style={{ background: "#9d4519" }}
+              <div>
+                <p
+                  className="text-sm leading-[1.7]"
+                  style={{ opacity: 0.8, maxWidth: "38ch" }}
                 >
-                  →
-                </span>
-              </Link>
-            </div>
+                  Every dispatch here is a place we&apos;ll happily take you.
+                  Tell us your dates and interests and we&apos;ll build a
+                  tailor-made itinerary — free, no obligation, answered by a
+                  real person.
+                </p>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-3.5 mt-6 px-6 py-4 rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
+                  style={{ background: "#f4efe2" }}
+                >
+                  Plan my safari
+                  <span
+                    className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
+                    style={{ background: "#9d4519" }}
+                  >
+                    →
+                  </span>
+                </Link>
+              </div>
             </Reveal>
           </div>
         </div>

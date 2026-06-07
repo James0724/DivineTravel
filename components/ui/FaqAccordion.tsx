@@ -1,26 +1,35 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-export interface FaqItem { q: string; a: string }
-
-interface FaqAccordionProps {
-  faqs: FaqItem[]
-  /** 'default' — compact style used on destination pages; 'large' — serif 22px used on safari pages */
-  variant?: 'default' | 'large'
+export interface FaqItem {
+  q: string;
+  a: string;
 }
 
-const ease = [0.4, 0, 0.2, 1] as const
+interface FaqAccordionProps {
+  faqs: FaqItem[];
+  /** 'default' — compact style used on destination pages; 'large' — serif 22px used on safari pages */
+  variant?: "default" | "large";
+}
 
-export default function FaqAccordion({ faqs, variant = 'default' }: FaqAccordionProps) {
-  const [open, setOpen] = useState<number | null>(null)
+const ease = [0.4, 0, 0.2, 1] as const;
 
-  if (variant === 'large') {
+export default function FaqAccordion({
+  faqs,
+  variant = "default",
+}: FaqAccordionProps) {
+  const [open, setOpen] = useState<number | null>(null);
+
+  if (variant === "large") {
     return (
-      <ul style={{ borderTop: '1px solid rgba(31,29,24,0.14)' }}>
+      <ul style={{ borderTop: "1px solid rgba(31,29,24,0.14)" }}>
         {faqs.map((faq, i) => (
-          <li key={faq.q} style={{ borderBottom: '1px solid rgba(31,29,24,0.14)' }}>
+          <li
+            key={faq.q}
+            style={{ borderBottom: "1px solid rgba(31,29,24,0.14)" }}
+          >
             <button
               className="w-full text-left py-6 flex justify-between items-center cursor-pointer font-serif text-[22px] tracking-[-0.01em] text-bone-ink"
               onClick={() => setOpen(open === i ? null : i)}
@@ -39,19 +48,21 @@ export default function FaqAccordion({ faqs, variant = 'default' }: FaqAccordion
               {open === i && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
+                  animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.35, ease }}
                   className="overflow-hidden"
                 >
-                  <div className="pb-6 text-[15px] leading-[1.65] text-bone-muted">{faq.a}</div>
+                  <div className="pb-6 text-sm leading-[1.65] text-bone-muted">
+                    {faq.a}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </li>
         ))}
       </ul>
-    )
+    );
   }
 
   return (
@@ -76,17 +87,19 @@ export default function FaqAccordion({ faqs, variant = 'default' }: FaqAccordion
             {open === i && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
+                animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease }}
                 className="overflow-hidden"
               >
-                <p className="mt-3 text-sm text-bone-ink/65 leading-relaxed pr-8">{faq.a}</p>
+                <p className="mt-3 text-sm text-bone-ink/65 leading-relaxed pr-8">
+                  {faq.a}
+                </p>
               </motion.div>
             )}
           </AnimatePresence>
         </li>
       ))}
     </ul>
-  )
+  );
 }

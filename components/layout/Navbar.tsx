@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Phone, Mail, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SiteLink from "@/components/ui/SiteLink";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NAV DATA
@@ -47,9 +48,14 @@ const navLinks: NavItem[] = [
         description: "Gorilla trekking & chimp tracking",
       },
       {
-        label: "cross-country safaris",
+        label: "Rwanda Safaris",
+        href: "/safaris/rwanda",
+        description: "Volcanoes, Nyungwe & Akagera",
+      },
+      {
+        label: "Cross-country Safaris",
         href: "/safaris/cross-country-safaris",
-        description: "Kenya · Tanzania · Uganda circuits",
+        description: "Kenya · Tanzania · Uganda · Rwanda  circuits",
       },
     ],
   },
@@ -71,6 +77,11 @@ const navLinks: NavItem[] = [
         label: "Uganda Wildlife Parks",
         href: "/destinations/uganda",
         description: "Gorillas, chimps & savannah",
+      },
+      {
+        label: "Rwanda Wildlife Parks",
+        href: "/destinations/rwanda",
+        description: "Volcanoes, Nyungwe & Akagera",
       },
     ],
   },
@@ -215,7 +226,7 @@ function DesktopNavLink({
       <MotionLink
         href={link.href}
         className={cn(
-          "relative block font-serif text-2xl py-1 group transition-colors duration-200",
+          "relative block font-serif py-1 group transition-colors duration-200",
           active ? "text-bone-forest" : "text-bone-ink hover:text-bone-forest",
         )}
         variants={navLiftVars}
@@ -223,7 +234,7 @@ function DesktopNavLink({
         whileHover="hover"
         transition={smoothTransition}
       >
-        <span className="relative z-[1]">{link.label}</span>
+        <h5 className="relative z-[1]">{link.label}</h5>
         <span
           className={cn(
             "absolute bottom-0 left-0 w-full h-[1.5px] bg-bone-clay origin-left",
@@ -244,7 +255,7 @@ function DesktopNavLink({
         <MotionLink
           href={link.href}
           className={cn(
-            "relative flex items-center font-serif text-2xl py-1 group",
+            "relative flex items-center font-serif py-1 group",
             "transition-colors duration-200",
             active || open
               ? "text-bone-forest"
@@ -255,7 +266,7 @@ function DesktopNavLink({
           whileHover="hover"
           transition={smoothTransition}
         >
-          <span className="relative z-[1]">{link.label}</span>
+          <h5 className="relative z-[1]">{link.label}</h5>
           <motion.button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -313,12 +324,12 @@ function DesktopNavLink({
                     "border-b border-[rgba(23,22,18,0.07)]",
                 )}
               >
-                <span className="text-[13px] font-medium text-bone-ink group-hover:text-bone-forest transition-colors">
+                <p className="font-serif font-medium text-bone-ink group-hover:text-bone-forest transition-colors">
                   {item.label}
-                </span>
-                <span className="text-[11px] text-bone-muted mt-0.5 leading-snug">
+                </p>
+                <p className="font-serif text-bone-muted mt-0.5 leading-snug">
                   {item.description}
-                </span>
+                </p>
               </Link>
             ))}
           </motion.div>
@@ -543,7 +554,10 @@ export default function Navbar() {
   return (
     <>
       {/* TOPBAR */}
-      <div ref={topbarRef} className="w-full z-[50] bg-bone-ink text-[rgba(244,239,226,0.82)] font-mono text-[11px] tracking-[0.1em] px-6 lg:px-12 py-[9px] flex justify-between items-center overflow-hidden">
+      <div
+        ref={topbarRef}
+        className="w-full z-[50] bg-bone-ink text-[rgba(244,239,226,0.82)] font-mono text-[11px] tracking-[0.1em] px-6 lg:px-12 py-[9px] flex justify-between items-center overflow-hidden"
+      >
         <div className="flex gap-4 items-center flex-wrap min-w-0">
           <a
             href="tel:+254722595916"
@@ -640,15 +654,13 @@ export default function Navbar() {
 
           {/* Right CTA */}
           <div className="flex items-center justify-end gap-4">
-            <SiteLink
-              href="/plan-my-safari"
-              variant="solid"
-              size="sm"
-              arrow={false}
-              className="hidden lg:inline-flex"
+            <HoverBorderGradient
+              as={Link}
+              href="/contact"
+              containerClassName="hidden lg:flex"
             >
               Plan My Safari
-            </SiteLink>
+            </HoverBorderGradient>
 
             <motion.button
               className="lg:hidden font-mono text-sm uppercase tracking-[0.14em] text-bone-ink/70 hover:text-bone-clay transition-colors min-w-[36px] text-right"
@@ -727,17 +739,17 @@ export default function Navbar() {
               animate="visible"
               className="px-6 pt-6 pb-4 flex-shrink-0"
             >
-              <SiteLink
-                href="/plan-my-safari"
-                variant="solid"
-                size="lg"
-                className="w-full justify-center"
+              <HoverBorderGradient
+                as={Link}
+                href="/contact"
+                containerClassName="w-full justify-center"
+                className="w-full justify-center text-[14px] py-[10px] px-5"
               >
                 Plan My Safari
-              </SiteLink>
+              </HoverBorderGradient>
             </motion.div>
 
-            <div className="px-6 pb-8 flex-shrink-0 flex flex-col gap-1.5 font-mono text-[12px] tracking-[0.06em] text-bone-muted">
+            <div className="px-6 pb-8 flex-shrink-0 flex justify-between gap-1.5 font-mono text-[12px] tracking-[0.06em] text-bone-muted">
               <a
                 href="tel:+254722595916"
                 className="hover:text-bone-clay transition-colors"

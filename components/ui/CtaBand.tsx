@@ -39,12 +39,17 @@ export default function CtaBand({
             <Reveal variant="fadeUp" delay={0.1}>
               <div>
                 <p
-                  className="text-[15px] leading-[1.7]"
+                  className="text-sm leading-[1.7]"
                   style={{ opacity: 0.8, maxWidth: "38ch" }}
                 >
                   {description}
                 </p>
-                <SiteLink href={buttonHref} variant="paper" size="lg" className="mt-6">
+                <SiteLink
+                  href={buttonHref}
+                  variant="paper"
+                  size="lg"
+                  className="mt-6"
+                >
                   {buttonText}
                 </SiteLink>
               </div>
@@ -72,7 +77,12 @@ export default function CtaBand({
               <p className="text-bone-paper/65 text-base font-sans leading-relaxed mb-7">
                 {description}
               </p>
-              <SiteLink href={buttonHref} variant="paper" size="md" arrow={false}>
+              <SiteLink
+                href={buttonHref}
+                variant="paper"
+                size="md"
+                arrow={false}
+              >
                 {buttonText}
               </SiteLink>
             </div>

@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Reveal from "../ui/Reveal";
+import { AnimatedHeading } from "../ui/Heading";
 
 const MONTHS = [
   "JAN",
@@ -232,176 +234,286 @@ const DATA: MonthData[] = [
   },
 ];
 
+const AUTO_DELAY = 5000;
+
 export default function MigrationCalendar() {
   const [m, setM] = useState<number>(7); // August default
-  const d = DATA[m];
   const [auto, setAuto] = useState<boolean>(false);
+  const d = DATA[m];
+  const stripRef = useRef<HTMLDivElement>(null);
+  const chipRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const navigate = useCallback((dir: 1 | -1) => {
+    setAuto(false);
+    setM((prev) => (prev + dir + 12) % 12);
+  }, []);
 
   useEffect(() => {
     if (!auto) return;
-    const id = setInterval(() => setM((prev) => (prev + 1) % 12), 2400);
+    const id = setInterval(() => setM((prev) => (prev + 1) % 12), AUTO_DELAY);
     return () => clearInterval(id);
   }, [auto]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") navigate(-1);
+      if (e.key === "ArrowRight") navigate(1);
+      if (e.key === " ") {
+        e.preventDefault();
+        setAuto((a) => !a);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navigate]);
+
+  useEffect(() => {
+    const chip = chipRefs.current[m];
+    const strip = stripRef.current;
+    if (!chip || !strip) return;
+    strip.scrollTo({
+      left: chip.offsetLeft - strip.offsetWidth / 2 + chip.offsetWidth / 2,
+      behavior: "smooth",
+    });
+  }, [m]);
+
   return (
     <section className="relative w-full overflow-hidden bg-bone-bg py-[clamp(56px,9vw,140px)] text-bone-ink antialiased">
-      {/* Structural ambient guide styling details */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-bone-clay to-transparent opacity-40" />
 
       <div className="mx-auto max-w-[1320px] px-[clamp(20px,5vw,64px)]">
-        {/* Header Block Section */}
-        <header className="mb-[clamp(40px,6vw,80px)] max-w-[760px]">
-          <div className="mb-7 inline-block border-b border-bone-clay pb-2 font-mono text-[11px] uppercase tracking-[0.22em] text-bone-clay">
-            A year in the ecosystem
+        {/* Header */}
+        <header className="section-hd">
+          <div>
+            <Reveal variant="fadeUp">
+              <div className="eyebrow mb-4">
+                <span className="dot" />A year in the ecosystem
+              </div>
+            </Reveal>
+            <AnimatedHeading
+              as="h1"
+              textBefore="A "
+              highlightedText="calendar "
+              textAfter="of two million hooves"
+            />
           </div>
-          <h2 className="mb-6 font-serif text-[clamp(38px,6vw,76px)] font-normal leading-[1.02] tracking-tight">
-            A <em className="font-normal italic text-bone-clay">calendar</em> of
-            <br />
-            two million hooves.
-          </h2>
-          <p className="max-w-[60ch] text-[clamp(15px,1.4vw,18px)] leading-[1.55] text-bone-ink/60">
-            The Great Migration is a year-long loop, not a single moment. Click
-            or scroll through the months to follow the herd — and parallel
-            highlights up in Uganda.
-          </p>
+          <Reveal variant="fadeUp">
+            <div>
+              <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
+                The Great Migration is a year-long loop, not a single moment.
+                Select a month — or use the arrow keys — to follow the herd and
+                parallel highlights up in Uganda.
+              </p>
+            </div>
+          </Reveal>
         </header>
 
-        {/* Timeline Navigation Slider Track Line Layout */}
-        <div className="relative mb-[clamp(36px,5vw,64px)] flex snap-x snap-mandatory overflow-x-auto border-b border-border py-10 pb-8 sm:grid sm:grid-cols-[repeat(12,1fr)_auto] sm:gap-1 sm:overflow-visible sm:py-10 sm:pb-12 chip-scroll">
-          <div className="absolute left-0 right-0 top-[52px] hidden h-px bg-border pointer-events-none sm:block" />
-
-          {MONTHS.map((label, i) => {
-            const isActive = i === m;
-            return (
-              <button
-                key={label}
-                type="button"
-                className={`relative flex flex-shrink-0 snap-center flex-row items-center gap-2 border border-border bg-bone-paper px-3.5 py-2.5 font-sans transition-colors duration-300 first:ml-1 last:mr-1 sm:flex-col sm:border-0 sm:bg-transparent sm:p-0 sm:pt-2 ${
-                  isActive
-                    ? "bg-bone-clay text-bone-paper sm:bg-transparent"
-                    : "text-bone-ink/40 hover:text-bone-ink"
-                }`}
-                onClick={() => {
-                  setAuto(false);
-                  setM(i);
-                }}
-              >
-                {/* Desktop Slider Node Point */}
-                <span
-                  className={`hidden h-3 w-3 rounded-full border border-transparent transition-all duration-300 z-10 sm:block ${
-                    isActive
-                      ? "bg-bone-clay scale-110 shadow-[0_0_0_6px_rgba(157,69,25,0.12)]"
-                      : "bg-border-strong"
-                  }`}
-                />
-
-                {/* Desktop Track Tick bar mark line element */}
-                <span
-                  className={`hidden w-px bg-border transition-all duration-300 sm:block ${
-                    isActive ? "h-6 bg-bone-clay" : "h-4.5"
-                  }`}
-                />
-
-                <span
-                  className={`font-mono text-[11px] uppercase tracking-[0.18em] ${isActive ? "sm:text-bone-clay" : ""}`}
-                >
-                  {label}
-                </span>
-              </button>
-            );
-          })}
-
-          <button
-            type="button"
-            className={`mt-3 w-full font-mono text-[10px] uppercase tracking-[0.18em] border border-border px-3.5 py-2 transition-colors duration-200 whitespace-nowrap sm:mt-0 sm:ml-3 sm:w-auto sm:self-end ${
-              auto
-                ? "bg-bone-forest text-bone-paper border-bone-forest"
-                : "text-bone-ink/60 hover:text-bone-ink hover:border-bone-ink"
-            }`}
-            onClick={() => setAuto((a) => !a)}
-          >
-            {auto ? "◼ pause" : "▶ play year"}
-          </button>
-        </div>
-
-        {/* Content Splitting Panels Grid Section */}
+        {/* Two-column: content left, map + calendar docked right */}
         <div className="grid grid-cols-1 items-start gap-[clamp(40px,6vw,96px)] lg:grid-cols-[1fr_1.05fr]">
-          {/* Informational Text Module Display Panel */}
+          {/* ── Left: text content ── */}
           <div className="w-full">
-            <div className="mb-[18px] border-b border-border pb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/60">
-              {MONTHS[m]} · {d.region}
+            <div className="mb-[18px] flex items-center justify-between border-b border-border pb-2">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/60">
+                {MONTHS[m]} · {d.region}
+              </span>
+              <span className="font-mono text-[10px] tabular-nums tracking-[0.14em] text-bone-ink/30">
+                {m + 1} / 12
+              </span>
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={m}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.35, ease: "easeInOut" }}
-              >
-                <h3 className="mb-6 font-serif text-[clamp(30px,4vw,52px)] font-normal leading-[1.05] tracking-tight">
-                  {d.title[0]}
-                  <br />
-                  <em className="italic text-bone-clay">{d.title[1]}</em>
-                </h3>
+            {/* Fixed-height container + absolutely-positioned children = zero layout shift */}
+            <div className="relative min-h-[300px] mb-9">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={m}
+                  className="absolute inset-x-0 top-0"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                >
+                  <AnimatedHeading
+                    as="h2"
+                    className="mb-4"
+                    textBefore={`${d.title[0]} `}
+                    highlightedText={d.title[1]}
+                    textAfter={d.title[2] || ""}
+                  />
 
-                <p className="mb-9 max-w-[56ch] text-[clamp(15px,1.25vw,17px)] leading-[1.62] text-bone-ink/60 text-balance">
-                  {d.body}
-                </p>
-              </motion.div>
-            </AnimatePresence>
+                  <div className="min-h-[110px] sm:min-h-[85px] md:min-h-[70px]">
+                    <p className="max-w-[56ch] leading-[1.62] text-bone-ink/60 text-balance">
+                      {d.body}
+                    </p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-            <dl className="mb-10 grid grid-cols-2 gap-x-8 gap-y-6 border-y border-border py-7 max-xs:grid-cols-1">
+            <dl className="mb-10 grid grid-cols-2 gap-x-8 gap-y-6 border-y border-border py-7 max-xs:grid-cols-1 min-h-[110px] sm:min-h-[85px] md:min-h-[70px]">
               <div className="flex flex-col gap-1.5">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/40">
                   Region
                 </dt>
-                <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
-                  {d.region}
-                </dd>
+                {/* Adding key={m} forces the Reveal component to replay on month shifts */}
+                <Reveal key={m} variant="slideLeft">
+                  <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
+                    {d.region}
+                  </dd>
+                </Reveal>
               </div>
               <div className="flex flex-col gap-1.5">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/40">
                   Best for
                 </dt>
-                <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
-                  {d.best}
-                </dd>
+                <Reveal key={m} variant="slideRight">
+                  <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
+                    {d.best}
+                  </dd>
+                </Reveal>
               </div>
               <div className="flex flex-col gap-1.5">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/40">
                   Crowd
                 </dt>
-                <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
-                  {d.crowd}
-                </dd>
+                <Reveal key={m} variant="slideLeft">
+                  <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
+                    {d.crowd}
+                  </dd>
+                </Reveal>
               </div>
               <div className="flex flex-col gap-1.5">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/40">
                   Season
                 </dt>
-                <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
-                  {d.rain}
-                </dd>
+                <Reveal key={m} variant="slideRight">
+                  <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
+                    {d.rain}
+                  </dd>
+                </Reveal>
               </div>
             </dl>
 
-            <div className="flex flex-wrap items-baseline gap-x-4.5 gap-y-2.5 bg-bone-paper border-l-2 border-bone-forest p-5">
-              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-bone-forest mr-2 font-medium">
-                Meanwhile in Uganda
-              </span>
-              <span className="font-serif text-[19px] text-bone-ink">
-                {d.uganda.park}
-              </span>
-              <span className="w-full text-sm text-bone-ink/60 mt-1 sm:mt-0 sm:flex-1 sm:basis-full">
-                {d.uganda.note}
-              </span>
-            </div>
+            <Reveal key={m} variant="fadeDown">
+              <div className="flex flex-wrap items-baseline gap-x-4.5 gap-y-2.5 bg-bone-paper border-l-2 border-bone-forest p-5">
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-bone-forest mr-2 font-medium">
+                  Meanwhile in Uganda
+                </span>
+                <span className="font-serif text-[19px] text-bone-ink">
+                  {d.uganda.park}
+                </span>
+                <span className="w-full text-sm text-bone-ink/60 mt-1 sm:mt-0 sm:flex-1 sm:basis-full">
+                  {d.uganda.note}
+                </span>
+              </div>
+            </Reveal>
           </div>
 
-          {/* Map Vector Component Module */}
-          <MigrationMap d={d} />
+          {/* ── Right: map + calendar nav docked flush below ── */}
+          <div className="flex flex-col max-h-[80dvh]">
+            <MigrationMap d={d} />
+
+            {/* Calendar navigation bar — zero gap from the map border */}
+            <nav
+              aria-label="Migration calendar — select a month"
+              className="border border-t-0 border-border bg-bone-paper"
+            >
+              {/* Auto-play progress bar */}
+              <div className="h-[2px] w-full overflow-hidden bg-bone-clay/10">
+                {auto && (
+                  <motion.div
+                    key={m}
+                    className="h-full bg-bone-clay"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: AUTO_DELAY / 1000, ease: "linear" }}
+                  />
+                )}
+              </div>
+
+              <div className="flex items-stretch">
+                <button
+                  type="button"
+                  onClick={() => navigate(-1)}
+                  aria-label={`Previous: ${MONTHS[(m + 11) % 12]}`}
+                  className="flex min-w-[44px] items-center justify-center border-r border-border px-4 py-4 text-bone-ink/50 transition-colors duration-200 hover:bg-bone-clay/5 hover:text-bone-clay focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-clay"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-[13px] leading-none"
+                  >
+                    ←
+                  </span>
+                </button>
+
+                {/* Month chips */}
+                <div
+                  ref={stripRef}
+                  role="tablist"
+                  aria-label="Months"
+                  className="chip-scroll flex flex-1 overflow-x-auto"
+                >
+                  {MONTHS.map((label, i) => (
+                    <button
+                      key={label}
+                      ref={(el) => {
+                        chipRefs.current[i] = el;
+                      }}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === m}
+                      aria-label={`${label} — ${DATA[i].region}`}
+                      onClick={() => {
+                        setAuto(false);
+                        setM(i);
+                      }}
+                      className={`relative flex min-w-[44px] flex-shrink-0 flex-col items-center justify-center gap-[5px] px-3 py-4 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-bone-clay ${
+                        i === m
+                          ? "text-bone-clay"
+                          : "text-bone-ink/40 hover:text-bone-ink"
+                      }`}
+                    >
+                      {label}
+                      <span
+                        className={`block h-[3px] w-[3px] rounded-full transition-all duration-300 ${
+                          i === m ? "bg-bone-clay opacity-100" : "opacity-0"
+                        }`}
+                      />
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => navigate(1)}
+                  aria-label={`Next: ${MONTHS[(m + 1) % 12]}`}
+                  className="flex min-w-[44px] items-center justify-center border-l border-border px-4 py-4 text-bone-ink/50 transition-colors duration-200 hover:bg-bone-clay/5 hover:text-bone-clay focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-clay"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-[13px] leading-none"
+                  >
+                    →
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setAuto((a) => !a)}
+                  aria-label={
+                    auto ? "Pause auto-play" : "Play year automatically"
+                  }
+                  aria-pressed={auto}
+                  className={`flex min-w-[44px] items-center justify-center border-l border-border px-4 py-4 font-mono text-[9px] tracking-[0.14em] uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-clay ${
+                    auto
+                      ? "bg-bone-clay text-bone-paper"
+                      : "text-bone-ink/40 hover:text-bone-ink"
+                  }`}
+                >
+                  <span aria-hidden="true">{auto ? "◼" : "▶"}</span>
+                </button>
+              </div>
+            </nav>
+          </div>
         </div>
       </div>
     </section>
@@ -418,7 +530,7 @@ function MigrationMap({ d }: { d: MonthData }) {
         role="img"
         aria-label="East Africa Ecosystem Map"
       >
-        {/* Uganda Country Contour Poly Boundary Shape */}
+        {/* Uganda */}
         <path
           className={`stroke-bone-ink/30 stroke-[0.7] transition-all duration-[600ms] ease-in-out ${
             d.country === "ug"
@@ -427,7 +539,7 @@ function MigrationMap({ d }: { d: MonthData }) {
           }`}
           d="M40 130 L130 110 L155 145 L150 195 L95 220 L40 200 Z"
         />
-        {/* Kenya Country Contour Poly Boundary Shape */}
+        {/* Kenya */}
         <path
           className={`stroke-bone-ink/30 stroke-[0.7] transition-all duration-[600ms] ease-in-out ${
             d.country === "ke"
@@ -436,7 +548,7 @@ function MigrationMap({ d }: { d: MonthData }) {
           }`}
           d="M155 80 L280 90 L350 130 L340 220 L240 240 L155 200 L150 145 Z"
         />
-        {/* Tanzania Country Contour Poly Boundary Shape */}
+        {/* Tanzania */}
         <path
           className={`stroke-bone-ink/30 stroke-[0.7] transition-all duration-[600ms] ease-in-out ${
             d.country === "tz"
@@ -446,13 +558,13 @@ function MigrationMap({ d }: { d: MonthData }) {
           d="M95 220 L240 240 L340 220 L325 360 L260 410 L165 405 L100 360 Z"
         />
 
-        {/* General Serengeti-Mara Ecosystem Loop Route Guideline Trace */}
+        {/* Migration loop route */}
         <path
           className="fill-none stroke-bone-clay stroke-1 [stroke-dasharray:3_4] opacity-50"
           d="M 205 348 C 175 340, 158 305, 162 282 C 168 260, 188 230, 205 195 C 215 178, 215 192, 210 215 C 200 245, 195 285, 200 320 C 202 335, 205 348, 205 348 Z"
         />
 
-        {/* Dynamic Connected Alignment Tracking Link Vector Line */}
+        {/* Link line between Uganda highlight and herd position */}
         <motion.line
           className="stroke-bone-ink stroke-[0.6] [stroke-dasharray:2_4] opacity-20"
           initial={false}
@@ -465,7 +577,7 @@ function MigrationMap({ d }: { d: MonthData }) {
           transition={{ type: "spring", stiffness: 60, damping: 16 }}
         />
 
-        {/* Standard Parks Marker Positions Points */}
+        {/* Park markers */}
         <g className="fill-bone-ink opacity-60">
           <circle cx="210" cy="180" r="2" />
           <text
@@ -507,7 +619,7 @@ function MigrationMap({ d }: { d: MonthData }) {
           </text>
         </g>
 
-        {/* Uganda Protected Landmarks Pins Elements */}
+        {/* Uganda park markers */}
         <g className="fill-bone-ink opacity-60">
           <circle cx="78" cy="198" r="2" />
           <text
@@ -549,7 +661,7 @@ function MigrationMap({ d }: { d: MonthData }) {
           </text>
         </g>
 
-        {/* Geopolitical Sovereignty Boundary Country Text Tags */}
+        {/* Country labels */}
         <text
           className="font-serif text-[18px] fill-bone-ink opacity-50 pointer-events-none select-none"
           x="55"
@@ -572,7 +684,7 @@ function MigrationMap({ d }: { d: MonthData }) {
           Tanzania
         </text>
 
-        {/* Primary Animated Spring Tracker Target: Wildebeest Movement Cluster Loop Node */}
+        {/* Wildebeest position */}
         <motion.g
           className="transform-box-fill-box transform-origin-center"
           initial={false}
@@ -599,7 +711,7 @@ function MigrationMap({ d }: { d: MonthData }) {
           />
         </motion.g>
 
-        {/* Secondary Animated Spring Tracker Target: Parallel Cross-Border Country Point Highlight */}
+        {/* Uganda highlight position */}
         <motion.g
           className="transform-box-fill-box transform-origin-center"
           initial={false}
@@ -621,11 +733,12 @@ function MigrationMap({ d }: { d: MonthData }) {
         </motion.g>
       </svg>
 
-      {/* Floating Informational Map Card Widgets */}
+      {/* Map caption */}
       <div className="absolute bottom-4 left-4 z-20 bg-bone-ink px-3.5 py-2 font-mono text-[10px] tracking-[0.2em] uppercase text-bone-paper">
         {d.cap}
       </div>
 
+      {/* Legend */}
       <div className="absolute top-4 right-4 z-20 flex flex-col gap-1.5 bg-bone-paper/90 p-2.5 px-3 border border-border backdrop-blur-sm">
         <div className="flex items-center gap-2 font-mono text-[9px] tracking-[0.16em] uppercase text-bone-ink/70">
           <span className="h-2 w-2 rounded-full bg-bone-clay" /> Wildebeest

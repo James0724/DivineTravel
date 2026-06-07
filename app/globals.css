@@ -40,7 +40,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden; /* fallback for browsers without clip support */
-    overflow-x: clip;   /* preferred: clips without breaking position:sticky */
+    overflow-x: clip; /* preferred: clips without breaking position:sticky */
     width: 100%;
     max-width: 100%;
   }
@@ -49,7 +49,7 @@
     @apply font-sans text-bone-ink bg-bone-bg;
     min-height: 100dvh;
     overflow-x: hidden; /* fallback */
-    overflow-x: clip;   /* preferred */
+    overflow-x: clip; /* preferred */
     width: 100%;
     max-width: 100%;
   }
@@ -58,6 +58,29 @@
   h2,
   h3 {
     @apply font-serif;
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 5vw + 1rem, 4rem);
+  }
+  h2 {
+    font-size: clamp(1.75rem, 3.5vw + 1rem, 3rem);
+  }
+  h3 {
+    font-size: clamp(1.5rem, 2.5vw + 1rem, 2.25rem);
+  }
+  h4 {
+    font-size: clamp(1.25rem, 1.5vw + 1rem, 1.75rem);
+  }
+  h5 {
+    font-size: clamp(1.125rem, 1vw + 0.8rem, 1.35rem);
+  }
+  h6 {
+    font-size: clamp(1rem, 0.5vw + 0.9rem, 1.125rem);
+  }
+  p,
+  li {
+    font-size: clamp(1rem, 0.3vw + 0.9rem, 1.125rem);
   }
 
   :focus-visible {
@@ -127,10 +150,10 @@
   /* Section header */
 
   .section-hd {
-    @apply grid grid-cols-1 lg:grid-cols-[1fr_2fr]
-           gap-4 lg:gap-16
+    @apply grid grid-cols-1 lg:grid-cols-[1.5fr_1fr]
+           gap-2 lg:gap-16
            items-end
-           mb-8 lg:mb-14;
+           mb-6 lg:mb-10;
   }
 
   /* Forest CTA button */
@@ -163,10 +186,15 @@
     align-items: flex-end;
   }
   .article-hero::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(20,16,10,0.4) 0%, rgba(20,16,10,0.1) 38%, rgba(20,16,10,0.82) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(20, 16, 10, 0.4) 0%,
+      rgba(20, 16, 10, 0.1) 38%,
+      rgba(20, 16, 10, 0.82) 100%
+    );
   }
   .article-hero .inner {
     position: relative;
@@ -180,52 +208,89 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Geist Mono', monospace;
+    font-family: "Geist Mono", monospace;
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     opacity: 0.85;
     margin-bottom: 30px;
     transition: opacity 0.2s;
-    color: rgba(244,239,226,0.85);
+    color: rgba(244, 239, 226, 0.85);
   }
-  .article-hero .back:hover { opacity: 1; color: #f4d4a8; }
+  .article-hero .back:hover {
+    opacity: 1;
+    color: #f4d4a8;
+  }
   .article-hero .a-meta {
     display: flex;
     gap: 14px;
-    font-family: 'Geist Mono', monospace;
+    font-family: "Geist Mono", monospace;
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     opacity: 0.88;
     margin-bottom: 22px;
   }
-  .article-hero .a-meta .cat { color: #f4d4a8; }
-  .article-hero .a-meta span::before { content: '· '; opacity: 0.5; margin-right: 6px; }
-  .article-hero .a-meta span:first-child::before { content: ''; margin: 0; }
+  .article-hero .a-meta .cat {
+    color: #f4d4a8;
+  }
+  .article-hero .a-meta span::before {
+    content: "· ";
+    opacity: 0.5;
+    margin-right: 6px;
+  }
+  .article-hero .a-meta span:first-child::before {
+    content: "";
+    margin: 0;
+  }
   .article-hero h1 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: "Cormorant Garamond", serif;
     font-weight: 300;
     font-size: clamp(40px, 6vw, 92px);
     line-height: 0.98;
     letter-spacing: -0.025em;
     max-width: 18ch;
   }
-  .article-hero h1 em { font-style: italic; color: #f4d4a8; }
-  .article-hero .byline { display: flex; align-items: center; gap: 13px; margin-top: 32px; }
+  .article-hero h1 em {
+    font-style: italic;
+    color: #f4d4a8;
+  }
+  .article-hero .byline {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 32px;
+  }
   .article-hero .byline .av {
-    width: 46px; height: 46px; border-radius: 50%; object-fit: cover;
-    border: 2px solid rgba(250,246,236,0.5);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(250, 246, 236, 0.5);
   }
-  .article-hero .byline .nm b { display: block; font-weight: 500; font-size: 14px; }
+  .article-hero .byline .nm b {
+    display: block;
+    font-weight: 500;
+    font-size: 14px;
+  }
   .article-hero .byline .nm span {
-    font-family: 'Geist Mono', monospace;
-    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75;
+    font-family: "Geist Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.75;
   }
 
-  .article-body { background: var(--bg); padding: 88px 0 100px; }
+  .article-body {
+    background: var(--bg);
+    padding: 88px 0 100px;
+  }
 
-  .article-col { max-width: 720px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+  .article-col {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
 
   /* ── Article prose ──────────────────────────────────────────────────────── */
 
@@ -236,7 +301,7 @@
     margin-bottom: 30px;
   }
   .prose-blog > p:first-child::first-letter {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: "Cormorant Garamond", serif;
     font-size: 72px;
     line-height: 0.8;
     float: left;
@@ -252,7 +317,7 @@
     margin-bottom: 26px;
   }
   .prose-blog h2 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: "Cormorant Garamond", serif;
     font-weight: 400;
     font-size: 38px;
     line-height: 1.08;
@@ -260,9 +325,12 @@
     color: var(--ink);
     margin: 52px 0 22px;
   }
-  .prose-blog h2 em { font-style: italic; color: var(--clay); }
+  .prose-blog h2 em {
+    font-style: italic;
+    color: var(--clay);
+  }
   .prose-blog h3 {
-    font-family: 'Geist Mono', monospace;
+    font-family: "Geist Mono", monospace;
     font-size: 12px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -282,7 +350,7 @@
     color: #36322b;
   }
   .prose-blog ul li::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 4px;
     top: 11px;
@@ -295,7 +363,7 @@
     margin: 48px 0;
     padding: 4px 0 4px 32px;
     border-left: 3px solid var(--clay);
-    font-family: 'Cormorant Garamond', serif;
+    font-family: "Cormorant Garamond", serif;
     font-style: italic;
     font-weight: 400;
     font-size: 30px;
@@ -311,7 +379,7 @@
     display: block;
   }
   .prose-blog figcaption {
-    font-family: 'Geist Mono', monospace;
+    font-family: "Geist Mono", monospace;
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -339,19 +407,30 @@
     align-items: center;
   }
   .author-card-article .av {
-    width: 76px; height: 76px; border-radius: 50%; object-fit: cover;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
   }
   .author-card-article .role {
-    font-family: 'Geist Mono', monospace;
-    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--clay); margin-bottom: 8px;
+    font-family: "Geist Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 8px;
   }
   .author-card-article h4 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 500; font-size: 24px; margin-bottom: 8px; color: var(--ink);
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--ink);
   }
   .author-card-article p {
-    font-size: 14px; line-height: 1.6; color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
   }
 
   /* ── Article tags ───────────────────────────────────────────────────────── */
@@ -368,7 +447,7 @@
     padding: 6px 14px;
     border: 1px solid var(--line);
     border-radius: 999px;
-    font-family: 'Geist Mono', monospace;
+    font-family: "Geist Mono", monospace;
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;

@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import SiteLink from "@/components/ui/SiteLink";
+import { AnimatedHeading } from "../ui/Heading";
+import Reveal from "../ui/Reveal";
 
 const destinations = [
   {
@@ -65,6 +67,24 @@ const destinations = [
     href: "/safaris/uganda",
   },
   {
+    id: "rw",
+    tab: "Rwanda",
+    count: "04 PARKS",
+    image:
+      "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+    country: "Rwanda · East Africa",
+    title: "The land of a thousand hills.",
+    blurb:
+      "Rwanda offers an intimate, luxury approach to East African wildlife — gorilla trekking in the misty Virunga volcanoes, chimpanzees in Nyungwe's ancient forest canopy, and the Big Five in Akagera's vast savannah.",
+    parks: [
+      { name: "Volcanoes National Park", note: "Gorilla & golden monkey trekking" },
+      { name: "Nyungwe Forest National Park", note: "Chimps & canopy walk" },
+      { name: "Akagera National Park", note: "Big Five savannah safari" },
+      { name: "Lake Kivu", note: "Scenic beach extension" },
+    ],
+    href: "/safaris/rwanda",
+  },
+  {
     id: "cb",
     tab: "Cross Country",
     count: "CIRCUITS",
@@ -96,36 +116,40 @@ export default function DestinationsSection() {
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <div className="section-hd">
           <div>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              Top East Africa Safari Destinations
-            </div>
-            <h2
-              className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
-              style={{ fontSize: "clamp(36px, 5.4vw, 76px)" }}
-            >
-              Three countries,
-              <br />
-              one <em className="italic text-bone-clay">circuit</em>.
-            </h2>
+            <Reveal variant="fadeUp">
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Top East Africa Safari Destinations
+              </div>
+            </Reveal>
+
+            {/* Heading — character pull-up */}
+            <AnimatedHeading
+              as="h1"
+              textBefore="Four countries, one "
+              highlightedText="circuit"
+            />
           </div>
-          <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
-            The Mara and the Serengeti are one ecosystem split by a line on a
-            map. Choose a country to begin, or let us combine all three into a
-            single cross-border itinerary.
-          </p>
+          <Reveal variant="fadeUp">
+            <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
+              The Mara and the Serengeti are one ecosystem split by a line on a
+              map. Choose a country to begin, or let us combine them into a
+              single cross-border itinerary.
+            </p>
+          </Reveal>
         </div>
 
         {/* ── Tabs — horizontally scrollable on mobile ────────────────────── */}
-        <div
-          className="flex gap-0 mb-10 border-b overflow-x-auto no-scrollbar"
-          style={{ borderColor: "rgba(23,22,18,0.14)" }}
-        >
-          {destinations.map((d) => (
-            <button
-              key={d.id}
-              onClick={() => setActive(d.id)}
-              className={`
+        <Reveal variant="fadeUp">
+          <div
+            className="flex gap-0 mb-10 border-b overflow-x-auto no-scrollbar"
+            style={{ borderColor: "rgba(23,22,18,0.14)" }}
+          >
+            {destinations.map((d) => (
+              <button
+                key={d.id}
+                onClick={() => setActive(d.id)}
+                className={`
                 flex-shrink-0 pb-[16px] mr-6 font-serif text-[18px] sm:text-[22px]
                 border-b-2 -mb-px transition-all duration-200
                 ${
@@ -134,19 +158,20 @@ export default function DestinationsSection() {
                     : "text-bone-muted border-transparent hover:text-bone-ink"
                 }
               `}
-            >
-              {d.tab}
-              <span
-                className={`
+              >
+                {d.tab}
+                <span
+                  className={`
                   font-mono text-[9px] sm:text-[10px] tracking-[0.16em] ml-2 align-[6px]
                   ${active === d.id ? "text-bone-clay" : "text-bone-muted"}
                 `}
-              >
-                {d.count}
-              </span>
-            </button>
-          ))}
-        </div>
+                >
+                  {d.count}
+                </span>
+              </button>
+            ))}
+          </div>
+        </Reveal>
 
         {/* ── Pane ────────────────────────────────────────────────────────── */}
         <AnimatePresence mode="wait">
@@ -182,17 +207,7 @@ export default function DestinationsSection() {
 
             {/* ── Content ───────────────────────────────────────────────── */}
             <div className="flex flex-col">
-              <h3
-                className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mb-5 sm:mb-6 whitespace-pre-line"
-                style={{ fontSize: "clamp(36px, 5vw, 56px)" }}
-              >
-                {dest.title.split("\n").map((line, i, arr) => (
-                  <span key={i}>
-                    {line}
-                    {i < arr.length - 1 && <br />}
-                  </span>
-                ))}
-              </h3>
+              <AnimatedHeading as="h3" textBefore={dest.title} />
 
               <p className="text-[14px] sm:text-[16px] leading-[1.65] text-bone-muted max-w-[48ch] mb-7 sm:mb-9">
                 {dest.blurb}
@@ -225,7 +240,12 @@ export default function DestinationsSection() {
                 ))}
               </ul>
 
-              <SiteLink href={dest.href} variant="solid" size="md" className="mt-7 sm:mt-8 self-start">
+              <SiteLink
+                href={dest.href}
+                variant="solid"
+                size="md"
+                className="mt-7 sm:mt-8 self-start"
+              >
                 Explore {dest.tab} safaris
               </SiteLink>
             </div>

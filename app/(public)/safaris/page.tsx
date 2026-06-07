@@ -6,11 +6,11 @@ import SafarisContent from "./_content";
 import CtaBand from "@/components/ui/CtaBand";
 
 export const metadata: Metadata = {
-  title: "All Safari Packages 2026/2027 — Kenya, Tanzania & Uganda",
+  title: "All Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
   description:
-    "Browse our complete catalogue of Kenya, Tanzania and Uganda safari packages. Filter by country, duration, budget and style — every itinerary tailored to your dates and group.",
+    "Browse our complete catalogue of Kenya, Tanzania, Uganda and Rwanda safari packages. Filter by country, duration, budget and style — every itinerary tailored to your dates and group.",
   keywords:
-    "safari packages, kenya safari, tanzania safari, uganda safari, east africa safari tours 2026, budget safari, luxury safari, gorilla trekking",
+    "safari packages, kenya safari, tanzania safari, uganda safari, rwanda safari, east africa safari tours 2026, budget safari, luxury safari, gorilla trekking",
   alternates: { canonical: "/safaris" },
   openGraph: {
     title: "All Safari Packages | Divine Travel Nest Safaris",

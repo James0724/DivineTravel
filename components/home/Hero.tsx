@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import SiteLink from "@/components/ui/SiteLink";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { LettersPullUp } from "@/components/ui/LettersPullUp";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const slides = [
   {
@@ -13,7 +16,7 @@ const slides = [
   },
   {
     src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1920&q=80",
-    alt: "Nice hotel with swimming pool with mountain backdrop",
+    alt: "Luxury safari lodge with mountain backdrop",
   },
   {
     src: "https://images.unsplash.com/photo-1521651201144-634f700b36ef?auto=format&fit=crop&w=1920&q=80",
@@ -21,22 +24,15 @@ const slides = [
   },
 ];
 
-const INTERVAL = 5500; // ms between auto-advances
+const INTERVAL = 5500;
 
 /* ═══════════════════════════════════════════════════════════════════════════
    HERO
 ═══════════════════════════════════════════════════════════════════════════ */
-
 export default function Hero() {
   const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // svh (small viewport height) is stable on mobile — it doesn't grow when the
-  // browser chrome retracts, which prevents the "pumpy" resize during scroll.
   const heroHeight = "calc(100svh - var(--navbar-h, 90px))";
 
-  /* ── Navigation helpers ── */
   const goTo = useCallback(
     (idx: number) =>
       setCurrent(((idx % slides.length) + slides.length) % slides.length),
@@ -45,38 +41,27 @@ export default function Hero() {
   const next = useCallback(() => goTo(current + 1), [current, goTo]);
   const prev = useCallback(() => goTo(current - 1), [current, goTo]);
 
-  /* ── Auto-advance (resets whenever slide or pause state changes) ── */
   useEffect(() => {
-    if (paused) return;
-    timerRef.current = setTimeout(next, INTERVAL);
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [current, paused, next]);
+    const id = setInterval(() => {
+      setCurrent((c) => (c + 1) % slides.length);
+    }, INTERVAL);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <section
       className="relative text-white overflow-hidden"
       style={{ height: heroHeight }}
       aria-label="Hero"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
     >
-      {/* ── Background carousel ─────────────────────────────────────────
-          AnimatePresence (default sync mode, v11): old slide exits while
-          new slide enters simultaneously → pure crossfade.
-          The scale 1.04→1 on enter gives a Ken-Burns zoom-out feel.
-      ──────────────────────────────────────────────────────────────── */}
+      {/* ── Background carousel ───────────────────────────────────────── */}
       <AnimatePresence initial={false}>
         <motion.div
           key={current}
-          initial={{ opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{
-            opacity: { duration: 0.9, ease: "easeInOut" },
-            scale: { duration: 7, ease: "easeOut" },
-          }}
+          transition={{ duration: 0.9, ease: "easeInOut" }}
           className="absolute inset-0"
         >
           <Image
@@ -90,127 +75,168 @@ export default function Hero() {
         </motion.div>
       </AnimatePresence>
 
-      {/* ── Gradient overlay (above slides, below content) ────────────── */}
+      {/* ── Gradient overlay ─────────────────────────────────────────── */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           background:
-            "linear-gradient(180deg, rgba(20,16,10,0.45) 0%, rgba(20,16,10,0.15) 35%, rgba(20,16,10,0.65) 100%)",
+            "linear-gradient(180deg, rgba(20,16,10,0.48) 0%, rgba(20,16,10,0.12) 38%, rgba(20,16,10,0.72) 100%)",
         }}
       />
 
-      {/* ── Main content (sits above gradient + slides) ─────────────────
-          Layout is identical to the previous responsive version.
-      ──────────────────────────────────────────────────────────────── */}
+      {/* ── Slide progress bar ───────────────────────────────────────── */}
+      <motion.div
+        key={`pb-${current}`}
+        className="absolute bottom-0 left-0 z-[4] h-[2px] w-full"
+        style={{ background: "rgba(244,212,168,0.65)", transformOrigin: "0 0" }}
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: INTERVAL / 1000, ease: "linear" }}
+      />
+
+      {/* ── Main content ─────────────────────────────────────────────── */}
       <div
         className={[
           "relative z-[3] flex flex-col",
           "px-5 sm:px-8 lg:px-12",
-          "pt-6 pb-5 sm:pt-14 sm:pb-8 lg:pt-20 lg:pb-14",
+          "pt-6 pb-5 sm:pt-10 sm:pb-6 lg:pt-12 lg:pb-10",
         ].join(" ")}
         style={{ height: "100%" }}
       >
-        {/* Eyebrow */}
-        <div
+        {/* Eyebrow — slides in from left */}
+        <motion.div
           className="eyebrow shrink-0"
           style={{ color: "rgba(244,239,226,0.85)" }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.65, delay: 0.15, ease: EASE }}
         >
           <span className="dot" />
           African Safari Experts
-        </div>
+        </motion.div>
 
-        {/* Headline + body copy + dot indicators */}
-        <div className="flex-1 flex flex-col justify-center py-3 sm:py-7 lg:py-10 min-h-0">
+        {/* Headline — each line pulls up character-by-character */}
+        <div className="flex-1 flex flex-col justify-center py-3 sm:py-6 lg:py-8 min-h-0 overflow-hidden">
           <h1
-            className="font-serif font-light leading-[0.96] tracking-[-0.025em] max-w-[17ch]"
-            style={{ fontSize: "clamp(36px, 5.5vw, 68px)" }}
+            className="font-serif font-light tracking-[-0.025em] max-w-[20ch]"
+            style={{ fontSize: "clamp(36px, 4vw, 68px)", lineHeight: "1.12" }}
           >
-            Kenya, Tanzania
-            <br />
-            &amp; Beyond — your
-            <br />
-            <em
-              style={{ color: "#f4d4a8", fontStyle: "italic", fontWeight: 300 }}
-            >
-              unforgettable
-            </em>{" "}
-            East
-            <br />
-            Africa safari.
+            {/* Line 1 */}
+            <LettersPullUp
+              text="Kenya, Tanzania"
+              initialDelay={0.15}
+              charDelay={0.035}
+            />
+            {/* Line 2 */}
+            <LettersPullUp
+              text="& Beyond — your"
+              initialDelay={0.3}
+              charDelay={0.035}
+            />
+            {/* Line 3 — two inline segments to keep clay italic on "unforgettable" */}
+            <span className="flex flex-wrap items-baseline">
+              <LettersPullUp
+                text="unforgettable"
+                initialDelay={0.45}
+                charDelay={0.035}
+                charStyle={{ color: "#f4d4a8", fontStyle: "italic" }}
+              />
+              <LettersPullUp
+                text=" East"
+                initialDelay={0.45 + 13 * 0.035}
+                charDelay={0.035}
+              />
+            </span>
+            {/* Line 4 */}
+            <LettersPullUp
+              text="Africa safari."
+              initialDelay={0.65}
+              charDelay={0.035}
+            />
           </h1>
 
-          <p className="hidden md:block mt-4 sm:mt-7 max-w-[48ch] text-[13px] sm:text-[14px] leading-[1.6] opacity-90">
+          <motion.p
+            className="hidden 2xl:block mt-4 sm:mt-7 max-w-[48ch] text-[13px] sm:text-[14px] leading-[1.6] opacity-90"
+            initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+            animate={{ opacity: 0.9, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.85, delay: 0.92, ease: EASE }}
+          >
             Divine Travel Nest Safaris offers Kenya safari tours, Tanzania
             safaris and combined Kenya–Tanzania circuits, plus Uganda gorilla
             trekking. Tailor-made by an in-country team — start your African
             journey with us today.
-          </p>
-
-          {/* ── Controls: prev/next + dot indicators grouped together ── */}
-          <div className="flex items-center gap-3 mt-5 sm:mt-7">
-            {/* Prev */}
-            <button
-              onClick={prev}
-              aria-label="Previous slide"
-              className="w-9 h-9 rounded-full flex items-center justify-center
-                         bg-black/25 hover:bg-black/50 backdrop-blur-[3px]
-                         border border-white/25 hover:border-white/55
-                         text-white/80 hover:text-white
-                         transition-all duration-200 flex-shrink-0"
-            >
-              <ChevronLeft size={16} strokeWidth={2} />
-            </button>
-
-            {/* Dots */}
-            <div
-              className="flex items-center gap-1.5"
-              role="tablist"
-              aria-label="Slide indicators"
-            >
-              {slides.map((_, i) => (
-                <button
-                  key={i}
-                  role="tab"
-                  aria-selected={i === current}
-                  aria-label={`Slide ${i + 1} of ${slides.length}`}
-                  onClick={() => goTo(i)}
-                  className="rounded-full transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
-                  style={{
-                    height: "3px",
-                    width: i === current ? "24px" : "10px",
-                    background:
-                      i === current
-                        ? "rgba(244,212,168,1)"
-                        : "rgba(244,239,226,0.35)",
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Next */}
-            <button
-              onClick={next}
-              aria-label="Next slide"
-              className="w-9 h-9 rounded-full flex items-center justify-center
-                         bg-black/25 hover:bg-black/50 backdrop-blur-[3px]
-                         border border-white/25 hover:border-white/55
-                         text-white/80 hover:text-white
-                         transition-all duration-200 flex-shrink-0"
-            >
-              <ChevronRight size={16} strokeWidth={2} />
-            </button>
-          </div>
+          </motion.p>
         </div>
 
-        {/* ── Footer row ──────────────────────────────────────────────── */}
-        <div
+        {/* Controls */}
+        <motion.div
+          className="shrink-0 flex items-center gap-3 pb-4 sm:pb-6 lg:pb-7"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.82, ease: EASE }}
+        >
+          <button
+            onClick={prev}
+            aria-label="Previous slide"
+            className="w-9 h-9 rounded-full flex items-center justify-center
+                       bg-black/25 hover:bg-black/50 backdrop-blur-[3px]
+                       border border-white/25 hover:border-white/55
+                       text-white/80 hover:text-white
+                       transition-all duration-200 flex-shrink-0"
+          >
+            <ChevronLeft size={16} strokeWidth={2} />
+          </button>
+
+          <div
+            className="flex items-center gap-1.5"
+            role="tablist"
+            aria-label="Slide indicators"
+          >
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                role="tab"
+                aria-selected={i === current}
+                aria-label={`Slide ${i + 1} of ${slides.length}`}
+                onClick={() => goTo(i)}
+                className="rounded-full transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                style={{
+                  height: "3px",
+                  width: i === current ? "24px" : "10px",
+                  background:
+                    i === current
+                      ? "rgba(244,212,168,1)"
+                      : "rgba(244,239,226,0.35)",
+                }}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={next}
+            aria-label="Next slide"
+            className="w-9 h-9 rounded-full flex items-center justify-center
+                       bg-black/25 hover:bg-black/50 backdrop-blur-[3px]
+                       border border-white/25 hover:border-white/55
+                       text-white/80 hover:text-white
+                       transition-all duration-200 flex-shrink-0"
+          >
+            <ChevronRight size={16} strokeWidth={2} />
+          </button>
+        </motion.div>
+
+        {/* Footer row — staggered entrance */}
+        <motion.div
           className="shrink-0 pt-4 sm:pt-7 lg:pt-8 border-t"
           style={{ borderColor: "rgba(244,239,226,0.22)" }}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.95, ease: EASE }}
         >
           {/* Mobile — stacked */}
           <div className="flex flex-col gap-4 sm:hidden">
             <div className="flex flex-wrap gap-2.5 items-center">
-              <SiteLink href="/contact" variant="paper" size="sm">
+              <SiteLink href="/contact" variant="outline-light" size="sm">
                 Plan my safari
               </SiteLink>
               <SiteLink
@@ -222,29 +248,6 @@ export default function Hero() {
                 Explore our journeys
               </SiteLink>
             </div>
-
-            {/* <div className="flex items-end gap-6">
-              {[
-                { num: "10", sup: "+yr", label: "Experience" },
-                { num: "3", sup: "×", label: "Countries" },
-                { num: "24", sup: "/7", label: "Support" },
-              ].map((s) => (
-                <div key={s.label}>
-                  <div
-                    className="font-serif leading-none"
-                    style={{ fontSize: "clamp(27px, 3.24vw, 37.8px)" }}
-                  >
-                    {s.num}
-                    <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>
-                      {s.sup}
-                    </em>
-                  </div>
-                  <div className="font-mono text-[9px] uppercase tracking-[0.14em] mt-1 opacity-70">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div> */}
           </div>
 
           {/* sm+ — side-by-side grid */}
@@ -253,7 +256,12 @@ export default function Hero() {
             style={{ gridTemplateColumns: "auto 1fr" }}
           >
             <div className="flex flex-wrap gap-3 items-end">
-              <SiteLink href="/contact" variant="paper" size="md">
+              <SiteLink
+                href="/plan-my-safari"
+                variant="outline-light"
+                size="md"
+                className="mt-7 sm:mt-8 self-start"
+              >
                 Plan my safari
               </SiteLink>
               <SiteLink
@@ -271,8 +279,17 @@ export default function Hero() {
                 { num: "10", sup: "+yr", label: "Guiding experience" },
                 { num: "3", sup: "×", label: "Countries" },
                 { num: "24", sup: "/7", label: "Support" },
-              ].map((s) => (
-                <div key={s.label}>
+              ].map((s, i) => (
+                <motion.div
+                  key={s.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 1.05 + i * 0.1,
+                    ease: EASE,
+                  }}
+                >
                   <div
                     className="font-serif leading-none"
                     style={{ fontSize: "clamp(20px, 2.4vw, 28px)" }}
@@ -288,11 +305,11 @@ export default function Hero() {
                   >
                     {s.label}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,97 +1,147 @@
-import Link from 'next/link'
-import Reveal from '@/components/ui/Reveal'
+"use client";
+
+import Link from "next/link";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { BlurReveal } from "@/components/ui/TextReveal";
+import { LettersPullUp } from "@/components/ui/LettersPullUp";
+import { AnimatedHeading } from "../ui/Heading";
+import Reveal from "../ui/Reveal";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const contacts = [
+  {
+    href: "tel:+254722595916",
+    label: "Reservation by phone",
+    value: "+254 722-595-916",
+    isEmail: false,
+  },
+  {
+    href: "mailto:info@divinetravelnestsafaris.com",
+    label: "Reservation by email",
+    value: "info@divinetravelnestsafaris.com",
+    isEmail: true,
+  },
+];
 
 export default function IntroSection() {
+  const leftRef = useRef<HTMLDivElement>(null);
+  const leftInView = useInView(leftRef, { once: true, margin: "-80px" });
+
   return (
     <section className="py-16 sm:py-24 lg:py-[120px] bg-bone-bg">
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-24 items-start">
-          {/* Left */}
-          <Reveal variant="fadeUp">
-            <div className="eyebrow mb-[18px]">
-              <span className="dot" />
-              Divine Travel Nest Safaris
-            </div>
-            <h2
-              className="font-serif font-normal leading-[1.02] tracking-[-0.02em] text-bone-ink"
-              style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}
-            >
-              Your trusted gateway to{' '}
-              <em className="italic text-bone-clay">unforgettable</em>
-              <br /> East Africa safaris.
-            </h2>
+          {/* ── Left column ───────────────────────────────────────────── */}
+          <div ref={leftRef}>
+            {/* Eyebrow*/}
+            <Reveal variant="fadeUp">
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Divine Travel Nest Safaris
+              </div>
+            </Reveal>
 
-            {/* Contact strip */}
+            {/* Heading — character pull-up */}
+            <AnimatedHeading
+              as="h1"
+              textBefore="Your trusted gateway to "
+              highlightedText="unforgettable"
+              textAfter="East Africa safaris."
+            />
+
+            {/* Contact blocks — staggered slide-up */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-              <Link
-                href="tel:+254722595916"
-                className="flex flex-col gap-1.5 p-4 border bg-bone-paper hover:border-bone-clay hover:bg-white transition-all duration-200"
-                style={{ borderColor: 'rgba(23,22,18,0.14)' }}
-              >
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
-                  Reservation by phone
-                </span>
-                <span className="font-serif italic text-[17px] sm:text-[19px] text-bone-forest">
-                  +254 722-595-916
-                </span>
-              </Link>
-              <Link
-                href="mailto:info@divinetravelnestsafaris.com"
-                className="flex flex-col gap-1.5 p-4 border bg-bone-paper hover:border-bone-clay hover:bg-white transition-all duration-200"
-                style={{ borderColor: 'rgba(23,22,18,0.14)' }}
-              >
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
-                  Reservation by email
-                </span>
-                <span className="font-serif italic text-[14px] sm:text-[17px] text-bone-forest break-all">
-                  info@divinetravelnestsafaris.com
-                </span>
-              </Link>
+              {contacts.map((c, i) => (
+                <motion.div
+                  key={c.label}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={leftInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.5 + i * 0.12,
+                    ease: EASE,
+                  }}
+                >
+                  <Link
+                    href={c.href}
+                    className="flex flex-col gap-1.5 p-4 border bg-bone-paper hover:border-bone-clay hover:bg-white transition-all duration-200"
+                    style={{ borderColor: "rgba(23,22,18,0.14)" }}
+                  >
+                    <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
+                      {c.label}
+                    </span>
+                    <span
+                      className={`font-serif italic text-bone-forest ${
+                        c.isEmail
+                          ? "text-[14px] sm:text-[17px] break-all"
+                          : "text-[17px] sm:text-[19px]"
+                      }`}
+                    >
+                      {c.value}
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
             </div>
-          </Reveal>
+          </div>
 
-          {/* Right */}
-          <Reveal variant="fadeUp" delay={0.1}>
+          {/* ── Right column ──────────────────────────────────────────── */}
+          <BlurReveal delay={0.15}>
             <p
               className="text-[16px] sm:text-[19px] leading-[1.6] text-bone-ink mb-6"
-              style={{ position: 'relative' }}
+              style={{ position: "relative" }}
             >
-              <span
+              {/* Drop cap W — springs in with a bounce */}
+              <motion.span
                 className="font-serif float-left text-bone-clay leading-[0.85] pr-2.5 pt-1.5"
-                style={{ fontSize: 'clamp(44px, 8vw, 64px)' }}
+                style={{ fontSize: "clamp(44px, 8vw, 64px)" }}
+                initial={{ opacity: 0, scale: 0.55, rotate: -8 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{
+                  duration: 0.75,
+                  delay: 0.3,
+                  ease: [0.34, 1.56, 0.64, 1], // spring overshoot
+                }}
               >
                 W
-              </span>
-              elcome to Divine Travel Nest Safaris, the home of immersive, authentic,
-              and expertly crafted East Africa safari experiences. We specialize in Kenya
-              safaris, Tanzania safaris, cross-border Kenya–Tanzania safari circuits, and
-              unforgettable Uganda gorilla trekking tours.
+              </motion.span>
+              elcome to Divine Travel Nest Safaris, the home of immersive,
+              authentic, and expertly crafted East Africa safari experiences. We
+              specialize in Kenya safaris, Tanzania safaris, cross-border
+              Kenya–Tanzania safari circuits, and unforgettable Uganda gorilla
+              trekking tours.
             </p>
-            <p className="text-[14px] sm:text-[15px] leading-[1.7] text-bone-muted mb-4">
-              Whether you dream of witnessing the Great Wildebeest Migration in the Masai
-              Mara, tracking mountain gorillas deep in Bwindi Forest, or exploring the
-              vast Serengeti plains, we are your dedicated travel partner — turning
-              safari dreams into life-lasting memories.
+            <p className="text-[14px] sm:text-sm leading-[1.7] text-bone-muted mb-4">
+              Whether you dream of witnessing the Great Wildebeest Migration in
+              the Masai Mara, tracking mountain gorillas deep in Bwindi Forest,
+              or exploring the vast Serengeti plains, we are your dedicated
+              travel partner — turning safari dreams into life-lasting memories.
             </p>
-            <p className="text-[14px] sm:text-[15px] leading-[1.7] text-bone-muted mb-8">
-              At Divine Travel Nest Safaris, every journey is designed with passion,
-              precision, and personalized attention.
+            <p className="text-[14px] sm:text-sm leading-[1.7] text-bone-muted mb-8">
+              At Divine Travel Nest Safaris, every journey is designed with
+              passion, precision, and personalized attention.
             </p>
 
-            {/* Mission quote */}
-            <blockquote
+            {/* Mission quote — slides from left with left-border accent */}
+            <motion.blockquote
               className="p-5 sm:p-7 bg-bone-paper border-l-[3px] font-serif italic text-[18px] sm:text-[22px] leading-[1.35] text-bone-forest"
-              style={{ borderLeftColor: '#9d4519' }}
+              style={{ borderLeftColor: "#9d4519" }}
+              initial={{ opacity: 0, x: -22 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.45, ease: EASE }}
             >
               <span className="block font-mono not-italic text-[10px] uppercase tracking-[0.16em] text-bone-muted mb-3">
                 Our mission
               </span>
-              To create experience-rich, safe, and value-driven African safaris that bring
-              you closer to wildlife, culture, and the magic of East Africa.
-            </blockquote>
-          </Reveal>
+              To create experience-rich, safe, and value-driven African safaris
+              that bring you closer to wildlife, culture, and the magic of East
+              Africa.
+            </motion.blockquote>
+          </BlurReveal>
         </div>
       </div>
     </section>
-  )
+  );
 }

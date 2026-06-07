@@ -65,7 +65,6 @@ export default function TermsPage() {
       <div className="bg-bone-bg py-20 lg:py-28">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-12 lg:gap-20 items-start">
-
             {/* ── Left: Table of contents ─────────────────────────────── */}
             <Reveal variant="fadeUp">
               <div
@@ -123,10 +122,12 @@ export default function TermsPage() {
 
             {/* ── Right: Terms content ─────────────────────────────────── */}
             <div className="min-w-0">
-
               {/* Preamble */}
               <Reveal variant="fadeUp">
-                <div className="mb-14 pb-14 border-b" style={{ borderColor: "rgba(31,29,24,0.14)" }}>
+                <div
+                  className="mb-14 pb-14 border-b"
+                  style={{ borderColor: "rgba(31,29,24,0.14)" }}
+                >
                   <div
                     className="bg-bone-paper rounded-sm px-7 py-6"
                     style={{ border: "1px solid rgba(31,29,24,0.14)" }}
@@ -147,7 +148,11 @@ export default function TermsPage() {
               </Reveal>
 
               {/* 01 — Acceptance of Terms */}
-              <TermsSection id="acceptance" number="01" heading="Acceptance of Terms">
+              <TermsSection
+                id="acceptance"
+                number="01"
+                heading="Acceptance of Terms"
+              >
                 <p>
                   By submitting a booking enquiry, paying a deposit, or
                   otherwise confirming a safari with Divine Travel Nest Safaris
@@ -167,18 +172,42 @@ export default function TermsPage() {
               {/* 02 — Definitions */}
               <TermsSection id="definitions" number="02" heading="Definitions">
                 <p>Throughout these Terms and Conditions:</p>
-                <TermsList items={[
-                  { term: "\"Company\"", desc: "means Divine Travel Nest Safaris Ltd, its employees, directors, agents, and representatives." },
-                  { term: "\"Client\" / \"You\"", desc: "means the person or persons who submit a booking enquiry, pay a deposit, or travel on a safari arranged by the Company." },
-                  { term: "\"Safari\" / \"Tour\"", desc: "means any travel service, package, itinerary, accommodation, or activity arranged or sold by the Company." },
-                  { term: "\"Booking\"", desc: "means a confirmed reservation of a safari following receipt of the required deposit and the Company's written confirmation." },
-                  { term: "\"Departure Date\"", desc: "means the first day of the safari as confirmed in the booking documentation." },
-                  { term: "\"Written notice\"", desc: "means communication by email to the address confirmed in the booking documents." },
-                ]} />
+                <TermsList
+                  items={[
+                    {
+                      term: '"Company"',
+                      desc: "means Divine Travel Nest Safaris Ltd, its employees, directors, agents, and representatives.",
+                    },
+                    {
+                      term: '"Client" / "You"',
+                      desc: "means the person or persons who submit a booking enquiry, pay a deposit, or travel on a safari arranged by the Company.",
+                    },
+                    {
+                      term: '"Safari" / "Tour"',
+                      desc: "means any travel service, package, itinerary, accommodation, or activity arranged or sold by the Company.",
+                    },
+                    {
+                      term: '"Booking"',
+                      desc: "means a confirmed reservation of a safari following receipt of the required deposit and the Company's written confirmation.",
+                    },
+                    {
+                      term: '"Departure Date"',
+                      desc: "means the first day of the safari as confirmed in the booking documentation.",
+                    },
+                    {
+                      term: '"Written notice"',
+                      desc: "means communication by email to the address confirmed in the booking documents.",
+                    },
+                  ]}
+                />
               </TermsSection>
 
               {/* 03 — Booking & Reservations */}
-              <TermsSection id="booking" number="03" heading="Booking & Reservations">
+              <TermsSection
+                id="booking"
+                number="03"
+                heading="Booking & Reservations"
+              >
                 <p>
                   A booking is considered confirmed only upon receipt of the
                   required deposit payment and issuance of a written booking
@@ -189,7 +218,8 @@ export default function TermsPage() {
                   All passengers must be named at the time of booking. The lead
                   client is responsible for providing accurate passenger
                   information, including full legal names as they appear on
-                  passports, nationalities, and any relevant medical disclosures.
+                  passports, nationalities, and any relevant medical
+                  disclosures.
                 </p>
                 <p>
                   The Company reserves the right to decline any booking at its
@@ -197,33 +227,38 @@ export default function TermsPage() {
                   full.
                 </p>
                 <p>
-                  Bookings made by third-party agents or platforms are subject to
-                  these Terms and Conditions in addition to any platform-specific
-                  terms.
+                  Bookings made by third-party agents or platforms are subject
+                  to these Terms and Conditions in addition to any
+                  platform-specific terms.
                 </p>
               </TermsSection>
 
               {/* 04 — Payment Terms */}
               <TermsSection id="payment" number="04" heading="Payment Terms">
                 <p>
-                  A non-refundable deposit of <strong>30% of the total safari
-                  cost</strong> is required to confirm a booking. The remaining
-                  balance is due no later than <strong>60 days before the
-                  Departure Date</strong>.
+                  A non-refundable deposit of{" "}
+                  <strong>30% of the total safari cost</strong> is required to
+                  confirm a booking. The remaining balance is due no later than{" "}
+                  <strong>60 days before the Departure Date</strong>.
                 </p>
                 <p>
                   For bookings made within 60 days of the Departure Date, the
                   full safari cost is payable at the time of booking.
                 </p>
-                <p>
-                  Payments may be made via:
-                </p>
-                <TermsList variant="bullet" items={[
-                  { desc: "Bank transfer (USD, EUR, GBP, or KES)" },
-                  { desc: "M-Pesa (Kenya domestic payments)" },
-                  { desc: "Credit or debit card (subject to a 3% processing fee)" },
-                  { desc: "Other methods as agreed in writing with the Company" },
-                ]} />
+                <p>Payments may be made via:</p>
+                <TermsList
+                  variant="bullet"
+                  items={[
+                    { desc: "Bank transfer (USD, EUR, GBP, or KES)" },
+                    { desc: "M-Pesa (Kenya domestic payments)" },
+                    {
+                      desc: "Credit or debit card (subject to a 3% processing fee)",
+                    },
+                    {
+                      desc: "Other methods as agreed in writing with the Company",
+                    },
+                  ]}
+                />
                 <p>
                   Where payment is made in a currency other than the quoted
                   currency, the exchange rate applied will be that on the date
@@ -239,11 +274,16 @@ export default function TermsPage() {
               </TermsSection>
 
               {/* 05 — Cancellation by Client */}
-              <TermsSection id="cancellation-client" number="05" heading="Cancellation by Client">
+              <TermsSection
+                id="cancellation-client"
+                number="05"
+                heading="Cancellation by Client"
+              >
                 <p>
                   All cancellations must be received in writing by email. The
-                  date of cancellation is the date the written notice is received
-                  by the Company. The following cancellation charges apply:
+                  date of cancellation is the date the written notice is
+                  received by the Company. The following cancellation charges
+                  apply:
                 </p>
 
                 <div
@@ -269,19 +309,29 @@ export default function TermsPage() {
                     </thead>
                     <tbody>
                       {[
-                        { period: "More than 90 days", charge: "Deposit only (30%)" },
+                        {
+                          period: "More than 90 days",
+                          charge: "Deposit only (30%)",
+                        },
                         { period: "61 – 90 days", charge: "50% of total cost" },
                         { period: "31 – 60 days", charge: "75% of total cost" },
-                        { period: "30 days or fewer", charge: "100% of total cost" },
-                        { period: "No-show / early departure", charge: "100% of total cost" },
+                        {
+                          period: "30 days or fewer",
+                          charge: "100% of total cost",
+                        },
+                        {
+                          period: "No-show / early departure",
+                          charge: "100% of total cost",
+                        },
                       ].map((row, i, arr) => (
                         <tr key={row.period} className="bg-bone-bg">
                           <td
                             className="px-5 py-3.5 text-bone-ink"
                             style={{
-                              borderBottom: i < arr.length - 1
-                                ? "1px solid rgba(31,29,24,0.08)"
-                                : undefined,
+                              borderBottom:
+                                i < arr.length - 1
+                                  ? "1px solid rgba(31,29,24,0.08)"
+                                  : undefined,
                             }}
                           >
                             {row.period}
@@ -289,9 +339,10 @@ export default function TermsPage() {
                           <td
                             className="px-5 py-3.5 font-medium text-bone-clay"
                             style={{
-                              borderBottom: i < arr.length - 1
-                                ? "1px solid rgba(31,29,24,0.08)"
-                                : undefined,
+                              borderBottom:
+                                i < arr.length - 1
+                                  ? "1px solid rgba(31,29,24,0.08)"
+                                  : undefined,
                             }}
                           >
                             {row.charge}
@@ -315,22 +366,35 @@ export default function TermsPage() {
               </TermsSection>
 
               {/* 06 — Cancellation by Company */}
-              <TermsSection id="cancellation-company" number="06" heading="Cancellation by Company">
+              <TermsSection
+                id="cancellation-company"
+                number="06"
+                heading="Cancellation by Company"
+              >
                 <p>
                   The Company reserves the right to cancel a safari in the
                   following circumstances:
                 </p>
-                <TermsList variant="bullet" items={[
-                  { desc: "A minimum group size required to operate the tour has not been reached, with at least 45 days' notice given to the Client." },
-                  { desc: "Safety conditions, political instability, natural disasters, or other circumstances make the safari unsafe or impractical to operate." },
-                  { desc: "Force majeure events as described in Section 12." },
-                ]} />
+                <TermsList
+                  variant="bullet"
+                  items={[
+                    {
+                      desc: "A minimum group size required to operate the tour has not been reached, with at least 45 days' notice given to the Client.",
+                    },
+                    {
+                      desc: "Safety conditions, political instability, natural disasters, or other circumstances make the safari unsafe or impractical to operate.",
+                    },
+                    {
+                      desc: "Force majeure events as described in Section 12.",
+                    },
+                  ]}
+                />
                 <p>
-                  Where the Company cancels a safari for reasons other than force
-                  majeure, the Client will receive a <strong>full refund</strong> of
-                  all amounts paid to the Company. The Company will also use
-                  reasonable endeavours to offer an alternative safari of equal
-                  value and quality.
+                  Where the Company cancels a safari for reasons other than
+                  force majeure, the Client will receive a{" "}
+                  <strong>full refund</strong> of all amounts paid to the
+                  Company. The Company will also use reasonable endeavours to
+                  offer an alternative safari of equal value and quality.
                 </p>
                 <p>
                   The Company's liability is limited to a refund of the amounts
@@ -341,49 +405,73 @@ export default function TermsPage() {
               </TermsSection>
 
               {/* 07 — Travel Insurance */}
-              <TermsSection id="insurance" number="07" heading="Travel Insurance">
+              <TermsSection
+                id="insurance"
+                number="07"
+                heading="Travel Insurance"
+              >
                 <p>
-                  Comprehensive travel insurance is <strong>strongly recommended</strong> for
-                  all clients and may be required as a condition of participation
-                  in certain activities, particularly gorilla trekking, mountain
-                  hiking, and remote wilderness expeditions.
+                  Comprehensive travel insurance is{" "}
+                  <strong>strongly recommended</strong> for all clients and may
+                  be required as a condition of participation in certain
+                  activities, particularly gorilla trekking, mountain hiking,
+                  and remote wilderness expeditions.
                 </p>
                 <p>
                   At minimum, your travel insurance should include cover for:
                 </p>
-                <TermsList variant="bullet" items={[
-                  { desc: "Medical expenses and hospitalisation" },
-                  { desc: "Emergency medical evacuation (including helicopter evacuation)" },
-                  { desc: "Trip cancellation, interruption, and curtailment" },
-                  { desc: "Baggage loss, theft, and delay" },
-                  { desc: "Personal liability" },
-                ]} />
+                <TermsList
+                  variant="bullet"
+                  items={[
+                    { desc: "Medical expenses and hospitalisation" },
+                    {
+                      desc: "Emergency medical evacuation (including helicopter evacuation)",
+                    },
+                    {
+                      desc: "Trip cancellation, interruption, and curtailment",
+                    },
+                    { desc: "Baggage loss, theft, and delay" },
+                    { desc: "Personal liability" },
+                  ]}
+                />
                 <p>
-                  The Company will not be held responsible for any loss, cost, or
-                  damage that would have been covered by adequate travel
+                  The Company will not be held responsible for any loss, cost,
+                  or damage that would have been covered by adequate travel
                   insurance. Proof of insurance may be requested prior to
                   departure.
                 </p>
               </TermsSection>
 
               {/* 08 — Itinerary Changes */}
-              <TermsSection id="itinerary" number="08" heading="Itinerary Changes">
+              <TermsSection
+                id="itinerary"
+                number="08"
+                heading="Itinerary Changes"
+              >
                 <p>
                   While the Company makes every effort to operate safaris as
                   planned, itineraries are subject to change due to weather
-                  conditions, road closures, park regulations, wildlife patterns,
-                  accommodation availability, or safety considerations. These
-                  variations are an inherent part of wildlife travel in Africa.
+                  conditions, road closures, park regulations, wildlife
+                  patterns, accommodation availability, or safety
+                  considerations. These variations are an inherent part of
+                  wildlife travel in Africa.
                 </p>
                 <p>
                   Where a significant change to a confirmed itinerary is
                   necessary before departure, the Company will notify the Client
                   as soon as practicable and offer:
                 </p>
-                <TermsList variant="bullet" items={[
-                  { desc: "An alternative of equivalent or greater standard and value, or" },
-                  { desc: "A partial refund where a significant downgrade in accommodation or activities occurs." },
-                ]} />
+                <TermsList
+                  variant="bullet"
+                  items={[
+                    {
+                      desc: "An alternative of equivalent or greater standard and value, or",
+                    },
+                    {
+                      desc: "A partial refund where a significant downgrade in accommodation or activities occurs.",
+                    },
+                  ]}
+                />
                 <p>
                   Minor changes — including substitution of lodges with
                   comparable alternatives, adjusted driving routes, or modified
@@ -399,46 +487,62 @@ export default function TermsPage() {
               </TermsSection>
 
               {/* 09 — Health & Fitness */}
-              <TermsSection id="health" number="09" heading="Health & Fitness Requirements">
+              <TermsSection
+                id="health"
+                number="09"
+                heading="Health & Fitness Requirements"
+              >
                 <p>
                   The Client is solely responsible for ensuring that all members
                   of the travelling party are in a suitable state of health and
-                  physical fitness to participate in the chosen safari activities.
+                  physical fitness to participate in the chosen safari
+                  activities.
                 </p>
-                <p>
-                  Certain activities have specific requirements:
-                </p>
-                <TermsList variant="bullet" items={[
-                  { desc: "Gorilla and chimpanzee trekking: minimum age of 15 years; involves hiking 2–8 km in mountainous terrain at altitude." },
-                  { desc: "Walking safaris: moderate fitness required; not recommended for those with mobility impairments." },
-                  { desc: "Hot air balloon safaris: weight restrictions apply as specified by the balloon operator." },
-                ]} />
+                <p>Certain activities have specific requirements:</p>
+                <TermsList
+                  variant="bullet"
+                  items={[
+                    {
+                      desc: "Gorilla and chimpanzee trekking: minimum age of 15 years; involves hiking 2–8 km in mountainous terrain at altitude.",
+                    },
+                    {
+                      desc: "Walking safaris: moderate fitness required; not recommended for those with mobility impairments.",
+                    },
+                    {
+                      desc: "Hot air balloon safaris: weight restrictions apply as specified by the balloon operator.",
+                    },
+                  ]}
+                />
                 <p>
                   The Company must be informed in writing, prior to booking
-                  confirmation, of any pre-existing medical condition, disability,
-                  pregnancy, or dietary requirement that may affect participation.
-                  The Company may require a medical certificate of fitness for
-                  certain activities.
+                  confirmation, of any pre-existing medical condition,
+                  disability, pregnancy, or dietary requirement that may affect
+                  participation. The Company may require a medical certificate
+                  of fitness for certain activities.
                 </p>
                 <p>
-                  A yellow fever vaccination certificate is required for entry to
-                  Uganda and may be required by Kenya and Tanzania depending on
-                  your country of origin or prior travel. It is the Client's
+                  A yellow fever vaccination certificate is required for entry
+                  to Uganda and may be required by Kenya and Tanzania depending
+                  on your country of origin or prior travel. It is the Client's
                   responsibility to obtain all required vaccinations and health
-                  documentation. The Company recommends consulting a travel health
-                  clinic at least 6–8 weeks before departure.
+                  documentation. The Company recommends consulting a travel
+                  health clinic at least 6–8 weeks before departure.
                 </p>
                 <p>
-                  The Company reserves the right to exclude a participant from any
-                  activity where a guide or medical professional reasonably
-                  considers participation to be a risk to that person's health or
-                  to other members of the group. No refund will be given in such
-                  circumstances.
+                  The Company reserves the right to exclude a participant from
+                  any activity where a guide or medical professional reasonably
+                  considers participation to be a risk to that person's health
+                  or to other members of the group. No refund will be given in
+                  such circumstances.
                 </p>
               </TermsSection>
 
               {/* 10 — Wildlife & Safety */}
-              <TermsSection id="wildlife" number="10" heading="Wildlife & Safety">
+              <TermsSection
+                id="wildlife"
+                number="10"
+                heading="Wildlife & Safety"
+              >
                 <p>
                   Wildlife safaris take place in untamed natural environments
                   inhabited by wild animals. Such encounters are inherently
@@ -446,15 +550,24 @@ export default function TermsPage() {
                   eliminated entirely. By booking a safari with the Company, you
                   acknowledge and accept these risks.
                 </p>
-                <p>
-                  All Clients must:
-                </p>
-                <TermsList variant="bullet" items={[
-                  { desc: "Follow the instructions of their guide at all times, including instructions to remain in the vehicle, maintain silence, or leave an area." },
-                  { desc: "Refrain from feeding, touching, or provoking wildlife." },
-                  { desc: "Adhere to all park and conservancy rules and regulations." },
-                  { desc: "Not consume alcohol to excess before or during any activity that may compromise safety." },
-                ]} />
+                <p>All Clients must:</p>
+                <TermsList
+                  variant="bullet"
+                  items={[
+                    {
+                      desc: "Follow the instructions of their guide at all times, including instructions to remain in the vehicle, maintain silence, or leave an area.",
+                    },
+                    {
+                      desc: "Refrain from feeding, touching, or provoking wildlife.",
+                    },
+                    {
+                      desc: "Adhere to all park and conservancy rules and regulations.",
+                    },
+                    {
+                      desc: "Not consume alcohol to excess before or during any activity that may compromise safety.",
+                    },
+                  ]}
+                />
                 <p>
                   The Company will not be liable for any injury, death, loss, or
                   damage resulting from a Client's failure to follow guide
@@ -465,9 +578,9 @@ export default function TermsPage() {
                   Our driver-guides hold valid licences issued by the Kenya
                   Professional Safari Guides Association (KPSGA) and are trained
                   in wilderness first aid. However, emergency medical facilities
-                  in remote areas may be limited, which underlines the importance
-                  of comprehensive travel insurance including medical evacuation
-                  cover.
+                  in remote areas may be limited, which underlines the
+                  importance of comprehensive travel insurance including medical
+                  evacuation cover.
                 </p>
               </TermsSection>
 
@@ -475,10 +588,11 @@ export default function TermsPage() {
               <TermsSection id="liability" number="11" heading="Liability">
                 <p>
                   The Company acts in part as an agent for third-party service
-                  providers, including but not limited to airlines, accommodation
-                  providers, park authorities, and activity operators. The Company
-                  is not liable for the acts, omissions, defaults, negligence, or
-                  insolvency of any such third-party provider.
+                  providers, including but not limited to airlines,
+                  accommodation providers, park authorities, and activity
+                  operators. The Company is not liable for the acts, omissions,
+                  defaults, negligence, or insolvency of any such third-party
+                  provider.
                 </p>
                 <p>
                   Where the Company is found to be directly liable for loss or
@@ -486,16 +600,27 @@ export default function TermsPage() {
                   shall not exceed the total cost paid by the Client for the
                   safari giving rise to the claim.
                 </p>
-                <p>
-                  The Company expressly excludes liability for:
-                </p>
-                <TermsList variant="bullet" items={[
-                  { desc: "Loss of enjoyment, distress, or disappointment arising from circumstances beyond the Company's reasonable control." },
-                  { desc: "Consequential, indirect, or economic losses, including loss of earnings or costs of independently booked flights, visas, or accommodation." },
-                  { desc: "Loss or theft of personal property, money, or equipment." },
-                  { desc: "Injury, illness, or death caused by third-party service providers." },
-                  { desc: "Any loss arising from the Client's failure to obtain adequate travel insurance." },
-                ]} />
+                <p>The Company expressly excludes liability for:</p>
+                <TermsList
+                  variant="bullet"
+                  items={[
+                    {
+                      desc: "Loss of enjoyment, distress, or disappointment arising from circumstances beyond the Company's reasonable control.",
+                    },
+                    {
+                      desc: "Consequential, indirect, or economic losses, including loss of earnings or costs of independently booked flights, visas, or accommodation.",
+                    },
+                    {
+                      desc: "Loss or theft of personal property, money, or equipment.",
+                    },
+                    {
+                      desc: "Injury, illness, or death caused by third-party service providers.",
+                    },
+                    {
+                      desc: "Any loss arising from the Client's failure to obtain adequate travel insurance.",
+                    },
+                  ]}
+                />
                 <p>
                   Nothing in these Terms and Conditions excludes liability for
                   death or personal injury caused by the Company's own proven
@@ -504,25 +629,42 @@ export default function TermsPage() {
               </TermsSection>
 
               {/* 12 — Force Majeure */}
-              <TermsSection id="force-majeure" number="12" heading="Force Majeure">
+              <TermsSection
+                id="force-majeure"
+                number="12"
+                heading="Force Majeure"
+              >
                 <p>
                   Neither the Company nor the Client shall be liable for any
-                  failure or delay in performance arising from events beyond their
-                  reasonable control, including but not limited to:
+                  failure or delay in performance arising from events beyond
+                  their reasonable control, including but not limited to:
                 </p>
-                <TermsList variant="bullet" items={[
-                  { desc: "Acts of God, natural disasters, or extreme weather events" },
-                  { desc: "War, armed conflict, civil unrest, or acts of terrorism" },
-                  { desc: "Government restrictions, border closures, or travel advisories" },
-                  { desc: "Epidemic, pandemic, or public health emergencies" },
-                  { desc: "Industrial action, strikes, or airport closures" },
-                  { desc: "Park closures ordered by national park authorities" },
-                ]} />
+                <TermsList
+                  variant="bullet"
+                  items={[
+                    {
+                      desc: "Acts of God, natural disasters, or extreme weather events",
+                    },
+                    {
+                      desc: "War, armed conflict, civil unrest, or acts of terrorism",
+                    },
+                    {
+                      desc: "Government restrictions, border closures, or travel advisories",
+                    },
+                    {
+                      desc: "Epidemic, pandemic, or public health emergencies",
+                    },
+                    { desc: "Industrial action, strikes, or airport closures" },
+                    {
+                      desc: "Park closures ordered by national park authorities",
+                    },
+                  ]}
+                />
                 <p>
                   In the event of force majeure, the Company will use its best
                   efforts to offer an alternative travel date or credit note of
-                  equivalent value. Where no alternative is possible, refunds will
-                  be considered on a case-by-case basis after deducting any
+                  equivalent value. Where no alternative is possible, refunds
+                  will be considered on a case-by-case basis after deducting any
                   unrecoverable costs already incurred from suppliers.
                 </p>
               </TermsSection>
@@ -532,20 +674,22 @@ export default function TermsPage() {
                 <p>
                   The Company is committed to providing a high standard of
                   service. If any aspect of your safari falls short of your
-                  expectations, we ask that you raise the concern with your guide
-                  or Company representative immediately so that we have the
-                  opportunity to resolve it during the trip.
+                  expectations, we ask that you raise the concern with your
+                  guide or Company representative immediately so that we have
+                  the opportunity to resolve it during the trip.
                 </p>
                 <p>
                   If the matter is not resolved to your satisfaction during the
-                  safari, a formal written complaint must be submitted by email to{" "}
+                  safari, a formal written complaint must be submitted by email
+                  to{" "}
                   <a
                     href="mailto:info@divinetravelnestsafaris.com"
                     className="text-bone-clay hover:underline"
                   >
                     info@divinetravelnestsafaris.com
                   </a>{" "}
-                  within <strong>30 days of the final day of your safari</strong>.
+                  within{" "}
+                  <strong>30 days of the final day of your safari</strong>.
                   Complaints received after this period may not be considered.
                 </p>
                 <p>
@@ -565,9 +709,9 @@ export default function TermsPage() {
                 </p>
                 <p>
                   Your personal information will not be sold or shared with
-                  unaffiliated third parties except where necessary to fulfil the
-                  services booked (e.g., sharing passenger names with lodges,
-                  park authorities, or transport providers).
+                  unaffiliated third parties except where necessary to fulfil
+                  the services booked (e.g., sharing passenger names with
+                  lodges, park authorities, or transport providers).
                 </p>
                 <p>
                   By making a booking, you consent to the Company retaining your
@@ -582,20 +726,24 @@ export default function TermsPage() {
               </TermsSection>
 
               {/* 15 — Photography & Media */}
-              <TermsSection id="photography" number="15" heading="Photography & Media">
+              <TermsSection
+                id="photography"
+                number="15"
+                heading="Photography & Media"
+              >
                 <p>
                   The Company may photograph or film safari activities for
                   marketing, training, or record-keeping purposes. If you prefer
-                  not to be featured in such materials, please notify the Company
-                  in writing before your Departure Date and we will respect your
-                  preference.
+                  not to be featured in such materials, please notify the
+                  Company in writing before your Departure Date and we will
+                  respect your preference.
                 </p>
                 <p>
                   Clients are welcome to photograph and film wildlife and
                   landscapes for personal use. Photography of local people,
                   communities, or cultural sites should be conducted with
-                  sensitivity and, where appropriate, with the permission of those
-                  being photographed.
+                  sensitivity and, where appropriate, with the permission of
+                  those being photographed.
                 </p>
                 <p>
                   Commercial drone use and professional media production within
@@ -606,7 +754,12 @@ export default function TermsPage() {
               </TermsSection>
 
               {/* 16 — Governing Law */}
-              <TermsSection id="governing-law" number="16" heading="Governing Law" isLast>
+              <TermsSection
+                id="governing-law"
+                number="16"
+                heading="Governing Law"
+                isLast
+              >
                 <p>
                   These Terms and Conditions are governed by and construed in
                   accordance with the laws of the Republic of Kenya. Any dispute
@@ -615,16 +768,19 @@ export default function TermsPage() {
                 </p>
                 <p>
                   In the event of a dispute, both parties agree to first attempt
-                  resolution through good-faith negotiation. If negotiation fails,
-                  either party may refer the matter to mediation before initiating
-                  formal legal proceedings.
+                  resolution through good-faith negotiation. If negotiation
+                  fails, either party may refer the matter to mediation before
+                  initiating formal legal proceedings.
                 </p>
                 <p>
                   The Company reserves the right to amend these Terms and
                   Conditions at any time. The version in force at the date of
-                  booking confirmation shall apply to that booking. Current terms
-                  are always published on our website at{" "}
-                  <Link href="/terms" className="text-bone-clay hover:underline">
+                  booking confirmation shall apply to that booking. Current
+                  terms are always published on our website at{" "}
+                  <Link
+                    href="/terms"
+                    className="text-bone-clay hover:underline"
+                  >
                     divinetravelnestsafaris.com/terms
                   </Link>
                   .
@@ -638,7 +794,7 @@ export default function TermsPage() {
                   <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-bone-clay mb-3">
                     Questions about these terms?
                   </span>
-                  <p className="text-[15px] text-bone-ink leading-[1.65] mb-4">
+                  <p className="text-sm text-bone-ink leading-[1.65] mb-4">
                     Our team is happy to clarify anything in these conditions
                     before you book.
                   </p>
@@ -657,13 +813,15 @@ export default function TermsPage() {
                       +254 722-595-916
                     </a>
                     <span className="text-bone-muted hidden sm:inline">·</span>
-                    <Link href="/contact" className="text-bone-clay hover:underline">
+                    <Link
+                      href="/contact"
+                      className="text-bone-clay hover:underline"
+                    >
                       Send a message
                     </Link>
                   </div>
                 </div>
               </TermsSection>
-
             </div>
           </div>
         </div>
@@ -691,9 +849,7 @@ function TermsSection({
     <Reveal variant="fadeUp">
       <section
         id={id}
-        className={`mb-14 pb-14 scroll-mt-8 ${
-          !isLast ? "border-b" : ""
-        }`}
+        className={`mb-14 pb-14 scroll-mt-8 ${!isLast ? "border-b" : ""}`}
         style={!isLast ? { borderColor: "rgba(31,29,24,0.14)" } : undefined}
       >
         <div className="flex items-baseline gap-4 mb-5">
@@ -707,7 +863,7 @@ function TermsSection({
             {heading}
           </h2>
         </div>
-        <div className="pl-9 space-y-4 text-[15px] leading-[1.75] text-bone-muted">
+        <div className="pl-9 space-y-4 text-sm leading-[1.75] text-bone-muted">
           {children}
         </div>
       </section>
@@ -741,7 +897,10 @@ function TermsList({
   return (
     <dl className="space-y-3 my-1">
       {items.map((item, i) => (
-        <div key={i} className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4">
+        <div
+          key={i}
+          className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4"
+        >
           <dt className="font-medium text-bone-ink">{item.term}</dt>
           <dd>{item.desc}</dd>
         </div>

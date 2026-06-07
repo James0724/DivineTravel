@@ -46,7 +46,7 @@ export default function ChooseGrid({
             </h2>
           </div>
           <p
-            className="text-[15px] leading-[1.65] text-bone-muted"
+            className="text-sm leading-[1.65] text-bone-muted"
             style={{ maxWidth: "56ch" }}
           >
             {description}

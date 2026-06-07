@@ -28,6 +28,7 @@ const COUNTRIES = [
   { label: "Kenya", value: "Kenya" },
   { label: "Tanzania", value: "Tanzania" },
   { label: "Uganda", value: "Uganda" },
+  { label: "Rwanda", value: "Rwanda" },
   { label: "Cross-border", value: "cross" },
 ];
 
@@ -571,7 +572,7 @@ export default function SafarisContent() {
                   >
                     Something went wrong
                   </p>
-                  <p className="text-[15px]" style={{ color: "var(--muted)" }}>
+                  <p className="text-sm" style={{ color: "var(--muted)" }}>
                     Failed to load safaris. Please refresh the page.
                   </p>
                 </div>
@@ -609,10 +610,7 @@ export default function SafarisContent() {
                   >
                     No safaris found
                   </p>
-                  <p
-                    className="text-[15px] mb-8"
-                    style={{ color: "var(--muted)" }}
-                  >
+                  <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
                     Try adjusting your filters to see more results.
                   </p>
                   <button

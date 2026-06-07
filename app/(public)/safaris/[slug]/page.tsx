@@ -252,7 +252,7 @@ export default async function SafariDetailPage({ params }: Props) {
               <h1 className="font-serif font-light text-[clamp(30px,5.5vw,88px)] leading-[0.98] tracking-[-0.02em] max-w-[18ch]">
                 {safari.name}
               </h1>
-              <p className="hidden sm:block mt-4 max-w-[56ch] text-[15px] leading-relaxed opacity-90">
+              <p className="hidden sm:block mt-4 max-w-[56ch] text-sm leading-relaxed opacity-90">
                 {safari.tagline}
               </p>
             </div>
@@ -279,86 +279,84 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* ── LEFT — Itinerary ──────────────────────────────────────── */}
             <div>
               <Reveal>
-              <div className="mb-12 sm:mb-14">
-                <Eyebrow>The Itinerary</Eyebrow>
-                <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5">
-                  {safari.duration} day{safari.duration !== 1 ? "s" : ""}.{" "}
-                  <em className="italic text-[var(--clay)]">
-                    {nights} night{nights !== 1 ? "s" : ""}
-                  </em>
-                  .
-                </h2>
-                <p className="text-[15px] leading-[1.65] text-[var(--muted)] max-w-[60ch] mt-4">
-                  {safari.description}
-                </p>
-              </div>
+                <div className="mb-12 sm:mb-14">
+                  <Eyebrow>The Itinerary</Eyebrow>
+                  <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5">
+                    {safari.duration} day{safari.duration !== 1 ? "s" : ""}.{" "}
+                    <em className="italic text-[var(--clay)]">
+                      {nights} night{nights !== 1 ? "s" : ""}
+                    </em>
+                    .
+                  </h2>
+                  <p className="text-sm leading-[1.65] text-[var(--muted)] max-w-[60ch] mt-4">
+                    {safari.description}
+                  </p>
+                </div>
               </Reveal>
 
               {/* Day-by-day */}
               {safari.itinerary?.length > 0 ? (
                 safari.itinerary.map((day) => (
                   <Reveal key={day.day}>
-                  <div
-                    className="py-9 border-t border-[var(--line)] [&:last-child]:border-b grid grid-cols-1 xs:grid-cols-[56px_1fr] md:grid-cols-[120px_1fr] gap-2 xs:gap-[18px] md:gap-9"
-                  >
-                    {/* Day number */}
-                    <div>
-                      <div className="font-serif italic text-[40px] leading-none text-[var(--clay)]">
-                        {String(day.day).padStart(2, "0")}
-                      </div>
-                      <span className="block font-mono text-[10px] text-[var(--muted)] tracking-[0.16em] uppercase mt-2">
-                        Day
-                      </span>
-                    </div>
-
-                    {/* Day content */}
-                    <div>
-                      <h3 className="font-serif font-normal text-[26px] sm:text-[28px] tracking-[-0.01em] mb-3">
-                        {day.title}
-                      </h3>
-
-                      {day.meals?.length > 0 && (
-                        <div className="flex flex-wrap gap-[18px] mb-3.5 font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)]">
-                          <span>
-                            <strong className="text-[var(--forest)] font-medium">
-                              Meals
-                            </strong>{" "}
-                            {day.meals.join(" · ")}
-                          </span>
+                    <div className="py-9 border-t border-[var(--line)] [&:last-child]:border-b grid grid-cols-1 xs:grid-cols-[56px_1fr] md:grid-cols-[120px_1fr] gap-2 xs:gap-[18px] md:gap-9">
+                      {/* Day number */}
+                      <div>
+                        <div className="font-serif italic text-[40px] leading-none text-[var(--clay)]">
+                          {String(day.day).padStart(2, "0")}
                         </div>
-                      )}
-
-                      <p className="text-[15px] leading-[1.65] text-[var(--muted)] mb-3.5">
-                        {day.description}
-                      </p>
-
-                      {day.activities?.length > 0 && (
-                        <ul className="list-none p-0 mb-3.5">
-                          {day.activities.map((act, i) => (
-                            <li
-                              key={i}
-                              className="relative pl-[18px] py-1 text-[14px] text-[var(--ink)]"
-                            >
-                              <span className="absolute left-1 text-[var(--clay)] font-bold">
-                                ·
-                              </span>
-                              {act}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {day.accommodation && (
-                        <span className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.14em] uppercase text-[var(--forest)] py-2 px-3 bg-[var(--paper)] border border-[var(--line)] rounded mt-1">
-                          ⌂ {day.accommodation}
+                        <span className="block font-mono text-[10px] text-[var(--muted)] tracking-[0.16em] uppercase mt-2">
+                          Day
                         </span>
-                      )}
+                      </div>
+
+                      {/* Day content */}
+                      <div>
+                        <h3 className="font-serif font-normal text-[26px] sm:text-[28px] tracking-[-0.01em] mb-3">
+                          {day.title}
+                        </h3>
+
+                        {day.meals?.length > 0 && (
+                          <div className="flex flex-wrap gap-[18px] mb-3.5 font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)]">
+                            <span>
+                              <strong className="text-[var(--forest)] font-medium">
+                                Meals
+                              </strong>{" "}
+                              {day.meals.join(" · ")}
+                            </span>
+                          </div>
+                        )}
+
+                        <p className="text-sm leading-[1.65] text-[var(--muted)] mb-3.5">
+                          {day.description}
+                        </p>
+
+                        {day.activities?.length > 0 && (
+                          <ul className="list-none p-0 mb-3.5">
+                            {day.activities.map((act, i) => (
+                              <li
+                                key={i}
+                                className="relative pl-[18px] py-1 text-[14px] text-[var(--ink)]"
+                              >
+                                <span className="absolute left-1 text-[var(--clay)] font-bold">
+                                  ·
+                                </span>
+                                {act}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+
+                        {day.accommodation && (
+                          <span className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.14em] uppercase text-[var(--forest)] py-2 px-3 bg-[var(--paper)] border border-[var(--line)] rounded mt-1">
+                            ⌂ {day.accommodation}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
                   </Reveal>
                 ))
               ) : (
-                <p className="text-[15px] text-[var(--muted)] pt-5">
+                <p className="text-sm text-[var(--muted)] pt-5">
                   Detailed itinerary available on request — contact us to get
                   your personalised day-by-day plan.
                 </p>
@@ -369,93 +367,93 @@ export default async function SafariDetailPage({ params }: Props) {
             <aside className="lg:sticky lg:top-24">
               {/* Trip facts */}
               <Reveal>
-              <SideBox>
-                <SideBoxTitle>Trip facts</SideBoxTitle>
-                <ul className="list-none p-0 m-0">
-                  {tripFacts.map(({ label, value }, i) => (
-                    <li
-                      key={label}
-                      className={`flex justify-between items-baseline gap-3.5 py-2.5 text-[14px] ${
-                        i < tripFacts.length - 1
-                          ? "border-b border-[var(--line)]"
-                          : ""
-                      }`}
-                    >
-                      <span className="text-[var(--ink)]">{label}</span>
-                      <b className="font-serif italic font-normal text-[var(--forest)] text-right">
-                        {value}
-                      </b>
-                    </li>
-                  ))}
-                </ul>
-              </SideBox>
+                <SideBox>
+                  <SideBoxTitle>Trip facts</SideBoxTitle>
+                  <ul className="list-none p-0 m-0">
+                    {tripFacts.map(({ label, value }, i) => (
+                      <li
+                        key={label}
+                        className={`flex justify-between items-baseline gap-3.5 py-2.5 text-[14px] ${
+                          i < tripFacts.length - 1
+                            ? "border-b border-[var(--line)]"
+                            : ""
+                        }`}
+                      >
+                        <span className="text-[var(--ink)]">{label}</span>
+                        <b className="font-serif italic font-normal text-[var(--forest)] text-right">
+                          {value}
+                        </b>
+                      </li>
+                    ))}
+                  </ul>
+                </SideBox>
               </Reveal>
 
               {/* What's included */}
               {safari.included?.length > 0 && (
                 <Reveal delay={0.05}>
-                <SideBox>
-                  <SideBoxTitle>What&apos;s included</SideBoxTitle>
-                  <ul className="list-none p-0 m-0">
-                    {safari.included.map((item, i) => (
-                      <li
-                        key={i}
-                        className={`flex justify-between items-baseline gap-3.5 py-2.5 text-[14px] ${
-                          i < safari.included.length - 1
-                            ? "border-b border-[var(--line)]"
-                            : ""
-                        }`}
-                      >
-                        <span className="text-[var(--ink)]">{item}</span>
-                        <span className="text-[var(--clay)] text-[14px]">
-                          ✓
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </SideBox>
+                  <SideBox>
+                    <SideBoxTitle>What&apos;s included</SideBoxTitle>
+                    <ul className="list-none p-0 m-0">
+                      {safari.included.map((item, i) => (
+                        <li
+                          key={i}
+                          className={`flex justify-between items-baseline gap-3.5 py-2.5 text-[14px] ${
+                            i < safari.included.length - 1
+                              ? "border-b border-[var(--line)]"
+                              : ""
+                          }`}
+                        >
+                          <span className="text-[var(--ink)]">{item}</span>
+                          <span className="text-[var(--clay)] text-[14px]">
+                            ✓
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </SideBox>
                 </Reveal>
               )}
 
               {/* What's excluded */}
               {safari.excluded?.length > 0 && (
                 <Reveal delay={0.1}>
-                <SideBox>
-                  <SideBoxTitle>What&apos;s excluded</SideBoxTitle>
-                  <ul className="list-none p-0 m-0">
-                    {safari.excluded.map((item, i) => (
-                      <li
-                        key={i}
-                        className={`flex justify-between items-baseline gap-3.5 py-2.5 text-[14px] ${
-                          i < safari.excluded.length - 1
-                            ? "border-b border-[var(--line)]"
-                            : ""
-                        }`}
-                      >
-                        <span className="text-[var(--ink)]">{item}</span>
-                        <span className="text-[var(--muted)] text-[14px]">
-                          —
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </SideBox>
+                  <SideBox>
+                    <SideBoxTitle>What&apos;s excluded</SideBoxTitle>
+                    <ul className="list-none p-0 m-0">
+                      {safari.excluded.map((item, i) => (
+                        <li
+                          key={i}
+                          className={`flex justify-between items-baseline gap-3.5 py-2.5 text-[14px] ${
+                            i < safari.excluded.length - 1
+                              ? "border-b border-[var(--line)]"
+                              : ""
+                          }`}
+                        >
+                          <span className="text-[var(--ink)]">{item}</span>
+                          <span className="text-[var(--muted)] text-[14px]">
+                            —
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </SideBox>
                 </Reveal>
               )}
 
               {/* Booking CTA */}
               <Reveal delay={0.15}>
-              <SideBox dark>
-                <SideBoxTitle dark>Begin this trip</SideBoxTitle>
-                <p className="font-serif italic text-[20px] leading-[1.25] mb-[18px]">
-                  Reserve your spot now — no payment required today.
-                </p>
-                <BookingButton
-                  safari={safari}
-                  label="Book this safari →"
-                  className="block w-full text-center bg-[#f4d4a8] text-[var(--forest)] py-3 px-4 text-[13px] rounded font-medium transition-opacity hover:opacity-90"
-                />
-              </SideBox>
+                <SideBox dark>
+                  <SideBoxTitle dark>Begin this trip</SideBoxTitle>
+                  <p className="font-serif italic text-[20px] leading-[1.25] mb-[18px]">
+                    Reserve your spot now — no payment required today.
+                  </p>
+                  <BookingButton
+                    safari={safari}
+                    label="Book this safari →"
+                    className="block w-full text-center bg-[#f4d4a8] text-[var(--forest)] py-3 px-4 text-[13px] rounded font-medium transition-opacity hover:opacity-90"
+                  />
+                </SideBox>
               </Reveal>
             </aside>
           </div>
@@ -468,16 +466,16 @@ export default async function SafariDetailPage({ params }: Props) {
       <section className="py-24 bg-[var(--paper)] border-t border-[var(--line)]">
         <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
           <Reveal>
-          <Eyebrow>Where you will stay</Eyebrow>
-          <h2 className="font-serif font-normal text-[clamp(36px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-[14px] mb-[14px]">
-            Handpicked lodges,{" "}
-            <em className="italic text-[var(--clay)]">three</em> tiers.
-          </h2>
-          <p className="text-[15px] leading-[1.65] text-[var(--muted)] mb-12 max-w-[56ch]">
-            Whether you prefer a budget tented camp, a mid-range lodge, or a
-            luxury safari camp inside the reserve — we work with vetted partners
-            across the full range.
-          </p>
+            <Eyebrow>Where you will stay</Eyebrow>
+            <h2 className="font-serif font-normal text-[clamp(36px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-[14px] mb-[14px]">
+              Handpicked lodges,{" "}
+              <em className="italic text-[var(--clay)]">three</em> tiers.
+            </h2>
+            <p className="text-sm leading-[1.65] text-[var(--muted)] mb-12 max-w-[56ch]">
+              Whether you prefer a budget tented camp, a mid-range lodge, or a
+              luxury safari camp inside the reserve — we work with vetted
+              partners across the full range.
+            </p>
           </Reveal>
 
           <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-7">
@@ -541,27 +539,27 @@ export default async function SafariDetailPage({ params }: Props) {
         <section className="py-16 sm:py-20 lg:py-24 bg-[var(--bg)] border-t border-[var(--line)]">
           <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
             <Reveal>
-            <Eyebrow>Safari highlights</Eyebrow>
-            <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5 mb-10">
-              What to <em className="italic text-[var(--clay)]">expect</em>.
-            </h2>
+              <Eyebrow>Safari highlights</Eyebrow>
+              <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5 mb-10">
+                What to <em className="italic text-[var(--clay)]">expect</em>.
+              </h2>
             </Reveal>
             <Reveal delay={0.1}>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-px bg-[var(--line)] border border-[var(--line)]">
-              {safari.highlights.map((hl, i) => (
-                <div
-                  key={i}
-                  className="flex gap-4 items-start p-7 bg-[var(--bg)]"
-                >
-                  <span className="font-serif italic text-[18px] text-[var(--clay)] shrink-0 leading-[1.3]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="text-[15px] leading-relaxed text-[var(--ink)] m-0">
-                    {hl}
-                  </p>
-                </div>
-              ))}
-            </div>
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-px bg-[var(--line)] border border-[var(--line)]">
+                {safari.highlights.map((hl, i) => (
+                  <div
+                    key={i}
+                    className="flex gap-4 items-start p-7 bg-[var(--bg)]"
+                  >
+                    <span className="font-serif italic text-[18px] text-[var(--clay)] shrink-0 leading-[1.3]">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="text-sm leading-relaxed text-[var(--ink)] m-0">
+                      {hl}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </Reveal>
           </div>
         </section>
@@ -574,22 +572,24 @@ export default async function SafariDetailPage({ params }: Props) {
         <section className="py-16 sm:py-20 lg:py-24 bg-[var(--paper)] border-t border-[var(--line)]">
           <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
             <Reveal>
-            <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
-              <div>
-                <Eyebrow>You may also like</Eyebrow>
-                <h2 className="font-serif font-normal text-[clamp(26px,3.8vw,52px)] leading-[1.02] tracking-[-0.02em] mt-3.5">
-                  More{" "}
-                  <em className="italic text-[var(--clay)]">{countries[0]}</em>{" "}
-                  safaris.
-                </h2>
+              <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
+                <div>
+                  <Eyebrow>You may also like</Eyebrow>
+                  <h2 className="font-serif font-normal text-[clamp(26px,3.8vw,52px)] leading-[1.02] tracking-[-0.02em] mt-3.5">
+                    More{" "}
+                    <em className="italic text-[var(--clay)]">
+                      {countries[0]}
+                    </em>{" "}
+                    safaris.
+                  </h2>
+                </div>
+                <Link
+                  href="/safaris"
+                  className="inline-flex items-center gap-3 px-[22px] py-3 bg-[var(--forest)] text-[var(--paper)] rounded-full text-[13px] tracking-[0.02em] whitespace-nowrap transition-opacity hover:opacity-90"
+                >
+                  All safari packages →
+                </Link>
               </div>
-              <Link
-                href="/safaris"
-                className="inline-flex items-center gap-3 px-[22px] py-3 bg-[var(--forest)] text-[var(--paper)] rounded-full text-[13px] tracking-[0.02em] whitespace-nowrap transition-opacity hover:opacity-90"
-              >
-                All safari packages →
-              </Link>
-            </div>
             </Reveal>
 
             <Stagger className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-9">
@@ -605,73 +605,70 @@ export default async function SafariDetailPage({ params }: Props) {
                     : "Wildlife";
 
                 return (
-                  <RevealItem
-                    key={r._id}
-                    className="flex flex-col"
-                  >
-                  <Link
-                    href={`/safaris/${r.slug}`}
-                    className="flex flex-col h-full"
-                  >
-                    {/* Image */}
-                    <div className="aspect-[4/3.4] overflow-hidden bg-[var(--bg-deep)] mb-5 relative">
-                      <Image
-                        src={
-                          r.coverImage ||
-                          r.images?.[0]?.url ||
-                          "/images/placeholder.jpg"
-                        }
-                        alt={r.name}
-                        fill
-                        className="object-cover transition-transform duration-1000 hover:scale-[1.05]"
-                        sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
-                      />
-                    </div>
-
-                    {/* Meta */}
-                    <div className="flex justify-between items-center mb-3">
-                      <span
-                        className={`inline-block px-2.5 py-1 border rounded-full font-mono text-[10px] uppercase tracking-[0.14em] ${
-                          isGold
-                            ? "border-[var(--clay)] text-[var(--clay)]"
-                            : "border-[var(--line)] text-[var(--muted)]"
-                        }`}
-                      >
-                        {isGold ? "★ " : ""}
-                        {tagLabel}
-                      </span>
-                      {r.rating > 0 && (
-                        <span className="font-mono text-[10px] text-[var(--muted)]">
-                          ★ {r.rating.toFixed(1)}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="font-serif font-normal text-[26px] sm:text-[28px] leading-[1.05] tracking-[-0.01em] mb-2.5 text-[var(--ink)]">
-                      {r.name}
-                    </h3>
-
-                    {/* Tagline */}
-                    <p className="text-[14px] leading-[1.55] text-[var(--muted)] mb-4">
-                      {r.tagline}
-                    </p>
-
-                    {/* Footer */}
-                    <div className="mt-auto pt-4 border-t border-[var(--line)] flex justify-between items-baseline">
-                      <div className="font-serif text-[22px] text-[var(--ink)]">
-                        <span className="font-mono text-[10px] text-[var(--muted)] tracking-[0.12em] mr-1.5">
-                          FROM
-                        </span>
-                        <b className="italic">
-                          ${lowestPrice.toLocaleString()}
-                        </b>
+                  <RevealItem key={r._id} className="flex flex-col">
+                    <Link
+                      href={`/safaris/${r.slug}`}
+                      className="flex flex-col h-full"
+                    >
+                      {/* Image */}
+                      <div className="aspect-[4/3.4] overflow-hidden bg-[var(--bg-deep)] mb-5 relative">
+                        <Image
+                          src={
+                            r.coverImage ||
+                            r.images?.[0]?.url ||
+                            "/images/placeholder.jpg"
+                          }
+                          alt={r.name}
+                          fill
+                          className="object-cover transition-transform duration-1000 hover:scale-[1.05]"
+                          sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+                        />
                       </div>
-                      <span className="font-mono text-[11px] text-[var(--muted)] tracking-[0.14em]">
-                        {r.duration}D · {rNights}N
-                      </span>
-                    </div>
-                  </Link>
+
+                      {/* Meta */}
+                      <div className="flex justify-between items-center mb-3">
+                        <span
+                          className={`inline-block px-2.5 py-1 border rounded-full font-mono text-[10px] uppercase tracking-[0.14em] ${
+                            isGold
+                              ? "border-[var(--clay)] text-[var(--clay)]"
+                              : "border-[var(--line)] text-[var(--muted)]"
+                          }`}
+                        >
+                          {isGold ? "★ " : ""}
+                          {tagLabel}
+                        </span>
+                        {r.rating > 0 && (
+                          <span className="font-mono text-[10px] text-[var(--muted)]">
+                            ★ {r.rating.toFixed(1)}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="font-serif font-normal text-[26px] sm:text-[28px] leading-[1.05] tracking-[-0.01em] mb-2.5 text-[var(--ink)]">
+                        {r.name}
+                      </h3>
+
+                      {/* Tagline */}
+                      <p className="text-[14px] leading-[1.55] text-[var(--muted)] mb-4">
+                        {r.tagline}
+                      </p>
+
+                      {/* Footer */}
+                      <div className="mt-auto pt-4 border-t border-[var(--line)] flex justify-between items-baseline">
+                        <div className="font-serif text-[22px] text-[var(--ink)]">
+                          <span className="font-mono text-[10px] text-[var(--muted)] tracking-[0.12em] mr-1.5">
+                            FROM
+                          </span>
+                          <b className="italic">
+                            ${lowestPrice.toLocaleString()}
+                          </b>
+                        </div>
+                        <span className="font-mono text-[11px] text-[var(--muted)] tracking-[0.14em]">
+                          {r.duration}D · {rNights}N
+                        </span>
+                      </div>
+                    </Link>
                   </RevealItem>
                 );
               })}

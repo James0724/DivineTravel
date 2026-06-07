@@ -1,98 +1,154 @@
-import Image from 'next/image'
-import Reveal from '@/components/ui/Reveal'
+"use client";
+
+import Image from "next/image";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { LettersPullUp } from "@/components/ui/LettersPullUp";
+import Reveal from "../ui/Reveal";
+import { AnimatedHeading } from "../ui/Heading";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const features = [
   {
-    ic: 'i',
-    title: 'Genuine In-Country Team',
-    body: 'We are based in Nairobi — not a booking engine. When you call, you speak directly with your safari consultant who knows every park personally.',
+    ic: "i",
+    title: "Genuine In-Country Team",
+    body: "We are based in Nairobi — not a booking engine. When you call, you speak directly with your safari consultant who knows every park personally.",
   },
   {
-    ic: 'ii',
-    title: 'Real-Time Availability',
-    body: 'We hold direct lodge allocations, giving you access to the best camps even in peak season. No third-party mark-ups, no surprises.',
+    ic: "ii",
+    title: "Real-Time Availability",
+    body: "We hold direct lodge allocations, giving you access to the best camps even in peak season. No third-party mark-ups, no surprises.",
   },
   {
-    ic: 'iii',
-    title: 'Wildlife-First Routing',
-    body: 'Our itineraries follow the animals, not the calendar. We track the migration in real time and can adjust your route mid-safari.',
+    ic: "iii",
+    title: "Wildlife-First Routing",
+    body: "Our itineraries follow the animals, not the calendar. We track the migration in real time and can adjust your route mid-safari.",
   },
   {
-    ic: 'iv',
-    title: 'Transparent, All-Inclusive Pricing',
-    body: 'No hidden extras. Park fees, activities, meals, transfers — all included in your quote so you can plan with confidence.',
+    ic: "iv",
+    title: "Transparent, All-Inclusive Pricing",
+    body: "No hidden extras. Park fees, activities, meals, transfers — all included in your quote so you can plan with confidence.",
   },
-]
+];
 
 export default function StandOut() {
+  const photoRef = useRef<HTMLDivElement>(null);
+  const photoInView = useInView(photoRef, { once: true, margin: "-80px" });
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const contentInView = useInView(contentRef, { once: true, margin: "-80px" });
+
   return (
     <section
       className="py-[140px] bg-bone-paper border-y"
-      style={{ borderColor: 'rgba(23,22,18,0.14)' }}
+      style={{ borderColor: "rgba(23,22,18,0.14)" }}
     >
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Photo */}
-          <Reveal variant="fadeUp">
-            <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
+          {/* ── Photo — clip-path wipe reveal (curtain lifts upward) ──── */}
+          <div
+            ref={photoRef}
+            className="relative overflow-hidden"
+            style={{ aspectRatio: "4/5" }}
+          >
+            <motion.div
+              className="absolute inset-0"
+              initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
+              animate={photoInView ? { clipPath: "inset(0% 0% 0% 0%)" } : {}}
+              transition={{ duration: 1.15, delay: 0.1, ease: EASE }}
+            >
               <Image
-                src="https://images.pexels.com/photos/16444284/pexels-photo-16444284.jpeg?auto=compress&cs=tinysrgb&w=900&q=80"
+                src="https://res.cloudinary.com/dk2j3k15k/image/upload/v1780809294/Gallarey/our_team_me0ns8.jpg"
                 alt="Safari vehicle on a game drive through the African bush"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
-            </div>
-          </Reveal>
+            </motion.div>
 
-          {/* Content */}
-          <Reveal variant="fadeUp" delay={0.12}>
-            <div className="eyebrow mb-4">
-              <span className="dot" />
-              What sets us apart
-            </div>
-            <h2
-              className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4 mb-4"
-              style={{ fontSize: 'clamp(40px, 5vw, 64px)' }}
-            >
-              Safari done{' '}
-              <em className="italic text-bone-clay">properly</em>.
-            </h2>
-            <p className="text-[15px] leading-[1.65] text-bone-muted max-w-[48ch] mb-8">
-              In a market full of online booking engines, we remain a hands-on, in-country
-              team dedicated to crafting safaris that exceed every expectation.
-            </p>
+            {/* Clay accent corner */}
+            <motion.div
+              className="absolute bottom-0 left-0 w-12 h-1"
+              style={{ background: "#9d4519", transformOrigin: "0 0" }}
+              initial={{ scaleX: 0 }}
+              animate={photoInView ? { scaleX: 1 } : {}}
+              transition={{ duration: 0.5, delay: 1.1, ease: EASE }}
+            />
+          </div>
 
-            {/* Feature list */}
+          {/* ── Content ──────────────────────────────────────────────── */}
+          <div ref={contentRef}>
+            <header className="mb-8">
+              <div className="mb-6">
+                <Reveal variant="fadeUp">
+                  <div className="eyebrow mb-4">
+                    <span className="dot" />
+                    What sets us apart
+                  </div>
+                </Reveal>
+
+                {/* Heading — character pull-up */}
+                <AnimatedHeading
+                  as="h1"
+                  textBefore="Safari done "
+                  highlightedText="properly"
+                />
+              </div>
+              <Reveal variant="fadeUp">
+                <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
+                  In a market full of online booking engines, we remain a
+                  hands-on, in-country team dedicated to crafting safaris that
+                  exceed every expectation.
+                </p>
+              </Reveal>
+            </header>
+
+            {/* Feature list — each row slides in from left, staggered */}
             <div className="flex flex-col">
               {features.map((f, i) => (
-                <div
+                <motion.div
                   key={f.ic}
-                  className="py-6 border-t grid gap-[18px] items-start"
+                  className="py-6 border-t grid gap-[18px] items-start group"
                   style={{
-                    borderColor: 'rgba(23,22,18,0.14)',
-                    gridTemplateColumns: '36px 1fr',
-                    borderBottom: i === features.length - 1 ? '1px solid rgba(23,22,18,0.14)' : undefined,
+                    gridTemplateColumns: "36px 1fr",
+                    borderColor: "rgba(23,22,18,0.14)",
+                    borderBottom:
+                      i === features.length - 1
+                        ? "1px solid rgba(23,22,18,0.14)"
+                        : undefined,
+                  }}
+                  initial={{ opacity: 0, x: -24 }}
+                  animate={contentInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.35 + i * 0.1,
+                    ease: EASE,
                   }}
                 >
-                  <div
+                  {/* Numbered circle — spins on hover */}
+                  <motion.div
                     className="w-9 h-9 rounded-full flex items-center justify-center text-white font-serif italic text-[16px] flex-shrink-0"
-                    style={{ background: '#9d4519' }}
+                    style={{ background: "#9d4519" }}
+                    whileHover={{ scale: 1.12, rotate: 10 }}
+                    transition={{ duration: 0.2 }}
                   >
                     {f.ic}
-                  </div>
+                  </motion.div>
                   <div>
                     <h4 className="font-serif font-medium text-[22px] text-bone-ink mb-1">
                       {f.title}
                     </h4>
-                    <p className="text-[14px] leading-[1.55] text-bone-muted">{f.body}</p>
+                    <p className="text-[14px] leading-[1.55] text-bone-muted">
+                      {f.body}
+                    </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

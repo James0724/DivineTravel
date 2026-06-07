@@ -53,8 +53,8 @@ export default function Footer() {
               </div>
               <p className="text-[14px] leading-[1.6] opacity-70 max-w-[38ch]">
                 Divine Travel Nest Safaris offers Kenya safari tours, Tanzania
-                safaris, combined Kenya/Tanzania safari packages and Uganda
-                tours — start your African journey with us today.
+                safaris, Uganda gorilla trekking and Rwanda gorilla &amp;
+                wildlife safaris — start your African journey with us today.
               </p>
             </div>
 
@@ -72,6 +72,7 @@ export default function Footer() {
                     href: "/safaris/cross-country-safaris",
                   },
                   { label: "Uganda gorilla trekking", href: "/safaris/uganda" },
+                  { label: "Rwanda gorilla safaris", href: "/safaris/rwanda" },
                   { label: "Nairobi day tours", href: "/safaris/kenya" },
                 ].map((l, i) => (
                   <li key={i + l.href}>

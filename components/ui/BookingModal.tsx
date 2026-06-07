@@ -1,87 +1,97 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { X, Check } from 'lucide-react'
-import { useCreateBooking } from '@/hooks/useBooking'
+import { useState, useEffect } from "react";
+import { X, Check } from "lucide-react";
+import { useCreateBooking } from "@/hooks/useBooking";
 
 interface PricingTier {
-  pricePerPerson: number
+  pricePerPerson: number;
 }
 
 interface SafariProps {
-  _id: string
-  name: string
-  duration: number
+  _id: string;
+  name: string;
+  duration: number;
   pricing: {
-    budget?: PricingTier | null
-    midRange?: PricingTier | null
-    luxury?: PricingTier | null
-  }
+    budget?: PricingTier | null;
+    midRange?: PricingTier | null;
+    luxury?: PricingTier | null;
+  };
 }
 
 interface BookingModalProps {
-  safari: SafariProps
-  onClose: () => void
+  safari: SafariProps;
+  onClose: () => void;
 }
 
 const TIERS = [
-  { key: 'budget' as const, label: 'Budget' },
-  { key: 'midRange' as const, label: 'Mid-range' },
-  { key: 'luxury' as const, label: 'Luxury' },
-]
+  { key: "budget" as const, label: "Budget" },
+  { key: "midRange" as const, label: "Mid-range" },
+  { key: "luxury" as const, label: "Luxury" },
+];
 
 export default function BookingModal({ safari, onClose }: BookingModalProps) {
-  const availableTiers = TIERS.filter((t) => safari.pricing?.[t.key]?.pricePerPerson)
+  const availableTiers = TIERS.filter(
+    (t) => safari.pricing?.[t.key]?.pricePerPerson,
+  );
   const defaultTier =
-    availableTiers.find((t) => t.key === 'midRange')?.key ??
+    availableTiers.find((t) => t.key === "midRange")?.key ??
     availableTiers[0]?.key ??
-    'budget'
+    "budget";
 
-  const [tier, setTier] = useState<'budget' | 'midRange' | 'luxury'>(defaultTier)
-  const [adults, setAdults] = useState(2)
-  const [children, setChildren] = useState(0)
-  const [preferredDate, setPreferredDate] = useState('')
-  const [alternateDate, setAlternateDate] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [nationality, setNationality] = useState('')
-  const [specialRequests, setSpecialRequests] = useState('')
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [success, setSuccess] = useState<{ bookingRef: string } | null>(null)
+  const [tier, setTier] = useState<"budget" | "midRange" | "luxury">(
+    defaultTier,
+  );
+  const [adults, setAdults] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [preferredDate, setPreferredDate] = useState("");
+  const [alternateDate, setAlternateDate] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [nationality, setNationality] = useState("");
+  const [specialRequests, setSpecialRequests] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [success, setSuccess] = useState<{ bookingRef: string } | null>(null);
 
-  const createBooking = useCreateBooking()
+  const createBooking = useCreateBooking();
 
   // Lock body scroll while modal is open
   useEffect(() => {
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = prev }
-  }, [])
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
 
-  const pricePerPerson = safari.pricing?.[tier]?.pricePerPerson ?? 0
-  const groupSize = adults + children
-  const totalPrice = pricePerPerson * groupSize
+  const pricePerPerson = safari.pricing?.[tier]?.pricePerPerson ?? 0;
+  const groupSize = adults + children;
+  const totalPrice = pricePerPerson * groupSize;
 
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0]
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
 
   function validate() {
-    const e: Record<string, string> = {}
-    if (firstName.trim().length < 2) e.firstName = 'Required'
-    if (lastName.trim().length < 2) e.lastName = 'Required'
-    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'Valid email required'
-    if (phone.trim().length < 7) e.phone = 'Required'
-    if (nationality.trim().length < 2) e.nationality = 'Required'
-    if (!preferredDate) e.preferredDate = 'Required'
-    return e
+    const e: Record<string, string> = {};
+    if (firstName.trim().length < 2) e.firstName = "Required";
+    if (lastName.trim().length < 2) e.lastName = "Required";
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      e.email = "Valid email required";
+    if (phone.trim().length < 7) e.phone = "Required";
+    if (nationality.trim().length < 2) e.nationality = "Required";
+    if (!preferredDate) e.preferredDate = "Required";
+    return e;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const errs = validate()
-    if (Object.keys(errs).length) { setErrors(errs); return }
-    setErrors({})
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) {
+      setErrors(errs);
+      return;
+    }
+    setErrors({});
 
     try {
       const result = await createBooking.mutateAsync({
@@ -97,42 +107,61 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
         childCount: children,
         preferredDate,
         ...(alternateDate && { alternateDate }),
-        ...(specialRequests.trim() && { specialRequests: specialRequests.trim() }),
-      })
-      setSuccess({ bookingRef: result.data!.bookingRef })
+        ...(specialRequests.trim() && {
+          specialRequests: specialRequests.trim(),
+        }),
+      });
+      setSuccess({ bookingRef: result.data!.bookingRef });
     } catch (err) {
-      setErrors({ form: (err as Error).message || 'Something went wrong. Please try again.' })
+      setErrors({
+        form:
+          (err as Error).message || "Something went wrong. Please try again.",
+      });
     }
-  }
+  };
 
   function clearError(field: string) {
-    setErrors((prev) => { const n = { ...prev }; delete n[field]; return n })
+    setErrors((prev) => {
+      const n = { ...prev };
+      delete n[field];
+      return n;
+    });
   }
 
   const inputClass = (field: string) =>
     `w-full h-11 px-3 border text-[14px] bg-[var(--paper)] focus:outline-none focus:border-[var(--forest)] transition-colors ${
-      errors[field] ? 'border-red-400' : 'border-[var(--line)]'
-    }`
+      errors[field] ? "border-red-400" : "border-[var(--line)]"
+    }`;
 
   // ── Success state ──────────────────────────────────────────────────────────
   if (success) {
     return (
       <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-[3px]" onClick={onClose} />
+        <div
+          className="absolute inset-0 bg-black/70 backdrop-blur-[3px]"
+          onClick={onClose}
+        />
         <div className="relative bg-[var(--paper)] p-8 max-w-md w-full text-center shadow-2xl mx-auto">
           <div className="w-16 h-16 rounded-full bg-[var(--forest)] flex items-center justify-center mx-auto mb-5">
-            <Check size={30} className="text-[var(--paper)]" strokeWidth={2.5} />
+            <Check
+              size={30}
+              className="text-[var(--paper)]"
+              strokeWidth={2.5}
+            />
           </div>
           <h2 className="font-serif font-normal text-[30px] leading-tight mb-3">
             Booking Request Sent
           </h2>
           <p className="text-[var(--muted)] text-[14px] leading-relaxed mb-5">
-            Thank you, <strong>{firstName}</strong>! A member of our team will contact you shortly
-            to discuss deposit payment and finalise your pricing and confirmation.
+            Thank you, <strong>{firstName}</strong>! A member of our team will
+            contact you shortly to discuss deposit payment and finalise your
+            pricing and confirmation.
           </p>
           <div className="font-mono text-[11px] bg-[var(--bg)] border border-[var(--line)] px-4 py-3 mb-6 text-[var(--ink)]">
-            Your booking reference:{' '}
-            <strong className="text-[var(--forest)]">{success.bookingRef}</strong>
+            Your booking reference:{" "}
+            <strong className="text-[var(--forest)]">
+              {success.bookingRef}
+            </strong>
           </div>
           <button
             onClick={onClose}
@@ -142,15 +171,17 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   // ── Booking form ───────────────────────────────────────────────────────────
   return (
     <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-[3px]" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/70 backdrop-blur-[3px]"
+        onClick={onClose}
+      />
       <div className="relative bg-[var(--paper)] w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl mx-auto">
-
         {/* Header */}
         <div className="sticky top-0 z-10 bg-[var(--forest)] text-[var(--paper)] px-6 py-4 flex items-start justify-between gap-4">
           <div>
@@ -170,8 +201,10 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto flex-1 overscroll-contain">
-
+        <form
+          onSubmit={handleSubmit}
+          className="p-6 space-y-6 overflow-y-auto flex-1 overscroll-contain"
+        >
           {/* Tier selection */}
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)] mb-3">
@@ -179,9 +212,9 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
             </p>
             <div className="grid grid-cols-3 gap-2.5">
               {TIERS.map(({ key, label }) => {
-                const price = safari.pricing?.[key]?.pricePerPerson
-                if (!price) return null
-                const active = tier === key
+                const price = safari.pricing?.[key]?.pricePerPerson;
+                if (!price) return null;
+                const active = tier === key;
                 return (
                   <button
                     key={key}
@@ -189,8 +222,8 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                     onClick={() => setTier(key)}
                     className={`p-3 border text-left transition-colors ${
                       active
-                        ? 'border-[var(--forest)] bg-[var(--forest)]/5'
-                        : 'border-[var(--line)] hover:border-[var(--forest)]/40'
+                        ? "border-[var(--forest)] bg-[var(--forest)]/5"
+                        : "border-[var(--line)] hover:border-[var(--forest)]/40"
                     }`}
                   >
                     <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--muted)] mb-1">
@@ -199,9 +232,11 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                     <div className="font-serif italic text-[20px] leading-none text-[var(--clay)]">
                       ${price.toLocaleString()}
                     </div>
-                    <div className="font-mono text-[9px] text-[var(--muted)] mt-0.5">per person</div>
+                    <div className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
+                      per person
+                    </div>
                   </button>
-                )
+                );
               })}
             </div>
           </div>
@@ -216,11 +251,16 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                 type="date"
                 value={preferredDate}
                 min={tomorrow}
-                onChange={(e) => { setPreferredDate(e.target.value); clearError('preferredDate') }}
-                className={inputClass('preferredDate')}
+                onChange={(e) => {
+                  setPreferredDate(e.target.value);
+                  clearError("preferredDate");
+                }}
+                className={inputClass("preferredDate")}
               />
               {errors.preferredDate && (
-                <p className="text-red-500 text-[11px] mt-1">{errors.preferredDate}</p>
+                <p className="text-red-500 text-[11px] mt-1">
+                  {errors.preferredDate}
+                </p>
               )}
             </div>
             <div>
@@ -244,11 +284,25 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
             </p>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: 'Adults *', value: adults, min: 1, max: 50, set: setAdults },
-                { label: 'Children (under 12)', value: children, min: 0, max: 20, set: setChildren },
+                {
+                  label: "Adults *",
+                  value: adults,
+                  min: 1,
+                  max: 50,
+                  set: setAdults,
+                },
+                {
+                  label: "Children (under 12)",
+                  value: children,
+                  min: 0,
+                  max: 20,
+                  set: setChildren,
+                },
               ].map(({ label, value, min, max, set }) => (
                 <div key={label}>
-                  <label className="block text-[12px] text-[var(--muted)] mb-1.5">{label}</label>
+                  <label className="block text-[12px] text-[var(--muted)] mb-1.5">
+                    {label}
+                  </label>
                   <div className="flex items-center h-11 border border-[var(--line)]">
                     <button
                       type="button"
@@ -257,7 +311,7 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                     >
                       −
                     </button>
-                    <span className="flex-1 text-center text-[15px] font-medium text-[var(--ink)]">
+                    <span className="flex-1 text-center text-sm font-medium text-[var(--ink)]">
                       {value}
                     </span>
                     <button
@@ -285,8 +339,8 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                 </div>
               </div>
               <div className="text-right text-[12px] opacity-65 leading-relaxed">
-                ${pricePerPerson.toLocaleString()} ×{' '}
-                {groupSize} {groupSize === 1 ? 'person' : 'people'}
+                ${pricePerPerson.toLocaleString()} × {groupSize}{" "}
+                {groupSize === 1 ? "person" : "people"}
                 <br />
                 <span className="font-mono text-[9px] uppercase tracking-[0.12em]">
                   Final price confirmed by team
@@ -308,11 +362,18 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                 <input
                   type="text"
                   value={firstName}
-                  onChange={(e) => { setFirstName(e.target.value); clearError('firstName') }}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    clearError("firstName");
+                  }}
                   autoComplete="given-name"
-                  className={inputClass('firstName')}
+                  className={inputClass("firstName")}
                 />
-                {errors.firstName && <p className="text-red-500 text-[11px] mt-1">{errors.firstName}</p>}
+                {errors.firstName && (
+                  <p className="text-red-500 text-[11px] mt-1">
+                    {errors.firstName}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -322,11 +383,18 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                 <input
                   type="text"
                   value={lastName}
-                  onChange={(e) => { setLastName(e.target.value); clearError('lastName') }}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                    clearError("lastName");
+                  }}
                   autoComplete="family-name"
-                  className={inputClass('lastName')}
+                  className={inputClass("lastName")}
                 />
-                {errors.lastName && <p className="text-red-500 text-[11px] mt-1">{errors.lastName}</p>}
+                {errors.lastName && (
+                  <p className="text-red-500 text-[11px] mt-1">
+                    {errors.lastName}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -336,11 +404,18 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => { setEmail(e.target.value); clearError('email') }}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    clearError("email");
+                  }}
                   autoComplete="email"
-                  className={inputClass('email')}
+                  className={inputClass("email")}
                 />
-                {errors.email && <p className="text-red-500 text-[11px] mt-1">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-red-500 text-[11px] mt-1">
+                    {errors.email}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -350,12 +425,19 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                 <input
                   type="tel"
                   value={phone}
-                  onChange={(e) => { setPhone(e.target.value); clearError('phone') }}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    clearError("phone");
+                  }}
                   autoComplete="tel"
                   placeholder="+1 234 567 8900"
-                  className={inputClass('phone')}
+                  className={inputClass("phone")}
                 />
-                {errors.phone && <p className="text-red-500 text-[11px] mt-1">{errors.phone}</p>}
+                {errors.phone && (
+                  <p className="text-red-500 text-[11px] mt-1">
+                    {errors.phone}
+                  </p>
+                )}
               </div>
 
               <div className="sm:col-span-2">
@@ -365,12 +447,17 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                 <input
                   type="text"
                   value={nationality}
-                  onChange={(e) => { setNationality(e.target.value); clearError('nationality') }}
+                  onChange={(e) => {
+                    setNationality(e.target.value);
+                    clearError("nationality");
+                  }}
                   placeholder="e.g. American, British, Kenyan…"
-                  className={inputClass('nationality')}
+                  className={inputClass("nationality")}
                 />
                 {errors.nationality && (
-                  <p className="text-red-500 text-[11px] mt-1">{errors.nationality}</p>
+                  <p className="text-red-500 text-[11px] mt-1">
+                    {errors.nationality}
+                  </p>
                 )}
               </div>
             </div>
@@ -403,15 +490,16 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
             className="w-full bg-[var(--forest)] text-[var(--paper)] py-4 text-[14px] font-medium tracking-[0.04em] transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {createBooking.isPending
-              ? 'Submitting your request…'
+              ? "Submitting your request…"
               : `Submit Booking Request — $${totalPrice.toLocaleString()}`}
           </button>
 
           <p className="text-[11px] text-[var(--muted)] text-center leading-relaxed">
-            No payment is required now. Our team will contact you to finalise pricing and arrange your deposit.
+            No payment is required now. Our team will contact you to finalise
+            pricing and arrange your deposit.
           </p>
         </form>
       </div>
     </div>
-  )
+  );
 }

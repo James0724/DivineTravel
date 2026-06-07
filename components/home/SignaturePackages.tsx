@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { useSafaris } from "@/hooks/useSafaris";
 import SiteLink from "@/components/ui/SiteLink";
 import type { Safari } from "@/types";
+import { AnimatedHeading } from "../ui/Heading";
+import Reveal from "../ui/Reveal";
 
 /* ── Types ─────────────────────────────────────────────────────────────── */
 
@@ -43,7 +45,7 @@ function PackageCard({
     >
       <Link
         href={`/safaris/${safari.slug}`}
-        className="group flex flex-col w-full bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
+        className="group flex flex-col w-full bg-bone-paper border border-[rgba(23,22,18,0.22)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
       >
         {/* Image */}
         <div
@@ -176,26 +178,30 @@ export default function SignaturePackages({
         {/* ── Section header ──────────────────────────────────────────── */}
         <div className="section-hd">
           <div>
-            <div className="eyebrow">
-              <span className="dot" />
-              Our Signature Safari Experiences
-            </div>
-            <h2
-              className="font-serif font-light text-bone-ink leading-[0.96] tracking-[-0.025em] mt-4"
-              style={{ fontSize: "clamp(38px, 5vw, 72px)" }}
-            >
-              Popular safari
-              <br />
-              categories,{" "}
-              <em className="italic font-light text-bone-clay">tuned</em>.
-            </h2>
+            <Reveal variant="fadeUp">
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Our Signature Safari Experiences
+              </div>
+            </Reveal>
+
+            {/* Heading — character pull-up */}
+            <AnimatedHeading
+              as="h1"
+              textBefore="Popular safari "
+              highlightedText="categories"
+              textAfter="tuned"
+            />
           </div>
-          <p className="text-[15px] leading-[1.7] text-bone-muted max-w-[54ch]">
-            Discover the wonders of Africa with Divine Travel Nest Safaris. Our
-            popular safari tours offer unforgettable wildlife encounters,
-            stunning landscapes, and authentic cultural experiences — whether
-            you're seeking adventure or relaxation.
-          </p>
+
+          <Reveal variant="fadeUp">
+            <p className="text-sm leading-[1.7] text-bone-muted max-w-[54ch]">
+              Discover the wonders of Africa with Divine Travel Nest Safaris.
+              Our popular safari tours offer unforgettable wildlife encounters,
+              stunning landscapes, and authentic cultural experiences — whether
+              you're seeking adventure or relaxation.
+            </p>
+          </Reveal>
         </div>
 
         {/* ── Cards ───────────────────────────────────────────────────── */}
@@ -249,7 +255,12 @@ export default function SignaturePackages({
             Can't find what you're looking for? We craft fully bespoke
             itineraries around your dates, budget and dream destinations.
           </p>
-          <SiteLink href="/safaris" variant="solid" size="md" className="flex-shrink-0">
+          <SiteLink
+            href="/safaris"
+            variant="solid"
+            size="md"
+            className="flex-shrink-0"
+          >
             View all safari packages
           </SiteLink>
         </div>

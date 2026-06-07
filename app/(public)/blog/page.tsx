@@ -255,13 +255,13 @@ export default async function BlogPage({
                   style={{ gap: "56px 36px" }}
                 >
                   {regularPosts.map((post) => (
-                    <RevealItem key={post._id} className="flex flex-col gap-4">
+                    <RevealItem key={post._id} className="flex flex-col">
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="group flex flex-col gap-4 cursor-pointer h-full"
+                        className="group flex flex-col cursor-pointer h-full bg-bone-paper border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
                       >
                         <div
-                          className="overflow-hidden bg-bone-paper"
+                          className="overflow-hidden bg-bone-paper flex-shrink-0"
                           style={{ aspectRatio: "3/2" }}
                         >
                           <Image
@@ -273,26 +273,28 @@ export default async function BlogPage({
                             className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
                           />
                         </div>
-                        <div className="flex gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
-                          <span className="text-bone-clay">
-                            {CATEGORY_LABELS[post.category as PostCategory] ??
-                              post.category}
+                        <div className="flex flex-col flex-1 gap-4 p-5">
+                          <div className="flex gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
+                            <span className="text-bone-clay">
+                              {CATEGORY_LABELS[post.category as PostCategory] ??
+                                post.category}
+                            </span>
+                            <span>·</span>
+                            <span>{formatDate(post.publishedAt)}</span>
+                          </div>
+                          <h3
+                            className="font-serif font-normal leading-[1.12] tracking-[-0.01em] text-bone-ink transition-colors duration-200 group-hover:text-bone-clay"
+                            style={{ fontSize: "27px" }}
+                          >
+                            {post.title}
+                          </h3>
+                          <p className="text-[14px] leading-[1.6] text-bone-muted">
+                            {post.excerpt}
+                          </p>
+                          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-bone-forest mt-auto pt-1">
+                            Read article →
                           </span>
-                          <span>·</span>
-                          <span>{formatDate(post.publishedAt)}</span>
                         </div>
-                        <h3
-                          className="font-serif font-normal leading-[1.12] tracking-[-0.01em] text-bone-ink transition-colors duration-200 group-hover:text-bone-clay"
-                          style={{ fontSize: "27px" }}
-                        >
-                          {post.title}
-                        </h3>
-                        <p className="text-[14px] leading-[1.6] text-bone-muted">
-                          {post.excerpt}
-                        </p>
-                        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-bone-forest mt-auto pt-1">
-                          Read article →
-                        </span>
                       </Link>
                     </RevealItem>
                   ))}
@@ -338,7 +340,7 @@ export default async function BlogPage({
                   ?
                 </h2>
                 <p
-                  className="text-[15px] leading-[1.65] mt-5"
+                  className="text-sm leading-[1.65] mt-5"
                   style={{ opacity: 0.82, maxWidth: "40ch" }}
                 >
                   Our team is on the ground in East Africa every week. Tell us

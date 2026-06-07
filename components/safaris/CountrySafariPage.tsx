@@ -34,8 +34,8 @@ export interface LodgeItem {
 }
 
 export interface LodgeTier {
-  label: string;       // "Budget options"
-  fromPrice: string;   // "From $380 / person"
+  label: string; // "Budget options"
+  fromPrice: string; // "From $380 / person"
   lodges: LodgeItem[];
 }
 
@@ -245,7 +245,7 @@ export default function CountrySafariPage({
                   </h2>
                 </div>
                 <p
-                  className="text-[15px] leading-[1.65] text-bone-muted"
+                  className="text-sm leading-[1.65] text-bone-muted"
                   style={{ maxWidth: "56ch" }}
                 >
                   {packages.description}
@@ -253,7 +253,7 @@ export default function CountrySafariPage({
               </div>
 
               {safaris.length === 0 ? (
-                <p className="text-[15px] text-bone-muted py-8">
+                <p className="text-sm text-bone-muted py-8">
                   No {countryName} safari packages found — check back soon.
                 </p>
               ) : (
@@ -296,7 +296,7 @@ export default function CountrySafariPage({
                       {lodges.heading}
                     </h2>
                     <p
-                      className="text-[15px] leading-[1.65] text-bone-muted mb-12"
+                      className="text-sm leading-[1.65] text-bone-muted mb-12"
                       style={{ maxWidth: "56ch" }}
                     >
                       {lodges.description}
@@ -426,7 +426,7 @@ export default function CountrySafariPage({
                       </h2>
                     </div>
                     <p
-                      className="text-[15px] leading-[1.65]"
+                      className="text-sm leading-[1.65]"
                       style={{
                         color: "rgba(244,239,226,0.62)",
                         maxWidth: "56ch",
@@ -437,50 +437,48 @@ export default function CountrySafariPage({
                   </div>
                   <Stagger className="grid grid-cols-1 lg:grid-cols-2 gap-7">
                     {bestTime.seasons.map((s, i) => (
-                      <RevealItem
-                        key={i}
-                      >
-                      <div
-                        style={{
-                          padding: "40px",
-                          border: "1px solid rgba(244,239,226,0.22)",
-                        }}
-                      >
+                      <RevealItem key={i}>
                         <div
-                          className="font-mono text-[10px] uppercase tracking-[0.16em] mb-4"
-                          style={{ color: "#f4d4a8" }}
+                          style={{
+                            padding: "40px",
+                            border: "1px solid rgba(244,239,226,0.22)",
+                          }}
                         >
-                          {s.badge}
-                        </div>
-                        <h3
-                          className="font-serif font-normal leading-none mb-5"
-                          style={{ fontSize: "40px" }}
-                        >
-                          {s.title}
-                        </h3>
-                        <ul>
-                          {s.points.map((p) => (
-                            <li
-                              key={p}
-                              className="py-3 pl-6 relative"
-                              style={{
-                                borderTop: "1px solid rgba(244,239,226,0.14)",
-                                color: "rgba(244,239,226,0.82)",
-                                fontSize: "15px",
-                                lineHeight: "1.5",
-                              }}
-                            >
-                              <span
-                                className="absolute left-0.5 top-3.5"
-                                style={{ color: "#f4d4a8" }}
+                          <div
+                            className="font-mono text-[10px] uppercase tracking-[0.16em] mb-4"
+                            style={{ color: "#f4d4a8" }}
+                          >
+                            {s.badge}
+                          </div>
+                          <h3
+                            className="font-serif font-normal leading-none mb-5"
+                            style={{ fontSize: "40px" }}
+                          >
+                            {s.title}
+                          </h3>
+                          <ul>
+                            {s.points.map((p) => (
+                              <li
+                                key={p}
+                                className="py-3 pl-6 relative"
+                                style={{
+                                  borderTop: "1px solid rgba(244,239,226,0.14)",
+                                  color: "rgba(244,239,226,0.82)",
+                                  fontSize: "15px",
+                                  lineHeight: "1.5",
+                                }}
                               >
-                                ›
-                              </span>
-                              {p}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                                <span
+                                  className="absolute left-0.5 top-3.5"
+                                  style={{ color: "#f4d4a8" }}
+                                >
+                                  ›
+                                </span>
+                                {p}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </RevealItem>
                     ))}
                   </Stagger>
@@ -495,75 +493,75 @@ export default function CountrySafariPage({
               >
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-20 items-center">
                   <Reveal variant="fadeUp">
-                  <div>
-                    <div className="eyebrow mb-4">
-                      <span className="dot" />
-                      {tailor.eyebrow}
-                    </div>
-                    <h2
-                      className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4 mb-4"
-                      style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
-                    >
-                      Every traveller is{" "}
-                      <em className="italic text-bone-clay">different</em>.
-                    </h2>
-                    <p
-                      className="text-[16px] leading-[1.65] text-bone-muted mb-8"
-                      style={{ maxWidth: "48ch" }}
-                    >
-                      {tailor.description}
-                    </p>
-                    <ul>
-                      {tailor.points.map((t) => (
+                    <div>
+                      <div className="eyebrow mb-4">
+                        <span className="dot" />
+                        {tailor.eyebrow}
+                      </div>
+                      <h2
+                        className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4 mb-4"
+                        style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
+                      >
+                        Every traveller is{" "}
+                        <em className="italic text-bone-clay">different</em>.
+                      </h2>
+                      <p
+                        className="text-[16px] leading-[1.65] text-bone-muted mb-8"
+                        style={{ maxWidth: "48ch" }}
+                      >
+                        {tailor.description}
+                      </p>
+                      <ul>
+                        {tailor.points.map((t) => (
+                          <li
+                            key={t.ic}
+                            className="py-4 grid items-center gap-3.5"
+                            style={{
+                              borderTop: "1px solid rgba(31,29,24,0.14)",
+                              gridTemplateColumns: "32px 1fr",
+                            }}
+                          >
+                            <div className="font-serif italic text-[18px] text-bone-clay">
+                              {t.ic}
+                            </div>
+                            <div>
+                              <strong className="font-medium text-sm text-bone-ink">
+                                {t.b}
+                              </strong>{" "}
+                              <span className="text-[13px] text-bone-muted">
+                                · {t.s}
+                              </span>
+                            </div>
+                          </li>
+                        ))}
                         <li
-                          key={t.ic}
-                          className="py-4 grid items-center gap-3.5"
                           style={{
                             borderTop: "1px solid rgba(31,29,24,0.14)",
-                            gridTemplateColumns: "32px 1fr",
+                            borderBottom: "1px solid rgba(31,29,24,0.14)",
                           }}
-                        >
-                          <div className="font-serif italic text-[18px] text-bone-clay">
-                            {t.ic}
-                          </div>
-                          <div>
-                            <strong className="font-medium text-[15px] text-bone-ink">
-                              {t.b}
-                            </strong>{" "}
-                            <span className="text-[13px] text-bone-muted">
-                              · {t.s}
-                            </span>
-                          </div>
-                        </li>
-                      ))}
-                      <li
-                        style={{
-                          borderTop: "1px solid rgba(31,29,24,0.14)",
-                          borderBottom: "1px solid rgba(31,29,24,0.14)",
-                        }}
-                      />
-                    </ul>
-                    <Link
-                      href="/contact"
-                      className="btn-forest inline-flex items-center gap-3 mt-8"
-                    >
-                      Chat with a safari expert — planning is free →
-                    </Link>
-                  </div>
+                        />
+                      </ul>
+                      <Link
+                        href="/contact"
+                        className="btn-forest inline-flex items-center gap-3 mt-8"
+                      >
+                        Chat with a safari expert — planning is free →
+                      </Link>
+                    </div>
                   </Reveal>
                   <Reveal variant="fadeUp" delay={0.1}>
-                  <div
-                    className="overflow-hidden"
-                    style={{ aspectRatio: "5/6" }}
-                  >
-                    <Image
-                      src={tailor.image}
-                      alt={tailor.imageAlt}
-                      width={900}
-                      height={1080}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                    <div
+                      className="overflow-hidden"
+                      style={{ aspectRatio: "5/6" }}
+                    >
+                      <Image
+                        src={tailor.image}
+                        alt={tailor.imageAlt}
+                        width={900}
+                        height={1080}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </Reveal>
                 </div>
               </section>

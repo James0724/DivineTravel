@@ -297,7 +297,7 @@ export default function AboutPage() {
                   house, planning unforgettable journeys across Kenya, Tanzania
                   and Uganda — one traveller at a time.
                 </p>
-                <p className="text-[15px] leading-[1.62] text-bone-muted mt-4">
+                <p className="text-sm leading-[1.62] text-bone-muted mt-4">
                   Founded from a simple dream: to connect people to the soul of
                   the wild. The team who answer your first message are the same
                   people who design your route and stay with you to the last
@@ -593,7 +593,7 @@ export default function AboutPage() {
                   start to finish.
                 </h2>
                 <p
-                  className="text-[15px] leading-[1.65] text-bone-muted mb-8"
+                  className="text-sm leading-[1.65] text-bone-muted mb-8"
                   style={{ maxWidth: "48ch" }}
                 >
                   The practical promises behind the brochure — the things that
@@ -658,7 +658,7 @@ export default function AboutPage() {
               </h2>
             </div>
             <p
-              className="text-[15px] leading-[1.65] text-bone-muted"
+              className="text-sm leading-[1.65] text-bone-muted"
               style={{ maxWidth: "56ch" }}
             >
               The advantage of a small, family-run house is that you actually

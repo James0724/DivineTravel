@@ -1,4 +1,12 @@
-import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal"
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
+import { LettersPullUp } from "@/components/ui/LettersPullUp";
+import { AnimatedHeading } from "../ui/Heading";
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const cells = [
   {
@@ -18,7 +26,7 @@ const cells = [
   },
   {
     num: "iv.",
-    title: "No hidden \ncosts",
+    title: "No hidden\ncosts",
     body: "Quotes include park fees, accommodation, every meal, your vehicle, your guide and airport transfers. The only things we leave out are international flights and visas.",
   },
   {
@@ -31,33 +39,89 @@ const cells = [
     title: "24/7\nSupport",
     body: "Our operations team is reachable around the clock — from the moment you first enquire to the day you return home safely.",
   },
-]
+];
 
+/* ── Individual cell — tracks its own hover state ───────────────────────── */
+function FeatureCell({ c }: { c: (typeof cells)[0] }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className="relative flex flex-col gap-4 px-5 sm:px-7 lg:px-9 pt-8 sm:pt-10 lg:pt-12 pb-10 sm:pb-12 lg:pb-14 h-full cursor-default"
+      style={{
+        backgroundColor: hovered ? "#f4efe2" : "#ece6da",
+        transition: "background-color 0.22s ease",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Left clay accent bar — grows upward on hover */}
+      <motion.div
+        className="absolute left-0 top-0 bottom-0 w-[3px]"
+        style={{ background: "#9d4519", transformOrigin: "bottom" }}
+        animate={{ scaleY: hovered ? 1 : 0 }}
+        transition={{ duration: 0.38, ease: EASE }}
+      />
+
+      {/* Number — nudges right on hover */}
+      <motion.span
+        className="font-serif italic text-[18px] text-bone-clay"
+        animate={{ x: hovered ? 8 : 0 }}
+        transition={{ duration: 0.25, ease: EASE }}
+      >
+        {c.num}
+      </motion.span>
+
+      <h3
+        className="font-serif font-normal text-[22px] sm:text-[26px] leading-[1.1] tracking-[-0.01em] text-bone-ink whitespace-pre-line transition-colors duration-200"
+        style={{ color: hovered ? "#1a2e1a" : undefined }}
+      >
+        <em>{c.title}</em>
+      </h3>
+
+      <p className="text-[14px] leading-[1.65] text-bone-muted">{c.body}</p>
+
+      {/* Bottom clay rule — draws left-to-right on hover */}
+      <motion.div
+        className="mt-auto h-px"
+        style={{ background: "#9d4519", transformOrigin: "0 0" }}
+        animate={{ scaleX: hovered ? 1 : 0 }}
+        transition={{ duration: 0.35, ease: EASE }}
+      />
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WHY CHOOSE US
+═══════════════════════════════════════════════════════════════════════════ */
 export default function WhyChooseUs() {
   return (
     <section className="py-16 sm:py-24 lg:py-[140px] bg-bone-bg">
       <div className="container-site">
         {/* Header */}
-        <Reveal>
-          <div className="section-hd">
-            <div>
+        <header className="section-hd">
+          <div>
+            <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
                 Why Choose Us
               </div>
-              <h2
-                className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
-                style={{ fontSize: "clamp(32px, 5.4vw, 76px)" }}
-              >
-                Africa with <em className="italic text-bone-clay">confidence</em>.
-              </h2>
-            </div>
-            <p className="text-[14px] sm:text-[15px] leading-[1.65] text-bone-muted max-w-[56ch]">
-              We've been the bridge between travellers and the African wild for
-              over a decade. Here's what sets Divine Travel Nest Safaris apart.
-            </p>
+            </Reveal>
+            <AnimatedHeading
+              as="h1"
+              textBefore="Africa with "
+              highlightedText="confidence"
+            />
           </div>
-        </Reveal>
+          <Reveal>
+            <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
+              We&apos;ve been the bridge between travellers and the African wild
+              for over a decade. Here&apos;s what sets Divine Travel Nest
+              Safaris apart.
+            </p>
+          </Reveal>
+        </header>
 
         {/* Grid */}
         <Stagger
@@ -69,23 +133,12 @@ export default function WhyChooseUs() {
           }}
         >
           {cells.map((c) => (
-            <RevealItem
-              key={c.num}
-              className="flex flex-col gap-4 px-5 sm:px-7 lg:px-9 pt-8 sm:pt-10 lg:pt-12 pb-10 sm:pb-12 lg:pb-14 bg-bone-bg"
-            >
-              <span className="font-serif italic text-[18px] text-bone-clay">
-                {c.num}
-              </span>
-              <h3 className="font-serif font-normal text-[22px] sm:text-[26px] leading-[1.1] tracking-[-0.01em] text-bone-ink whitespace-pre-line">
-                <em>{c.title}</em>
-              </h3>
-              <p className="text-[14px] leading-[1.65] text-bone-muted">
-                {c.body}
-              </p>
+            <RevealItem key={c.num}>
+              <FeatureCell c={c} />
             </RevealItem>
           ))}
         </Stagger>
       </div>
     </section>
-  )
+  );
 }

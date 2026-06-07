@@ -131,6 +131,7 @@ const COUNTRY_CODES: Record<string, string> = {
   kenya: "KE",
   tanzania: "TZ",
   uganda: "UG",
+  rwanda: "RW",
 };
 
 const APP_URL =
@@ -336,7 +337,7 @@ export default function DestinationPageTemplate({
                       <em className="italic text-bone-clay">special</em>.
                     </h2>
                   </div>
-                  <p className="text-bone-muted text-[15px] leading-relaxed">
+                  <p className="text-bone-muted text-sm leading-relaxed">
                     {data.featureParksHeader.description}
                   </p>
                 </div>
@@ -374,10 +375,7 @@ export default function DestinationPageTemplate({
                       </div>
 
                       {/* Content — always second in DOM; on lg odd parks: sits in left column */}
-                      <Reveal
-                        variant="fadeUp"
-                        delay={0.1}
-                      >
+                      <Reveal variant="fadeUp" delay={0.1}>
                         <div>
                           <div className="text-xs font-mono uppercase tracking-[0.14em] text-bone-clay mb-3">
                             {park.tag}
@@ -386,14 +384,14 @@ export default function DestinationPageTemplate({
                             {park.name}{" "}
                             <em className="italic">{park.subtitle}</em>
                           </h3>
-                          <p className="text-bone-ink/65 text-[15px] leading-relaxed mb-5">
+                          <p className="text-bone-ink/65 text-sm leading-relaxed mb-5">
                             {park.desc}
                           </p>
                           <ul className="list-none mb-[26px]">
                             {park.highlights.map((h) => (
                               <li
                                 key={h}
-                                className="relative border-b border-[var(--line-soft)] py-[9px] pl-[22px] text-[15px] text-bone-ink/70 before:absolute before:left-[2px] before:content-['›'] before:text-bone-clay"
+                                className="relative border-b border-[var(--line-soft)] py-[9px] pl-[22px] text-sm text-bone-ink/70 before:absolute before:left-[2px] before:content-['›'] before:text-bone-clay"
                               >
                                 {h}
                               </li>
@@ -432,7 +430,7 @@ export default function DestinationPageTemplate({
                         {data.moreParksHeader.heading}
                       </h2>
                     </div>
-                    <p className="text-bone-muted text-[15px] leading-relaxed">
+                    <p className="text-bone-muted text-sm leading-relaxed">
                       {data.moreParksHeader.description}
                     </p>
                   </div>
@@ -514,7 +512,7 @@ export default function DestinationPageTemplate({
                       <em className="italic text-bone-clay">after</em>.
                     </h2>
                   </div>
-                  <p className="text-bone-muted text-[15px] leading-relaxed">
+                  <p className="text-bone-muted text-sm leading-relaxed">
                     {data.howToChooseDescription}
                   </p>
                 </div>
@@ -560,7 +558,7 @@ export default function DestinationPageTemplate({
                         {data.bestTime.heading}
                       </h2>
                     </div>
-                    <p className="text-bone-paper/65 text-[15px] leading-relaxed">
+                    <p className="text-bone-paper/65 text-sm leading-relaxed">
                       {data.bestTime.description}
                     </p>
                   </div>
@@ -588,7 +586,7 @@ export default function DestinationPageTemplate({
                         {s.items.map((item) => (
                           <li
                             key={item}
-                            className="relative pl-[22px] py-[12px] border-t border-[rgba(250,246,236,0.14)] text-[rgba(250,246,236,0.82)] text-[15px] leading-[1.5] before:content-['›'] before:absolute before:left-[2px] before:text-[#f4d4a8]"
+                            className="relative pl-[22px] py-[12px] border-t border-[rgba(250,246,236,0.14)] text-[rgba(250,246,236,0.82)] text-sm leading-[1.5] before:content-['›'] before:absolute before:left-[2px] before:text-[#f4d4a8]"
                           >
                             {item}
                           </li>
@@ -619,7 +617,7 @@ export default function DestinationPageTemplate({
                       {data.packagesHeader.heading}
                     </h2>
                   </div>
-                  <p className="text-bone-muted text-[15px] leading-relaxed">
+                  <p className="text-bone-muted text-sm leading-relaxed">
                     {data.packagesHeader.description}
                   </p>
                 </div>
