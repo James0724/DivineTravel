@@ -43,7 +43,6 @@ export default function IntroSection() {
               </div>
             </Reveal>
 
-            {/* Heading — character pull-up */}
             <AnimatedHeading
               as="h1"
               textBefore="Your trusted gateway to "
