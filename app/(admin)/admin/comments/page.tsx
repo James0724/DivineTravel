@@ -151,7 +151,7 @@ export default function AdminCommentsPage() {
         <div>
           <h1 className="font-serif text-2xl font-semibold text-bone-ink">Comments</h1>
           <p className="text-sm text-bone-ink/50 font-sans mt-1">
-            Moderate and manage reader comments across all blog posts.
+            Moderate and manage reader comments across all journal posts.
           </p>
         </div>
         {pendingCount > 0 && (
@@ -265,7 +265,7 @@ export default function AdminCommentsPage() {
                     {/* Post slug */}
                     <td className="px-4 py-3 hidden md:table-cell">
                       <a
-                        href={`/blog/${c.postSlug}`}
+                        href={`/journal/${c.postSlug}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-bone-clay hover:underline text-[12px] font-mono break-all"

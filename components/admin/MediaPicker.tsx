@@ -29,7 +29,7 @@ interface MediaPickerProps {
 const USAGE_LABELS: Record<string, string> = {
   'safari-cover':   'Safari Cover',
   'safari-gallery': 'Safari Gallery',
-  'blog-cover':     'Blog Cover',
+  'blog-cover':     'Journal Cover',
   'portfolio':      'Portfolio',
   'team':           'Team',
   'misc':           'Misc',

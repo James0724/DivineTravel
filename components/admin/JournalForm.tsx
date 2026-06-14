@@ -1,14 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Plus, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Input, { Textarea, Select } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
-import BlogEditor from '@/components/admin/BlogEditor'
-import type { BlogPost, PostCategory } from '@/types'
+import JournalEditor from '@/components/admin/JournalEditor'
+import type { JournalPost, PostCategory } from '@/types'
 
 const ImageUpload = dynamic(() => import('@/components/admin/ImageUpload'), { ssr: false })
 
@@ -28,11 +28,11 @@ interface Faq {
   answer: string
 }
 
-interface BlogFormProps {
-  post?: BlogPost
+interface JournalFormProps {
+  post?: JournalPost
 }
 
-export default function BlogForm({ post }: BlogFormProps) {
+export default function JournalForm({ post }: JournalFormProps) {
   const router = useRouter()
   const isEdit = !!post
 
@@ -41,10 +41,26 @@ export default function BlogForm({ post }: BlogFormProps) {
   const [body, setBody] = useState(post?.body ?? '')
   const [coverImage, setCoverImage] = useState(post?.coverImage ?? '')
   const [coverImagePublicId, setCoverImagePublicId] = useState('')
-  const [author, setAuthor] = useState(post?.author ?? 'Divine Travel Nest Safaris')
+  const [author, setAuthor] = useState(post?.author ?? '')
   const [authorTitle, setAuthorTitle] = useState(post?.authorTitle ?? '')
   const [authorAvatar, setAuthorAvatar] = useState(post?.authorAvatar ?? '')
+  const [authorBio, setAuthorBio] = useState(post?.authorBio ?? '')
   const [category, setCategory] = useState<PostCategory>(post?.category ?? 'tips')
+
+  // Pre-populate author fields from the logged-in user when creating a new post
+  useEffect(() => {
+    if (isEdit) return
+    fetch('/api/users/me')
+      .then((r) => r.json())
+      .then(({ success, data }) => {
+        if (!success || !data) return
+        setAuthor(data.name ?? '')
+        setAuthorAvatar(data.avatar ?? '')
+        setAuthorBio(data.bio ?? '')
+      })
+      .catch(() => {})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const [tagsInput, setTagsInput] = useState((post?.tags ?? []).join(', '))
   const [readingTime, setReadingTime] = useState(post?.readingTime ?? 5)
   const [featured, setFeatured] = useState(post?.featured ?? false)
@@ -81,9 +97,10 @@ export default function BlogForm({ post }: BlogFormProps) {
         excerpt: excerpt.trim(),
         body: body.trim(),
         coverImage: coverImage.trim(),
-        author: author.trim(),
+        author: author.trim() || 'Divine Travel Nest Safaris',
         authorTitle: authorTitle.trim() || undefined,
         authorAvatar: authorAvatar.trim() || undefined,
+        authorBio: authorBio.trim() || undefined,
         category,
         tags: tagsInput.split(',').map((t) => t.trim()).filter(Boolean),
         faqs: faqs.filter((f) => f.question.trim() && f.answer.trim()),
@@ -109,7 +126,7 @@ export default function BlogForm({ post }: BlogFormProps) {
       if (!data.success) throw new Error(data.error ?? 'Failed to save')
 
       toast.success(isEdit ? 'Post updated' : 'Post created')
-      router.push('/admin/blog')
+      router.push('/admin/journal')
       router.refresh()
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to save post')
@@ -124,7 +141,7 @@ export default function BlogForm({ post }: BlogFormProps) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-serif text-2xl font-semibold text-bone-ink">
-            {isEdit ? 'Edit post' : 'New blog post'}
+            {isEdit ? 'Edit post' : 'New journal post'}
           </h1>
           {isEdit && (
             <p className="text-sm text-bone-ink/50 mt-1 font-sans">{post!.slug}</p>
@@ -156,7 +173,7 @@ export default function BlogForm({ post }: BlogFormProps) {
           rows={3}
           value={excerpt}
           onChange={(e) => setExcerpt(e.target.value)}
-          placeholder="Short summary shown on the blog listing (max 300 chars)"
+          placeholder="Short summary shown on the journal listing (max 300 chars)"
           maxLength={300}
           hint={`${excerpt.length}/300`}
         />
@@ -166,7 +183,7 @@ export default function BlogForm({ post }: BlogFormProps) {
           <label className="text-sm font-medium text-bone-ink/80 font-sans">
             Body <span className="text-bone-clay">*</span>
           </label>
-          <BlogEditor value={body} onChange={setBody} />
+          <JournalEditor value={body} onChange={setBody} />
           <p className="text-xs text-bone-ink/50 font-sans">
             Use H2 for main sections, H3 for sub-sections. Links open in new tab. Output is saved as HTML.
           </p>
@@ -242,6 +259,9 @@ export default function BlogForm({ post }: BlogFormProps) {
       {/* Author */}
       <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md p-6 space-y-5">
         <h2 className="font-serif text-base font-semibold text-bone-ink">Author</h2>
+        <p className="text-xs text-bone-ink/45 font-sans -mt-3">
+          Pre-filled from your profile. Edit per-post as needed.
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <Input
             label="Author name"
@@ -259,6 +279,14 @@ export default function BlogForm({ post }: BlogFormProps) {
             value={authorAvatar}
             onChange={(e) => setAuthorAvatar(e.target.value)}
             placeholder="https://..."
+            className="sm:col-span-2"
+          />
+          <Textarea
+            label="Author bio"
+            rows={3}
+            value={authorBio}
+            onChange={(e) => setAuthorBio(e.target.value)}
+            placeholder="Short bio shown beneath the post…"
             className="sm:col-span-2"
           />
         </div>

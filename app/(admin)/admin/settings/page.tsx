@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
-import { Globe, Phone, Mail, MapPin, Share2, Search, Bell, Save } from 'lucide-react'
+import { Globe, Phone, Mail, MapPin, Share2, Search, Bell, Save, Wand2, RotateCcw } from 'lucide-react'
 import Input, { Textarea } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
+import { cn } from '@/lib/utils'
 
 interface SiteSettings {
   siteName: string
@@ -48,12 +49,31 @@ const DEFAULT: SiteSettings = {
   twitter: '',
   youtube: '',
   tripadvisor: '',
-  defaultMetaTitle: 'Divine Travel Nest Safaris — Kenya, Tanzania & Uganda Safari Tour Packages',
-  defaultMetaDescription: 'Expert-guided, tailor-made East Africa safaris. Kenya, Tanzania & Uganda — Budget to Luxury.',
+  defaultMetaTitle: 'Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Tour Packages',
+  defaultMetaDescription: 'Expert-guided, tailor-made East Africa safaris. Kenya, Tanzania, Uganda & Rwanda — Budget to Luxury.',
   defaultCurrency: 'USD',
   bookingNotificationEmail: 'info@divinetravelnestsafaris.com',
   minAdvanceBookingDays: 7,
   businessHours: 'Mon–Fri 8am–6pm EAT, Sat 9am–2pm EAT',
+}
+
+/* ── SEO auto-generators ── */
+function generateMetaTitle(f: Pick<SiteSettings, 'siteName' | 'siteTagline' | 'city' | 'country'>): string {
+  const full = f.siteTagline ? `${f.siteName} | ${f.siteTagline}` : f.siteName
+  if (full.length <= 60) return full
+  const loc = [f.city, f.country].filter(Boolean).join(', ')
+  return (loc ? `${f.siteName} — ${loc}` : f.siteName).slice(0, 60)
+}
+
+function generateMetaDescription(f: Pick<SiteSettings, 'siteName' | 'siteTagline' | 'aboutText' | 'city' | 'country'>): string {
+  if (f.aboutText.trim()) {
+    const t = f.aboutText.trim()
+    return t.length <= 157 ? t : t.slice(0, 157) + '…'
+  }
+  const loc = [f.city, f.country].filter(Boolean).join(', ')
+  const tagline = f.siteTagline || 'Expert safari experiences'
+  const raw = loc ? `${f.siteName} — ${tagline}. Based in ${loc}.` : `${f.siteName} — ${tagline}.`
+  return raw.slice(0, 160)
 }
 
 /* ── Reusable section card ── */
@@ -88,16 +108,34 @@ export default function AdminSettingsPage() {
   const [form, setForm] = useState<SiteSettings>(DEFAULT)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [metaTitleAuto, setMetaTitleAuto] = useState(true)
+  const [metaDescAuto, setMetaDescAuto] = useState(true)
 
   useEffect(() => {
     fetch('/api/settings')
       .then((r) => r.json())
       .then(({ data }) => {
-        if (data) setForm({ ...DEFAULT, ...data })
+        if (data) {
+          const merged = { ...DEFAULT, ...data }
+          setForm(merged)
+          setMetaTitleAuto(!data.defaultMetaTitle || data.defaultMetaTitle === generateMetaTitle(merged))
+          setMetaDescAuto(!data.defaultMetaDescription || data.defaultMetaDescription === generateMetaDescription(merged))
+        }
       })
       .catch(() => toast.error('Failed to load settings'))
       .finally(() => setLoading(false))
   }, [])
+
+  // Keep auto SEO fields in sync when source fields change
+  useEffect(() => {
+    if (metaTitleAuto) setForm(prev => ({ ...prev, defaultMetaTitle: generateMetaTitle(prev) }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.siteName, form.siteTagline, form.city, form.country, metaTitleAuto])
+
+  useEffect(() => {
+    if (metaDescAuto) setForm(prev => ({ ...prev, defaultMetaDescription: generateMetaDescription(prev) }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.aboutText, form.siteName, form.city, form.country, form.siteTagline, metaDescAuto])
 
   const set = (key: keyof SiteSettings, value: string | number) =>
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -249,19 +287,68 @@ export default function AdminSettingsPage() {
 
       {/* ── SEO Defaults ── */}
       <SettingsSection icon={Search} title="SEO Defaults" subtitle="Fallback meta title and description used when page-specific SEO is absent">
-        <Input
-          label="Default Meta Title"
-          value={form.defaultMetaTitle}
-          onChange={(e) => set('defaultMetaTitle', e.target.value)}
-          hint="Max 60 characters"
-        />
-        <Textarea
-          label="Default Meta Description"
-          value={form.defaultMetaDescription}
-          onChange={(e) => set('defaultMetaDescription', e.target.value)}
-          rows={3}
-          hint="Max 160 characters"
-        />
+        {/* Meta Title */}
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <label htmlFor="default-meta-title" className="text-sm font-medium text-bone-ink/80 font-sans">
+              Default Meta Title
+            </label>
+            <button
+              type="button"
+              onClick={() => {
+                const next = !metaTitleAuto
+                setMetaTitleAuto(next)
+                if (next) set('defaultMetaTitle', generateMetaTitle(form))
+              }}
+              className={cn(
+                'flex items-center gap-1 text-xs font-sans px-2 py-0.5 rounded-full border transition-colors',
+                metaTitleAuto
+                  ? 'border-bone-forest/40 bg-bone-forest/10 text-bone-forest hover:bg-bone-forest/20'
+                  : 'border-[rgba(23,22,18,0.15)] text-bone-ink/40 hover:text-bone-ink/65 hover:border-[rgba(23,22,18,0.3)]'
+              )}
+            >
+              {metaTitleAuto ? <><Wand2 size={10} /> Auto</> : <><RotateCcw size={10} /> Reset to auto</>}
+            </button>
+          </div>
+          <Input
+            id="default-meta-title"
+            value={form.defaultMetaTitle}
+            onChange={(e) => { setMetaTitleAuto(false); set('defaultMetaTitle', e.target.value) }}
+            hint={`${form.defaultMetaTitle.length}/60 characters`}
+          />
+        </div>
+
+        {/* Meta Description */}
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <label htmlFor="default-meta-description" className="text-sm font-medium text-bone-ink/80 font-sans">
+              Default Meta Description
+            </label>
+            <button
+              type="button"
+              onClick={() => {
+                const next = !metaDescAuto
+                setMetaDescAuto(next)
+                if (next) set('defaultMetaDescription', generateMetaDescription(form))
+              }}
+              className={cn(
+                'flex items-center gap-1 text-xs font-sans px-2 py-0.5 rounded-full border transition-colors',
+                metaDescAuto
+                  ? 'border-bone-forest/40 bg-bone-forest/10 text-bone-forest hover:bg-bone-forest/20'
+                  : 'border-[rgba(23,22,18,0.15)] text-bone-ink/40 hover:text-bone-ink/65 hover:border-[rgba(23,22,18,0.3)]'
+              )}
+            >
+              {metaDescAuto ? <><Wand2 size={10} /> Auto</> : <><RotateCcw size={10} /> Reset to auto</>}
+            </button>
+          </div>
+          <Textarea
+            id="default-meta-description"
+            value={form.defaultMetaDescription}
+            onChange={(e) => { setMetaDescAuto(false); set('defaultMetaDescription', e.target.value) }}
+            rows={3}
+            hint={`${form.defaultMetaDescription.length}/160 characters`}
+          />
+        </div>
       </SettingsSection>
 
       {/* ── Booking & Notifications ── */}

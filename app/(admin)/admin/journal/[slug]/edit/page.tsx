@@ -1,16 +1,16 @@
 'use client'
 
 import { use, useEffect, useState } from 'react'
-import BlogForm from '@/components/admin/BlogForm'
-import type { BlogPost } from '@/types'
+import JournalForm from '@/components/admin/JournalForm'
+import type { JournalPost } from '@/types'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-export default function EditBlogPostPage({ params }: Props) {
+export default function EditJournalPostPage({ params }: Props) {
   const { slug } = use(params)
-  const [post, setPost] = useState<BlogPost | null>(null)
+  const [post, setPost] = useState<JournalPost | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -86,7 +86,7 @@ export default function EditBlogPostPage({ params }: Props) {
 
   return (
     <div className="p-6 sm:p-8">
-      <BlogForm post={post} />
+      <JournalForm post={post} />
     </div>
   )
 }

@@ -6,94 +6,109 @@ import SafariModel from "@/lib/db/models/Safari";
 const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://divinetravelnestsafaris.com";
 
+// Static pages use a fixed date so Google sees a stable lastModified signal.
+// Update this when you make a meaningful content change to these pages.
+const STATIC_LAST_MODIFIED = new Date("2026-06-07");
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
-    // Core pages
+    // Core pages — high priority, shown as sitelinks
     {
       url: APP_URL,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
-      url: `${APP_URL}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${APP_URL}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
+      url: `${APP_URL}/safaris`,
+      lastModified: STATIC_LAST_MODIFIED,
+      changeFrequency: "daily",
+      priority: 0.95,
     },
     {
       url: `${APP_URL}/plan-my-safari`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "monthly",
-      priority: 0.75,
-    },
-    // Safari pages
-    {
-      url: `${APP_URL}/safaris`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
       priority: 0.9,
     },
     {
+      url: `${APP_URL}/contact`,
+      lastModified: STATIC_LAST_MODIFIED,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${APP_URL}/about`,
+      lastModified: STATIC_LAST_MODIFIED,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${APP_URL}/journal`,
+      lastModified: STATIC_LAST_MODIFIED,
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    // Country safari pages
+    {
       url: `${APP_URL}/safaris/kenya`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.88,
     },
     {
       url: `${APP_URL}/safaris/tanzania`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.88,
     },
     {
       url: `${APP_URL}/safaris/uganda`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
+      changeFrequency: "weekly",
+      priority: 0.88,
+    },
+    {
+      url: `${APP_URL}/safaris/rwanda`,
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.88,
     },
     {
       url: `${APP_URL}/safaris/cross-country-safaris`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.82,
     },
     // Destination pages
     {
       url: `${APP_URL}/destinations/kenya`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.75,
     },
     {
       url: `${APP_URL}/destinations/tanzania`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.75,
     },
     {
       url: `${APP_URL}/destinations/uganda`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.75,
     },
-    // Blog
     {
-      url: `${APP_URL}/blog`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.8,
+      url: `${APP_URL}/destinations/rwanda`,
+      lastModified: STATIC_LAST_MODIFIED,
+      changeFrequency: "monthly",
+      priority: 0.75,
     },
-    // Legal/Other pages
+    // Legal
     {
       url: `${APP_URL}/terms`,
-      lastModified: new Date(),
+      lastModified: STATIC_LAST_MODIFIED,
       changeFrequency: "yearly",
       priority: 0.3,
     },
@@ -106,8 +121,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const posts = await PostModel.find({ published: true })
       .select("slug updatedAt")
       .lean();
-    const blogRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
-      url: `${APP_URL}/blog/${p.slug}`,
+    const journalRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
+      url: `${APP_URL}/journal/${p.slug}`,
       lastModified: new Date(p.updatedAt),
       changeFrequency: "monthly",
       priority: 0.7,
@@ -124,7 +139,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.75,
     }));
 
-    return [...staticRoutes, ...blogRoutes, ...safariRoutes];
+    return [...staticRoutes, ...journalRoutes, ...safariRoutes];
   } catch {
     return staticRoutes;
   }

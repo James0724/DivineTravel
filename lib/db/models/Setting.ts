@@ -58,8 +58,8 @@ const SettingSchema = new Schema<ISetting>(
     youtube: { type: String, default: '' },
     tripadvisor: { type: String, default: '' },
 
-    defaultMetaTitle: { type: String, default: 'Divine Travel Nest Safaris — Kenya, Tanzania & Uganda Safari Tour Packages' },
-    defaultMetaDescription: { type: String, default: 'Expert-guided, tailor-made East Africa safaris. Kenya, Tanzania & Uganda — Budget to Luxury.' },
+    defaultMetaTitle: { type: String, default: 'Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Tour Packages' },
+    defaultMetaDescription: { type: String, default: 'Expert-guided, tailor-made East Africa safaris. Kenya, Tanzania, Uganda & Rwanda — Budget to Luxury.' },
 
     defaultCurrency: { type: String, default: 'USD' },
     bookingNotificationEmail: { type: String, default: 'info@divinetravelnestsafaris.com' },

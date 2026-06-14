@@ -16,7 +16,7 @@ import { MessageSquare, Phone } from "lucide-react";
 export const metadata: Metadata = {
   title: "About Us | Divine Travel Nest Safaris — Kenya-Based Safari Company",
   description:
-    "A Kenya-based, woman-led safari house planning unforgettable journeys across Kenya, Tanzania and Uganda — one traveller at a time. Learn our story, values, and meet the team.",
+    "A Kenya-based, woman-led safari house planning unforgettable journeys across Kenya, Tanzania, Uganda and Rwanda — one traveller at a time. Learn our story, values, and meet the team.",
   keywords: [
     "about Divine Travel Nest Safaris",
     "Kenya-based safari company",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About Divine Travel Nest Safaris",
     description:
-      "A Kenya-based, woman-led safari house planning unforgettable journeys across Kenya, Tanzania and Uganda — one traveller at a time.",
+      "A Kenya-based, woman-led safari house planning unforgettable journeys across Kenya, Tanzania, Uganda and Rwanda — one traveller at a time.",
     type: "website",
     url: "/about",
     images: [
@@ -294,8 +294,8 @@ export default function AboutPage() {
                 <p className="text-[18px] leading-[1.62] text-bone-ink">
                   A Kenya-based,{" "}
                   <strong className="font-medium">woman-led</strong> safari
-                  house, planning unforgettable journeys across Kenya, Tanzania
-                  and Uganda — one traveller at a time.
+                  house, planning unforgettable journeys across Kenya, Tanzania,
+                  Uganda and Rwanda — one traveller at a time.
                 </p>
                 <p className="text-sm leading-[1.62] text-bone-muted mt-4">
                   Founded from a simple dream: to connect people to the soul of
@@ -342,7 +342,7 @@ export default function AboutPage() {
           </div>
           <div className="flex flex-wrap justify-between gap-2 pt-4 font-mono text-[10px] tracking-[0.14em] uppercase text-bone-muted">
             <span>Spur Mall · Nairobi, Kenya</span>
-            <span className="hidden md:block">Kenya · Tanzania · Uganda</span>
+            <span className="hidden md:block">Kenya · Tanzania · Uganda · Rwanda</span>
           </div>
         </div>
       </section>
@@ -398,6 +398,10 @@ export default function AboutPage() {
                   and{" "}
                   <strong className="text-bone-ink font-medium">
                     Uganda gorilla trekking
+                  </strong>{" "}
+                  and{" "}
+                  <strong className="text-bone-ink font-medium">
+                    Rwanda gorilla safaris
                   </strong>{" "}
                   — the routes we know intimately rather than a catalogue of
                   everywhere.
@@ -479,12 +483,12 @@ export default function AboutPage() {
                   className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
                   style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
                 >
-                  3
+                  4
                 </div>
                 <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
                   Countries — Kenya
                   <br />
-                  Tanzania · Uganda
+                  Tanzania · Uganda · Rwanda
                 </div>
               </div>
             </RevealItem>

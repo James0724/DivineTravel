@@ -10,6 +10,7 @@ import { Providers } from "./providers";
 import {
   OrganizationSchema,
   WebSiteSchema,
+  SiteNavigationSchema,
 } from "@/components/seo/StructuredData";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -53,18 +54,25 @@ export const metadata: Metadata = {
     template: "%s | Divine Travel Nest Safaris",
   },
   description:
-    "Divine Travel Nest Safaris offers Kenya safari tours, Tanzania safaris and combined Kenya/Tanzania safari packages, plus Uganda gorilla trekking — start your African journey today.",
+    "Expert-guided Kenya, Tanzania, Uganda and Rwanda safari packages 2026/2027. Masai Mara game drives, Serengeti Great Migration tours, Bwindi gorilla trekking — tailor-made and budget to luxury. Book with Divine Travel Nest Safaris.",
   keywords: [
-    "Kenya safari",
-    "Tanzania safari",
+    "Kenya safari packages 2026",
+    "Tanzania safari tours",
     "Uganda gorilla trekking",
-    "Masai Mara safari",
-    "Serengeti safari",
-    "East Africa safari",
-    "safari tour packages",
+    "Rwanda gorilla safari",
+    "Masai Mara game drive",
+    "Serengeti Great Migration safari",
+    "Bwindi gorilla trekking permit",
+    "East Africa safari packages",
+    "tailor-made safari",
+    "Big Five safari Africa",
+    "luxury safari Kenya Tanzania",
+    "budget safari packages 2026",
+    "safari tour packages 2026 2027",
     "divine travel nest safaris",
-    "Nairobi safari company",
-    "2026 safari packages",
+    "Nairobi safari company Kenya",
+    "Africa wildlife tour",
+    "safari holiday east africa",
   ],
   authors: [{ name: "Divine Travel Nest Safaris", url: APP_URL }],
   creator: "Divine Travel Nest Safaris",
@@ -74,9 +82,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: APP_URL,
     siteName: "Divine Travel Nest Safaris",
-    title: "Divine Travel Nest Safaris — Kenya, Tanzania & Uganda Safaris",
+    title: "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages 2026/2027",
     description:
-      "Expert-guided, tailor-made East Africa safaris. Kenya, Tanzania & Uganda — Budget to Luxury.",
+      "Expert-guided, tailor-made East Africa safaris — Masai Mara, Serengeti, Bwindi gorilla trekking and Rwanda Volcanoes. Budget to luxury, 2026/2027.",
     images: [
       {
         url: `${APP_URL}/images/og-default.jpg`,
@@ -88,9 +96,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Divine Travel Nest Safaris — Kenya, Tanzania & Uganda Safaris",
+    title: "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages",
     description:
-      "Expert-guided safaris in Kenya, Tanzania & Uganda. Budget to luxury.",
+      "Masai Mara game drives, Serengeti migration, Bwindi gorilla trekking & Rwanda Volcanoes — tailor-made, budget to luxury. 2026/2027.",
     images: [`${APP_URL}/images/og-default.jpg`],
   },
   robots: {
@@ -133,6 +141,7 @@ export default function RootLayout({
       <head>
         <OrganizationSchema />
         <WebSiteSchema />
+        <SiteNavigationSchema />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

@@ -4,13 +4,13 @@ import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import SiteLink from "@/components/ui/SiteLink";
-import type { BlogPost } from "@/types";
+import type { JournalPost } from "@/types";
 import { AnimatedHeading } from "../ui/Heading";
 
 const FALLBACK_IMAGE =
   "https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=900&q=80";
 
-async function getFeaturedPosts(): Promise<BlogPost[]> {
+async function getFeaturedPosts(): Promise<JournalPost[]> {
   try {
     await connectDB();
     const posts = await PostModel.find({ published: true })
@@ -18,7 +18,7 @@ async function getFeaturedPosts(): Promise<BlogPost[]> {
       .limit(3)
       .select("title slug excerpt category publishedAt coverImage featured")
       .lean();
-    return JSON.parse(JSON.stringify(posts)) as BlogPost[];
+    return JSON.parse(JSON.stringify(posts)) as JournalPost[];
   } catch {
     return [];
   }
@@ -65,7 +65,7 @@ export default async function JournalSection() {
                 team and the wildlife they follow across East Africa.
               </p>
               <SiteLink
-                href="/blog"
+                href="/journal"
                 variant="ghost-mono"
                 arrow
                 className="mt-5"
@@ -83,7 +83,7 @@ export default async function JournalSection() {
             return (
               <RevealItem key={post._id as string}>
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={`/journal/${post.slug}`}
                   className="flex flex-col cursor-pointer group bg-bone-paper border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
                 >
                   <div

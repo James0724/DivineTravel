@@ -110,8 +110,8 @@ export default function IntroSection() {
               elcome to Divine Travel Nest Safaris, the home of immersive,
               authentic, and expertly crafted East Africa safari experiences. We
               specialize in Kenya safaris, Tanzania safaris, cross-border
-              Kenya–Tanzania safari circuits, and unforgettable Uganda gorilla
-              trekking tours.
+              Kenya–Tanzania safari circuits, unforgettable Uganda gorilla
+              trekking and Rwanda gorilla safaris.
             </p>
             <p className="text-[14px] sm:text-sm leading-[1.7] text-bone-muted mb-4">
               Whether you dream of witnessing the Great Wildebeest Migration in

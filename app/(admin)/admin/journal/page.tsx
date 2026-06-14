@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import { ConfirmDialog } from '@/components/ui/Modal'
 import { TableSkeleton } from '@/components/ui/Skeleton'
-import type { BlogPost, PostCategory } from '@/types'
+import type { JournalPost, PostCategory } from '@/types'
 
 const CATEGORY_LABELS: Record<PostCategory, string> = {
   migration: 'Migration',
@@ -24,7 +24,7 @@ const CATEGORY_LABELS: Record<PostCategory, string> = {
 
 interface PostsResponse {
   success: boolean
-  data: BlogPost[]
+  data: JournalPost[]
   pagination: {
     total: number
     page: number
@@ -43,7 +43,7 @@ function formatDate(dateStr?: string) {
   return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-export default function AdminBlogPage() {
+export default function AdminJournalPage() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [deleteTarget, setDeleteTarget] = useState<{ slug: string; title: string } | null>(null)
@@ -56,7 +56,7 @@ export default function AdminBlogPage() {
   })
 
   const { data, isLoading } = useQuery({
-    queryKey: ['admin-blog', page, search],
+    queryKey: ['admin-journal', page, search],
     queryFn: () => fetchPosts(params),
   })
 
@@ -66,7 +66,7 @@ export default function AdminBlogPage() {
       if (!res.ok) throw new Error('Delete failed')
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['admin-blog'] })
+      qc.invalidateQueries({ queryKey: ['admin-journal'] })
       toast.success('Post deleted')
       setDeleteTarget(null)
     },
@@ -81,12 +81,12 @@ export default function AdminBlogPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-serif text-2xl font-semibold text-bone-ink">Blog</h1>
+          <h1 className="font-serif text-2xl font-semibold text-bone-ink">Journal</h1>
           <p className="text-sm text-bone-ink/50 mt-0.5 font-sans">
             {pagination ? `${pagination.total} posts total` : ''}
           </p>
         </div>
-        <Link href="/admin/blog/new">
+        <Link href="/admin/journal/new">
           <Button>
             <Plus size={16} className="mr-1.5" />
             New post
@@ -112,7 +112,7 @@ export default function AdminBlogPage() {
           <TableSkeleton rows={8} />
         ) : posts.length === 0 ? (
           <div className="py-16 text-center text-bone-ink/40 font-sans text-sm">
-            No posts found. <Link href="/admin/blog/new" className="text-bone-forest hover:underline">Create one →</Link>
+            No posts found. <Link href="/admin/journal/new" className="text-bone-forest hover:underline">Create one →</Link>
           </div>
         ) : (
           <table className="admin-table">
@@ -155,7 +155,7 @@ export default function AdminBlogPage() {
                   <td>
                     <div className="flex items-center gap-1 justify-end">
                       <Link
-                        href={`/blog/${post.slug}`}
+                        href={`/journal/${post.slug}`}
                         target="_blank"
                         className="p-1.5 rounded hover:bg-bone-bg text-bone-ink/40 hover:text-bone-ink transition-colors"
                         title="View post"
@@ -163,7 +163,7 @@ export default function AdminBlogPage() {
                         <Eye size={15} />
                       </Link>
                       <Link
-                        href={`/admin/blog/${post.slug}/edit`}
+                        href={`/admin/journal/${post.slug}/edit`}
                         className="p-1.5 rounded hover:bg-bone-bg text-bone-ink/40 hover:text-bone-ink transition-colors"
                         title="Edit post"
                       >

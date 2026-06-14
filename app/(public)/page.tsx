@@ -25,9 +25,27 @@ export const revalidate = 300; // ISR — revalidate every 5 minutes
 
 export const metadata: Metadata = {
   title:
-    "Divine Travel Nest Safaris — Kenya, Tanzania & Uganda Safari Tour Packages 2026/2027",
+    "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages 2026/2027",
   description:
-    "Divine Travel Nest Safaris offers Kenya safari tours, Tanzania safaris and combined Kenya/Tanzania safari packages, plus Uganda gorilla trekking — start your African journey today.",
+    "Expert-guided Kenya safari tours, Masai Mara game drives, Serengeti Tanzania packages, Uganda gorilla trekking in Bwindi and Rwanda Volcanoes safaris — tailor-made by a Nairobi-based team. Budget to luxury, 2026/2027.",
+  keywords: [
+    "Kenya safari packages 2026",
+    "Tanzania safari tours",
+    "Uganda gorilla trekking",
+    "Rwanda gorilla safari",
+    "Masai Mara game drive",
+    "Serengeti safari",
+    "Bwindi gorilla trekking",
+    "East Africa safari",
+    "tailor-made safari",
+    "Big Five safari Africa",
+    "luxury safari Kenya",
+    "budget safari packages",
+    "safari tour packages 2026 2027",
+    "divine travel nest safaris",
+    "Nairobi safari company",
+    "Africa wildlife tour",
+  ],
   alternates: { canonical: "/" },
 };
 
@@ -146,7 +164,7 @@ export default async function HomePage() {
       {/* 14 · Guest testimonials (DB-driven) */}
       <Testimonials initialData={testimonials} />
 
-      {/* 15 · Journal / blog previews */}
+      {/* 15 · Journal previews */}
       <JournalSection />
 
       {/* 16 · FAQ */}

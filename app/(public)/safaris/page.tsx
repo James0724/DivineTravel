@@ -6,23 +6,23 @@ import SafarisContent from "./_content";
 import CtaBand from "@/components/ui/CtaBand";
 
 export const metadata: Metadata = {
-  title: "All Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
+  title: "East Africa Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda Tours",
   description:
-    "Browse our complete catalogue of Kenya, Tanzania, Uganda and Rwanda safari packages. Filter by country, duration, budget and style — every itinerary tailored to your dates and group.",
+    "Browse our complete East Africa safari package catalogue for 2026/2027. Kenya Masai Mara tours, Tanzania Serengeti migration circuits, Uganda gorilla trekking and Rwanda packages — filter by country, duration and budget. Every itinerary tailor-made by a Nairobi-based team.",
   keywords:
-    "safari packages, kenya safari, tanzania safari, uganda safari, rwanda safari, east africa safari tours 2026, budget safari, luxury safari, gorilla trekking",
+    "east africa safari packages 2026, kenya safari packages, tanzania safari tours, uganda gorilla trekking, rwanda safari, masai mara tours 2026, serengeti safari packages, big five safari east africa, tailor-made safari holiday, budget safari packages africa, luxury safari 2027, safari tour packages, gorilla trekking packages, best africa safari 2026",
   alternates: { canonical: "/safaris" },
   openGraph: {
-    title: "All Safari Packages | Divine Travel Nest Safaris",
+    title: "East Africa Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
     description:
-      "Browse Kenya, Tanzania & Uganda safari packages — budget to luxury.",
+      "Browse Kenya Masai Mara tours, Tanzania Serengeti circuits, Uganda gorilla trekking and Rwanda safari packages — budget to luxury, tailor-made.",
     type: "website",
     images: [
       {
         url: "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
         width: 1200,
         height: 630,
-        alt: "East Africa Safari — Divine Travel Nest Safaris",
+        alt: "Safari vehicles on the East Africa plains at golden hour",
       },
     ],
   },
@@ -78,15 +78,15 @@ export default function SafarisPage() {
         ]}
         title={
           <>
-            Kenya, Tanzania &amp; Uganda
+            Kenya, Tanzania, Uganda &amp; Rwanda
             <br />
             <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>
               safari
             </em>{" "}
-            packages.
+            packages 2026/2027.
           </>
         }
-        description="Our complete catalogue — short Mara introductions, the eight-day Sopa circuit, cross-border combos and Uganda gorilla trekking. Every itinerary rewritable for your dates, party size and budget."
+        description="Kenya Masai Mara tours, Tanzania Serengeti migration circuits, Uganda gorilla trekking and Rwanda Volcanoes safaris — 50+ curated packages, every itinerary rewritable for your dates, party size and budget."
         stats={[
           { num: "3",     sup: "",  lbl: "East African countries" },
           { num: "50",    sup: "+", lbl: "Curated packages"       },

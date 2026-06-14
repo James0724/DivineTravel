@@ -21,7 +21,7 @@ export function OrganizationSchema() {
       height: 512,
     },
     description:
-      "Expert-guided, tailor-made East Africa safaris — Kenya, Tanzania & Uganda. Budget to luxury safari packages, gorilla trekking and wildlife tours.",
+      "Expert-guided, tailor-made East Africa safaris — Kenya, Tanzania, Uganda & Rwanda. Budget to luxury safari packages, gorilla trekking and wildlife tours.",
     foundingDate: "2020",
     address: {
       "@type": "PostalAddress",
@@ -60,6 +60,7 @@ export function OrganizationSchema() {
       { "@type": "Country", name: "Kenya" },
       { "@type": "Country", name: "Tanzania" },
       { "@type": "Country", name: "Uganda" },
+      { "@type": "Country", name: "Rwanda" },
     ],
     knowsAbout: [
       "Safari tours",
@@ -99,7 +100,7 @@ export function WebSiteSchema() {
     name: "Divine Travel Nest Safaris",
     url: APP_URL,
     description:
-      "Expert-guided, tailor-made East Africa safaris — Kenya, Tanzania & Uganda. Budget to luxury.",
+      "Expert-guided, tailor-made East Africa safaris — Kenya, Tanzania, Uganda & Rwanda. Budget to luxury.",
     publisher: { "@id": `${APP_URL}/#organization` },
     potentialAction: {
       "@type": "SearchAction",
@@ -162,7 +163,7 @@ export function LocalBusinessSchema() {
     currenciesAccepted: "USD, EUR, GBP, KES",
     paymentAccepted: "Bank Transfer, Credit Card, M-Pesa",
     priceRange: "$$–$$$$",
-    areaServed: ["Kenya", "Tanzania", "Uganda"],
+    areaServed: ["Kenya", "Tanzania", "Uganda", "Rwanda"],
   };
 
   return (
@@ -465,6 +466,97 @@ export function ArticleSchema({
     }),
     inLanguage: "en",
     isAccessibleForFree: true,
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// ─── SiteNavigation (helps Google identify sitelinks) ─────────────────────────
+
+export function SiteNavigationSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Site Navigation",
+    itemListElement: [
+      {
+        "@type": "SiteNavigationElement",
+        position: 1,
+        name: "Safari Packages",
+        description:
+          "Browse all Kenya, Tanzania, Uganda & Rwanda safari tours — budget to luxury.",
+        url: `${APP_URL}/safaris`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 2,
+        name: "Kenya Safaris",
+        description:
+          "Best Kenya safari packages 2026/2027 — Masai Mara, Amboseli, Tsavo & more.",
+        url: `${APP_URL}/safaris/kenya`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 3,
+        name: "Tanzania Safaris",
+        description:
+          "Tanzania safari tours — Serengeti, Ngorongoro, Kilimanjaro & Zanzibar.",
+        url: `${APP_URL}/safaris/tanzania`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 4,
+        name: "Uganda Safaris",
+        description:
+          "Uganda gorilla trekking & wildlife safaris — Bwindi & Queen Elizabeth.",
+        url: `${APP_URL}/safaris/uganda`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 5,
+        name: "Rwanda Safaris",
+        description:
+          "Rwanda gorilla trekking & cultural safaris — Volcanoes National Park.",
+        url: `${APP_URL}/safaris/rwanda`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 6,
+        name: "Plan My Safari",
+        description:
+          "Tell us your dates and interests — get a free tailor-made itinerary within 24 hours.",
+        url: `${APP_URL}/plan-my-safari`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 7,
+        name: "About Us",
+        description:
+          "Meet the team behind Divine Travel Nest Safaris — Kenya-based, woman-led safari experts.",
+        url: `${APP_URL}/about`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 8,
+        name: "Contact Us",
+        description:
+          "Reach our Nairobi safari team by call, WhatsApp or email — free safari proposals in 24 h.",
+        url: `${APP_URL}/contact`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 9,
+        name: "Field Journal",
+        description:
+          "Safari stories, wildlife guides and travel tips from East Africa.",
+        url: `${APP_URL}/journal`,
+      },
+    ],
   };
 
   return (

@@ -24,7 +24,7 @@ import { useAdminPendingBookingsCount } from '@/hooks/useBooking'
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard, exact: true },
   { label: 'Safaris', href: '/admin/safaris', icon: Map },
-  { label: 'Blog', href: '/admin/blog', icon: BookOpen },
+  { label: 'Journal', href: '/admin/journal', icon: BookOpen },
   { label: 'Comments', href: '/admin/comments', icon: MessageSquare },
   { label: 'Bookings', href: '/admin/bookings', icon: CalendarCheck },
   { label: 'Testimonials', href: '/admin/testimonials', icon: Star },

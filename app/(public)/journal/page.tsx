@@ -6,9 +6,9 @@ import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
 import { BreadcrumbSchema } from "@/components/seo/StructuredData";
 import PageHero from "@/components/ui/PageHero";
-import BlogFilterSidebar from "@/components/blog/BlogFilterSidebar";
+import JournalFilterSidebar from "@/components/journal/JournalFilterSidebar";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
-import type { BlogPost, PostCategory } from "@/types";
+import type { JournalPost, PostCategory } from "@/types";
 
 export const revalidate = 300;
 
@@ -30,12 +30,12 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Divine Travel Nest Safaris" }],
   creator: "Divine Travel Nest Safaris",
-  alternates: { canonical: "/blog" },
+  alternates: { canonical: "/journal" },
   openGraph: {
     title: "Field Journal | Divine Travel Nest Safaris",
     description: "Expert guides and stories from East Africa.",
     type: "website",
-    url: "/blog",
+    url: "/journal",
     images: [
       {
         url: "https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
@@ -66,7 +66,7 @@ const CATEGORY_LABELS: Record<PostCategory, string> = {
   tips: "Tips & Practical",
 };
 
-async function getPosts(category?: string): Promise<BlogPost[]> {
+async function getPosts(category?: string): Promise<JournalPost[]> {
   try {
     await connectDB();
     const query: Record<string, unknown> = { published: true };
@@ -76,7 +76,7 @@ async function getPosts(category?: string): Promise<BlogPost[]> {
       .limit(50)
       .select("-body")
       .lean();
-    return JSON.parse(JSON.stringify(posts)) as BlogPost[];
+    return JSON.parse(JSON.stringify(posts)) as JournalPost[];
   } catch {
     return [];
   }
@@ -91,7 +91,7 @@ function formatDate(dateStr?: string) {
   });
 }
 
-export default async function BlogPage({
+export default async function JournalPage({
   searchParams,
 }: {
   searchParams: Promise<{ category?: string }>;
@@ -108,7 +108,7 @@ export default async function BlogPage({
       <BreadcrumbSchema
         items={[
           { name: "Home", href: "/" },
-          { name: "Field Journal", href: "/blog" },
+          { name: "Field Journal", href: "/journal" },
         ]}
       />
 
@@ -140,7 +140,7 @@ export default async function BlogPage({
           <div className="container-site">
             <Reveal>
               <Link
-                href={`/blog/${featured.slug}`}
+                href={`/journal/${featured.slug}`}
                 className="group grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-8 lg:gap-16 items-stretch"
               >
                 {/* Image */}
@@ -232,7 +232,7 @@ export default async function BlogPage({
           <div className="lg:flex lg:gap-8 2xl:gap-10 lg:items-start">
             {/* Filter sidebar — mobile drawer + desktop panel */}
             <Suspense fallback={null}>
-              <BlogFilterSidebar postCount={posts.length} />
+              <JournalFilterSidebar postCount={posts.length} />
             </Suspense>
 
             {/* Main content */}
@@ -257,7 +257,7 @@ export default async function BlogPage({
                   {regularPosts.map((post) => (
                     <RevealItem key={post._id} className="flex flex-col">
                       <Link
-                        href={`/blog/${post.slug}`}
+                        href={`/journal/${post.slug}`}
                         className="group flex flex-col cursor-pointer h-full bg-bone-paper border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
                       >
                         <div
@@ -305,7 +305,7 @@ export default async function BlogPage({
                     No articles yet in this category.
                   </p>
                   <Link
-                    href="/blog"
+                    href="/journal"
                     className="text-sm text-bone-clay hover:underline font-sans"
                   >
                     Browse all articles →

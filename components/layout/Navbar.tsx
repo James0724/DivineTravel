@@ -87,7 +87,7 @@ const navLinks: NavItem[] = [
   },
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
-  { label: "Blog", href: "/blog" },
+  { label: "Journal", href: "/journal" },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════

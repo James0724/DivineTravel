@@ -82,17 +82,17 @@ export default function FAQSection() {
           <div>
             <div className="eyebrow mb-4">
               <span className="dot" />
-              Common Questions
+              Kenya, Tanzania, Uganda &amp; Rwanda Safari FAQ
             </div>
             <h2
               className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
               style={{ fontSize: "clamp(32px, 5vw, 72px)" }}
             >
-              Safari <em className="italic text-bone-clay">FAQ</em>.
+              East Africa safari <em className="italic text-bone-clay">FAQ</em>.
             </h2>
             <p className="text-[14px] text-bone-muted mt-[18px] max-w-[40ch] lg:max-w-[32ch] leading-[1.6]">
-              Can't find your answer? Our team is happy to help — call or email
-              us any time.
+              Common questions about Kenya, Tanzania, Uganda, Rwanda and gorilla trekking
+              safaris. Can't find your answer? Call or email us any time.
             </p>
           </div>
 

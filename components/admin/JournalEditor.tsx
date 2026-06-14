@@ -31,12 +31,12 @@ function ToolbarButton({ onClick, active, title, children }: ToolbarButtonProps)
   )
 }
 
-interface BlogEditorProps {
+interface JournalEditorProps {
   value: string
   onChange: (html: string) => void
 }
 
-export default function BlogEditor({ value, onChange }: BlogEditorProps) {
+export default function JournalEditor({ value, onChange }: JournalEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({

@@ -161,6 +161,7 @@ export interface AdminUser {
   email: string
   role: UserRole
   avatar?: string
+  bio?: string
   active: boolean
   lastLogin?: string
   createdAt: string
@@ -233,7 +234,7 @@ export interface ContactFormData {
   message: string
 }
 
-// ─── Blog Post ──────────────────────────────────────────────────────────────
+// ─── Journal Post ───────────────────────────────────────────────────────────
 
 export type PostCategory =
   | 'migration'
@@ -245,7 +246,7 @@ export type PostCategory =
   | 'photography'
   | 'tips'
 
-export interface BlogPost {
+export interface JournalPost {
   _id: string
   title: string
   slug: string
@@ -272,7 +273,7 @@ export interface BlogPost {
   updatedAt: string
 }
 
-// ─── Blog Comments ──────────────────────────────────────────────────────────
+// ─── Journal Comments ───────────────────────────────────────────────────────
 
 export type CommentStatus = "pending" | "approved" | "rejected" | "spam"
 

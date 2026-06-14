@@ -16,23 +16,23 @@ import CtaBand from "@/components/ui/CtaBand";
 import type { Safari } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Uganda Gorilla Trekking Tours 2026/2027 — Bwindi & Mgahinga",
+  title: "Uganda Gorilla Trekking Tours 2026/2027 — Bwindi, Queen Elizabeth & Murchison Falls",
   description:
-    "Book Uganda gorilla trekking tours in Bwindi Impenetrable Forest and Mgahinga. Permits secured, licensed guides, transfers from Entebbe or Kigali. Best value vs Rwanda.",
+    "Book Uganda gorilla trekking tours 2026/2027 in Bwindi Impenetrable Forest and Mgahinga. $800 permits secured, licensed guides, and wildlife safari extensions to Queen Elizabeth, Murchison Falls and Kidepo Valley — transfers from Entebbe or Kigali. Best value vs Rwanda's $1,500.",
   keywords:
-    "uganda gorilla trekking, bwindi gorilla tour, gorilla permit uganda, mgahinga gorilla trek 2026",
+    "uganda gorilla trekking 2026, bwindi gorilla tour, gorilla permit uganda, mgahinga gorilla trek, uganda wildlife safari, queen elizabeth national park, murchison falls safari, chimp trekking uganda, kidepo valley safari, uganda safari packages 2027, lake bunyonyi, entebbe safari, gorilla trekking africa",
   alternates: { canonical: "/safaris/uganda" },
   openGraph: {
-    title: "Uganda Gorilla Trekking | Divine Travel Nest Safaris",
+    title: "Uganda Gorilla Trekking 2026/2027 — Bwindi, Queen Elizabeth & Murchison Falls",
     description:
-      "Best Uganda gorilla trekking tours 2026/2027 — Bwindi, Mgahinga & beyond.",
+      "Uganda gorilla trekking tours — $800 permits, Bwindi Impenetrable Forest, Queen Elizabeth NP and Murchison Falls. Best value gorilla trekking in Africa.",
     type: "website",
     images: [
       {
         url: "https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
         width: 1200,
         height: 630,
-        alt: "Mountain gorilla trekking Uganda",
+        alt: "Mountain gorilla in Bwindi Impenetrable Forest Uganda",
       },
     ],
   },
@@ -256,12 +256,12 @@ export default async function UgandaSafarisPage() {
         ]}
         title={
           <>
-            Uganda gorilla
+            Uganda gorilla trekking
             <br />
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>trekking</em>.
+            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>tours 2026/2027</em>.
           </>
         }
-        description="A face-to-face hour with a wild mountain gorilla in the Bwindi Impenetrable Forest or Mgahinga — one of Africa's most powerful wildlife encounters."
+        description="A face-to-face hour with wild mountain gorillas in Bwindi Impenetrable Forest or Mgahinga — Africa's most powerful wildlife encounter, plus Queen Elizabeth and Murchison Falls safari extensions."
         stats={[
           { num: "50", sup: "%+", lbl: "World's gorilla population" },
           { num: "98", sup: "%", lbl: "Gorilla sighting success" },

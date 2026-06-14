@@ -14,23 +14,23 @@ import type { Safari } from "@/types";
 
 export const metadata: Metadata = {
   title:
-    "Cross-Country Safari Packages 2026/2027 — Kenya, Tanzania & Uganda Circuits",
+    "Cross-Country Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda Circuits",
   description:
-    "Multi-country safari packages combining Kenya, Tanzania and Uganda into one seamless East African circuit. Great Migration, gorilla trekking, Serengeti and Masai Mara — all in one trip.",
+    "Multi-country East Africa safari packages combining Kenya, Tanzania, Uganda and Rwanda in one seamless circuit. Great Wildebeest Migration, Big Five game drives, Bwindi gorilla trekking, Serengeti and Masai Mara — all tailor-made in one trip. 2026/2027.",
   keywords:
-    "cross-country safari, kenya tanzania safari, east africa safari, multi-country safari, kenya tanzania uganda safari",
+    "cross-country safari east africa, kenya tanzania safari circuit, multi-country safari packages, kenya tanzania uganda safari, great migration gorilla trekking, east africa safari itinerary, masai mara serengeti safari, kenya uganda gorilla circuit, multi-destination east africa tour, kenya rwanda safari, 10 day east africa safari, 14 day safari east africa",
   alternates: { canonical: "/safaris/cross-country" },
   openGraph: {
-    title: "Cross-Country Safari Packages | Divine Travel Nest Safaris",
+    title: "Cross-Country Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
     description:
-      "Multi-country East Africa safari circuits — Kenya, Tanzania & Uganda combined.",
+      "Multi-country East Africa safari circuits — Great Migration, Serengeti, Masai Mara and Bwindi gorilla trekking in one seamless tailor-made trip.",
     type: "website",
     images: [
       {
         url: "https://images.pexels.com/photos/6056088/pexels-photo-6056088.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
         width: 1200,
         height: 630,
-        alt: "East Africa Cross-Country Safari",
+        alt: "Wildebeest Great Migration crossing — East Africa cross-country safari",
       },
     ],
   },
@@ -176,15 +176,15 @@ export default async function CrossCountrySafarisPage() {
         ]}
         title={
           <>
-            East Africa
+            East Africa multi-country
             <br />
             <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>
-              circuit
+              safari circuits
             </em>{" "}
-            safaris.
+            2026/2027.
           </>
         }
-        description="Kenya, Tanzania and Uganda in one seamless itinerary — the Migration, the Crater, the gorillas and the Big Five. Designed to cross borders without friction."
+        description="Kenya, Tanzania, Uganda and Rwanda in one seamless itinerary — the Great Migration, Ngorongoro Crater, Bwindi gorillas and Big Five. Cross-country safari packages designed to cross borders without friction."
         stats={[
           { num: "3", sup: "", lbl: "Countries in one trip" },
           { num: "Big 5", sup: "", lbl: "Plus mountain gorillas" },

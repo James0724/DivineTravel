@@ -34,7 +34,7 @@ const bestsellers = [
     num: "04",
     title: "14-Day East Africa Grand Tour",
     route:
-      "Kenya + Tanzania + Uganda. Masai Mara, Serengeti, Bwindi — the full East Africa experience.",
+      "Kenya + Tanzania + Uganda + Rwanda. Masai Mara, Serengeti, Bwindi & Volcanoes — the full East Africa experience.",
     href: "/safaris",
   },
 ];

@@ -26,11 +26,11 @@ const ALL_CATEGORIES: PostCategory[] = [
 // Height of the sticky navbar (py-[10px] top+bottom + h-9 logo = 56px + 1px border)
 const NAV_H = 57
 
-interface BlogFilterSidebarProps {
+interface JournalFilterSidebarProps {
   postCount: number
 }
 
-export default function BlogFilterSidebar({ postCount }: BlogFilterSidebarProps) {
+export default function JournalFilterSidebar({ postCount }: JournalFilterSidebarProps) {
   const searchParams = useSearchParams()
   const category = searchParams.get('category') ?? ''
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -129,7 +129,7 @@ export default function BlogFilterSidebar({ postCount }: BlogFilterSidebarProps)
             </span>
             {category && (
               <Link
-                href="/blog"
+                href="/journal"
                 scroll={false}
                 className="font-mono text-[10px] uppercase tracking-[0.1em] underline underline-offset-2 transition-opacity hover:opacity-60"
                 style={{ color: 'var(--clay)' }}
@@ -148,13 +148,13 @@ export default function BlogFilterSidebar({ postCount }: BlogFilterSidebarProps)
               Category
             </div>
             <div className="flex flex-wrap gap-1.5">
-              <Link href="/blog" scroll={false} className={pillClass} style={pillStyle(!category)}>
+              <Link href="/journal" scroll={false} className={pillClass} style={pillStyle(!category)}>
                 All articles
               </Link>
               {ALL_CATEGORIES.map((cat) => (
                 <Link
                   key={cat}
-                  href={`/blog?category=${cat}`}
+                  href={`/journal?category=${cat}`}
                   scroll={false}
                   className={pillClass}
                   style={pillStyle(category === cat)}
@@ -230,7 +230,7 @@ export default function BlogFilterSidebar({ postCount }: BlogFilterSidebarProps)
                   {/* "Clear filter" is a plain text link — visually distinct from the close button */}
                   {category && (
                     <Link
-                      href="/blog"
+                      href="/journal"
                       scroll={false}
                       className="font-mono text-[10px] uppercase tracking-[0.1em] underline underline-offset-2 transition-opacity hover:opacity-60"
                       style={{ color: 'var(--clay)' }}
@@ -261,7 +261,7 @@ export default function BlogFilterSidebar({ postCount }: BlogFilterSidebarProps)
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   <Link
-                    href="/blog"
+                    href="/journal"
                     scroll={false}
                     className={pillClass}
                     style={pillStyle(!category)}
@@ -271,7 +271,7 @@ export default function BlogFilterSidebar({ postCount }: BlogFilterSidebarProps)
                   {ALL_CATEGORIES.map((cat) => (
                     <Link
                       key={cat}
-                      href={`/blog?category=${cat}`}
+                      href={`/journal?category=${cat}`}
                       scroll={false}
                       className={pillClass}
                       style={pillStyle(category === cat)}

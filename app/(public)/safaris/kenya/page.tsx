@@ -6,16 +6,16 @@ import CountrySafariPage from '@/components/safaris/CountrySafariPage'
 import type { Safari } from '@/types'
 
 export const metadata: Metadata = {
-  title: 'Kenya Safari Packages 2026/2027 — Best Kenya Safari Tours',
+  title: 'Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five Tours',
   description:
-    'Book the best Kenya safari packages for 2026 and 2027. Masai Mara, Amboseli, Samburu, Tsavo and more — tailor-made by an in-country team. Budget, mid-range and luxury.',
-  keywords: 'kenya safari packages, masai mara safari, kenya safari tours 2026, best kenya safari, affordable kenya safari',
+    'Book the best Kenya safari packages for 2026/2027. Masai Mara game drives, Amboseli elephant safaris, Big Five in Tsavo, Samburu rare species and Lake Nakuru flamingos — tailor-made by a Nairobi in-country team. Budget, mid-range and luxury.',
+  keywords: 'kenya safari packages 2026, masai mara safari tours, kenya safari tours 2027, best kenya safari, amboseli elephant safari, big five kenya safari, tsavo safari packages, samburu national reserve, kenya wildlife tour, affordable kenya safari, masai mara game drive, kenya luxury safari, nairobi national park day trip',
   alternates: { canonical: '/safaris/kenya' },
   openGraph: {
-    title: 'Kenya Safari Packages | Divine Travel Nest Safaris',
-    description: 'Best Kenya safari tours 2026/2027 — Masai Mara, Amboseli, Tsavo & more.',
+    title: 'Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five',
+    description: 'Best Kenya safari tours 2026/2027 — Masai Mara game drives, Amboseli, Tsavo Big Five & more. Tailor-made by a Nairobi-based team.',
     type: 'website',
-    images: [{ url: 'https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80', width: 1200, height: 630, alt: 'Kenya Safari' }],
+    images: [{ url: 'https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80', width: 1200, height: 630, alt: 'Masai Mara Kenya Safari — lions on the savannah' }],
   },
 }
 
@@ -76,8 +76,8 @@ export default async function KenyaSafarisPage() {
             { label: 'Tours & Safaris', href: '/safaris' },
             { label: 'Kenya' },
           ],
-          title: <>Kenya safari<br /><em style={{ color: '#f4d4a8', fontStyle: 'italic' }}>packages</em>.</>,
-          description: 'From short Masai Mara introductions to the eight-day Sopa circuit and cross-border combos — every itinerary tailored to your dates, party size and budget.',
+          title: <>Kenya safari packages<br /><em style={{ color: '#f4d4a8', fontStyle: 'italic' }}>2026/2027</em>.</>,
+          description: 'Masai Mara game drives, Amboseli elephant watching, Big Five in Tsavo and Samburu rare species — every Kenya itinerary tailored to your dates, party size and budget.',
           stats: [
             { num: '12',         sup: '+', lbl: 'Parks & reserves'   },
             { num: 'Big 5',      sup: '',  lbl: 'In a single country' },

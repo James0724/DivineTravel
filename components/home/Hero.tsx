@@ -123,34 +123,34 @@ export default function Hero() {
           >
             {/* Line 1 */}
             <LettersPullUp
-              text="Kenya, Tanzania"
+              text="Kenya, Tanzania,"
               initialDelay={0.15}
               charDelay={0.035}
             />
             {/* Line 2 */}
             <LettersPullUp
-              text="& Beyond — your"
+              text="Uganda & Rwanda —"
               initialDelay={0.3}
               charDelay={0.035}
             />
-            {/* Line 3 — two inline segments to keep clay italic on "unforgettable" */}
+            {/* Line 3 — two inline segments to keep clay italic on "safari" */}
             <span className="flex flex-wrap items-baseline">
               <LettersPullUp
-                text="unforgettable"
+                text="East Africa "
                 initialDelay={0.45}
                 charDelay={0.035}
-                charStyle={{ color: "#f4d4a8", fontStyle: "italic" }}
               />
               <LettersPullUp
-                text=" East"
-                initialDelay={0.45 + 13 * 0.035}
+                text="safari"
+                initialDelay={0.45 + 12 * 0.035}
                 charDelay={0.035}
+                charStyle={{ color: "#f4d4a8", fontStyle: "italic" }}
               />
             </span>
             {/* Line 4 */}
             <LettersPullUp
-              text="Africa safari."
-              initialDelay={0.65}
+              text="packages 2026."
+              initialDelay={0.7}
               charDelay={0.035}
             />
           </h1>
@@ -161,10 +161,9 @@ export default function Hero() {
             animate={{ opacity: 0.9, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.85, delay: 0.92, ease: EASE }}
           >
-            Divine Travel Nest Safaris offers Kenya safari tours, Tanzania
-            safaris and combined Kenya–Tanzania circuits, plus Uganda gorilla
-            trekking. Tailor-made by an in-country team — start your African
-            journey with us today.
+            Kenya Masai Mara game drives, Tanzania Serengeti migration tours,
+            Uganda gorilla trekking in Bwindi and Rwanda Volcanoes — all
+            tailor-made by a Nairobi-based team. Budget to luxury, 2026/2027.
           </motion.p>
         </div>
 

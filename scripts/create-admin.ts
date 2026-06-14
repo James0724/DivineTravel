@@ -24,6 +24,8 @@ const UserSchema = new mongoose.Schema(
     email:     { type: String, unique: true, lowercase: true, trim: true },
     password:  String,
     role:      { type: String, default: 'admin' },
+    avatar:    String,
+    bio:       String,
     active:    { type: Boolean, default: true },
     lastLogin: Date,
   },
@@ -46,10 +48,11 @@ async function main() {
     { email: ADMIN_EMAIL },
     {
       $set: {
-        name:     'Divine Travel Nest',
+        name:     'Janet Wanjiru',
         email:    ADMIN_EMAIL,
         password: hash,
         role:     'admin',
+        bio:      'CEO of Divine Travel Nest Safaris, with deep expertise in luxury and tailor-made East Africa safari experiences across Kenya, Tanzania, Rwanda and Uganda. Janet leads our team of expert consultants and is passionate about authentic, conservation-conscious travel.',
         active:   true,
       },
     },

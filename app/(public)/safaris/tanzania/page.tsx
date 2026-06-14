@@ -6,15 +6,16 @@ import CountrySafariPage from '@/components/safaris/CountrySafariPage'
 import type { Safari } from '@/types'
 
 export const metadata: Metadata = {
-  title: 'Tanzania Safari Packages 2026/2027 — Serengeti, Ngorongoro & More',
-  description: 'Book the best Tanzania safari packages for 2026 and 2027. Serengeti, Ngorongoro Crater, Tarangire, Ruaha and more — tailor-made by an in-country team.',
-  keywords: 'tanzania safari packages, serengeti safari, ngorongoro crater tour, tanzania safari tours 2026, best tanzania safari',
+  title: 'Tanzania Safari Packages 2026/2027 — Serengeti Great Migration, Ngorongoro & Zanzibar',
+  description:
+    'Book the best Tanzania safari packages for 2026/2027. Serengeti Great Wildebeest Migration tours, Ngorongoro Crater game drives, Tarangire elephant safaris, Ruaha wilderness and optional Zanzibar beach extension — tailor-made by an in-country team. Budget to luxury.',
+  keywords: 'tanzania safari packages 2026, serengeti safari tours, great migration safari tanzania, ngorongoro crater game drive, tarangire elephant safari, ruaha national park, zanzibar beach holiday, tanzania safari tours 2027, best tanzania safari, tanzania wildlife tour, serengeti wildebeest migration, kilimanjaro safari, fly-in safari tanzania, tanzania luxury safari',
   alternates: { canonical: '/safaris/tanzania' },
   openGraph: {
-    title: 'Tanzania Safari Packages | Divine Travel Nest Safaris',
-    description: 'Best Tanzania safari tours 2026/2027 — Serengeti, Ngorongoro, Tarangire & more.',
+    title: 'Tanzania Safari Packages 2026/2027 — Serengeti, Ngorongoro & Great Migration',
+    description: 'Best Tanzania safari tours 2026/2027 — Serengeti Great Migration, Ngorongoro Crater, Tarangire & Zanzibar. Tailor-made by an in-country team.',
     type: 'website',
-    images: [{ url: 'https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80', width: 1200, height: 630, alt: 'Tanzania Safari' }],
+    images: [{ url: 'https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80', width: 1200, height: 630, alt: 'Wildebeest crossing in the Serengeti Tanzania — Great Migration' }],
   },
 }
 
@@ -75,8 +76,8 @@ export default async function TanzaniaSafarisPage() {
             { label: 'Tours & Safaris', href: '/safaris' },
             { label: 'Tanzania Safaris' },
           ],
-          title: <>Tanzania safari<br /><em style={{ color: '#f4d4a8', fontStyle: 'italic' }}>packages</em>.</>,
-          description: "The Serengeti, Ngorongoro Crater, Tarangire's elephant kingdom, the wild south — and the option to finish on Zanzibar. Every itinerary rewritable for your dates and budget.",
+          title: <>Tanzania safari packages<br /><em style={{ color: '#f4d4a8', fontStyle: 'italic' }}>2026/2027</em>.</>,
+          description: "Serengeti Great Migration tours, Ngorongoro Crater game drives, Tarangire elephant safaris and the option to finish on Zanzibar — every itinerary rewritable for your dates and budget.",
           stats: [
             { num: '15',         sup: '+', lbl: 'Parks & reserves'        },
             { num: '1.5',        sup: 'M', lbl: 'Wildebeest in migration' },

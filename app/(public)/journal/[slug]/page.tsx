@@ -9,10 +9,10 @@ import {
   BreadcrumbSchema,
   ArticleSchema,
 } from "@/components/seo/StructuredData";
-import CommentSection from "@/components/blog/CommentSection";
+import CommentSection from "@/components/journal/CommentSection";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { buildAbsoluteUrl } from "@/lib/utils";
-import type { BlogPost, PostCategory } from "@/types";
+import type { JournalPost, PostCategory } from "@/types";
 
 export const revalidate = 3600;
 
@@ -31,12 +31,12 @@ const CATEGORY_LABELS: Record<PostCategory, string> = {
   tips: "Tips & Practical",
 };
 
-const getPost = cache(async (slug: string): Promise<BlogPost | null> => {
+const getPost = cache(async (slug: string): Promise<JournalPost | null> => {
   try {
     await connectDB();
     const post = await PostModel.findOne({ slug, published: true }).lean();
     if (!post) return null;
-    return JSON.parse(JSON.stringify(post)) as BlogPost;
+    return JSON.parse(JSON.stringify(post)) as JournalPost;
   } catch {
     return null;
   }
@@ -45,7 +45,7 @@ const getPost = cache(async (slug: string): Promise<BlogPost | null> => {
 async function getRelatedPosts(
   category: string,
   currentSlug: string,
-): Promise<BlogPost[]> {
+): Promise<JournalPost[]> {
   try {
     await connectDB();
     const posts = await PostModel.find({
@@ -57,7 +57,7 @@ async function getRelatedPosts(
       .limit(3)
       .select("-body")
       .lean();
-    return JSON.parse(JSON.stringify(posts)) as BlogPost[];
+    return JSON.parse(JSON.stringify(posts)) as JournalPost[];
   } catch {
     return [];
   }
@@ -81,7 +81,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       type: "article",
-      url: `/blog/${post.slug}`,
+      url: `/journal/${post.slug}`,
       publishedTime: post.publishedAt,
       authors: [post.author],
       tags: post.tags,
@@ -95,7 +95,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: [post.coverImage],
     },
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: { canonical: `/journal/${post.slug}` },
   };
 }
 
@@ -108,7 +108,7 @@ function formatDate(dateStr?: string) {
   });
 }
 
-export default async function BlogDetailPage({ params }: Props) {
+export default async function JournalDetailPage({ params }: Props) {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) notFound();
@@ -122,14 +122,14 @@ export default async function BlogDetailPage({ params }: Props) {
       <BreadcrumbSchema
         items={[
           { name: "Home", href: "/" },
-          { name: "Field Journal", href: "/blog" },
-          { name: post.title, href: `/blog/${post.slug}` },
+          { name: "Field Journal", href: "/journal" },
+          { name: post.title, href: `/journal/${post.slug}` },
         ]}
       />
       <ArticleSchema
         title={post.title}
         description={post.excerpt}
-        url={buildAbsoluteUrl(`/blog/${post.slug}`)}
+        url={buildAbsoluteUrl(`/journal/${post.slug}`)}
         image={post.coverImage}
         author={post.author}
         publishedDate={post.publishedAt ?? new Date().toISOString()}
@@ -169,7 +169,7 @@ export default async function BlogDetailPage({ params }: Props) {
           className="object-cover"
         />
         <div className="inner">
-          <Link href="/blog" className="back">
+          <Link href="/journal" className="back">
             ← Back to the journal
           </Link>
           <div className="a-meta">
@@ -290,7 +290,7 @@ export default async function BlogDetailPage({ params }: Props) {
             <h4>{post.author}</h4>
             <p>
               {post.authorBio ??
-                "Expert safari consultant at Divine Travel Nest Safaris, with extensive on-the-ground experience across Kenya, Tanzania and Uganda."}
+                "Expert safari consultant at Divine Travel Nest Safaris, with extensive on-the-ground experience across Kenya, Tanzania, Rwanda and Uganda."}
             </p>
           </div>
         </div>
@@ -324,7 +324,7 @@ export default async function BlogDetailPage({ params }: Props) {
                   </h2>
                 </div>
                 <Link
-                  href="/blog"
+                  href="/journal"
                   className="text-[13px] text-bone-clay hover:underline font-sans self-end"
                 >
                   View all articles →
@@ -338,7 +338,7 @@ export default async function BlogDetailPage({ params }: Props) {
               {related.map((rp) => (
                 <RevealItem key={rp._id} className="flex flex-col gap-4">
                   <Link
-                    href={`/blog/${rp.slug}`}
+                    href={`/journal/${rp.slug}`}
                     className="group flex flex-col gap-4 cursor-pointer h-full"
                   >
                     <div

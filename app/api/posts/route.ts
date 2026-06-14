@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const body = await req.json()
 
-    const { title, excerpt, content: bodyContent, body: bodyField, coverImage, author, authorTitle, authorAvatar, category, tags, faqs, featured, published, readingTime, seo } = body
+    const { title, excerpt, content: bodyContent, body: bodyField, coverImage, author, authorTitle, authorAvatar, authorBio, category, tags, faqs, featured, published, readingTime, seo } = body
 
     if (!title || !excerpt || !(bodyContent || bodyField) || !coverImage || !category) {
       return NextResponse.json({ success: false, error: 'Missing required fields: title, excerpt, body, coverImage, category' }, { status: 400 })
@@ -103,6 +103,7 @@ export async function POST(req: NextRequest) {
       author: author || 'Divine Travel Nest Safaris',
       authorTitle,
       authorAvatar,
+      authorBio,
       category,
       tags: tags ?? [],
       faqs: faqs ?? [],

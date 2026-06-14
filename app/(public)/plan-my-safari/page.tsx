@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "safari planner",
     "East Africa safari planning",
     "personalized safari",
-    "Kenya Tanzania Uganda safari",
+    "Kenya Tanzania Uganda Rwanda safari",
   ],
   authors: [{ name: "Divine Travel Nest Safaris" }],
   creator: "Divine Travel Nest Safaris",

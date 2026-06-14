@@ -95,8 +95,8 @@ const quickFaqs = [
     a: "A 30% deposit confirms your booking; the balance is due 60 days before departure.",
   },
   {
-    q: "Do you handle gorilla permits for Uganda?",
-    a: "Yes — we source permits for all our Uganda clients. Permits must be booked months in advance.",
+    q: "Do you handle gorilla permits for Uganda and Rwanda?",
+    a: "Yes — we source permits for all our Uganda and Rwanda clients. Permits must be booked months in advance.",
   },
 ];
 

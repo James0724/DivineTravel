@@ -16,23 +16,23 @@ import CtaBand from "@/components/ui/CtaBand";
 import type { Safari } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Rwanda Safari Packages 2026/2027 — Gorillas, Nyungwe & Akagera",
+  title: "Rwanda Safari Packages 2026/2027 — Gorilla Trekking, Nyungwe Chimps & Akagera Big Five",
   description:
-    "Book Rwanda gorilla trekking tours in Volcanoes National Park, chimp tracking in Nyungwe Forest and Big Five safaris in Akagera. Expert-guided, luxury-focused Rwanda safari packages.",
+    "Book Rwanda gorilla trekking tours 2026/2027 in Volcanoes National Park — 12 habituated families, $1,500 permits. Chimpanzee trekking in Nyungwe Forest, Big Five safaris in Akagera and canopy walkway. Expert-guided, luxury-focused Rwanda safari packages from Kigali.",
   keywords:
-    "rwanda gorilla trekking, volcanoes national park, nyungwe forest, akagera national park, rwanda safari 2026",
+    "rwanda gorilla trekking 2026, volcanoes national park gorillas, nyungwe forest chimpanzee, akagera big five safari, rwanda safari packages 2027, rwanda wildlife tour, kigali safari, virunga volcanoes gorillas, rwanda luxury safari lodge, gorilla trekking africa, rwanda akagera game drive, nyungwe canopy walkway, rwanda gorilla permit",
   alternates: { canonical: "/safaris/rwanda" },
   openGraph: {
-    title: "Rwanda Safari Packages | Divine Travel Nest Safaris",
+    title: "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
     description:
-      "Rwanda gorilla trekking, Nyungwe chimps & Akagera Big Five — 2026/2027.",
+      "Rwanda gorilla trekking in Volcanoes NP, chimp trekking in Nyungwe Forest and Big Five safaris in Akagera — expert-guided, luxury-focused packages from Kigali.",
     type: "website",
     images: [
       {
         url: "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
         width: 1200,
         height: 630,
-        alt: "Mountain gorilla in Volcanoes National Park, Rwanda",
+        alt: "Mountain gorilla family in Volcanoes National Park Rwanda",
       },
     ],
   },
@@ -252,12 +252,12 @@ export default async function RwandaSafarisPage() {
         ]}
         title={
           <>
-            Rwanda gorilla
+            Rwanda gorilla trekking
             <br />
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>trekking</em>.
+            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>& safaris 2026/2027</em>.
           </>
         }
-        description="Trek through the Virunga volcanoes to spend one unforgettable hour with wild mountain gorillas — Rwanda's most intimate and powerful wildlife experience."
+        description="Trek the Virunga volcanoes to meet wild mountain gorillas in Volcanoes National Park, track chimps in Nyungwe Forest and see the Big Five in Akagera — Rwanda's three-park safari circuit."
         stats={[
           { num: "12", sup: "", lbl: "Habituated gorilla families" },
           { num: "3", sup: "", lbl: "Iconic national parks" },

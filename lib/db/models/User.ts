@@ -7,6 +7,7 @@ export interface IUser extends Document {
   password: string
   role: 'admin' | 'editor' | 'viewer'
   avatar?: string
+  bio?: string
   active: boolean
   lastLogin?: Date
   createdAt: Date
@@ -31,6 +32,10 @@ const UserSchema = new Schema<IUser>(
       default: 'editor',
     },
     avatar: String,
+    bio: {
+      type: String,
+      default: 'Expert safari consultant at Divine Travel Nest Safaris, with extensive on-the-ground experience across Kenya, Tanzania, Rwanda and Uganda',
+    },
     active: { type: Boolean, default: true },
     lastLogin: Date,
   },

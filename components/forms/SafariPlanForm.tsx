@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 
-const DESTINATIONS = ["Kenya", "Tanzania", "Uganda", "Cross-country combo"];
+const DESTINATIONS = ["Kenya", "Tanzania", "Uganda", "Rwanda", "Cross-country combo"];
 const SAFARI_STYLES = ["Budget", "Mid-range", "Luxury"];
 const INTERESTS = [
   "Big cats",

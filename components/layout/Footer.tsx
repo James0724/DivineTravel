@@ -108,7 +108,7 @@ export default function Footer() {
                     label: "Great Migration",
                     href: "/destinations/kenya#park-mara",
                   },
-                  { label: "Field Journal", href: "/blog" },
+                  { label: "Field Journal", href: "/journal" },
                 ].map((l) => (
                   <li key={l.href}>
                     <Link
