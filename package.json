@@ -11,6 +11,12 @@
     "seed:website": "tsx scripts/seed-website-safaris.ts",
     "create-admin": "tsx scripts/create-admin.ts",
     "seed:blog": "tsx scripts/seed-blog.ts",
+    "seed:journal": "tsx scripts/seed-journal.ts",
+    "seed:wp-posts": "tsx scripts/seed-wp-posts.ts",
+    "seed:pages-safaris": "tsx scripts/seed-pages-safaris.ts",
+    "patch:safaris": "tsx scripts/patch-safari-missing-fields.ts",
+    "patch:duration": "tsx scripts/patch-safari-duration.ts",
+    "patch:amina-to-janet": "tsx scripts/patch-amina-to-janet.ts",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

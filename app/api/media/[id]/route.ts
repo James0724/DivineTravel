@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/db/mongoose'
 import ImageModel from '@/lib/db/models/Image'
-import { deleteImage } from '@/lib/cloudinary'
+import { deleteImage, renameImage } from '@/lib/cloudinary'
 
 type RouteCtx = { params: Promise<{ id: string }> }
 
@@ -14,7 +14,25 @@ export async function PATCH(req: NextRequest, { params }: RouteCtx) {
 
     const { id } = await params
     await connectDB()
-    const body  = await req.json()
+    const body = await req.json()
+
+    if (body.newName !== undefined) {
+      // Rename flow — updates Cloudinary public ID + URL + name in DB
+      const existing = await ImageModel.findById(id)
+      if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
+      const { publicId, url } = await renameImage(existing.publicId, body.newName)
+      const safeName = body.newName.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '')
+
+      const image = await ImageModel.findByIdAndUpdate(
+        id,
+        { $set: { publicId, url, originalName: safeName } },
+        { new: true }
+      )
+      return NextResponse.json({ success: true, data: image })
+    }
+
+    // Metadata-only update (alt / title)
     const image = await ImageModel.findByIdAndUpdate(
       id,
       { $set: { alt: body.alt ?? '', title: body.title ?? '' } },
@@ -25,7 +43,8 @@ export async function PATCH(req: NextRequest, { params }: RouteCtx) {
     return NextResponse.json({ success: true, data: image })
   } catch (error) {
     console.error('[PATCH /api/media/[id]]', error)
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    const msg = error instanceof Error ? error.message : 'Server error'
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }
 

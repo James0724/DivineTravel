@@ -31,7 +31,14 @@ export async function GET(req: NextRequest) {
     if (featured === 'true') query.featured = true
     if (category) query.category = category
     if (difficulty) query.difficulty = difficulty
-    if (country) query['location.country'] = { $regex: country, $options: 'i' }
+    if (country === 'cross') {
+      query.$expr = { $gt: [{ $size: { $ifNull: ['$location.countries', []] } }, 1] }
+    } else if (country) {
+      query.$or = [
+        { 'location.country': { $regex: country, $options: 'i' } },
+        { 'location.countries': { $regex: country, $options: 'i' } },
+      ]
+    }
     if (minDays || maxDays) {
       query.duration = {}
       if (minDays) (query.duration as Record<string, number>).$gte = parseInt(minDays)
@@ -65,6 +72,11 @@ export async function GET(req: NextRequest) {
       SafariModel.countDocuments(query),
     ])
 
+    // Admin requests (active=all) must never be served from edge cache
+    const cacheHeader = active === 'all'
+      ? 'no-store'
+      : 'public, s-maxage=300, stale-while-revalidate=60'
+
     return NextResponse.json(
       {
         success: true,
@@ -78,7 +90,7 @@ export async function GET(req: NextRequest) {
           hasPrev: page > 1,
         },
       },
-      { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60' } }
+      { headers: { 'Cache-Control': cacheHeader } }
     )
   } catch (error) {
     console.error('[GET /api/safaris]', error)

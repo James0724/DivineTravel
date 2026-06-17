@@ -5,6 +5,8 @@ import connectDB from '@/lib/db/mongoose'
 import PostModel from '@/lib/db/models/Post'
 import slugify from 'slugify'
 
+const AUTHOR_FIELDS = 'name avatar title bio'
+
 interface RouteContext {
   params: Promise<{ slug: string }>
 }
@@ -18,7 +20,7 @@ export async function GET(req: NextRequest, { params }: RouteContext) {
     // Admins can fetch unpublished posts; public can only see published
     const query = session ? { slug } : { slug, published: true }
 
-    const post = await PostModel.findOne(query).lean()
+    const post = await PostModel.findOne(query).populate('author', AUTHOR_FIELDS).lean()
     if (!post) {
       return NextResponse.json({ success: false, error: 'Post not found' }, { status: 404 })
     }
@@ -58,7 +60,9 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
       body.publishedAt = new Date()
     }
 
-    const updated = await PostModel.findByIdAndUpdate(post._id, { $set: body }, { new: true, runValidators: true })
+    const updated = await PostModel
+      .findByIdAndUpdate(post._id, { $set: body }, { new: true, runValidators: true })
+      .populate('author', AUTHOR_FIELDS)
 
     return NextResponse.json({ success: true, data: JSON.parse(JSON.stringify(updated)) })
   } catch (err: unknown) {

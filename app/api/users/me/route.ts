@@ -25,6 +25,7 @@ export async function GET() {
         email: user.email,
         role: user.role,
         avatar: user.avatar ?? null,
+        title: user.title ?? null,
         bio: user.bio ?? null,
       },
     })

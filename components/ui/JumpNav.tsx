@@ -62,7 +62,7 @@ export default function JumpNav({
                 <a
                   href={l.href}
                   className={cn(
-                    "flex items-center justify-between w-full py-[15px] border-b border-[rgba(23,22,18,0.07)]",
+                    "flex items-center justify-between w-full py-[11px] border-b border-[rgba(23,22,18,0.07)]",
                     "font-serif font-light leading-[1.1] transition-colors duration-300",
                     "text-[clamp(14px,4vw,18px)]",
                     isActive

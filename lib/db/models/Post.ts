@@ -1,4 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
+// Import User so the "User" ref is always registered before populate runs
+import "./User";
 
 export type PostCategory =
   | "migration"
@@ -16,10 +18,7 @@ export interface IPost extends Document {
   excerpt: string;
   body: string;
   coverImage: string;
-  author: string;
-  authorAvatar?: string;
-  authorTitle?: string;
-  authorBio?: string;
+  author: Types.ObjectId;
   category: PostCategory;
   tags: string[];
   faqs: { question: string; answer: string }[];
@@ -50,13 +49,10 @@ const PostSchema = new Schema<IPost>(
     body: { type: String, required: true },
     coverImage: { type: String, required: true },
     author: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
-      default: "Divine Travel Nest Safaris",
     },
-    authorAvatar: { type: String },
-    authorTitle: { type: String },
-    authorBio: { type: String },
     category: {
       type: String,
       enum: [
@@ -101,7 +97,10 @@ PostSchema.index({
   tags: "text",
 });
 
-const PostModel: mongoose.Model<IPost> =
-  mongoose.models.Post || mongoose.model<IPost>("Post", PostSchema);
+// Always delete the cached model so the current schema (with author as ObjectId ref)
+// is used — otherwise Mongoose keeps the old String-author schema across hot reloads
+// and populate silently returns the raw ObjectId hex instead of the User document.
+delete (mongoose.models as Record<string, unknown>).Post;
+const PostModel = mongoose.model<IPost>("Post", PostSchema);
 
 export default PostModel;

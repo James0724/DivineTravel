@@ -24,12 +24,12 @@ const ItineraryDaySchema = z.object({
 })
 
 const LocationSchema = z.object({
-  country: z.string().min(2, 'Country is required'),
-  region: z.string().min(2, 'Region is required'),
-  park: z.string().min(2, 'Park/Reserve is required'),
-  coordinates: z
-    .object({ lat: z.number(), lng: z.number() })
-    .optional(),
+  country: z.string().optional(),
+  countries: z.array(z.string().min(1)).min(1, 'Add at least one country'),
+  region: z.string().optional(),
+  regions: z.array(z.string().min(1)).default([]),
+  park: z.string().optional(),
+  parks: z.array(z.string().min(1)).min(1, 'Add at least one park or reserve'),
 })
 
 export const SafariSchema = z.object({

@@ -44,6 +44,7 @@ export interface CompactPark {
 }
 
 export interface SafariPkg {
+  slug?: string;
   img: string;
   tag: string;
   name: string;
@@ -244,11 +245,17 @@ export default function DestinationPageTemplate({
           {/* Desktop: sticky sidebar panel (lg+) */}
           <aside
             className="hidden lg:block flex-shrink-0 sticky pm-20 sm:my-28"
-            style={{ top: "90px", width: "220px" }}
+            style={{ top: "90px", width: "280px" }}
           >
             <div
-              className="flex flex-col border rounded-sm"
-              style={{ background: "var(--paper)", borderColor: "var(--line)" }}
+              className="flex flex-col border rounded-sm overflow-y-auto"
+              style={{
+                background: "var(--paper)",
+                borderColor: "var(--line)",
+                maxHeight: "calc(100vh - 110px)",
+                scrollbarWidth: "thin",
+                scrollbarColor: "rgba(42,58,42,0.25) transparent",
+              }}
             >
               <div className="px-4 py-4">
                 <JumpNav label="Page Sections" links={jumpLinks} vertical />
@@ -627,7 +634,7 @@ export default function DestinationPageTemplate({
                 {data.packages.map((pkg) => (
                   <RevealItem key={pkg.name}>
                     <Link
-                      href={data.packagesHref}
+                      href={pkg.slug ? `/safaris/${pkg.slug}` : data.packagesHref}
                       className="group flex flex-col bg-bone-paper border border-[rgba(23,22,18,0.09)] rounded-sm overflow-hidden hover:shadow-md transition-shadow h-full"
                     >
                       <div className="relative aspect-[16/10] overflow-hidden">

@@ -107,16 +107,18 @@ export function formatDuration(days: number): string {
   return `${weeks}W ${remainder}D`
 }
 
-export function getLowestPrice(pricing: {
-  budget: { pricePerPerson: number }
-  midRange: { pricePerPerson: number }
-  luxury: { pricePerPerson: number }
+export function getLowestPrice(pricing?: {
+  budget?: { pricePerPerson?: number }
+  midRange?: { pricePerPerson?: number }
+  luxury?: { pricePerPerson?: number }
 }): number {
-  return Math.min(
-    pricing.budget.pricePerPerson,
-    pricing.midRange.pricePerPerson,
-    pricing.luxury.pricePerPerson
-  )
+  if (!pricing) return 0
+  const prices = [
+    pricing.budget?.pricePerPerson,
+    pricing.midRange?.pricePerPerson,
+    pricing.luxury?.pricePerPerson,
+  ].filter((p): p is number => typeof p === 'number' && p > 0)
+  return prices.length ? Math.min(...prices) : 0
 }
 
 export function getRatingStars(rating: number): string {

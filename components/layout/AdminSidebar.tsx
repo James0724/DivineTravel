@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import {
   LayoutDashboard,
   Map,
@@ -16,29 +16,53 @@ import {
   ExternalLink,
   BookOpen,
   MessageSquare,
+  UserCircle,
+  Users2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
 import { useAdminPendingBookingsCount } from '@/hooks/useBooking'
 
-const navItems = [
-  { label: 'Dashboard', href: '/admin', icon: LayoutDashboard, exact: true },
-  { label: 'Safaris', href: '/admin/safaris', icon: Map },
-  { label: 'Journal', href: '/admin/journal', icon: BookOpen },
-  { label: 'Comments', href: '/admin/comments', icon: MessageSquare },
-  { label: 'Bookings', href: '/admin/bookings', icon: CalendarCheck },
+type NavItem = {
+  label: string
+  href: string
+  icon: React.ElementType
+  exact?: boolean
+  superAdminOnly?: boolean
+}
+
+const navItems: NavItem[] = [
+  { label: 'Dashboard',    href: '/admin',            icon: LayoutDashboard, exact: true },
+  { label: 'Safaris',      href: '/admin/safaris',    icon: Map },
+  { label: 'Journal',      href: '/admin/journal',    icon: BookOpen },
+  { label: 'Comments',     href: '/admin/comments',   icon: MessageSquare },
+  { label: 'Bookings',     href: '/admin/bookings',   icon: CalendarCheck },
   { label: 'Testimonials', href: '/admin/testimonials', icon: Star },
-  { label: 'Media', href: '/admin/media', icon: Images },
-  { label: 'Settings', href: '/admin/settings', icon: Settings },
+  { label: 'Media',        href: '/admin/media',      icon: Images },
+  { label: 'Users',        href: '/admin/users',      icon: Users2,      superAdminOnly: true },
+  { label: 'Settings',     href: '/admin/settings',   icon: Settings },
+  { label: 'Profile',      href: '/admin/profile',    icon: UserCircle },
 ]
 
 export default function AdminSidebar() {
   const pathname = usePathname()
   const { adminSidebarCollapsed, toggleAdminSidebar } = useUIStore()
   const { data: pendingCount = 0 } = useAdminPendingBookingsCount()
+  const { data: session } = useSession()
+
+  const isSuperAdmin = session?.user?.role === 'super_admin'
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname.startsWith(href)
+
+  const userInitials = session?.user?.name
+    ? session.user.name
+        .split(' ')
+        .map((w: string) => w[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase()
+    : '?'
 
   return (
     <aside
@@ -79,7 +103,7 @@ export default function AdminSidebar() {
       {/* Navigation */}
       <nav className="flex-1 py-4 overflow-y-auto">
         <ul className="space-y-0.5 px-2">
-          {navItems.map(({ label, href, icon: Icon, exact }) => {
+          {navItems.filter((item) => !item.superAdminOnly || isSuperAdmin).map(({ label, href, icon: Icon, exact, superAdminOnly }) => {
             const active = isActive(href, exact)
             const isBookings = label === 'Bookings'
             const showBadge = isBookings && pendingCount > 0
@@ -104,6 +128,9 @@ export default function AdminSidebar() {
                     )}
                   </span>
                   {!adminSidebarCollapsed && <span className="flex-1">{label}</span>}
+                  {!adminSidebarCollapsed && superAdminOnly && !showBadge && (
+                    <span className="text-[9px] text-bone-paper/25 font-sans uppercase tracking-widest">SA</span>
+                  )}
                   {!adminSidebarCollapsed && showBadge && (
                     <span className="ml-auto min-w-[20px] h-5 px-1.5 flex items-center justify-center rounded-full bg-amber-400 text-amber-900 font-bold text-[10px] leading-none">
                       {pendingCount > 99 ? '99+' : pendingCount}
@@ -118,6 +145,35 @@ export default function AdminSidebar() {
 
       {/* Bottom actions */}
       <div className="flex-shrink-0 border-t border-bone-paper/10 p-2 space-y-0.5">
+
+        {/* User identity card */}
+        {session?.user && (
+          <Link
+            href="/admin/profile"
+            title={adminSidebarCollapsed ? `${session.user.name ?? 'Profile'} — My Profile` : undefined}
+            className={cn(
+              'flex items-center gap-3 px-3 py-2.5 rounded transition-colors duration-150',
+              'hover:bg-bone-paper/10',
+              isActive('/admin/profile') && 'bg-bone-paper/15',
+              adminSidebarCollapsed ? 'justify-center' : 'mb-1'
+            )}
+          >
+            <span className="w-7 h-7 rounded-full bg-bone-paper/15 flex items-center justify-center flex-shrink-0 font-serif text-xs font-bold text-bone-paper leading-none select-none">
+              {userInitials}
+            </span>
+            {!adminSidebarCollapsed && (
+              <span className="flex flex-col min-w-0">
+                <span className="text-sm font-sans font-medium text-bone-paper/85 truncate leading-tight">
+                  {session.user.name ?? 'Admin'}
+                </span>
+                <span className="text-[10px] font-sans text-bone-paper/40 capitalize leading-tight mt-0.5">
+                  {session.user.role ?? 'user'}
+                </span>
+              </span>
+            )}
+          </Link>
+        )}
+
         <Link
           href="/"
           target="_blank"

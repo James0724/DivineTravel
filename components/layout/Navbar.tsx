@@ -61,7 +61,7 @@ const navLinks: NavItem[] = [
   },
   {
     label: "Destinations",
-    href: "/destinations/kenya",
+    href: "/destinations",
     dropdown: [
       {
         label: "Kenya Wildlife Parks",

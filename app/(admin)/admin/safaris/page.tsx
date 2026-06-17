@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Plus, Search, Edit, Trash2, Eye, Star } from 'lucide-react'
+import { Plus, Search, Edit, Trash2, Eye, Star, RefreshCw } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import Button from '@/components/ui/Button'
@@ -31,9 +31,12 @@ export default function AdminSafarisPage() {
     ...(search && { search }),
   })
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['admin-safaris', page, search],
     queryFn: () => fetchAdminSafaris(params),
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   })
 
   const deleteMutation = useMutation({
@@ -70,15 +73,26 @@ export default function AdminSafarisPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-serif text-2xl font-semibold text-bone-ink">Safaris</h1>
-          <p className="text-sm text-bone-ink/50 font-sans mt-1">
+          <p className="text-sm text-bone-ink/50 font-sans mt-1 flex items-center gap-2">
             {pagination?.total ?? 0} total safaris
+            {isFetching && <span className="text-bone-ink/30">· refreshing…</span>}
           </p>
         </div>
-        <Link href="/admin/safaris/new">
-          <Button variant="primary" leftIcon={<Plus size={16} />}>
-            Add Safari
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => refetch()}
+            disabled={isFetching}
+            title="Refresh list"
+            className="h-9 w-9 flex items-center justify-center rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/50 hover:text-bone-ink hover:border-bone-ink/40 disabled:opacity-40 transition-colors"
+          >
+            <RefreshCw size={14} className={isFetching ? 'animate-spin' : ''} />
+          </button>
+          <Link href="/admin/safaris/new">
+            <Button variant="primary" leftIcon={<Plus size={16} />}>
+              Add Safari
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Search */}

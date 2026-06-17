@@ -15,15 +15,12 @@ const SafariImageSchema = new Schema(
 
 const LocationSchema = new Schema(
   {
-    country:  { type: String, required: true },
+    country:  { type: String, default: '' },
     countries: [{ type: String }],
-    region:   { type: String, required: true },
-    park:     { type: String, required: true },
+    region:   { type: String, default: '' },
+    regions:  [{ type: String }],
+    park:     { type: String, default: '' },
     parks:    [{ type: String }],
-    coordinates: {
-      lat: Number,
-      lng: Number,
-    },
   },
   { _id: false }
 )
@@ -80,9 +77,9 @@ export interface ISafari extends Document {
     country: string
     countries: string[]
     region: string
+    regions: string[]
     park: string
     parks: string[]
-    coordinates?: { lat: number; lng: number }
   }
   duration: number
   highlights: string[]

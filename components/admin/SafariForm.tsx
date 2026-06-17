@@ -68,7 +68,7 @@ const defaultValues: SafariFormValues & {
   name: '',
   tagline: '',
   description: '',
-  location: { country: '', region: '', park: '', coordinates: { lat: 0, lng: 0 } },
+  location: { country: '', countries: [], region: '', regions: [], park: '', parks: [] },
   duration: 1,
   highlights: [''],
   included: [''],
@@ -348,7 +348,18 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           name: existing.name,
           tagline: existing.tagline,
           description: existing.description,
-          location: existing.location,
+          location: {
+            ...existing.location,
+            countries: existing.location.countries?.length
+              ? existing.location.countries
+              : existing.location.country ? [existing.location.country] : [],
+            regions: existing.location.regions?.length
+              ? existing.location.regions
+              : existing.location.region ? [existing.location.region] : [],
+            parks: existing.location.parks?.length
+              ? existing.location.parks
+              : existing.location.park ? [existing.location.park] : [],
+          },
           duration: existing.duration,
           highlights: existing.highlights.length ? existing.highlights : [''],
           included: existing.included.length ? existing.included : [''],
@@ -404,6 +415,9 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const watchedCategory    = watch('category')   ?? []
   const watchedFeatured    = watch('featured')
   const watchedActive      = watch('active')
+  const watchedCountries   = watch('location.countries') ?? []
+  const watchedRegions     = watch('location.regions')   ?? []
+  const watchedParks       = watch('location.parks')     ?? []
 
   const toggleMonth = (month: string) => {
     const current = watch('bestSeason') ?? []
@@ -427,6 +441,12 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     setSaveError(null)
     const payload = {
       ...data,
+      location: {
+        ...data.location,
+        country:  data.location.countries?.[0] ?? '',
+        region:   data.location.regions?.[0]   ?? '',
+        park:     data.location.parks?.[0]      ?? '',
+      },
       coverImage,
       coverImagePublicId,
       images: imageGallery
@@ -496,7 +516,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       (errs.name?.message) ||
       (errs.tagline?.message) ||
       (errs.description?.message) ||
-      (errs.location?.country?.message) ||
+      ((errs.location?.countries as { message?: string } | undefined)?.message) ||
       (errs.duration?.message) ||
       (errs.highlights?.message as string | undefined) ||
       (errs.itinerary?.message as string | undefined) ||
@@ -619,51 +639,44 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       {/* ════════════ 2 · LOCATION ════════════ */}
       <CollapsibleSection
         title="Location"
-        subtitle="Country, region, park and GPS coordinates"
+        subtitle="Countries, regions and parks / reserves"
         isOpen={openSections.location}
         hasError={sectionErrors.location}
         onToggle={() => toggleSection('location')}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input
-            label="Country"
-            {...register('location.country')}
-            placeholder="e.g. Kenya"
-            error={errors.location?.country?.message}
-            required
-          />
-          <Input
-            label="Region / Area"
-            {...register('location.region')}
-            placeholder="e.g. Rift Valley"
-            error={errors.location?.region?.message}
-            required
-          />
-          <Input
-            label="Park / Reserve"
-            {...register('location.park')}
-            placeholder="e.g. Masai Mara National Reserve"
-            error={errors.location?.park?.message}
-            required
-          />
-        </div>
+        <ArrayField
+          label="Countries *"
+          values={watchedCountries}
+          onChange={(v) => setValue('location.countries', v, { shouldValidate: true })}
+          placeholder="e.g. Kenya"
+          hint="Add every country this safari visits. First entry is the primary."
+        />
+        {(errors.location?.countries as { message?: string } | undefined)?.message && (
+          <p className="text-xs text-red-500 font-sans -mt-3">
+            {(errors.location?.countries as { message?: string }).message}
+          </p>
+        )}
 
-        <div className="grid grid-cols-2 gap-4">
-          <Input
-            label="Latitude (optional)"
-            type="number"
-            step="any"
-            {...register('location.coordinates.lat', { valueAsNumber: true })}
-            placeholder="-1.5"
-          />
-          <Input
-            label="Longitude (optional)"
-            type="number"
-            step="any"
-            {...register('location.coordinates.lng', { valueAsNumber: true })}
-            placeholder="35.1"
-          />
-        </div>
+        <ArrayField
+          label="Regions / Areas"
+          values={watchedRegions}
+          onChange={(v) => setValue('location.regions', v, { shouldValidate: true })}
+          placeholder="e.g. Rift Valley"
+          hint="Add each region or area covered by this safari."
+        />
+
+        <ArrayField
+          label="Parks & Reserves *"
+          values={watchedParks}
+          onChange={(v) => setValue('location.parks', v, { shouldValidate: true })}
+          placeholder="e.g. Masai Mara National Reserve"
+          hint="Add every park or reserve visited. First entry is the primary."
+        />
+        {(errors.location?.parks as { message?: string } | undefined)?.message && (
+          <p className="text-xs text-red-500 font-sans -mt-3">
+            {(errors.location?.parks as { message?: string }).message}
+          </p>
+        )}
       </CollapsibleSection>
 
       {/* ════════════ 3 · DETAILS ════════════ */}

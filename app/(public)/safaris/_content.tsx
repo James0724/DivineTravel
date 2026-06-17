@@ -240,10 +240,7 @@ export default function SafarisContent() {
   const dur = DURATIONS.find((d) => d.value === filters.duration);
 
   const apiFilters: SafariFilters = {
-    country:
-      filters.country && filters.country !== "cross"
-        ? filters.country
-        : undefined,
+    country: filters.country || undefined,
     category: filters.category || undefined,
     difficulty: filters.difficulty || undefined,
     tier: filters.tier || undefined,
@@ -579,26 +576,31 @@ export default function SafarisContent() {
               ) : isLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                   {Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="animate-pulse">
-                      <div
-                        className="mb-5"
-                        style={{
-                          aspectRatio: "4/3.4",
-                          background: "var(--bg-deep)",
-                        }}
-                      />
-                      <div
-                        className="h-3 rounded mb-2 w-1/3"
-                        style={{ background: "var(--bg-deep)" }}
-                      />
-                      <div
-                        className="h-8 rounded mb-3"
-                        style={{ background: "var(--bg-deep)" }}
-                      />
-                      <div
-                        className="h-4 rounded w-3/4"
-                        style={{ background: "var(--bg-deep)" }}
-                      />
+                    <div
+                      key={i}
+                      className="animate-pulse flex flex-col bg-bone-paper border border-[rgba(23,22,18,0.22)] rounded-sm overflow-hidden"
+                    >
+                      {/* Image placeholder */}
+                      <div style={{ aspectRatio: "3 / 2", background: "var(--bg-deep)" }} />
+                      {/* Body placeholder */}
+                      <div className="flex flex-col flex-1 p-5 sm:p-6">
+                        <div className="h-4 rounded-full w-1/3 mb-3" style={{ background: "var(--bg-deep)" }} />
+                        <div className="h-6 rounded w-full mb-2" style={{ background: "var(--bg-deep)" }} />
+                        <div className="h-6 rounded w-3/4 mb-4" style={{ background: "var(--bg-deep)" }} />
+                        <div className="h-3 rounded w-2/3 mb-1.5" style={{ background: "var(--bg-deep)" }} />
+                        <div className="h-3 rounded w-1/2 mb-5" style={{ background: "var(--bg-deep)" }} />
+                        <div className="flex flex-wrap gap-1.5 mb-5">
+                          <div className="h-5 rounded w-28" style={{ background: "var(--bg-deep)" }} />
+                          <div className="h-5 rounded w-20" style={{ background: "var(--bg-deep)" }} />
+                        </div>
+                        <div className="mt-auto pt-4 border-t border-[rgba(23,22,18,0.1)] flex items-end justify-between">
+                          <div>
+                            <div className="h-2 rounded w-8 mb-1" style={{ background: "var(--bg-deep)" }} />
+                            <div className="h-7 rounded w-20" style={{ background: "var(--bg-deep)" }} />
+                          </div>
+                          <div className="h-7 w-7 rounded-full" style={{ background: "var(--bg-deep)" }} />
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

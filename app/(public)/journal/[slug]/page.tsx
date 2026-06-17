@@ -13,6 +13,7 @@ import CommentSection from "@/components/journal/CommentSection";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { buildAbsoluteUrl } from "@/lib/utils";
 import type { JournalPost, PostCategory } from "@/types";
+import CtaBand from "@/components/ui/CtaBand";
 
 export const revalidate = 3600;
 
@@ -34,7 +35,9 @@ const CATEGORY_LABELS: Record<PostCategory, string> = {
 const getPost = cache(async (slug: string): Promise<JournalPost | null> => {
   try {
     await connectDB();
-    const post = await PostModel.findOne({ slug, published: true }).lean();
+    const post = await PostModel.findOne({ slug, published: true })
+      .populate("author", "name avatar title bio")
+      .lean();
     if (!post) return null;
     return JSON.parse(JSON.stringify(post)) as JournalPost;
   } catch {
@@ -53,6 +56,7 @@ async function getRelatedPosts(
       category,
       slug: { $ne: currentSlug },
     })
+      .populate("author", "name avatar title bio")
       .sort({ publishedAt: -1 })
       .limit(3)
       .select("-body")
@@ -68,6 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost(slug);
   if (!post) return { title: "Article Not Found" };
 
+  const metaAuthor = resolveAuthor(post.author);
   const title =
     post.seo?.metaTitle ?? `${post.title} | Divine Travel Nest Safaris`;
   const description = post.seo?.metaDescription ?? post.excerpt;
@@ -76,14 +81,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     keywords: post.seo?.keywords?.join(", "),
-    authors: [{ name: post.author }],
+    authors: [{ name: metaAuthor.name }],
     openGraph: {
       title,
       description,
       type: "article",
       url: `/journal/${post.slug}`,
       publishedTime: post.publishedAt,
-      authors: [post.author],
+      authors: [metaAuthor.name],
       tags: post.tags,
       images: [
         { url: post.coverImage, width: 1200, height: 630, alt: post.title },
@@ -108,11 +113,33 @@ function formatDate(dateStr?: string) {
   });
 }
 
+/** Normalises author whether it is already a populated object or a legacy string */
+function resolveAuthor(raw: import("@/types").PostAuthor | string) {
+  if (!raw)
+    return {
+      _id: "",
+      name: "Divine Travel Nest Safaris",
+      avatar: undefined,
+      title: undefined,
+      bio: undefined,
+    };
+  if (typeof raw === "string")
+    return {
+      _id: "",
+      name: raw,
+      avatar: undefined,
+      title: undefined,
+      bio: undefined,
+    };
+  return raw;
+}
+
 export default async function JournalDetailPage({ params }: Props) {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) notFound();
 
+  const author = resolveAuthor(post.author);
   const related = await getRelatedPosts(post.category, post.slug);
   const categoryLabel =
     CATEGORY_LABELS[post.category as PostCategory] ?? post.category;
@@ -131,7 +158,7 @@ export default async function JournalDetailPage({ params }: Props) {
         description={post.excerpt}
         url={buildAbsoluteUrl(`/journal/${post.slug}`)}
         image={post.coverImage}
-        author={post.author}
+        author={author.name}
         publishedDate={post.publishedAt ?? new Date().toISOString()}
         modifiedDate={
           post.updatedAt ?? post.publishedAt ?? new Date().toISOString()
@@ -178,12 +205,12 @@ export default async function JournalDetailPage({ params }: Props) {
             <span>{post.readingTime} min read</span>
           </div>
           <h1>{post.title}</h1>
-          {post.author && (
+          {author.name && (
             <div className="byline">
-              {post.authorAvatar ? (
+              {author.avatar ? (
                 <Image
-                  src={post.authorAvatar}
-                  alt={post.author}
+                  src={author.avatar}
+                  alt={author.name}
                   width={46}
                   height={46}
                   className="av"
@@ -193,17 +220,30 @@ export default async function JournalDetailPage({ params }: Props) {
                   className="av flex items-center justify-center font-serif text-lg"
                   style={{ background: "rgba(244,239,226,0.15)" }}
                 >
-                  {post.author[0]}
+                  {author.name[0]}
                 </div>
               )}
               <div className="nm">
-                <b>{post.author}</b>
-                {post.authorTitle && <span>{post.authorTitle}</span>}
+                <b>{author.name}</b>
+                {author.title && <span>{author.title}</span>}
               </div>
             </div>
           )}
         </div>
       </section>
+
+      <CtaBand
+        variant="large"
+        buttonHref="/plan-my-safari"
+        heading={
+          <>
+            Build your East Africa{" "}
+            <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>safari</em>.
+          </>
+        }
+        description="Tell us your budget, dates, wildlife interests and who's travelling. Our experts choose the best parks, lodges and routes and send a free, no-obligation proposal — usually within half an hour."
+        buttonText="Get your free quote"
+      />
 
       {/* ── Body ─────────────────────────────────────────────────────────────── */}
       <section className="article-body">
@@ -269,10 +309,10 @@ export default async function JournalDetailPage({ params }: Props) {
 
         {/* Author card */}
         <div className="author-card-article">
-          {post.authorAvatar ? (
+          {author.avatar ? (
             <Image
-              src={post.authorAvatar}
-              alt={post.author}
+              src={author.avatar}
+              alt={author.name}
               width={76}
               height={76}
               className="av"
@@ -282,14 +322,14 @@ export default async function JournalDetailPage({ params }: Props) {
               className="av flex items-center justify-center font-serif text-2xl text-bone-forest"
               style={{ background: "rgba(42,58,42,0.1)" }}
             >
-              {post.author[0]}
+              {author.name[0]}
             </div>
           )}
           <div>
-            <div className="role">{post.authorTitle ?? "Safari Expert"}</div>
-            <h4>{post.author}</h4>
+            <div className="role">{author.title ?? "Safari Expert"}</div>
+            <h4>{author.name}</h4>
             <p>
-              {post.authorBio ??
+              {author.bio ??
                 "Expert safari consultant at Divine Travel Nest Safaris, with extensive on-the-ground experience across Kenya, Tanzania, Rwanda and Uganda."}
             </p>
           </div>

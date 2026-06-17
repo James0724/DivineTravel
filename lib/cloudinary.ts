@@ -97,6 +97,32 @@ export async function deleteFolder(folder: string): Promise<void> {
   await cloudinary.api.delete_folder(folder)
 }
 
+export interface RenameResult {
+  publicId: string
+  url: string
+}
+
+/** Rename a Cloudinary asset preserving its folder path. */
+export async function renameImage(fromPublicId: string, rawName: string): Promise<RenameResult> {
+  const safe = rawName
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\-_.]/g, '')
+  if (!safe) throw new Error('Invalid name — use letters, numbers, hyphens or underscores only')
+
+  const folder = fromPublicId.includes('/')
+    ? fromPublicId.split('/').slice(0, -1).join('/')
+    : ''
+  const toPublicId = folder ? `${folder}/${safe}` : safe
+
+  if (toPublicId === fromPublicId) return { publicId: fromPublicId, url: '' }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result: any = await cloudinary.uploader.rename(fromPublicId, toPublicId, { overwrite: false })
+  return { publicId: result.public_id as string, url: result.secure_url as string }
+}
+
 export function buildImageUrl(
   publicId: string,
   options?: {

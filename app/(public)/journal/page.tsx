@@ -8,7 +8,15 @@ import { BreadcrumbSchema } from "@/components/seo/StructuredData";
 import PageHero from "@/components/ui/PageHero";
 import JournalFilterSidebar from "@/components/journal/JournalFilterSidebar";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
-import type { JournalPost, PostCategory } from "@/types";
+import type { JournalPost, PostAuthor, PostCategory } from "@/types";
+import CtaBand from "@/components/ui/CtaBand";
+
+function resolveAuthor(raw: PostAuthor | string | undefined) {
+  if (!raw) return { _id: "", name: "", avatar: undefined, title: undefined };
+  if (typeof raw === "string")
+    return { _id: "", name: raw, avatar: undefined, title: undefined };
+  return raw;
+}
 
 export const revalidate = 300;
 
@@ -72,6 +80,7 @@ async function getPosts(category?: string): Promise<JournalPost[]> {
     const query: Record<string, unknown> = { published: true };
     if (category) query.category = category;
     const posts = await PostModel.find(query)
+      .populate("author", "name avatar title bio")
       .sort({ publishedAt: -1 })
       .limit(50)
       .select("-body")
@@ -134,6 +143,19 @@ export default async function JournalPage({
         ]}
       />
 
+      <CtaBand
+        variant="large"
+        buttonHref="/plan-my-safari"
+        heading={
+          <>
+            Build your East Africa{" "}
+            <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>safari</em>.
+          </>
+        }
+        description="Tell us your budget, dates, wildlife interests and who's travelling. Our experts choose the best parks, lodges and routes and send a free, no-obligation proposal — usually within half an hour."
+        buttonText="Get your free quote"
+      />
+
       {/* ── Featured post ────────────────────────────────────────── */}
       {featured && !category && (
         <section className="bg-bone-bg pb-24 pt-2">
@@ -187,29 +209,33 @@ export default async function JournalPage({
                   >
                     {featured.excerpt}
                   </p>
-                  {featured.author && (
-                    <div className="flex items-center gap-3 mb-8">
-                      {featured.authorAvatar && (
-                        <Image
-                          src={featured.authorAvatar}
-                          alt={featured.author}
-                          width={42}
-                          height={42}
-                          className="rounded-full object-cover"
-                        />
-                      )}
-                      <div>
-                        <div className="text-[13px] font-medium text-bone-ink">
-                          {featured.author}
-                        </div>
-                        {featured.authorTitle && (
-                          <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-muted">
-                            {featured.authorTitle}
+                  {featured.author &&
+                    (() => {
+                      const a = resolveAuthor(featured.author);
+                      return a.name ? (
+                        <div className="flex items-center gap-3 mb-8">
+                          {a.avatar && (
+                            <Image
+                              src={a.avatar}
+                              alt={a.name}
+                              width={42}
+                              height={42}
+                              className="rounded-full object-cover"
+                            />
+                          )}
+                          <div>
+                            <div className="text-[13px] font-medium text-bone-ink">
+                              {a.name}
+                            </div>
+                            {a.title && (
+                              <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-muted">
+                                {a.title}
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                        </div>
+                      ) : null;
+                    })()}
                   <span
                     className="self-start inline-flex items-center gap-3 px-6 py-3.5 rounded-full text-[13px] tracking-[0.02em] text-bone-paper transition-all duration-200 group-hover:-translate-y-0.5"
                     style={{ background: "#2a3a2a" }}

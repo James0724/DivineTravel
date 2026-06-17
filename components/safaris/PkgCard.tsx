@@ -9,20 +9,17 @@ import type { Safari } from '@/types'
 interface PkgCardProps {
   safari: Safari
   index?: number
-  featured?: boolean
 }
 
-export default function PkgCard({ safari, index = 0, featured = false }: PkgCardProps) {
+export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
   const lowestPrice = getLowestPrice(safari.pricing)
-  const nights = Math.max(safari.duration - 1, 0)
 
-  const tagLabel = safari.featured
-    ? 'Featured'
-    : safari.category[0]
-      ? safari.category[0].charAt(0).toUpperCase() + safari.category[0].slice(1)
-      : 'Wildlife'
+  const primaryCountry = safari.location.countries?.[0] ?? safari.location.country
+  const categoryLabel = [primaryCountry, ...safari.category.slice(0, 1)].filter(Boolean).join(' · ')
 
-  const isGold = safari.featured
+  const displayParks = safari.location.parks?.length ? safari.location.parks : safari.location.park ? [safari.location.park] : []
+  const displayRegions = safari.location.regions?.length ? safari.location.regions : safari.location.region ? [safari.location.region] : []
+  const locationTags = [...displayParks, ...displayRegions].filter(Boolean)
 
   return (
     <motion.div
@@ -30,108 +27,80 @@ export default function PkgCard({ safari, index = 0, featured = false }: PkgCard
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: (index % 6) * 0.07 }}
-      className={`cursor-pointer flex flex-col transition-transform duration-[400ms] hover:-translate-y-1.5${featured ? ' col-span-2' : ''}`}
+      className="h-full"
     >
-      <Link href={`/safaris/${safari.slug}`} className="flex flex-col h-full">
+      <Link
+        href={`/safaris/${safari.slug}`}
+        className="group flex flex-col w-full h-full bg-bone-paper border border-[rgba(23,22,18,0.22)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
+      >
         {/* Image */}
-        <div
-          className="relative overflow-hidden mb-5"
-          style={{
-            aspectRatio: featured ? '16/10' : '4/3.4',
-            background: 'var(--bg-deep)',
-          }}
-        >
+        <div className="relative overflow-hidden flex-shrink-0" style={{ aspectRatio: '3 / 2' }}>
           <Image
             src={safari.coverImage || safari.images?.[0]?.url || '/images/placeholder.jpg'}
             alt={safari.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-1000 hover:scale-[1.05]"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(23,22,18,0.35)] via-transparent to-transparent" />
         </div>
 
-        {/* Meta row */}
-        <div className="flex justify-between items-center mb-3">
-          <span
-            className="inline-block px-2.5 py-1 border rounded-full font-mono text-[10px] uppercase tracking-[0.14em]"
-            style={
-              isGold
-                ? { borderColor: 'var(--clay)', color: 'var(--clay)' }
-                : { borderColor: 'var(--line)', color: 'var(--muted)' }
-            }
-          >
-            {tagLabel}
-          </span>
-          {safari.rating > 0 && (
-            <span
-              className="font-mono text-[10px] tracking-[0.12em] uppercase"
-              style={{ color: 'var(--muted)' }}
-            >
-              ★ {safari.rating.toFixed(1)}
-            </span>
+        {/* Body */}
+        <div className="flex flex-col flex-1 p-5 sm:p-6">
+          {/* Country · category pill */}
+          {categoryLabel && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-[10px] tracking-[0.1em] bg-bone-bg text-bone-muted border border-[rgba(23,22,18,0.12)]">
+                {categoryLabel}
+              </span>
+            </div>
           )}
-        </div>
 
-        {/* Title */}
-        <h3
-          className="font-serif font-normal leading-[1.05] tracking-[-0.01em] mb-3"
-          style={{
-            fontSize: featured ? '42px' : '32px',
-            color: 'var(--ink)',
-          }}
-        >
-          {safari.name}
-        </h3>
+          {/* Title */}
+          <h3 className="font-serif text-[20px] sm:text-[22px] font-normal leading-[1.2] text-bone-ink mb-3 tracking-[-0.01em]">
+            {safari.name}
+          </h3>
 
-        {/* Description */}
-        <p
-          className="text-[14px] leading-[1.55] mb-[18px]"
-          style={{ color: 'var(--muted)' }}
-        >
-          {safari.tagline}
-        </p>
-
-        {/* Parks / location tags */}
-        <div
-          className="flex flex-wrap gap-x-3 gap-y-1 mb-4 font-mono text-[10px] uppercase tracking-[0.12em]"
-          style={{ color: 'var(--forest)' }}
-        >
-          {safari.location.park && <span>{safari.location.park}</span>}
-          {safari.location.country && (
-            <span className="before:content-['·_'] before:opacity-50 before:mr-1">
-              {safari.location.country}
-            </span>
+          {/* Tagline */}
+          {safari.tagline && (
+            <p className="text-[13px] sm:text-[14px] leading-[1.65] text-bone-muted mb-4 line-clamp-3">
+              {safari.tagline}
+            </p>
           )}
-          {safari.category.slice(0, 2).map((cat, i) => (
-            <span
-              key={cat}
-              className={i === 0 && !safari.location.park && !safari.location.country ? '' : 'before:content-["·_"] before:opacity-50 before:mr-1'}
-            >
-              {cat}
-            </span>
-          ))}
-        </div>
 
-        {/* Footer */}
-        <div
-          className="mt-auto pt-4 border-t flex justify-between items-baseline"
-          style={{ borderColor: 'var(--line)' }}
-        >
-          <div className="font-serif text-[22px]" style={{ color: 'var(--ink)' }}>
-            <span
-              className="font-mono text-[10px] mr-1.5 tracking-[0.12em]"
-              style={{ color: 'var(--muted)' }}
-            >
-              FROM
-            </span>
-            <b className="italic">${lowestPrice.toLocaleString()}</b>
+          {/* Location tags */}
+          {locationTags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mb-5">
+              {locationTags.map((loc) => (
+                <span
+                  key={loc}
+                  className="px-2 py-0.5 rounded font-mono text-[10px] tracking-[0.08em] bg-bone-bg text-bone-muted border border-[rgba(23,22,18,0.1)]"
+                >
+                  {loc}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Footer */}
+          <div className="mt-auto flex items-end justify-between pt-4 border-t border-[rgba(23,22,18,0.1)]">
+            <div>
+              <span className="block font-mono text-[9px] tracking-[0.16em] text-bone-muted mb-0.5">
+                FROM
+              </span>
+              <strong className="font-serif text-[26px] sm:text-[28px] font-light text-bone-ink leading-none">
+                ${lowestPrice.toLocaleString()}
+              </strong>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] tracking-[0.1em] text-bone-muted">
+                {safari.duration} DAYS
+              </span>
+              <span className="w-7 h-7 rounded-full bg-bone-forest text-bone-paper flex items-center justify-center text-[12px] flex-shrink-0 transition-colors duration-200 group-hover:bg-bone-clay">
+                →
+              </span>
+            </div>
           </div>
-          <span
-            className="font-mono text-[11px] tracking-[0.14em]"
-            style={{ color: 'var(--muted)' }}
-          >
-            {safari.duration}D · {nights}N
-          </span>
         </div>
       </Link>
     </motion.div>

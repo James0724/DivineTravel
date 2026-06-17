@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { Plus, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Input, { Textarea, Select } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import JournalEditor from '@/components/admin/JournalEditor'
-import type { JournalPost, PostCategory } from '@/types'
+import type { JournalPost, PostAuthor, PostCategory } from '@/types'
 
 const ImageUpload = dynamic(() => import('@/components/admin/ImageUpload'), { ssr: false })
 
@@ -41,26 +42,11 @@ export default function JournalForm({ post }: JournalFormProps) {
   const [body, setBody] = useState(post?.body ?? '')
   const [coverImage, setCoverImage] = useState(post?.coverImage ?? '')
   const [coverImagePublicId, setCoverImagePublicId] = useState('')
-  const [author, setAuthor] = useState(post?.author ?? '')
-  const [authorTitle, setAuthorTitle] = useState(post?.authorTitle ?? '')
-  const [authorAvatar, setAuthorAvatar] = useState(post?.authorAvatar ?? '')
-  const [authorBio, setAuthorBio] = useState(post?.authorBio ?? '')
+  const [authorId, setAuthorId] = useState(
+    typeof post?.author === 'object' ? (post.author?._id ?? '') : ''
+  )
+  const [users, setUsers] = useState<PostAuthor[]>([])
   const [category, setCategory] = useState<PostCategory>(post?.category ?? 'tips')
-
-  // Pre-populate author fields from the logged-in user when creating a new post
-  useEffect(() => {
-    if (isEdit) return
-    fetch('/api/users/me')
-      .then((r) => r.json())
-      .then(({ success, data }) => {
-        if (!success || !data) return
-        setAuthor(data.name ?? '')
-        setAuthorAvatar(data.avatar ?? '')
-        setAuthorBio(data.bio ?? '')
-      })
-      .catch(() => {})
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
   const [tagsInput, setTagsInput] = useState((post?.tags ?? []).join(', '))
   const [readingTime, setReadingTime] = useState(post?.readingTime ?? 5)
   const [featured, setFeatured] = useState(post?.featured ?? false)
@@ -70,6 +56,28 @@ export default function JournalForm({ post }: JournalFormProps) {
   const [metaDescription, setMetaDescription] = useState(post?.seo?.metaDescription ?? '')
   const [keywordsInput, setKeywordsInput] = useState((post?.seo?.keywords ?? []).join(', '))
   const [saving, setSaving] = useState(false)
+
+  // Load users for author picker; default to logged-in user on new posts
+  useEffect(() => {
+    fetch('/api/users')
+      .then((r) => r.json())
+      .then(({ success, data }: { success: boolean; data: PostAuthor[] }) => {
+        if (!success || !data) return
+        setUsers(data)
+        if (!isEdit && !authorId) {
+          fetch('/api/users/me')
+            .then((r) => r.json())
+            .then(({ success: ok, data: me }) => {
+              if (ok && me?.id) setAuthorId(me.id)
+            })
+            .catch(() => {})
+        }
+      })
+      .catch(() => {})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const selectedUser = users.find((u) => u._id === authorId)
 
   function addFaq() {
     setFaqs((prev) => [...prev, { question: '', answer: '' }])
@@ -89,6 +97,10 @@ export default function JournalForm({ post }: JournalFormProps) {
       toast.error('Please fill in all required fields')
       return
     }
+    if (!authorId) {
+      toast.error('Please select an author')
+      return
+    }
 
     setSaving(true)
     try {
@@ -97,10 +109,7 @@ export default function JournalForm({ post }: JournalFormProps) {
         excerpt: excerpt.trim(),
         body: body.trim(),
         coverImage: coverImage.trim(),
-        author: author.trim() || 'Divine Travel Nest Safaris',
-        authorTitle: authorTitle.trim() || undefined,
-        authorAvatar: authorAvatar.trim() || undefined,
-        authorBio: authorBio.trim() || undefined,
+        authorId,
         category,
         tags: tagsInput.split(',').map((t) => t.trim()).filter(Boolean),
         faqs: faqs.filter((f) => f.question.trim() && f.answer.trim()),
@@ -178,7 +187,6 @@ export default function JournalForm({ post }: JournalFormProps) {
           hint={`${excerpt.length}/300`}
         />
 
-        {/* Body editor */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-bone-ink/80 font-sans">
             Body <span className="text-bone-clay">*</span>
@@ -190,7 +198,7 @@ export default function JournalForm({ post }: JournalFormProps) {
         </div>
       </div>
 
-      {/* Meta */}
+      {/* Post settings */}
       <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md p-6 space-y-5">
         <h2 className="font-serif text-base font-semibold text-bone-ink">Post settings</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -256,40 +264,64 @@ export default function JournalForm({ post }: JournalFormProps) {
         </div>
       </div>
 
-      {/* Author */}
-      <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md p-6 space-y-5">
+      {/* Author picker */}
+      <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md p-6 space-y-4">
         <h2 className="font-serif text-base font-semibold text-bone-ink">Author</h2>
-        <p className="text-xs text-bone-ink/45 font-sans -mt-3">
-          Pre-filled from your profile. Edit per-post as needed.
+        <p className="text-xs text-bone-ink/45 font-sans -mt-2">
+          Select a team member. Their profile photo, title and bio update automatically when their profile changes.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <Input
-            label="Author name"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-          <Input
-            label="Author title / role"
-            value={authorTitle}
-            onChange={(e) => setAuthorTitle(e.target.value)}
-            placeholder="Head guide · Masai Mara"
-          />
-          <Input
-            label="Author avatar URL"
-            value={authorAvatar}
-            onChange={(e) => setAuthorAvatar(e.target.value)}
-            placeholder="https://..."
-            className="sm:col-span-2"
-          />
-          <Textarea
-            label="Author bio"
-            rows={3}
-            value={authorBio}
-            onChange={(e) => setAuthorBio(e.target.value)}
-            placeholder="Short bio shown beneath the post…"
-            className="sm:col-span-2"
-          />
-        </div>
+
+        {users.length === 0 ? (
+          <p className="text-sm text-bone-ink/40 font-sans">Loading users…</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {users.map((u) => (
+              <button
+                key={u._id}
+                type="button"
+                onClick={() => setAuthorId(u._id)}
+                className={[
+                  'flex items-center gap-3 p-3 rounded-sm border text-left transition-colors',
+                  authorId === u._id
+                    ? 'border-bone-forest bg-bone-forest/5'
+                    : 'border-[rgba(23,22,18,0.12)] hover:border-bone-forest/40',
+                ].join(' ')}
+              >
+                {u.avatar ? (
+                  <Image
+                    src={u.avatar}
+                    alt={u.name}
+                    width={40}
+                    height={40}
+                    className="rounded-full object-cover flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-bone-bg flex items-center justify-center font-serif text-base text-bone-forest flex-shrink-0">
+                    {u.name[0]}
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <div className="text-sm font-medium text-bone-ink truncate">{u.name}</div>
+                  {u.title && (
+                    <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-bone-muted truncate">
+                      {u.title}
+                    </div>
+                  )}
+                </div>
+                {authorId === u._id && (
+                  <span className="ml-auto text-bone-forest flex-shrink-0">✓</span>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {selectedUser && (
+          <p className="text-xs text-bone-ink/50 font-sans">
+            Selected: <strong>{selectedUser.name}</strong>
+            {selectedUser.title && ` — ${selectedUser.title}`}
+          </p>
+        )}
       </div>
 
       {/* FAQs */}

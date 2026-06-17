@@ -30,6 +30,7 @@ function mapToSafariPkg(safari: Safari): SafariPkg {
     safari.pricing?.luxury?.pricePerPerson
   const tier = safari.pricing?.luxury ? 'Luxury' : safari.pricing?.midRange ? 'Mid-range' : 'Budget'
   return {
+    slug: safari.slug,
     img: safari.coverImage || 'https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=900&q=80',
     tag: `Rwanda · ${tier}`,
     name: safari.name,
@@ -43,7 +44,10 @@ function mapToSafariPkg(safari: Safari): SafariPkg {
 async function getRwandaPackages(): Promise<SafariPkg[]> {
   try {
     await connectDB()
-    const safaris = await SafariModel.find({ 'location.country': /rwanda/i, active: true })
+    const safaris = await SafariModel.find({
+      $or: [{ 'location.country': /rwanda/i }, { 'location.countries': /rwanda/i }],
+      active: true,
+    })
       .sort({ featured: -1, rating: -1 })
       .limit(3)
       .select('name slug tagline location duration pricing coverImage category featured active rating')

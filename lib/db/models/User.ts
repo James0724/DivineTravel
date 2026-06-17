@@ -5,8 +5,9 @@ export interface IUser extends Document {
   name: string
   email: string
   password: string
-  role: 'admin' | 'editor' | 'viewer'
+  role: 'super_admin' | 'admin' | 'editor' | 'viewer'
   avatar?: string
+  title?: string
   bio?: string
   active: boolean
   lastLogin?: Date
@@ -28,10 +29,11 @@ const UserSchema = new Schema<IUser>(
     password: { type: String, required: true, select: false },
     role: {
       type: String,
-      enum: ['admin', 'editor', 'viewer'],
+      enum: ['super_admin', 'admin', 'editor', 'viewer'],
       default: 'editor',
     },
     avatar: String,
+    title: String,
     bio: {
       type: String,
       default: 'Expert safari consultant at Divine Travel Nest Safaris, with extensive on-the-ground experience across Kenya, Tanzania, Rwanda and Uganda',
@@ -54,7 +56,7 @@ UserSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, this.password)
 }
 
-const UserModel: Model<IUser> =
-  mongoose.models.User || mongoose.model<IUser>('User', UserSchema)
+delete (mongoose.models as Record<string, unknown>).User;
+const UserModel = mongoose.model<IUser>('User', UserSchema)
 
 export default UserModel

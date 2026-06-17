@@ -43,6 +43,7 @@ function mapToSafariPkg(safari: Safari): SafariPkg {
       ? "Mid-range"
       : "Budget";
   return {
+    slug: safari.slug,
     img:
       safari.coverImage ||
       "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
@@ -63,7 +64,10 @@ async function getTanzaniaPackages(): Promise<SafariPkg[]> {
   try {
     await connectDB();
     const safaris = await SafariModel.find({
-      "location.country": /tanzania/i,
+      $or: [
+        { "location.country": /tanzania/i },
+        { "location.countries": /tanzania/i },
+      ],
       active: true,
     })
       .sort({ featured: -1, rating: -1 })

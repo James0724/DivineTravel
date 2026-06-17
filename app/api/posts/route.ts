@@ -1,9 +1,11 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/db/mongoose'
 import PostModel from '@/lib/db/models/Post'
 import slugify from 'slugify'
+
+const AUTHOR_FIELDS = 'name avatar title bio'
 
 export async function GET(req: NextRequest) {
   try {
@@ -20,7 +22,6 @@ export async function GET(req: NextRequest) {
 
     const query: Record<string, unknown> = {}
 
-    // Default to published-only for public access (unless admin requests all)
     if (published !== 'all') query.published = true
     if (featured === 'true') query.featured = true
     if (category) query.category = category
@@ -39,10 +40,11 @@ export async function GET(req: NextRequest) {
 
     const [posts, total] = await Promise.all([
       PostModel.find(query)
+        .populate('author', AUTHOR_FIELDS)
         .sort(sortQuery)
         .skip((page - 1) * limit)
         .limit(limit)
-        .select('-body') // exclude body from list view for performance
+        .select('-body')
         .lean(),
       PostModel.countDocuments(query),
     ])
@@ -80,18 +82,22 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const body = await req.json()
 
-    const { title, excerpt, content: bodyContent, body: bodyField, coverImage, author, authorTitle, authorAvatar, authorBio, category, tags, faqs, featured, published, readingTime, seo } = body
+    const {
+      title, excerpt, content: bodyContent, body: bodyField,
+      coverImage, authorId, category, tags, faqs,
+      featured, published, readingTime, seo,
+    } = body
 
     if (!title || !excerpt || !(bodyContent || bodyField) || !coverImage || !category) {
-      return NextResponse.json({ success: false, error: 'Missing required fields: title, excerpt, body, coverImage, category' }, { status: 400 })
+      return NextResponse.json(
+        { success: false, error: 'Missing required fields: title, excerpt, body, coverImage, category' },
+        { status: 400 }
+      )
     }
 
     const slug = slugify(title, { lower: true, strict: true, trim: true })
-
-    // Ensure unique slug
     const existing = await PostModel.findOne({ slug })
     const finalSlug = existing ? `${slug}-${Date.now()}` : slug
-
     const publishedAt = published ? new Date() : undefined
 
     const post = await PostModel.create({
@@ -100,10 +106,7 @@ export async function POST(req: NextRequest) {
       excerpt: excerpt.trim(),
       body: (bodyContent || bodyField).trim(),
       coverImage,
-      author: author || 'Divine Travel Nest Safaris',
-      authorTitle,
-      authorAvatar,
-      authorBio,
+      author: authorId || session.user.id,
       category,
       tags: tags ?? [],
       faqs: faqs ?? [],
@@ -114,7 +117,9 @@ export async function POST(req: NextRequest) {
       seo: seo ?? {},
     })
 
-    return NextResponse.json({ success: true, data: JSON.parse(JSON.stringify(post)) }, { status: 201 })
+    const populated = await post.populate('author', AUTHOR_FIELDS)
+
+    return NextResponse.json({ success: true, data: JSON.parse(JSON.stringify(populated)) }, { status: 201 })
   } catch (err: unknown) {
     console.error('[POST /api/posts]', err)
     const msg = err instanceof Error ? err.message : 'Failed to create post'

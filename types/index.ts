@@ -37,11 +37,11 @@ export interface ItineraryDay {
 
 export interface SafariLocation {
   country: string
-  countries?: string[]
+  countries: string[]
   region: string
+  regions: string[]
   park: string
-  parks?: string[]
-  coordinates?: { lat: number; lng: number }
+  parks: string[]
 }
 
 export interface Safari {
@@ -153,7 +153,7 @@ export interface Testimonial {
 
 // ─── User (Admin) ────────────────────────────────────────────────────────────
 
-export type UserRole = 'admin' | 'editor' | 'viewer'
+export type UserRole = 'super_admin' | 'admin' | 'editor' | 'viewer'
 
 export interface AdminUser {
   _id: string
@@ -246,6 +246,14 @@ export type PostCategory =
   | 'photography'
   | 'tips'
 
+export interface PostAuthor {
+  _id: string
+  name: string
+  avatar?: string
+  title?: string
+  bio?: string
+}
+
 export interface JournalPost {
   _id: string
   title: string
@@ -253,10 +261,8 @@ export interface JournalPost {
   excerpt: string
   body: string
   coverImage: string
-  author: string
-  authorAvatar?: string
-  authorTitle?: string
-  authorBio?: string
+  /** Populated PostAuthor after migration; raw string name on legacy documents */
+  author: PostAuthor | string
   category: PostCategory
   tags: string[]
   faqs?: { question: string; answer: string }[]
