@@ -295,13 +295,6 @@ export function SafariSchema({ safari }: { safari: Safari }) {
         "@type": "PostalAddress",
         addressCountry: safari.location.country,
       },
-      ...(safari.location.coordinates && {
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: safari.location.coordinates.lat,
-          longitude: safari.location.coordinates.lng,
-        },
-      }),
     },
     offers: [
       {
