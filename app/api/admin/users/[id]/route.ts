@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
+import { getServerSession, type Session } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/db/mongoose'
 import UserModel from '@/lib/db/models/User'
 
 type Ctx = { params: Promise<{ id: string }> }
 
-function isSuperAdmin(session: Awaited<ReturnType<typeof getServerSession>>) {
+function isSuperAdmin(session: Session | null) {
   return session?.user?.role === 'super_admin'
 }
 
