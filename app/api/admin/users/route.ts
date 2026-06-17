@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
     })
 
     const safe = user.toObject()
-    delete (safe as Record<string, unknown>).password
+    delete (safe as unknown as Record<string, unknown>).password
 
     return NextResponse.json({ success: true, data: safe }, { status: 201 })
   } catch (error) {
