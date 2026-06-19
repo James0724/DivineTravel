@@ -140,8 +140,6 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${cormorant.variable} ${nunito.variable}`}
       suppressHydrationWarning
     >
-      <SpeedInsights />
-      <Analytics />
       <head>
         <OrganizationSchema />
         <WebSiteSchema />
@@ -181,6 +179,8 @@ export default function RootLayout({
             }}
           />
         </Providers>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
