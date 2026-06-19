@@ -13,6 +13,7 @@ import {
   SiteNavigationSchema,
 } from "@/components/seo/StructuredData";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geist = Geist({
@@ -82,7 +83,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: APP_URL,
     siteName: "Divine Travel Nest Safaris",
-    title: "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages 2026/2027",
+    title:
+      "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages 2026/2027",
     description:
       "Expert-guided, tailor-made East Africa safaris — Masai Mara, Serengeti, Bwindi gorilla trekking and Rwanda Volcanoes. Budget to luxury, 2026/2027.",
     images: [
@@ -96,7 +98,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages",
+    title:
+      "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages",
     description:
       "Masai Mara game drives, Serengeti migration, Bwindi gorilla trekking & Rwanda Volcanoes — tailor-made, budget to luxury. 2026/2027.",
     images: [`${APP_URL}/images/og-default.jpg`],
@@ -138,6 +141,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <SpeedInsights />
+      <Analytics />
       <head>
         <OrganizationSchema />
         <WebSiteSchema />
