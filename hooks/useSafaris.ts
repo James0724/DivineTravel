@@ -2,17 +2,12 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Safari, SafariFilters, PaginatedResponse, ApiResponse } from '@/types'
+import { safariKeys } from '@/lib/data/queryKeys'
 
-// ─── Query Keys ───────────────────────────────────────────────────────────────
-
-export const safariKeys = {
-  all: ['safaris'] as const,
-  lists: () => [...safariKeys.all, 'list'] as const,
-  list: (filters: SafariFilters) => [...safariKeys.lists(), filters] as const,
-  details: () => [...safariKeys.all, 'detail'] as const,
-  detail: (slug: string) => [...safariKeys.details(), slug] as const,
-  featured: () => [...safariKeys.all, 'featured'] as const,
-}
+// Re-exported so existing client imports of `safariKeys` from this hook
+// file keep working. Server components must import it from
+// `@/lib/data/queryKeys` directly — see that file for why.
+export { safariKeys }
 
 // ─── Fetch helpers ────────────────────────────────────────────────────────────
 
@@ -35,7 +30,7 @@ async function fetchSafariBySlug(slug: string): Promise<ApiResponse<Safari>> {
 }
 
 async function fetchFeaturedSafaris(): Promise<ApiResponse<Safari[]>> {
-  const res = await fetch('/api/safaris?featured=true&limit=6')
+  const res = await fetch('/api/safaris?featured=true&limit=6&balanced=true')
   if (!res.ok) throw new Error('Failed to fetch featured safaris')
   return res.json()
 }

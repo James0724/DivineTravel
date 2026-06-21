@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { AnimatedHeading } from "./Heading";
 
 export interface FaqEntry {
   q: string;
@@ -11,7 +12,12 @@ export interface FaqEntry {
 interface SectionFaqProps {
   id?: string;
   eyebrow: string;
-  heading: React.ReactNode;
+  /** Plain heading content — animated with a character pull-up effect */
+  textBefore?: string;
+  highlightedText?: string;
+  textAfter?: string;
+  /** Rich heading content — rendered as-is, skips the pull-up animation */
+  heading?: React.ReactNode;
   /** Brief contact line shown below the heading */
   contactNote?: React.ReactNode;
   faqs: FaqEntry[];
@@ -22,6 +28,9 @@ const ease = [0.4, 0, 0.2, 1] as const;
 export default function SectionFaq({
   id,
   eyebrow,
+  textBefore,
+  highlightedText,
+  textAfter,
   heading,
   contactNote,
   faqs,
@@ -46,12 +55,18 @@ export default function SectionFaq({
               <span className="dot" />
               {eyebrow}
             </div>
-            <h2
-              className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
-              style={{ fontSize: "clamp(40px, 5vw, 72px)" }}
-            >
-              {heading}
-            </h2>
+            {textBefore !== undefined ? (
+              <AnimatedHeading
+                as="h2"
+                textBefore={textBefore}
+                highlightedText={highlightedText}
+                textAfter={textAfter}
+              />
+            ) : (
+              <h2 className="font-serif font-normal leading-[1.02] tracking-[-0.02em] text-bone-ink">
+                {heading}
+              </h2>
+            )}
             {contactNote && (
               <p
                 className="text-[14px] text-bone-muted mt-4 leading-[1.6]"

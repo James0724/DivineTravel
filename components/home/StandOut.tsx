@@ -90,7 +90,7 @@ export default function StandOut() {
 
                 {/* Heading — character pull-up */}
                 <AnimatedHeading
-                  as="h1"
+                  as="h2"
                   textBefore="Safari done "
                   highlightedText="properly"
                 />

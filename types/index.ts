@@ -10,6 +10,31 @@ export type SafariCategory =
 
 export type SafariDifficulty = 'easy' | 'moderate' | 'challenging'
 
+// Style of safari experience — distinct from `SafariCategory` (theme).
+// Two dimensions stored in one array: activity (how) and traveller (who).
+export type SafariStyle =
+  // Activity types
+  | 'walking'
+  | 'game-drive'
+  | 'fly-in'
+  | 'mobile-camping'
+  | 'water-based'
+  | 'horseback'
+  | 'balloon'
+  | 'self-drive'
+  | 'photographic'
+  | 'night'
+  | 'birding'
+  | 'wellness'
+  | 'conservation'
+  // Traveller types
+  | 'family'
+  | 'honeymoon'
+  | 'solo'
+  | 'small-group'
+  | 'couples'
+  | 'private'
+
 export type PriceTier = 'budget' | 'midRange' | 'luxury'
 
 export interface Hotel {
@@ -65,6 +90,7 @@ export interface Safari {
   coverImage: string
   coverImagePublicId?: string
   category: SafariCategory[]
+  safariType: SafariStyle[]
   difficulty: SafariDifficulty
   maxGroupSize: number
   minGroupSize: number
@@ -194,6 +220,7 @@ export interface PaginatedResponse<T> {
 export interface SafariFilters {
   search?: string
   category?: SafariCategory
+  safariType?: SafariStyle
   difficulty?: SafariDifficulty
   tier?: PriceTier
   minDays?: number
@@ -203,6 +230,11 @@ export interface SafariFilters {
   page?: number
   limit?: number
   sort?: 'price_asc' | 'price_desc' | 'rating' | 'newest' | 'duration_asc'
+  /** Round-robins results across countries (Kenya, Tanzania, Uganda, Rwanda, other)
+   *  instead of fully grouping by country before truncating to `limit`. Use for
+   *  capped preview lists (homepage sections, etc) — leave unset for the paginated
+   *  /safaris catalogue, which intentionally groups by country across pages. */
+  balanced?: boolean
 }
 
 // ─── Form Types ─────────────────────────────────────────────────────────────

@@ -17,9 +17,9 @@ import Testimonials from "@/components/home/Testimonials";
 import JournalSection from "@/components/home/JournalSection";
 import FAQSection from "@/components/home/FAQSection";
 import connectDB from "@/lib/db/mongoose";
-import SafariModel from "@/lib/db/models/Safari";
 import TestimonialModel from "@/lib/db/models/Testimonial";
-import type { Safari, Testimonial } from "@/types";
+import { getCountryOrderedSafaris } from "@/lib/data/safaris";
+import type { Testimonial } from "@/types";
 
 export const revalidate = 300; // ISR — revalidate every 5 minutes
 
@@ -55,26 +55,16 @@ async function getHomeData() {
     const select =
       "name slug tagline location duration pricing images coverImage category difficulty featured rating reviewCount minGroupSize maxGroupSize";
     const [safaris, signatureSafaris, testimonials] = await Promise.all([
-      SafariModel.find({ active: true, featured: true })
-        .sort({ rating: -1 })
-        .limit(6)
-        .select(select)
-        .lean(),
-      SafariModel.find({ active: true })
-        .sort({ rating: -1 })
-        .limit(6)
-        .select(select)
-        .lean(),
+      getCountryOrderedSafaris({ active: true, featured: true }, { limit: 6, select }),
+      getCountryOrderedSafaris({ active: true }, { limit: 6, select }),
       TestimonialModel.find({ featured: true })
         .sort({ rating: -1 })
         .limit(8)
         .lean(),
     ]);
     return {
-      safaris: JSON.parse(JSON.stringify(safaris)) as Safari[],
-      signatureSafaris: JSON.parse(
-        JSON.stringify(signatureSafaris),
-      ) as Safari[],
+      safaris,
+      signatureSafaris,
       testimonials: JSON.parse(JSON.stringify(testimonials)) as Testimonial[],
     };
   } catch {

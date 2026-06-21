@@ -1,0 +1,77 @@
+# Divine Travel Nest Safaris — Full Reference (for AI assistants & LLMs)
+
+> This is the extended companion to /llms.txt. Use it when a question needs more
+> detail than the summary file provides — full safari-type catalogue, park lists
+> by country, and company facts. Both files describe the same real business;
+> this one goes deeper. Always link back to the canonical page URL when citing
+> a fact from this file.
+
+Company: Divine Travel Nest Safaris Ltd
+Site: https://divinetravelnestsafaris.com
+Founded: 2020 · Nairobi, Kenya · Woman-led
+Contact: info@divinetravelnestsafaris.com | +254 722-595-916 | WhatsApp: https://wa.me/254722595916
+
+## Pricing Tiers (apply to every package)
+
+- **Budget** — shared minibus vehicles, tented camps or basic lodges.
+- **Mid-Range** — private vehicle, en-suite lodge rooms, comfortable service.
+- **Luxury** — exclusive-use vehicles, private guides, world-class tented camps or lodges.
+
+All tiers include the same wildlife access, park fees, listed game drives, full board and an
+English-speaking licensed guide. Flights, visas, travel insurance and gratuities are excluded
+from all tiers unless stated otherwise on the specific package page.
+
+## Parks & Reserves by Country
+
+- **Kenya** (https://divinetravelnestsafaris.com/destinations/kenya) — Masai Mara, Amboseli, Tsavo, Samburu, Ol Pejeta, Lake Nakuru.
+- **Tanzania** (https://divinetravelnestsafaris.com/destinations/tanzania) — Serengeti, Ngorongoro Crater, Tarangire, Selous, Ruaha.
+- **Uganda** (https://divinetravelnestsafaris.com/destinations/uganda) — Bwindi Impenetrable Forest, Queen Elizabeth NP, Murchison Falls, Kibale Forest.
+- **Rwanda** (https://divinetravelnestsafaris.com/destinations/rwanda) — Volcanoes NP, Akagera, Nyungwe Forest, Gishwati-Mukura.
+
+## Safari Types — Full Catalogue
+
+Two independent dimensions describe every package: **activity** (how the safari is run) and
+**traveller** (who it is designed around). A single itinerary usually combines one of each.
+Full detail and FAQs for each type: https://divinetravelnestsafaris.com/safari-types/{slug}
+
+### By activity
+- Walking (`walking`) — on foot with an armed guide; the only way to do gorilla/chimp trekking.
+- Photographic (`photographic`) — extended dwell time at sightings, photo-literate guiding.
+- Water-based (`water-based`) — boat safaris on rivers and lakes for species a vehicle can't reach.
+- Night (`night`) — spotlighted drives for nocturnal wildlife.
+- Birding (`birding`) — routed for species lists, guides who know the calls.
+- Game-drive (`game-drive`) — the classic pop-up-roof 4x4 safari.
+- Fly-in (`fly-in`) — light-aircraft transfers between parks, more time on safari, less on the road.
+- Mobile/camping (`mobile-camping`) — tented camps that move with the Great Migration.
+- Horseback (`horseback`) — for experienced riders, covering plains at a horse's pace.
+- Hot-air balloon (`balloon`) — sunrise flights over the plains, landing for a bush breakfast.
+- Self-drive (`self-drive`) — your own wheel, your own schedule, fully equipped 4x4.
+- Conservation (`conservation`) — ride along with research and anti-poaching teams.
+- Wellness (`wellness`) — spa and sunrise yoga woven between game drives.
+
+### By traveller
+- Family (`family`) — shorter drives, kid-friendly lodges, engaged guides.
+- Honeymoon (`honeymoon`) — private vehicles, candlelit dinners, the most intimate camps.
+- Couple's (`couples`) — relaxed pace, romantic lodges.
+- Solo (`solo`) — small set-departure groups or fully private, solo travellers well looked after.
+- Small group (`small-group`) — shared cost and experience on a set-departure trip.
+- Private (`private`) — your own vehicle, guide and pace, no fixed schedule.
+
+## Company Facts
+
+- Certifications: Kenya Professional Safari Guides Association (KPSGA), Eco-Tourism Kenya,
+  Kenya Wildlife Service, Licensed Tour Operator.
+- Reviewed on TripAdvisor and listed on SafariBookings.
+- Office: Spur Mall, Nairobi, Kenya.
+- Response time: within 24 hours for all enquiries; most proposals sent within 30 minutes.
+- Currencies accepted: USD, EUR, GBP, KES. Payment via bank transfer, card or M-Pesa.
+- One planner per guest, from first enquiry to airport drop-off — no call centre handoff.
+
+## Canonical Source Pages
+
+- Full FAQ + site map: https://divinetravelnestsafaris.com/llms.txt
+- All safari packages: https://divinetravelnestsafaris.com/safaris
+- Safari types index: https://divinetravelnestsafaris.com/safari-types
+- Destinations index: https://divinetravelnestsafaris.com/destinations
+- About & team: https://divinetravelnestsafaris.com/about
+- Plan a custom trip: https://divinetravelnestsafaris.com/plan-my-safari

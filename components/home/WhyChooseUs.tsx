@@ -109,7 +109,7 @@ export default function WhyChooseUs() {
               </div>
             </Reveal>
             <AnimatedHeading
-              as="h1"
+              as="h2"
               textBefore="Africa with "
               highlightedText="confidence"
             />

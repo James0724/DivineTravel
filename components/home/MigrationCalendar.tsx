@@ -291,7 +291,7 @@ export default function MigrationCalendar() {
               </div>
             </Reveal>
             <AnimatedHeading
-              as="h1"
+              as="h2"
               textBefore="A "
               highlightedText="calendar "
               textAfter="of two million hooves"

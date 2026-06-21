@@ -60,6 +60,42 @@ const navLinks: NavItem[] = [
     ],
   },
   {
+    label: "Safari Types",
+    href: "/safari-types",
+    dropdown: [
+      {
+        label: "Walking Safaris",
+        href: "/safari-types/walking",
+        description: "On foot with an armed guide & tracker",
+      },
+      {
+        label: "Photographic Safaris",
+        href: "/safari-types/photographic",
+        description: "Extended time at sightings, photo-trained guides",
+      },
+      {
+        label: "Family Safaris",
+        href: "/safari-types/family",
+        description: "Paced for every age, kid-friendly lodges",
+      },
+      {
+        label: "Honeymoon Safaris",
+        href: "/safari-types/honeymoon",
+        description: "Private vehicles & intimate camps for two",
+      },
+      {
+        label: "Solo Safaris",
+        href: "/safari-types/solo",
+        description: "Join a small group, or go fully private",
+      },
+      {
+        label: "All safari types",
+        href: "/safari-types",
+        description: "By activity — and by who you're travelling with",
+      },
+    ],
+  },
+  {
     label: "Destinations",
     href: "/destinations",
     dropdown: [
@@ -168,7 +204,7 @@ function GoogleIcon({ className }: { className?: string }) {
         fill="#FBBC05"
       />
       <path
-        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
         fill="#EA4335"
       />
     </svg>
@@ -234,7 +270,7 @@ function DesktopNavLink({
         whileHover="hover"
         transition={smoothTransition}
       >
-        <h5 className="relative z-[1]">{link.label}</h5>
+        <h5 className="relative z-[1] text-[16px] xl:text-[17px] whitespace-nowrap">{link.label}</h5>
         <span
           className={cn(
             "absolute bottom-0 left-0 w-full h-[1.5px] bg-bone-clay origin-left",
@@ -266,7 +302,7 @@ function DesktopNavLink({
           whileHover="hover"
           transition={smoothTransition}
         >
-          <h5 className="relative z-[1]">{link.label}</h5>
+          <h5 className="relative z-[1] text-[16px] xl:text-[17px] whitespace-nowrap">{link.label}</h5>
           <motion.button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -304,7 +340,7 @@ function DesktopNavLink({
             exit={{ opacity: 0, y: -4 }}
             transition={smoothTransition}
             className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 z-[120]
-                       min-w-[240px] bg-bone-paper rounded-sm overflow-hidden
+                       min-w-[360px] bg-bone-paper rounded-sm overflow-hidden
                        border border-[rgba(23,22,18,0.12)] shadow-[0_8px_32px_rgba(23,22,18,0.12)]"
           >
             {/* Arrow notch */}
@@ -313,6 +349,13 @@ function DesktopNavLink({
                          bg-bone-paper border-l border-t border-[rgba(23,22,18,0.12)] rotate-45"
             />
 
+            {/* Scrollable item list — keeps a constant max height on short
+                (small-laptop) viewports instead of growing past the bottom
+                of the screen */}
+            <div
+              className="overflow-y-auto"
+              style={{ maxHeight: "min(72vh, 480px)" }}
+            >
             {link.dropdown.map((item, i) => (
               <Link
                 key={item.href}
@@ -332,6 +375,7 @@ function DesktopNavLink({
                 </p>
               </Link>
             ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -646,7 +690,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav links */}
-          <nav className="hidden lg:flex items-center justify-center gap-6">
+          <nav className="hidden lg:flex items-center justify-center gap-4 xl:gap-5">
             {navLinks.map((link) => (
               <DesktopNavLink key={link.href} link={link} pathname={pathname} />
             ))}

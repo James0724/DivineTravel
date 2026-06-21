@@ -108,7 +108,7 @@ export default function BestSellers() {
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
-              as="h1"
+              as="h2"
               textBefore="Guest "
               highlightedText="favourites"
             />

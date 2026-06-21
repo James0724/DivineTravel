@@ -8,10 +8,11 @@ import {
 } from "@/components/seo/StructuredData";
 import WhyGrid from "@/components/ui/WhyGrid";
 import SectionFaq from "@/components/ui/SectionFaq";
-import CtaBand from "@/components/ui/CtaBand";
 import PageHero from "@/components/ui/PageHero";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { MessageSquare, Phone } from "lucide-react";
+import { AnimatedHeading } from "@/components/ui/Heading";
+import StandoutFeatureList from "@/components/about/StandoutFeatureList";
 
 export const metadata: Metadata = {
   title: "About Us | Divine Travel Nest Safaris — Kenya-Based Safari Company",
@@ -157,8 +158,8 @@ const standoutItems = [
 const team = [
   {
     name: "John Mwangi",
-    role: "Founder",
-    bio: "Started Divine Travel Nest from a simple dream — to share the soul of the wild with the world. Still the standard every safari is measured against.",
+    role: "Managing Director",
+    bio: "The visionary behind Divine Travel Nest Safaris. John’s deep knowledge of East Africa and his passion for wildlife ensure every safari is authentic, safe, and unforgettable.",
     photo:
       "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-12.05.59-780x520.jpeg",
   },
@@ -171,8 +172,8 @@ const team = [
   },
   {
     name: "James Kahoro",
-    role: "Safari Curator · Your Planner",
-    bio: "Your safari planner. Designs each itinerary by hand around your dates, your budget and the wildlife you have come all this way to see.",
+    role: "System Engineer and Operations",
+    bio: "Keeps the wheels turning behind the scenes. The reason your safari is seamless, your itinerary is perfect, and your memories are unforgettable.",
     photo:
       "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-12.05.06-550x825.jpeg",
   },
@@ -206,12 +207,26 @@ const faqs = [
 ];
 
 const certs = [
-  "Kenya Professional Safari Guides Assoc.",
-  "Eco-Tourism Kenya",
-  "Licensed Tour Operator",
-  "TripAdvisor Reviewed",
-  "Google Reviews",
-  "SafariBookings Listed",
+  {
+    label: "Kenya Wildlife Service",
+    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/KWS.png",
+  },
+  {
+    label: "Eco-Tourism Kenya",
+    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/Eco-tourism_Kenya.png",
+  },
+  {
+    label: "Licensed Tour Operator",
+    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/tra-300x70.png",
+  },
+  {
+    label: "TripAdvisor Reviewed",
+    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/tripadvisor.png",
+  },
+  {
+    label: "SafariBookings Listed",
+    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/safari-bookings.png",
+  },
 ];
 
 export default function AboutPage() {
@@ -279,7 +294,7 @@ export default function AboutPage() {
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-20 items-end">
             <Reveal variant="slideLeft">
-              <h1
+              <h2
                 className="font-serif font-light leading-[0.92] tracking-[-0.028em] text-bone-ink"
                 style={{ fontSize: "clamp(52px, 7.6vw, 120px)" }}
               >
@@ -287,7 +302,7 @@ export default function AboutPage() {
                 <br />
                 Divine{" "}
                 <em className="italic text-bone-clay">Travel&nbsp;Nest</em>.
-              </h1>
+              </h2>
             </Reveal>
             <Reveal variant="slideRight">
               <div>
@@ -342,7 +357,9 @@ export default function AboutPage() {
           </div>
           <div className="flex flex-wrap justify-between gap-2 pt-4 font-mono text-[10px] tracking-[0.14em] uppercase text-bone-muted">
             <span>Spur Mall · Nairobi, Kenya</span>
-            <span className="hidden md:block">Kenya · Tanzania · Uganda · Rwanda</span>
+            <span className="hidden md:block">
+              Kenya · Tanzania · Uganda · Rwanda
+            </span>
           </div>
         </div>
       </section>
@@ -525,7 +542,7 @@ export default function AboutPage() {
                   className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
                   style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
                 >
-                  100%
+                  <em className="italic text-bone-clay">100</em>%
                 </div>
                 <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
                   Tailor-made
@@ -541,13 +558,9 @@ export default function AboutPage() {
       {/* ── 5. VALUES ────────────────────────────────────────────────────── */}
       <WhyGrid
         eyebrow="What we stand for"
-        heading={
-          <>
-            The things we
-            <br />
-            <em className="italic text-bone-clay">won&apos;t</em> compromise on.
-          </>
-        }
+        textBefore="The things we"
+        highlightedText=" won't"
+        textAfter=" compromise on."
         description="A safari is a great deal of trust to hand a stranger. These are the principles that earn it — and the reason our guests come back, and send their friends, by name."
         items={whyItems}
         bg="bg-bone-bg"
@@ -582,63 +595,36 @@ export default function AboutPage() {
             </Reveal>
 
             {/* Content */}
-            <Reveal variant="slideRight">
-              <div>
-                <div className="eyebrow">
-                  <span className="dot" />
-                  Why travellers choose us
-                </div>
-                <h2
-                  className="font-serif font-normal leading-[1.0] tracking-[-0.02em] text-bone-ink mt-4 mb-4"
-                  style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
-                >
-                  One <em className="italic text-bone-clay">house</em>,
-                  <br />
-                  start to finish.
-                </h2>
-                <p
-                  className="text-sm leading-[1.65] text-bone-muted mb-8"
-                  style={{ maxWidth: "48ch" }}
-                >
-                  The practical promises behind the brochure — the things that
-                  make a Divine Travel Nest safari run smoothly from the first
-                  email to the drive back to the airport.
-                </p>
 
-                {/* Feature list */}
-                <div className="flex flex-col">
-                  {standoutItems.map((f, i) => (
-                    <div
-                      key={f.ic}
-                      className="py-6 border-t grid gap-[18px] items-start"
-                      style={{
-                        borderColor: "rgba(31,29,24,0.14)",
-                        gridTemplateColumns: "36px 1fr",
-                        borderBottom:
-                          i === standoutItems.length - 1
-                            ? "1px solid rgba(31,29,24,0.14)"
-                            : undefined,
-                      }}
-                    >
-                      <div
-                        className="w-9 h-9 rounded-full flex items-center justify-center text-white font-serif italic text-[16px] flex-shrink-0"
-                        style={{ background: "#9d4519" }}
-                      >
-                        {f.ic}
-                      </div>
-                      <div>
-                        <h4 className="font-serif font-medium text-[22px] text-bone-ink mb-1 leading-[1.1]">
-                          {f.title}
-                        </h4>
-                        <p className="text-[14px] leading-[1.55] text-bone-muted">
-                          {f.body}
-                        </p>
-                      </div>
+            <div>
+              <header className="mb-8">
+                <div className="mb-6">
+                  <Reveal variant="fadeUp">
+                    <div className="eyebrow">
+                      <span className="dot" />
+                      Why travellers choose us
                     </div>
-                  ))}
+                  </Reveal>
+
+                  <AnimatedHeading
+                    as="h2"
+                    textBefore="One "
+                    highlightedText="house,"
+                    textAfter="start to finish."
+                  />
+                  <Reveal variant="fadeUp">
+                    <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch] mb-8">
+                      The practical promises behind the brochure — the things
+                      that make a Divine Travel Nest safari run smoothly from
+                      the first email to the drive back to the airport.
+                    </p>
+                  </Reveal>
                 </div>
-              </div>
-            </Reveal>
+              </header>
+
+              {/* Feature list */}
+              <StandoutFeatureList items={standoutItems} />
+            </div>
           </div>
         </div>
       </section>
@@ -646,30 +632,29 @@ export default function AboutPage() {
       {/* ── 7. TEAM ──────────────────────────────────────────────────────── */}
       <section className="bg-bone-bg" style={{ padding: "120px 0" }}>
         <div className="container-site">
-          <div className="section-hd" style={{ marginBottom: "72px" }}>
+          <header className="section-hd">
             <div>
-              <div className="eyebrow">
-                <span className="dot" />
-                Meet the team
-              </div>
-              <h2
-                className="font-serif font-normal leading-[1.0] tracking-[-0.02em] text-bone-ink mt-4"
-                style={{ fontSize: "clamp(40px, 5.4vw, 72px)" }}
-              >
-                The people who
-                <br />
-                <em className="italic text-bone-clay">answer</em> your call.
-              </h2>
+              <Reveal variant="fadeUp">
+                <div className="eyebrow mb-4">
+                  <span className="dot" />
+                  Meet the team
+                </div>
+              </Reveal>
+              <AnimatedHeading
+                as="h2"
+                textBefore="The people who "
+                highlightedText="answer"
+                textAfter=" your call."
+              />
             </div>
-            <p
-              className="text-sm leading-[1.65] text-bone-muted"
-              style={{ maxWidth: "56ch" }}
-            >
-              The advantage of a small, family-run house is that you actually
-              meet the people running your trip — the team on the other end of
-              your emails, your radio and your wake-up call.
-            </p>
-          </div>
+            <Reveal>
+              <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
+                The advantage of a small, family-run house is that you actually
+                meet the people running your trip — the team on the other end of
+                your emails, your radio and your wake-up call.
+              </p>
+            </Reveal>
+          </header>
 
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9">
             {team.map((member) => (
@@ -717,36 +702,51 @@ export default function AboutPage() {
         }}
       >
         <div className="container-site">
-          <div className="text-center mb-12">
-            <div className="eyebrow justify-center mb-4">
-              <span className="dot" />
-              Licensed &amp; reviewed
+          <Reveal variant="fadeUp">
+            <div className="text-center mb-12">
+              <div className="eyebrow justify-center mb-4">
+                <span className="dot" />
+                Licensed &amp; reviewed
+              </div>
+              <h2
+                className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-bone-ink mt-4"
+                style={{ fontSize: "clamp(30px, 3.4vw, 46px)" }}
+              >
+                Certified, registered, and vouched for
+                <br className="hidden sm:block" />
+                by the people who{" "}
+                <em className="italic text-bone-clay">count</em>.
+              </h2>
             </div>
-            <h2
-              className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-bone-ink mt-4"
-              style={{ fontSize: "clamp(30px, 3.4vw, 46px)" }}
-            >
-              Certified, registered, and vouched for
-              <br className="hidden sm:block" />
-              by the people who <em className="italic text-bone-clay">count</em>
-              .
-            </h2>
-          </div>
+          </Reveal>
 
-          <div
-            className="flex flex-wrap justify-center gap-3"
-            style={{ maxWidth: "940px", margin: "0 auto" }}
+          <Stagger
+            className="flex flex-wrap justify-center gap-5"
+            style={{ maxWidth: "980px", margin: "0 auto" }}
           >
             {certs.map((cert) => (
-              <span
-                key={cert}
-                className="font-mono text-[12px] tracking-[0.07em] uppercase text-bone-forest-soft px-5 py-3 rounded-full bg-bone-bg"
-                style={{ border: "1px solid rgba(31,29,24,0.14)" }}
-              >
-                {cert}
-              </span>
+              <RevealItem key={cert.label}>
+                <div
+                  className="flex flex-col items-center gap-3 px-6 py-5 rounded-2xl bg-bone-bg transition-transform duration-300 hover:-translate-y-1"
+                  style={{
+                    border: "1px solid rgba(31,29,24,0.14)",
+                    minWidth: "160px",
+                  }}
+                >
+                  <Image
+                    src={cert.logo}
+                    alt={cert.label}
+                    width={120}
+                    height={48}
+                    className="h-10 w-auto max-w-[120px] object-contain"
+                  />
+                  <span className="font-mono text-[11px] tracking-[0.07em] uppercase text-bone-forest-soft text-center">
+                    {cert.label}
+                  </span>
+                </div>
+              </RevealItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -754,13 +754,8 @@ export default function AboutPage() {
       <SectionFaq
         id="faq"
         eyebrow="Common questions"
-        heading={
-          <>
-            Your questions,
-            <br />
-            <em className="italic text-bone-clay">answered</em>.
-          </>
-        }
+        textBefore="Your questions,"
+        highlightedText=" answered"
         contactNote={
           <>
             Still not sure? Call us on{" "}

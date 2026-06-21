@@ -1,9 +1,24 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import PageHero from "@/components/ui/PageHero";
-import { BreadcrumbSchema } from "@/components/seo/StructuredData";
+import {
+  BreadcrumbSchema,
+  CollectionPageSchema,
+} from "@/components/seo/StructuredData";
 import SafarisContent from "./_content";
 import CtaBand from "@/components/ui/CtaBand";
+import { getQueryClient } from "@/lib/queryClient";
+import { getSafarisList } from "@/lib/data/safaris";
+import { safariKeys } from "@/lib/data/queryKeys";
+import { DURATIONS } from "@/lib/data/safariFilterOptions";
+import type {
+  SafariFilters,
+  SafariCategory,
+  SafariDifficulty,
+  SafariStyle,
+  PriceTier,
+} from "@/types";
 
 export const metadata: Metadata = {
   title: "East Africa Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda Tours",
@@ -59,7 +74,41 @@ function GridSkeleton() {
   );
 }
 
-export default function SafarisPage() {
+interface Props {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function SafarisPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const get = (key: string) => {
+    const v = sp[key];
+    return Array.isArray(v) ? v[0] : v;
+  };
+  const dur = DURATIONS.find((d) => d.value === get("duration"));
+
+  // Mirrors the apiFilters built client-side in ./_content.tsx — the query
+  // key must match exactly so the hydrated cache entry below is picked up
+  // on mount instead of triggering a redundant client fetch.
+  const apiFilters: SafariFilters = {
+    country: get("country") || undefined,
+    category: (get("category") as SafariCategory) || undefined,
+    safariType: (get("safariType") as SafariStyle) || undefined,
+    difficulty: (get("difficulty") as SafariDifficulty) || undefined,
+    tier: (get("tier") as PriceTier) || undefined,
+    minDays: dur?.min,
+    maxDays: dur?.max,
+    search: get("search") || undefined,
+    sort: (get("sort") as SafariFilters["sort"]) || "rating",
+    page: parseInt(get("page") ?? "1", 10),
+    limit: 12,
+  };
+
+  const queryClient = getQueryClient();
+  const safarisResult = await queryClient.fetchQuery({
+    queryKey: safariKeys.list(apiFilters),
+    queryFn: () => getSafarisList(apiFilters),
+  });
+
   return (
     <>
       <BreadcrumbSchema
@@ -67,6 +116,16 @@ export default function SafarisPage() {
           { name: "Home", href: "/" },
           { name: "Tours & Safaris", href: "/safaris" },
         ]}
+      />
+      <CollectionPageSchema
+        name="East Africa Safari Packages 2026/2027"
+        description="Kenya Masai Mara tours, Tanzania Serengeti circuits, Uganda gorilla trekking and Rwanda safari packages — budget to luxury, tailor-made."
+        url="https://divinetravelnestsafaris.com/safaris"
+        items={safarisResult.data.map((s) => ({
+          name: s.name,
+          url: `https://divinetravelnestsafaris.com/safaris/${s.slug}`,
+          description: s.tagline,
+        }))}
       />
 
       <PageHero
@@ -107,9 +166,11 @@ export default function SafarisPage() {
         buttonText="Get your free quote"
       />
 
-      <Suspense fallback={<GridSkeleton />}>
-        <SafarisContent />
-      </Suspense>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Suspense fallback={<GridSkeleton />}>
+          <SafarisContent />
+        </Suspense>
+      </HydrationBoundary>
     </>
   );
 }

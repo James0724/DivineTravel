@@ -45,7 +45,7 @@ export default function IntroSection() {
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
-              as="h1"
+              as="h2"
               textBefore="Your trusted gateway to "
               highlightedText="unforgettable"
               textAfter="East Africa safaris."

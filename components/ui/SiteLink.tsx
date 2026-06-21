@@ -15,17 +15,19 @@ export type SiteLinkVariant =
 export type SiteLinkSize = "sm" | "md" | "lg"
 
 interface SiteLinkProps {
-  href: string
+  href?: string
   variant?: SiteLinkVariant
   size?: SiteLinkSize
   /** Circle-arrow badge. Defaults true for solid/paper, false for others. */
   arrow?: boolean
   external?: boolean
   className?: string
+  onClick?: () => void
   children: React.ReactNode
 }
 
 const MotionLink = motion(Link)
+const MotionButton = motion.button
 
 const EASE = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
 
@@ -53,7 +55,7 @@ const variantBase: Record<SiteLinkVariant, string> = {
   ghost:
     "text-bone-forest hover:text-bone-clay font-sans transition-colors",
   "ghost-mono":
-    "text-bone-forest hover:text-bone-clay font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
+    "text-bone-forest hover:text-bone-clay font-mono text-[12px] font-medium uppercase tracking-[0.24em] transition-colors duration-300",
 }
 
 const sizeClasses: Record<SiteLinkSize, string> = {
@@ -83,38 +85,41 @@ export default function SiteLink({
   arrow,
   external,
   className,
+  onClick,
   children,
 }: SiteLinkProps) {
   const isInline = variant === "ghost" || variant === "ghost-mono"
+  const isMono = variant === "ghost-mono"
   const showArrow = arrow ?? DEFAULT_ARROW_ON.has(variant)
   const showShimmer = SHIMMER_ON.has(variant)
   const badge = badgeConfig[variant]
   const circleSize =
     size === "lg" ? "w-[26px] h-[26px] text-[13px]" : "w-[24px] h-[24px] text-[12px]"
 
-  return (
-    <MotionLink
-      href={href}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
-      initial="rest"
-      whileHover="hover"
-      variants={isInline ? undefined : liftVariants}
-      transition={{ duration: 0.2, ease: EASE }}
-      className={cn(
-        "inline-flex items-center",
-        !isInline && sizeClasses[size],
-        variantBase[variant],
-        variant === "outline-light" && "border",
-        isInline && "gap-1.5",
-        className,
-      )}
-      style={
-        variant === "outline-light"
-          ? { borderColor: "rgba(244,239,226,0.4)" }
-          : undefined
-      }
-    >
+  const sharedProps = {
+    onClick,
+    initial: "rest",
+    whileHover: "hover",
+    variants: isInline ? undefined : liftVariants,
+    transition: { duration: 0.2, ease: EASE },
+    className: cn(
+      "inline-flex items-center",
+      !isInline && "justify-between",
+      !isInline && sizeClasses[size],
+      variantBase[variant],
+      variant === "outline-light" && "border",
+      isInline && !isMono && "gap-1.5",
+      isMono && "gap-3 py-1.5 px-0.5",
+      className,
+    ),
+    style:
+      variant === "outline-light"
+        ? { borderColor: "rgba(244,239,226,0.4)" }
+        : undefined,
+  } as const
+
+  const content = (
+    <>
       {/* Shimmer sweep — diagonal light stripe on hover */}
       {showShimmer && (
         <motion.span
@@ -130,7 +135,20 @@ export default function SiteLink({
         />
       )}
 
-      {children}
+      {isMono ? (
+        <span className="relative inline-block pb-[3px]">
+          {children}
+          <motion.span
+            aria-hidden
+            className="absolute left-0 bottom-0 h-px w-full bg-current"
+            style={{ originX: 0 }}
+            variants={{ rest: { scaleX: 0.3, opacity: 0.4 }, hover: { scaleX: 1, opacity: 1 } }}
+            transition={{ duration: 0.35, ease: EASE }}
+          />
+        </span>
+      ) : (
+        children
+      )}
 
       {showArrow && (
         <span
@@ -147,8 +165,12 @@ export default function SiteLink({
           {isInline ? (
             /* Inline variants nudge the arrow forward */
             <motion.span
-              variants={{ rest: { x: 0 }, hover: { x: 4 } }}
-              transition={{ duration: 0.2, ease: EASE }}
+              variants={
+                isMono
+                  ? { rest: { x: 0, scale: 1 }, hover: { x: 6, scale: 1.15 } }
+                  : { rest: { x: 0 }, hover: { x: 4 } }
+              }
+              transition={{ duration: 0.25, ease: EASE }}
             >
               →
             </motion.span>
@@ -181,6 +203,25 @@ export default function SiteLink({
           )}
         </span>
       )}
+    </>
+  )
+
+  if (!href) {
+    return (
+      <MotionButton type="button" {...sharedProps}>
+        {content}
+      </MotionButton>
+    )
+  }
+
+  return (
+    <MotionLink
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      {...sharedProps}
+    >
+      {content}
     </MotionLink>
   )
 }

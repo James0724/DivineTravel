@@ -94,15 +94,15 @@ export default function Footer() {
               </h4>
               <ul>
                 {[
-                  { label: "Specialized safaris", href: "/safaris" },
-                  { label: "Family-friendly", href: "/safaris?style=family" },
+                  { label: "Specialized safaris", href: "/safari-types" },
+                  { label: "Family-friendly", href: "/safari-types/family" },
                   {
                     label: "Honeymoon safaris",
-                    href: "/safaris?style=honeymoon",
+                    href: "/safari-types/honeymoon",
                   },
                   {
-                    label: "Photography safaris",
-                    href: "/safaris?style=photography",
+                    label: "Walking safaris",
+                    href: "/safari-types/walking",
                   },
                   {
                     label: "Great Migration",
@@ -175,12 +175,20 @@ export default function Footer() {
             © {new Date().getFullYear()} Divine Travel Nest Safaris · Nairobi,
             Kenya
           </span>
-          <Link
-            href="/terms"
-            className="hover:text-[#f4d4a8] hover:opacity-100 transition-colors"
-          >
-            Terms &amp; Conditions
-          </Link>
+          <div className="flex gap-5">
+            <Link
+              href="/guidelines"
+              className="hover:text-[#f4d4a8] hover:opacity-100 transition-colors"
+            >
+              Community Guidelines
+            </Link>
+            <Link
+              href="/terms"
+              className="hover:text-[#f4d4a8] hover:opacity-100 transition-colors"
+            >
+              Terms &amp; Conditions
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { Comment } from '@/types'
 
 interface Props {
@@ -460,6 +461,13 @@ export default function CommentSection({ postSlug }: Props) {
                 'Post comment'
               )}
             </button>
+            <p className="font-sans text-[11px] text-bone-ink/45 mt-3 leading-[1.5]">
+              By commenting you agree to our{' '}
+              <Link href="/guidelines#comments" className="text-bone-clay hover:underline">
+                Community Guidelines
+              </Link>
+              .
+            </p>
           </form>
         </div>
       </div>

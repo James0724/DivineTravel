@@ -1,5 +1,34 @@
 import mongoose, { Schema, Document, Model } from 'mongoose'
 
+// ─── Safari type (style of experience — distinct from `category`/theme) ────
+// Two dimensions, stored in one array: "activity" (how the safari is run)
+// and "traveller" (who it's designed for). See lib/data/safariTypes.ts for
+// the grouping/labels used on the /safari-types pages.
+
+export const SAFARI_TYPE_VALUES = [
+  // Activity types
+  'walking',
+  'game-drive',
+  'fly-in',
+  'mobile-camping',
+  'water-based',
+  'horseback',
+  'balloon',
+  'self-drive',
+  'photographic',
+  'night',
+  'birding',
+  'wellness',
+  'conservation',
+  // Traveller types
+  'family',
+  'honeymoon',
+  'solo',
+  'small-group',
+  'couples',
+  'private',
+] as const
+
 // ─── Sub-schemas ────────────────────────────────────────────────────────────
 
 const SafariImageSchema = new Schema(
@@ -102,6 +131,7 @@ export interface ISafari extends Document {
   coverImage: string
   coverImagePublicId?: string
   category: string[]
+  safariType: string[]
   difficulty: string
   maxGroupSize: number
   minGroupSize: number
@@ -165,6 +195,12 @@ const SafariSchema = new Schema<ISafari>(
         enum: ['wildlife', 'adventure', 'cultural', 'beach', 'mountain', 'gorilla'],
       },
     ],
+    safariType: [
+      {
+        type: String,
+        enum: SAFARI_TYPE_VALUES,
+      },
+    ],
     difficulty: {
       type: String,
       enum: ['easy', 'moderate', 'challenging'],
@@ -193,6 +229,7 @@ SafariSchema.index({ active: 1, featured: -1, rating: -1 })
 SafariSchema.index({ 'location.country': 1 })
 SafariSchema.index({ 'location.countries': 1 })
 SafariSchema.index({ category: 1 })
+SafariSchema.index({ safariType: 1 })
 SafariSchema.index({ 'pricing.budget.pricePerPerson': 1 })
 SafariSchema.index({ createdAt: -1 })
 SafariSchema.index({

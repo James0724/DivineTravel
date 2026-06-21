@@ -53,7 +53,7 @@ export default async function JournalSection() {
               </div>
             </Reveal>
             <AnimatedHeading
-              as="h1"
+              as="h2"
               textBefore="Stories from "
               highlightedText="the field"
             />

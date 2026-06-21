@@ -125,7 +125,7 @@ export default function DestinationsSection() {
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
-              as="h1"
+              as="h2"
               textBefore="Four countries, one "
               highlightedText="circuit"
             />

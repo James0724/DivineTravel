@@ -4,94 +4,46 @@ import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/db/mongoose'
 import SafariModel from '@/lib/db/models/Safari'
 import slugify from 'slugify'
+import { getSafarisList } from '@/lib/data/safaris'
+import type { SafariCategory, SafariDifficulty, SafariFilters, SafariStyle } from '@/types'
 
 export async function GET(req: NextRequest) {
   try {
-    await connectDB()
     const { searchParams } = new URL(req.url)
 
-    // Filters
-    const search = searchParams.get('search')
-    const category = searchParams.get('category')
-    const difficulty = searchParams.get('difficulty')
-    const featured = searchParams.get('featured')
-    const country = searchParams.get('country')
-    const tier = searchParams.get('tier')
+    // `active` is only ever sent by the admin dashboard: 'all' shows both
+    // active + inactive, 'false' shows inactive only, anything else (or
+    // omitted, as on every public page) keeps the default active-only view.
+    const activeParam = searchParams.get('active')
+    const activeOnly = activeParam === 'all' ? undefined : activeParam !== 'false'
+    const featuredParam = searchParams.get('featured')
     const minDays = searchParams.get('minDays')
     const maxDays = searchParams.get('maxDays')
-    const active = searchParams.get('active')
-    const page = parseInt(searchParams.get('page') ?? '1', 10)
-    const limit = Math.min(parseInt(searchParams.get('limit') ?? '12', 10), 50)
-    const sort = searchParams.get('sort') ?? 'rating'
 
-    const query: Record<string, unknown> = {}
-
-    // Default to active-only for public routes
-    if (active !== 'all') query.active = true
-    if (featured === 'true') query.featured = true
-    if (category) query.category = category
-    if (difficulty) query.difficulty = difficulty
-    if (country === 'cross') {
-      query.$expr = { $gt: [{ $size: { $ifNull: ['$location.countries', []] } }, 1] }
-    } else if (country) {
-      query.$or = [
-        { 'location.country': { $regex: country, $options: 'i' } },
-        { 'location.countries': { $regex: country, $options: 'i' } },
-      ]
-    }
-    if (minDays || maxDays) {
-      query.duration = {}
-      if (minDays) (query.duration as Record<string, number>).$gte = parseInt(minDays)
-      if (maxDays) (query.duration as Record<string, number>).$lte = parseInt(maxDays)
+    const filters: SafariFilters & { activeOnly?: boolean } = {
+      search: searchParams.get('search') ?? undefined,
+      category: (searchParams.get('category') as SafariCategory) ?? undefined,
+      safariType: (searchParams.get('safariType') as SafariStyle) ?? undefined,
+      difficulty: (searchParams.get('difficulty') as SafariDifficulty) ?? undefined,
+      featured: featuredParam === null ? undefined : featuredParam === 'true',
+      country: searchParams.get('country') ?? undefined,
+      minDays: minDays ? parseInt(minDays, 10) : undefined,
+      maxDays: maxDays ? parseInt(maxDays, 10) : undefined,
+      page: parseInt(searchParams.get('page') ?? '1', 10),
+      limit: Math.min(parseInt(searchParams.get('limit') ?? '12', 10), 50),
+      sort: (searchParams.get('sort') as SafariFilters['sort']) ?? 'rating',
+      balanced: searchParams.get('balanced') === 'true' ? true : undefined,
+      activeOnly,
     }
 
-    if (search) {
-      query.$text = { $search: search }
-    }
+    const result = await getSafarisList(filters)
 
-    // Sort
-    type SortQuery = { [key: string]: 1 | -1 }
-    const sortMap: Record<string, SortQuery> = {
-      rating: { rating: -1, reviewCount: -1 },
-      newest: { createdAt: -1 },
-      price_asc: { 'pricing.budget.pricePerPerson': 1 },
-      price_desc: { 'pricing.luxury.pricePerPerson': -1 },
-      duration_asc: { duration: 1 },
-    }
-    const sortQuery: SortQuery = sortMap[sort] ?? sortMap.rating
-
-    const [safaris, total] = await Promise.all([
-      SafariModel.find(query)
-        .sort(sortQuery)
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .select(
-          'name slug tagline location duration pricing images coverImage category difficulty featured active rating reviewCount minGroupSize maxGroupSize bestSeason'
-        )
-        .lean(),
-      SafariModel.countDocuments(query),
-    ])
-
-    // Admin requests (active=all) must never be served from edge cache
-    const cacheHeader = active === 'all'
+    // Admin requests (anyone passing `active` at all) must never be served from edge cache
+    const cacheHeader = activeParam !== null
       ? 'no-store'
       : 'public, s-maxage=300, stale-while-revalidate=60'
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: safaris,
-        pagination: {
-          total,
-          page,
-          limit,
-          totalPages: Math.ceil(total / limit),
-          hasNext: page < Math.ceil(total / limit),
-          hasPrev: page > 1,
-        },
-      },
-      { headers: { 'Cache-Control': cacheHeader } }
-    )
+    return NextResponse.json(result, { headers: { 'Cache-Control': cacheHeader } })
   } catch (error) {
     console.error('[GET /api/safaris]', error)
     return NextResponse.json({ success: false, error: 'Server error' }, { status: 500 })

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { getLowestPrice } from '@/lib/utils'
+import { SAFARI_TYPES } from '@/components/safaris/SafariFilterPanel'
 import type { Safari } from '@/types'
 
 interface PkgCardProps {
@@ -16,6 +17,7 @@ export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
 
   const primaryCountry = safari.location.countries?.[0] ?? safari.location.country
   const categoryLabel = [primaryCountry, ...safari.category.slice(0, 1)].filter(Boolean).join(' · ')
+  const styleLabel = SAFARI_TYPES.find((t) => t.value === safari.safariType?.[0])?.label
 
   const displayParks = safari.location.parks?.length ? safari.location.parks : safari.location.park ? [safari.location.park] : []
   const displayRegions = safari.location.regions?.length ? safari.location.regions : safari.location.region ? [safari.location.region] : []
@@ -47,12 +49,19 @@ export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
 
         {/* Body */}
         <div className="flex flex-col flex-1 p-5 sm:p-6">
-          {/* Country · category pill */}
-          {categoryLabel && (
+          {/* Country · category + safari style pills */}
+          {(categoryLabel || styleLabel) && (
             <div className="flex flex-wrap gap-2 mb-3">
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-[10px] tracking-[0.1em] bg-bone-bg text-bone-muted border border-[rgba(23,22,18,0.12)]">
-                {categoryLabel}
-              </span>
+              {categoryLabel && (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-[10px] tracking-[0.1em] bg-bone-bg text-bone-muted border border-[rgba(23,22,18,0.12)]">
+                  {categoryLabel}
+                </span>
+              )}
+              {styleLabel && (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-[10px] tracking-[0.1em] bg-bone-bg text-bone-clay border border-[rgba(23,22,18,0.12)]">
+                  {styleLabel}
+                </span>
+              )}
             </div>
           )}
 

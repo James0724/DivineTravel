@@ -6,7 +6,10 @@ import Link from "next/link";
 import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
 import type { Safari } from "@/types";
-import { BreadcrumbSchema } from "@/components/seo/StructuredData";
+import {
+  BreadcrumbSchema,
+  SafariSchema,
+} from "@/components/seo/StructuredData";
 import BookingButton from "@/components/ui/BookingButton";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 
@@ -150,12 +153,12 @@ function PriceTiersBox({ safari }: { safari: Safari }) {
         return (
           <div
             key={tier}
-            className={`flex justify-between py-2 text-[13px] ${
+            className={`flex justify-between py-2 text-sm ${
               i < arr.length - 1 ? "border-b border-[var(--line)]" : ""
             }`}
           >
             <span>{label}</span>
-            <b className="font-serif italic text-[var(--clay)]">
+            <b className="font-serif text-xl italic text-[var(--clay)]">
               ${t.pricePerPerson.toLocaleString()}
               {tier === "luxury" ? "+" : ""}
             </b>
@@ -164,7 +167,7 @@ function PriceTiersBox({ safari }: { safari: Safari }) {
       })}
       <BookingButton
         safari={safari}
-        label={`Book this ${safari.duration} day${safari.duration !== 1 ? "s" : ""} safari →`}
+        label={`Book this ${safari.duration} day${safari.duration !== 1 ? "s" : ""} safari`}
         className="block mt-3.5 py-3 w-full text-center bg-[var(--forest)] text-[var(--paper)] text-[13px] rounded transition-opacity hover:opacity-90"
       />
     </>
@@ -215,8 +218,6 @@ export default async function SafariDetailPage({ params }: Props) {
     },
   ];
 
-  console.log({ safari, related });
-
   return (
     <>
       <BreadcrumbSchema
@@ -226,6 +227,7 @@ export default async function SafariDetailPage({ params }: Props) {
           { name: safari.name, href: `/safaris/${safari.slug}` },
         ]}
       />
+      <SafariSchema safari={safari} />
 
       {/* ════════════════════════════════════════════════════════════════════
           HERO — image fills section; price box moves below on mobile
@@ -282,7 +284,8 @@ export default async function SafariDetailPage({ params }: Props) {
                 <div className="mb-12 sm:mb-14">
                   <Eyebrow>The Itinerary</Eyebrow>
                   <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5">
-                    {safari.duration} day{safari.duration !== 1 ? "s" : ""}.{" "}
+                    <span className="italic mr-2"> {safari.duration}</span>
+                    day{safari.duration !== 1 ? "s" : ""}.{" "}
                     <em className="italic text-[var(--clay)]">
                       {nights} night{nights !== 1 ? "s" : ""}
                     </em>

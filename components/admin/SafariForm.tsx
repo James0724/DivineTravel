@@ -31,6 +31,31 @@ const CATEGORIES = [
   { value: 'gorilla',    label: 'Gorilla' },
 ]
 
+const ACTIVITY_SAFARI_TYPES = [
+  { value: 'walking',        label: 'Walking Safari' },
+  { value: 'photographic',   label: 'Photographic Safari' },
+  { value: 'water-based',    label: 'Water-Based Safari' },
+  { value: 'night',          label: 'Night Safari' },
+  { value: 'birding',        label: 'Birding Safari' },
+  { value: 'game-drive',     label: 'Game-Drive Safari' },
+  { value: 'fly-in',         label: 'Fly-in Safari' },
+  { value: 'mobile-camping', label: 'Mobile/Camping Safari' },
+  { value: 'horseback',      label: 'Horseback Safari' },
+  { value: 'balloon',        label: 'Hot-Air Balloon Safari' },
+  { value: 'self-drive',     label: 'Self-Drive Safari' },
+  { value: 'conservation',   label: 'Conservation Safari' },
+  { value: 'wellness',       label: 'Wellness Safari' },
+]
+
+const TRAVELLER_SAFARI_TYPES = [
+  { value: 'family',      label: 'Family Safari' },
+  { value: 'honeymoon',   label: 'Honeymoon Safari' },
+  { value: 'couples',     label: "Couple's Safari" },
+  { value: 'solo',        label: 'Solo Safari' },
+  { value: 'small-group', label: 'Small Group Safari' },
+  { value: 'private',     label: 'Private Safari' },
+]
+
 const DIFFICULTIES = [
   { value: 'easy',        label: 'Easy' },
   { value: 'moderate',    label: 'Moderate' },
@@ -80,6 +105,7 @@ const defaultValues: SafariFormValues & {
     luxury:   blankPricingTier(),
   },
   category: ['wildlife'],
+  safariType: ['game-drive'],
   difficulty: 'easy',
   maxGroupSize: 8,
   minGroupSize: 2,
@@ -93,18 +119,40 @@ const defaultValues: SafariFormValues & {
 
 /* ─── Helpers ────────────────────────────────────────────────────────────── */
 
+// Recursively walk a react-hook-form FieldErrors tree and collect every
+// leaf error message, however deeply nested (e.g. pricing.luxury.hotels.1.name).
+function collectErrorMessages(node: unknown, messages: string[] = []): string[] {
+  if (!node || typeof node !== 'object') return messages
+
+  const obj = node as Record<string, unknown>
+  if (typeof obj.message === 'string' && obj.message) {
+    messages.push(obj.message)
+  }
+
+  for (const key of Object.keys(obj)) {
+    if (key === 'message' || key === 'type' || key === 'types' || key === 'ref') continue
+    collectErrorMessages(obj[key], messages)
+  }
+
+  return messages
+}
+
 function ArrayField({
   label,
   values,
   onChange,
   placeholder = 'Add item…',
   hint,
+  error,
+  required,
 }: {
   label: string
   values: string[]
   onChange: (v: string[]) => void
   placeholder?: string
   hint?: string
+  error?: string
+  required?: boolean
 }) {
   const [draft, setDraft] = useState('')
 
@@ -121,8 +169,11 @@ function ArrayField({
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-bone-ink/80 font-sans">{label}</label>
-      {hint && <p className="text-xs text-bone-ink/45 font-sans -mt-1">{hint}</p>}
+      <label className="text-sm font-medium text-bone-ink/80 font-sans">
+        {label}
+        {required && <span className="text-bone-clay ml-0.5">*</span>}
+      </label>
+      {hint && !error && <p className="text-xs text-bone-ink/45 font-sans -mt-1">{hint}</p>}
 
       {values.filter(Boolean).length > 0 && (
         <ul className="flex flex-col gap-1">
@@ -145,7 +196,11 @@ function ArrayField({
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={onKey}
           placeholder={placeholder}
-          className="flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 transition-colors placeholder:text-bone-ink/35"
+          className={`flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border rounded focus:outline-none focus:ring-1 transition-colors placeholder:text-bone-ink/35 ${
+            error
+              ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+              : 'border-[rgba(23,22,18,0.2)] focus:border-bone-forest focus:ring-bone-forest/30'
+          }`}
         />
         <button
           type="button"
@@ -155,8 +210,13 @@ function ArrayField({
           <Plus size={13} /> Add
         </button>
       </div>
+      {error && <p className="text-xs text-red-600 font-sans">{error}</p>}
     </div>
   )
+}
+
+type PricingTierFieldErrors = Partial<Record<keyof SafariFormValues['pricing']['budget'], { message?: string }>> & {
+  hotels?: { name?: { message?: string }; rating?: { message?: string } }[]
 }
 
 function PricingTierSection({
@@ -170,7 +230,7 @@ function PricingTierSection({
   label: string
   values: SafariFormValues['pricing']['budget']
   onChange: (v: Partial<SafariFormValues['pricing']['budget']>) => void
-  errors?: Partial<Record<keyof SafariFormValues['pricing']['budget'], { message?: string }>>
+  errors?: PricingTierFieldErrors
 }) {
   const colors: Record<string, string> = {
     budget: 'border-l-blue-400',
@@ -218,6 +278,8 @@ function PricingTierSection({
         onChange={(v) => onChange({ includes: v })}
         placeholder="Add inclusion…"
         hint="Press Enter or click Add"
+        error={errors?.includes?.message}
+        required
       />
 
       {/* ── Hotels ── */}
@@ -231,41 +293,57 @@ function PricingTierSection({
           </p>
         </div>
 
-        {(values.hotels ?? []).map((hotel, i) => (
-          <div key={i} className="flex gap-2 items-center">
-            <input
-              type="text"
-              value={hotel.name}
-              onChange={(e) => {
-                const updated = [...(values.hotels ?? [])]
-                updated[i] = { ...updated[i], name: e.target.value }
-                onChange({ hotels: updated })
-              }}
-              placeholder="Hotel name…"
-              className="flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 transition-colors placeholder:text-bone-ink/35"
-            />
-            <select
-              value={hotel.rating}
-              onChange={(e) => {
-                const updated = [...(values.hotels ?? [])]
-                updated[i] = { ...updated[i], rating: Number(e.target.value) }
-                onChange({ hotels: updated })
-              }}
-              className="h-9 px-2 font-sans text-sm text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest transition-colors"
-            >
-              {[1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>{'★'.repeat(n)} ({n})</option>
-              ))}
-            </select>
-            <button
-              type="button"
-              onClick={() => onChange({ hotels: (values.hotels ?? []).filter((_, idx) => idx !== i) })}
-              className="text-bone-ink/30 hover:text-red-500 transition-colors flex-shrink-0"
-            >
-              <X size={13} />
-            </button>
-          </div>
-        ))}
+        {(values.hotels ?? []).map((hotel, i) => {
+          const hotelError = errors?.hotels?.[i]
+          return (
+            <div key={i} className="flex flex-col gap-1">
+              <div className="flex gap-2 items-center">
+                <input
+                  type="text"
+                  value={hotel.name}
+                  onChange={(e) => {
+                    const updated = [...(values.hotels ?? [])]
+                    updated[i] = { ...updated[i], name: e.target.value }
+                    onChange({ hotels: updated })
+                  }}
+                  placeholder="Hotel name…"
+                  className={`flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border rounded focus:outline-none focus:ring-1 transition-colors placeholder:text-bone-ink/35 ${
+                    hotelError?.name
+                      ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                      : 'border-[rgba(23,22,18,0.2)] focus:border-bone-forest focus:ring-bone-forest/30'
+                  }`}
+                />
+                <select
+                  value={hotel.rating}
+                  onChange={(e) => {
+                    const updated = [...(values.hotels ?? [])]
+                    updated[i] = { ...updated[i], rating: Number(e.target.value) }
+                    onChange({ hotels: updated })
+                  }}
+                  className={`h-9 px-2 font-sans text-sm text-bone-ink bg-bone-paper border rounded focus:outline-none transition-colors ${
+                    hotelError?.rating ? 'border-red-400' : 'border-[rgba(23,22,18,0.2)] focus:border-bone-forest'
+                  }`}
+                >
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <option key={n} value={n}>{'★'.repeat(n)} ({n})</option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => onChange({ hotels: (values.hotels ?? []).filter((_, idx) => idx !== i) })}
+                  className="text-bone-ink/30 hover:text-red-500 transition-colors flex-shrink-0"
+                >
+                  <X size={13} />
+                </button>
+              </div>
+              {(hotelError?.name?.message || hotelError?.rating?.message) && (
+                <p className="text-xs text-red-600 font-sans">
+                  {hotelError?.name?.message || hotelError?.rating?.message}
+                </p>
+              )}
+            </div>
+          )
+        })}
 
         <button
           type="button"
@@ -275,6 +353,28 @@ function PricingTierSection({
           <Plus size={13} /> Add Hotel
         </button>
       </div>
+    </div>
+  )
+}
+
+/* ─── SectionErrorBanner ─────────────────────────────────────────────────────
+   Same red callout style as the SEO section's guidance box, reused everywhere
+   so every collapsible section explains exactly what's wrong and how to fix it
+   instead of just turning the header red.
+────────────────────────────────────────────────────────────────────────────── */
+
+function SectionErrorBanner({ messages }: { messages: string[] }) {
+  if (messages.length === 0) return null
+  return (
+    <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-md bg-red-50 border border-red-200">
+      <AlertCircle size={14} className="text-red-500 flex-shrink-0 mt-0.5" />
+      {messages.length === 1 ? (
+        <p className="text-xs text-red-700 font-sans">{messages[0]}</p>
+      ) : (
+        <ul className="text-xs text-red-700 font-sans space-y-1 list-disc list-inside">
+          {messages.map((m, i) => <li key={i}>{m}</li>)}
+        </ul>
+      )}
     </div>
   )
 }
@@ -367,6 +467,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           itinerary: existing.itinerary.length ? existing.itinerary : [blankItineraryDay(1)],
           pricing: existing.pricing,
           category: existing.category,
+          safariType: existing.safariType?.length ? existing.safariType : ['game-drive'],
           difficulty: existing.difficulty,
           maxGroupSize: existing.maxGroupSize,
           minGroupSize: existing.minGroupSize,
@@ -413,11 +514,31 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const watchedExcluded    = watch('excluded')   ?? ['']
   const watchedBestSeason  = watch('bestSeason') ?? []
   const watchedCategory    = watch('category')   ?? []
+  const watchedSafariType  = watch('safariType') ?? []
   const watchedFeatured    = watch('featured')
   const watchedActive      = watch('active')
   const watchedCountries   = watch('location.countries') ?? []
   const watchedRegions     = watch('location.regions')   ?? []
   const watchedParks       = watch('location.parks')     ?? []
+  const watchedMetaTitle       = watch('seo.metaTitle')       ?? ''
+  const watchedMetaDescription = watch('seo.metaDescription') ?? ''
+
+  // Values saved before the category/safari-type lists changed (e.g. a retired
+  // option) won't match any button above, so they'd otherwise sit invisibly in
+  // the form data. Surface them as removable chips so the user can actually act.
+  const unknownCategories = watchedCategory.filter(
+    (c) => !CATEGORIES.some((opt) => opt.value === c)
+  )
+  const knownSafariTypeValues = [...ACTIVITY_SAFARI_TYPES, ...TRAVELLER_SAFARI_TYPES].map((t) => t.value)
+  const unknownSafariTypes = watchedSafariType.filter(
+    (t) => !knownSafariTypeValues.includes(t)
+  )
+
+  const removeUnknownCategory = (val: string) =>
+    setValue('category', watchedCategory.filter((c) => c !== val) as typeof watchedCategory, { shouldValidate: true })
+
+  const removeUnknownSafariType = (val: string) =>
+    setValue('safariType', watchedSafariType.filter((t) => t !== val) as typeof watchedSafariType, { shouldValidate: true })
 
   const toggleMonth = (month: string) => {
     const current = watch('bestSeason') ?? []
@@ -434,6 +555,14 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       ? current.filter((c) => c !== cat)
       : [...current, cat as never]
     setValue('category', next as typeof current)
+  }
+
+  const toggleSafariType = (type: string) => {
+    const current = watch('safariType') ?? []
+    const next = current.includes(type as never)
+      ? current.filter((t) => t !== type)
+      : [...current, type as never]
+    setValue('safariType', next as typeof current)
   }
 
   /* ── Submit ── */
@@ -494,7 +623,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     const sectionMap: Record<string, boolean> = {
       basic:    !!(errs.name || errs.tagline || errs.description),
       location: !!errs.location,
-      details:  !!(errs.duration || errs.difficulty || errs.category || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
+      details:  !!(errs.duration || errs.difficulty || errs.category || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
       content:  !!(errs.highlights || errs.included || errs.excluded),
       itinerary: !!errs.itinerary,
       pricing:  !!errs.pricing,
@@ -511,26 +640,26 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       ),
     }))
 
-    // Pick the first useful message to surface in the toast
-    const firstMsg =
-      (errs.name?.message) ||
-      (errs.tagline?.message) ||
-      (errs.description?.message) ||
-      ((errs.location?.countries as { message?: string } | undefined)?.message) ||
-      (errs.duration?.message) ||
-      (errs.highlights?.message as string | undefined) ||
-      (errs.itinerary?.message as string | undefined) ||
-      (errs.pricing?.budget?.description?.message) ||
-      'Please fix the highlighted errors before saving'
+    // Surface every distinct validation message, not just the first one,
+    // so the user doesn't have to hunt through sections to find what's wrong.
+    const messages = Array.from(new Set(collectErrorMessages(errs)))
 
-    toast.error(firstMsg as string)
+    if (messages.length === 0) {
+      toast.error('Please fix the highlighted errors before saving')
+    } else if (messages.length === 1) {
+      toast.error(messages[0])
+    } else {
+      toast.error(
+        `${messages[0]} (+${messages.length - 1} more issue${messages.length - 1 > 1 ? 's' : ''} — see highlighted sections below)`
+      )
+    }
   }
 
   /* ── Section error flags (passed as hasError to open sections) ── */
   const sectionErrors = {
     basic:    !!(errors.name || errors.tagline || errors.description),
     location: !!errors.location,
-    details:  !!(errors.duration || errors.difficulty || errors.category || errors.bestSeason),
+    details:  !!(errors.duration || errors.difficulty || errors.category || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
     content:  !!(errors.highlights || errors.included || errors.excluded),
     itinerary: !!errors.itinerary,
     pricing:  !!errors.pricing,
@@ -585,6 +714,14 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         hasError={sectionErrors.basic}
         onToggle={() => toggleSection('basic')}
       >
+        <SectionErrorBanner
+          messages={Array.from(new Set([
+            ...collectErrorMessages(errors.name),
+            ...collectErrorMessages(errors.tagline),
+            ...collectErrorMessages(errors.description),
+          ]))}
+        />
+
         <div className="grid grid-cols-1 gap-4">
           <Input
             label="Safari Name"
@@ -644,18 +781,17 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         hasError={sectionErrors.location}
         onToggle={() => toggleSection('location')}
       >
+        <SectionErrorBanner messages={Array.from(new Set(collectErrorMessages(errors.location)))} />
+
         <ArrayField
-          label="Countries *"
+          label="Countries"
+          required
           values={watchedCountries}
           onChange={(v) => setValue('location.countries', v, { shouldValidate: true })}
           placeholder="e.g. Kenya"
           hint="Add every country this safari visits. First entry is the primary."
+          error={(errors.location?.countries as { message?: string } | undefined)?.message}
         />
-        {(errors.location?.countries as { message?: string } | undefined)?.message && (
-          <p className="text-xs text-red-500 font-sans -mt-3">
-            {(errors.location?.countries as { message?: string }).message}
-          </p>
-        )}
 
         <ArrayField
           label="Regions / Areas"
@@ -666,17 +802,14 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         />
 
         <ArrayField
-          label="Parks & Reserves *"
+          label="Parks & Reserves"
+          required
           values={watchedParks}
           onChange={(v) => setValue('location.parks', v, { shouldValidate: true })}
           placeholder="e.g. Masai Mara National Reserve"
           hint="Add every park or reserve visited. First entry is the primary."
+          error={(errors.location?.parks as { message?: string } | undefined)?.message}
         />
-        {(errors.location?.parks as { message?: string } | undefined)?.message && (
-          <p className="text-xs text-red-500 font-sans -mt-3">
-            {(errors.location?.parks as { message?: string }).message}
-          </p>
-        )}
       </CollapsibleSection>
 
       {/* ════════════ 3 · DETAILS ════════════ */}
@@ -687,6 +820,19 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         hasError={sectionErrors.details}
         onToggle={() => toggleSection('details')}
       >
+        <SectionErrorBanner
+          messages={Array.from(new Set([
+            ...collectErrorMessages(errors.duration),
+            ...collectErrorMessages(errors.difficulty),
+            ...collectErrorMessages(errors.category),
+            ...collectErrorMessages(errors.safariType),
+            ...collectErrorMessages(errors.bestSeason),
+            ...collectErrorMessages(errors.maxGroupSize),
+            ...collectErrorMessages(errors.minGroupSize),
+            ...collectErrorMessages(errors.minAge),
+          ]))}
+        />
+
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Input
             label="Duration (days)"
@@ -760,7 +906,98 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
               )
             })}
           </div>
-          {errors.category && <p className="text-xs text-red-600 font-sans">{errors.category.message as string}</p>}
+          {unknownCategories.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {unknownCategories.map((val) => (
+                <button
+                  key={val}
+                  type="button"
+                  onClick={() => removeUnknownCategory(val)}
+                  className="flex items-center gap-1.5 text-xs font-sans px-3 py-1.5 rounded-full border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
+                >
+                  "{val}" — unsupported, click to remove <X size={12} />
+                </button>
+              ))}
+            </div>
+          )}
+          {errors.category && (
+            <p className="text-xs text-red-600 font-sans">
+              {collectErrorMessages(errors.category)[0] ?? 'Select at least one category'}
+            </p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <div>
+            <label className="text-sm font-medium text-bone-ink/80 font-sans">Safari Type <span className="text-bone-clay">*</span></label>
+            <p className="text-xs text-bone-ink/45 font-sans mt-0.5">Style of experience — a package can have more than one, from either group</p>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-sans font-medium text-bone-ink/55 uppercase tracking-wide">Activity type</span>
+            <div className="flex flex-wrap gap-2">
+              {ACTIVITY_SAFARI_TYPES.map((t) => {
+                const active = watchedSafariType.includes(t.value as never)
+                return (
+                  <button
+                    key={t.value}
+                    type="button"
+                    onClick={() => toggleSafariType(t.value)}
+                    className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${
+                      active
+                        ? 'bg-bone-clay text-white border-bone-clay'
+                        : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-clay hover:text-bone-clay'
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-sans font-medium text-bone-ink/55 uppercase tracking-wide">Traveller type</span>
+            <div className="flex flex-wrap gap-2">
+              {TRAVELLER_SAFARI_TYPES.map((t) => {
+                const active = watchedSafariType.includes(t.value as never)
+                return (
+                  <button
+                    key={t.value}
+                    type="button"
+                    onClick={() => toggleSafariType(t.value)}
+                    className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${
+                      active
+                        ? 'bg-bone-forest text-white border-bone-forest'
+                        : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-forest hover:text-bone-forest'
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {unknownSafariTypes.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {unknownSafariTypes.map((val) => (
+                <button
+                  key={val}
+                  type="button"
+                  onClick={() => removeUnknownSafariType(val)}
+                  className="flex items-center gap-1.5 text-xs font-sans px-3 py-1.5 rounded-full border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
+                >
+                  "{val}" — unsupported, click to remove <X size={12} />
+                </button>
+              ))}
+            </div>
+          )}
+          {errors.safariType && (
+            <p className="text-xs text-red-600 font-sans">
+              {collectErrorMessages(errors.safariType)[0] ?? 'Select at least one safari type'}
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -796,23 +1033,38 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         hasError={sectionErrors.content}
         onToggle={() => toggleSection('content')}
       >
+        <SectionErrorBanner
+          messages={Array.from(new Set([
+            ...collectErrorMessages(errors.highlights),
+            ...collectErrorMessages(errors.included),
+            ...collectErrorMessages(errors.excluded),
+          ]))}
+        />
+
         <ArrayField
           label="Highlights"
+          required
           values={watchedHighlights}
-          onChange={(v) => setValue('highlights', v)}
+          onChange={(v) => setValue('highlights', v, { shouldValidate: true })}
           placeholder="Add a highlight…"
           hint="Key selling points — at least 3"
+          error={
+            errors.highlights?.message
+              ? `${errors.highlights.message} — currently ${watchedHighlights.filter(Boolean).length}, add ${Math.max(0, 3 - watchedHighlights.filter(Boolean).length)} more`
+              : undefined
+          }
         />
-        {errors.highlights && <p className="text-xs text-red-600 font-sans -mt-2">{errors.highlights.message as string}</p>}
 
         <div className="h-px bg-[rgba(23,22,18,0.07)]" />
 
         <ArrayField
           label="What's Included"
+          required
           values={watchedIncluded}
-          onChange={(v) => setValue('included', v)}
+          onChange={(v) => setValue('included', v, { shouldValidate: true })}
           placeholder="Add inclusion…"
           hint="e.g. All park fees, full board meals, professional guide"
+          error={errors.included?.message as string | undefined}
         />
 
         <div className="h-px bg-[rgba(23,22,18,0.07)]" />
@@ -834,6 +1086,8 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         hasError={sectionErrors.itinerary}
         onToggle={() => toggleSection('itinerary')}
       >
+        <SectionErrorBanner messages={Array.from(new Set(collectErrorMessages(errors.itinerary)))} />
+
         <div className="space-y-5">
           {itineraryFields.map((field, index) => (
             <div
@@ -940,6 +1194,8 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         hasError={sectionErrors.pricing}
         onToggle={() => toggleSection('pricing')}
       >
+        <SectionErrorBanner messages={Array.from(new Set(collectErrorMessages(errors.pricing)))} />
+
         <div className="space-y-8">
           {(
             [
@@ -958,7 +1214,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
                   label={label}
                   values={field.value}
                   onChange={(v) => field.onChange({ ...field.value, ...v })}
-                  errors={errors.pricing?.[tier] as Partial<Record<keyof SafariFormValues['pricing']['budget'], { message?: string }>>}
+                  errors={errors.pricing?.[tier] as PricingTierFieldErrors}
                 />
               )}
             />
@@ -1049,18 +1305,36 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         hasError={sectionErrors.seo}
         onToggle={() => toggleSection('seo')}
       >
+        {sectionErrors.seo && (
+          <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-md bg-red-50 border border-red-200">
+            <AlertCircle size={14} className="text-red-500 flex-shrink-0 mt-0.5" />
+            <p className="text-xs text-red-700 font-sans">
+              The meta title or description below is too long for search engines to display properly. Shorten the text until the counter under the field turns black again, then save.
+            </p>
+          </div>
+        )}
         <Input
           label="Meta Title"
           {...register('seo.metaTitle')}
           placeholder="e.g. Great Migration Safari Kenya | Divine Travel Nest Safaris"
-          hint="Max 60 characters"
+          error={
+            errors.seo?.metaTitle
+              ? `${errors.seo.metaTitle.message} — currently ${watchedMetaTitle.length}, remove ${watchedMetaTitle.length - 60}`
+              : undefined
+          }
+          hint={`${watchedMetaTitle.length}/60 characters`}
         />
         <Textarea
           label="Meta Description"
           {...register('seo.metaDescription')}
           rows={3}
           placeholder="Compelling description for Google search results…"
-          hint="Max 160 characters"
+          error={
+            errors.seo?.metaDescription
+              ? `${errors.seo.metaDescription.message} — currently ${watchedMetaDescription.length}, remove ${watchedMetaDescription.length - 160}`
+              : undefined
+          }
+          hint={`${watchedMetaDescription.length}/160 characters`}
         />
         <Controller
           control={control}

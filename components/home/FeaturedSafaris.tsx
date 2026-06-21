@@ -35,7 +35,7 @@ export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
-              as="h1"
+              as="h2"
               textBefore="Popular safari "
               highlightedText="Our best"
               textAfter="journeys"

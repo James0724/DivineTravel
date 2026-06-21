@@ -2,14 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
 import { BreadcrumbSchema } from "@/components/seo/StructuredData";
 import PageHero from "@/components/ui/PageHero";
-import JournalFilterSidebar from "@/components/journal/JournalFilterSidebar";
-import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
+import JournalContent from "@/components/journal/JournalContent";
+import Reveal from "@/components/ui/Reveal";
 import type { JournalPost, PostAuthor, PostCategory } from "@/types";
 import CtaBand from "@/components/ui/CtaBand";
+import { getQueryClient } from "@/lib/queryClient";
+import { getPostsList, type PostListFilters } from "@/lib/data/posts";
+import { postKeys } from "@/lib/data/queryKeys";
 
 function resolveAuthor(raw: PostAuthor | string | undefined) {
   if (!raw) return { _id: "", name: "", avatar: undefined, title: undefined };
@@ -74,20 +78,33 @@ const CATEGORY_LABELS: Record<PostCategory, string> = {
   tips: "Tips & Practical",
 };
 
-async function getPosts(category?: string): Promise<JournalPost[]> {
+async function getFeaturedPost(): Promise<JournalPost | null> {
   try {
     await connectDB();
-    const query: Record<string, unknown> = { published: true };
-    if (category) query.category = category;
-    const posts = await PostModel.find(query)
-      .populate("author", "name avatar title bio")
+    const post = await PostModel.findOne({ published: true, featured: true })
       .sort({ publishedAt: -1 })
-      .limit(50)
+      .populate("author", "name avatar title bio")
       .select("-body")
       .lean();
-    return JSON.parse(JSON.stringify(posts)) as JournalPost[];
+    const fallback =
+      post ??
+      (await PostModel.findOne({ published: true })
+        .sort({ publishedAt: -1 })
+        .populate("author", "name avatar title bio")
+        .select("-body")
+        .lean());
+    return fallback ? (JSON.parse(JSON.stringify(fallback)) as JournalPost) : null;
   } catch {
-    return [];
+    return null;
+  }
+}
+
+async function getArticleCount(): Promise<number> {
+  try {
+    await connectDB();
+    return await PostModel.countDocuments({ published: true });
+  } catch {
+    return 0;
   }
 }
 
@@ -100,17 +117,37 @@ function formatDate(dateStr?: string) {
   });
 }
 
-export default async function JournalPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>;
-}) {
-  const { category } = await searchParams;
-  const posts = await getPosts(category);
-  const featured = !category
-    ? (posts.find((p) => p.featured) ?? posts[0])
-    : null;
-  const regularPosts = posts.filter((p) => p._id !== featured?._id);
+const JOURNAL_LIMIT = 9;
+
+interface Props {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function JournalPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const get = (key: string) => {
+    const v = sp[key];
+    return Array.isArray(v) ? v[0] : v;
+  };
+
+  // Mirrors the apiFilters built client-side in JournalContent.tsx — the
+  // query key must match exactly so the hydrated cache entry below is
+  // picked up on mount instead of triggering a redundant client fetch.
+  const apiFilters: PostListFilters = {
+    category: (get("category") as PostCategory) || undefined,
+    search: get("search") || undefined,
+    sort: (get("sort") as PostListFilters["sort"]) || "newest",
+    page: parseInt(get("page") ?? "1", 10),
+    limit: JOURNAL_LIMIT,
+  };
+
+  const [featured, articleCount] = await Promise.all([getFeaturedPost(), getArticleCount()]);
+
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: postKeys.list(apiFilters),
+    queryFn: () => getPostsList(apiFilters),
+  });
 
   return (
     <>
@@ -137,7 +174,7 @@ export default async function JournalPage({
         description="Guides, destination deep-dives, wildlife reports and insider tips from our in-country team across Kenya, Tanzania and Uganda."
         statsDivider
         stats={[
-          { num: String(posts.length), sup: "+", lbl: "Articles & guides" },
+          { num: String(articleCount), sup: "+", lbl: "Articles & guides" },
           { num: "3", sup: "", lbl: "East African countries" },
           { num: "24/7", sup: "", lbl: "Updated from the field" },
         ]}
@@ -157,7 +194,7 @@ export default async function JournalPage({
       />
 
       {/* ── Featured post ────────────────────────────────────────── */}
-      {featured && !category && (
+      {featured && (
         <section className="bg-bone-bg pb-24 pt-2">
           <div className="container-site">
             <Reveal>
@@ -166,10 +203,7 @@ export default async function JournalPage({
                 className="group grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-8 lg:gap-16 items-stretch"
               >
                 {/* Image */}
-                <div
-                  className="relative overflow-hidden bg-bone-paper"
-                  style={{ aspectRatio: "5/4" }}
-                >
+                <div className="relative overflow-hidden bg-bone-paper" style={{ aspectRatio: "5/4" }}>
                   <Image
                     src={featured.coverImage}
                     alt={featured.title}
@@ -181,16 +215,14 @@ export default async function JournalPage({
                     className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
                     style={{ background: "var(--clay, #9d4519)" }}
                   >
-                    {CATEGORY_LABELS[featured.category as PostCategory] ??
-                      featured.category}
+                    {CATEGORY_LABELS[featured.category as PostCategory] ?? featured.category}
                   </div>
                 </div>
                 {/* Body */}
                 <div className="flex flex-col justify-center py-4">
                   <div className="flex gap-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-6">
                     <span className="text-bone-clay">
-                      {CATEGORY_LABELS[featured.category as PostCategory] ??
-                        featured.category}
+                      {CATEGORY_LABELS[featured.category as PostCategory] ?? featured.category}
                     </span>
                     <span>·</span>
                     <span>{formatDate(featured.publishedAt)}</span>
@@ -203,10 +235,7 @@ export default async function JournalPage({
                   >
                     {featured.title}
                   </h2>
-                  <p
-                    className="text-[17px] leading-[1.65] text-bone-muted mb-8"
-                    style={{ maxWidth: "46ch" }}
-                  >
+                  <p className="text-[17px] leading-[1.65] text-bone-muted mb-8" style={{ maxWidth: "46ch" }}>
                     {featured.excerpt}
                   </p>
                   {featured.author &&
@@ -224,9 +253,7 @@ export default async function JournalPage({
                             />
                           )}
                           <div>
-                            <div className="text-[13px] font-medium text-bone-ink">
-                              {a.name}
-                            </div>
+                            <div className="text-[13px] font-medium text-bone-ink">{a.name}</div>
                             {a.title && (
                               <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-muted">
                                 {a.title}
@@ -249,115 +276,22 @@ export default async function JournalPage({
         </section>
       )}
 
-      {/* ── Posts section: sidebar + grid ───────────────────────── */}
-      <section
-        className="bg-bone-bg"
-        style={{ paddingTop: "60px", paddingBottom: "120px" }}
-      >
-        <div className="container-site">
-          <div className="lg:flex lg:gap-8 2xl:gap-10 lg:items-start">
-            {/* Filter sidebar — mobile drawer + desktop panel */}
-            <Suspense fallback={null}>
-              <JournalFilterSidebar postCount={posts.length} />
-            </Suspense>
-
-            {/* Main content */}
-            <div className="flex-1 min-w-0">
-              {/* Result count (desktop) */}
-              <div className="hidden lg:block mb-6">
-                <span
-                  className="font-mono text-[11px] uppercase tracking-[0.1em]"
-                  style={{ color: "var(--muted)" }}
-                >
-                  {posts.length} article{posts.length !== 1 ? "s" : ""}
-                  {category &&
-                    ` · ${CATEGORY_LABELS[category as PostCategory] ?? category}`}
-                </span>
-              </div>
-
-              {regularPosts.length > 0 ? (
-                <Stagger
-                  className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"
-                  style={{ gap: "56px 36px" }}
-                >
-                  {regularPosts.map((post) => (
-                    <RevealItem key={post._id} className="flex flex-col">
-                      <Link
-                        href={`/journal/${post.slug}`}
-                        className="group flex flex-col cursor-pointer h-full bg-bone-paper border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
-                      >
-                        <div
-                          className="overflow-hidden bg-bone-paper flex-shrink-0"
-                          style={{ aspectRatio: "3/2" }}
-                        >
-                          <Image
-                            src={post.coverImage}
-                            alt={post.title}
-                            width={600}
-                            height={400}
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            className="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
-                          />
-                        </div>
-                        <div className="flex flex-col flex-1 gap-4 p-5">
-                          <div className="flex gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted">
-                            <span className="text-bone-clay">
-                              {CATEGORY_LABELS[post.category as PostCategory] ??
-                                post.category}
-                            </span>
-                            <span>·</span>
-                            <span>{formatDate(post.publishedAt)}</span>
-                          </div>
-                          <h3
-                            className="font-serif font-normal leading-[1.12] tracking-[-0.01em] text-bone-ink transition-colors duration-200 group-hover:text-bone-clay"
-                            style={{ fontSize: "27px" }}
-                          >
-                            {post.title}
-                          </h3>
-                          <p className="text-[14px] leading-[1.6] text-bone-muted">
-                            {post.excerpt}
-                          </p>
-                          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-bone-forest mt-auto pt-1">
-                            Read article →
-                          </span>
-                        </div>
-                      </Link>
-                    </RevealItem>
-                  ))}
-                </Stagger>
-              ) : (
-                <div className="text-center py-24">
-                  <p className="font-serif text-2xl text-bone-ink/50 mb-3">
-                    No articles yet in this category.
-                  </p>
-                  <Link
-                    href="/journal"
-                    className="text-sm text-bone-clay hover:underline font-sans"
-                  >
-                    Browse all articles →
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── Posts section: filter panel + grid + pagination ────────── */}
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Suspense fallback={null}>
+          <JournalContent />
+        </Suspense>
+      </HydrationBoundary>
 
       {/* ── Newsletter CTA ──────────────────────────────────────── */}
-      <section
-        className="bg-bone-forest text-bone-paper"
-        style={{ padding: "96px 0" }}
-      >
+      <section className="bg-bone-forest text-bone-paper" style={{ padding: "96px 0" }}>
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <Reveal>
               <div>
                 <h2
                   className="font-serif font-light leading-none tracking-[-0.02em]"
-                  style={{
-                    fontSize: "clamp(36px, 4.4vw, 60px)",
-                    maxWidth: "14ch",
-                  }}
+                  style={{ fontSize: "clamp(36px, 4.4vw, 60px)", maxWidth: "14ch" }}
                 >
                   Ready for your{" "}
                   <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>
@@ -365,10 +299,7 @@ export default async function JournalPage({
                   </em>
                   ?
                 </h2>
-                <p
-                  className="text-sm leading-[1.65] mt-5"
-                  style={{ opacity: 0.82, maxWidth: "40ch" }}
-                >
+                <p className="text-sm leading-[1.65] mt-5" style={{ opacity: 0.82, maxWidth: "40ch" }}>
                   Our team is on the ground in East Africa every week. Tell us
                   what you want to see and we&apos;ll send a free, personalised
                   itinerary within 24 hours.

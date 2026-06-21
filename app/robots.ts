@@ -66,6 +66,21 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/"],
       },
       {
+        userAgent: "Google-Extended",
+        allow: "/",
+        disallow: ["/admin/", "/api/"],
+      },
+      {
+        userAgent: "OAI-SearchBot",
+        allow: "/",
+        disallow: ["/admin/", "/api/"],
+      },
+      {
+        userAgent: "meta-externalagent",
+        allow: "/",
+        disallow: ["/admin/", "/api/"],
+      },
+      {
         userAgent: "Omgili",
         allow: "/",
         disallow: ["/admin/", "/api/"],

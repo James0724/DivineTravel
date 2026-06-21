@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import connectDB from "@/lib/db/mongoose";
-import SafariModel from "@/lib/db/models/Safari";
+import { getCountryOrderedSafaris } from "@/lib/data/safaris";
 import PageHero from "@/components/ui/PageHero";
 import CtaBand from "@/components/ui/CtaBand";
 import PkgCard from "@/components/safaris/PkgCard";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
-import { BreadcrumbSchema } from "@/components/seo/StructuredData";
+import {
+  BreadcrumbSchema,
+  CollectionPageSchema,
+} from "@/components/seo/StructuredData";
 import type { Safari } from "@/types";
+import { AnimatedHeading } from "@/components/ui/Heading";
 
 export const revalidate = 300;
 
@@ -132,15 +135,14 @@ const COUNTRIES = [
 
 async function getPopularSafaris(): Promise<Safari[]> {
   try {
-    await connectDB();
-    const safaris = await SafariModel.find({ active: true })
-      .sort({ featured: -1, rating: -1, reviewCount: -1 })
-      .limit(6)
-      .select(
-        "name slug tagline location duration pricing images coverImage category difficulty featured active rating reviewCount minGroupSize maxGroupSize bestSeason",
-      )
-      .lean();
-    return JSON.parse(JSON.stringify(safaris)) as Safari[];
+    return await getCountryOrderedSafaris(
+      { active: true },
+      {
+        limit: 6,
+        select:
+          "name slug tagline location duration pricing images coverImage category difficulty featured active rating reviewCount minGroupSize maxGroupSize bestSeason",
+      },
+    );
   } catch {
     return [];
   }
@@ -158,6 +160,16 @@ export default async function DestinationsPage() {
           { name: "Home", href: "/" },
           { name: "Destinations", href: "/destinations" },
         ]}
+      />
+      <CollectionPageSchema
+        name="East Africa Safari Destinations"
+        description="Kenya, Tanzania, Uganda and Rwanda — an expert guide to East Africa's four great safari countries."
+        url="https://divinetravelnestsafaris.com/destinations"
+        items={COUNTRIES.map((c) => ({
+          name: c.name,
+          url: `https://divinetravelnestsafaris.com${c.href}`,
+          description: c.tagline,
+        }))}
       />
 
       {/* ── Hero ── */}
@@ -192,14 +204,12 @@ export default async function DestinationsPage() {
                 <span className="dot" />
                 Explore by country
               </div>
-              <h2
-                className="font-serif font-light leading-[0.95] tracking-[-0.025em] text-bone-ink"
-                style={{ fontSize: "clamp(36px, 5vw, 72px)", maxWidth: "18ch" }}
-              >
-                Four countries,
-                <br />
-                every kind of <em className="italic text-bone-clay">safari</em>.
-              </h2>
+              <AnimatedHeading
+                as="h2"
+                textBefore="Four countries, "
+                highlightedText="every kind of "
+                textAfter="safari"
+              />
             </div>
           </Reveal>
 
@@ -425,14 +435,12 @@ export default async function DestinationsPage() {
                   <span className="dot" />
                   Popular across all countries
                 </div>
-                <h2
-                  className="font-serif font-light leading-[0.95] tracking-[-0.025em] text-bone-ink"
-                  style={{ fontSize: "clamp(32px, 4.5vw, 60px)" }}
-                >
-                  Top-rated <em className="italic text-bone-clay">safari</em>
-                  <br />
-                  packages.
-                </h2>
+                <AnimatedHeading
+                  textBefore="Top-rated "
+                  textAfter="safari"
+                  highlightedText=" packages."
+                  as="h2"
+                />
               </div>
               <Link
                 href="/safaris"

@@ -158,7 +158,11 @@ function CardSkeleton({ large }: { large: boolean }) {
 export default function SignaturePackages({
   initialData,
 }: SignaturePackagesProps) {
-  const { data, isLoading } = useSafaris({ limit: 6, sort: "rating" });
+  const { data, isLoading } = useSafaris({
+    limit: 6,
+    sort: "rating",
+    balanced: true,
+  });
   const safaris = data?.data ?? initialData ?? [];
 
   const featuredCards = safaris.filter((s) => s.featured).slice(0, 2);
@@ -166,6 +170,8 @@ export default function SignaturePackages({
   const regularCards = safaris
     .filter((s) => !featuredIds.has(s._id))
     .slice(0, 4);
+
+  console.log("Safaris in SignaturePackages:", safaris);
 
   const showSkeleton = isLoading && safaris.length === 0;
 
@@ -187,7 +193,7 @@ export default function SignaturePackages({
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
-              as="h1"
+              as="h2"
               textBefore="Popular safari "
               highlightedText="categories"
               textAfter="tuned"

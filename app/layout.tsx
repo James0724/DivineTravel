@@ -89,7 +89,7 @@ export const metadata: Metadata = {
       "Expert-guided, tailor-made East Africa safaris — Masai Mara, Serengeti, Bwindi gorilla trekking and Rwanda Volcanoes. Budget to luxury, 2026/2027.",
     images: [
       {
-        url: `${APP_URL}/images/og-default.jpg`,
+        url: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1200&h=630&q=80",
         width: 1200,
         height: 630,
         alt: "Divine Travel Nest Safaris — East Africa Safari Experts",
@@ -102,7 +102,9 @@ export const metadata: Metadata = {
       "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages",
     description:
       "Masai Mara game drives, Serengeti migration, Bwindi gorilla trekking & Rwanda Volcanoes — tailor-made, budget to luxury. 2026/2027.",
-    images: [`${APP_URL}/images/og-default.jpg`],
+    images: [
+      "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1200&h=630&q=80",
+    ],
   },
   robots: {
     index: true,

@@ -36,10 +36,13 @@ Divine Travel Nest Safaris Ltd is a Kenya-based, woman-led safari company founde
 - [Destinations: Tanzania](https://divinetravelnestsafaris.com/destinations/tanzania) — park-by-park guide to Tanzania wildlife areas
 - [Destinations: Uganda](https://divinetravelnestsafaris.com/destinations/uganda) — park-by-park guide to Uganda wildlife areas
 - [Destinations: Rwanda](https://divinetravelnestsafaris.com/destinations/rwanda) — park-by-park guide to Rwanda wildlife areas
+- [Safari Types](https://divinetravelnestsafaris.com/safari-types) — every safari style compared, by activity (walking, photographic, water-based, night, birding, game-drive, fly-in, mobile-camping, horseback, balloon, self-drive, conservation, wellness) and by traveller (family, honeymoon, couples, solo, small-group, private)
 - [Plan My Safari](https://divinetravelnestsafaris.com/plan-my-safari) — free custom itinerary request form
-- [Field Journal (Blog)](https://divinetravelnestsafaris.com/blog) — safari planning guides, wildlife reports, destination deep-dives
+- [Book Your Safari](https://divinetravelnestsafaris.com/bookings) — pick a package and request a booking online
+- [Field Journal (Blog)](https://divinetravelnestsafaris.com/journal) — safari planning guides, wildlife reports, destination deep-dives
 - [About Us](https://divinetravelnestsafaris.com/about) — company story, team, values, certifications
 - [Contact](https://divinetravelnestsafaris.com/contact) — enquiry form, office details, planning process
+- [Community Guidelines](https://divinetravelnestsafaris.com/guidelines) — responsible travel expectations for wildlife, communities and fellow travellers
 
 ## Safari Planning FAQs
 
@@ -58,6 +61,10 @@ Budget (shared minibus, tented camps), Mid-Range (private vehicle, en-suite lodg
 **Do you handle family safaris?**
 Yes — family safaris are a specialty. We select family-friendly lodges and child-friendly guides. Gorilla trekking has a minimum age of 15.
 
+**What types of safari do you offer?**
+Two dimensions: activity (walking, photographic, water-based, night, birding, game-drive, fly-in, mobile-camping, horseback, balloon, self-drive, conservation, wellness) and traveller (family, honeymoon, couples, solo, small-group, private). Most itineraries combine one of each — see /safari-types for details.
+
 ## Optional
 
+- [Full reference (safari-type catalogue, park lists, company facts)](https://divinetravelnestsafaris.com/llms-full.txt)
 - [Sitemap](https://divinetravelnestsafaris.com/sitemap.xml)

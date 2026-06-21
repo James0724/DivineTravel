@@ -4,68 +4,28 @@ import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/db/mongoose'
 import PostModel from '@/lib/db/models/Post'
 import slugify from 'slugify'
+import { getPostsList } from '@/lib/data/posts'
+import type { PostCategory } from '@/types'
 
 const AUTHOR_FIELDS = 'name avatar title bio'
 
 export async function GET(req: NextRequest) {
   try {
-    await connectDB()
     const { searchParams } = new URL(req.url)
 
-    const search = searchParams.get('search')
-    const category = searchParams.get('category')
-    const featured = searchParams.get('featured')
-    const published = searchParams.get('published')
-    const page = parseInt(searchParams.get('page') ?? '1', 10)
-    const limit = Math.min(parseInt(searchParams.get('limit') ?? '9', 10), 50)
-    const sort = searchParams.get('sort') ?? 'newest'
+    const result = await getPostsList({
+      search: searchParams.get('search') ?? undefined,
+      category: (searchParams.get('category') as PostCategory) ?? undefined,
+      featured: searchParams.get('featured') === 'true' ? true : undefined,
+      page: parseInt(searchParams.get('page') ?? '1', 10),
+      limit: Math.min(parseInt(searchParams.get('limit') ?? '9', 10), 50),
+      sort: (searchParams.get('sort') as 'newest' | 'oldest' | 'featured') ?? 'newest',
+      includeUnpublished: searchParams.get('published') === 'all',
+    })
 
-    const query: Record<string, unknown> = {}
-
-    if (published !== 'all') query.published = true
-    if (featured === 'true') query.featured = true
-    if (category) query.category = category
-
-    if (search) {
-      query.$text = { $search: search }
-    }
-
-    type SortQuery = { [key: string]: 1 | -1 }
-    const sortMap: Record<string, SortQuery> = {
-      newest: { publishedAt: -1, createdAt: -1 },
-      oldest: { publishedAt: 1, createdAt: 1 },
-      featured: { featured: -1, publishedAt: -1 },
-    }
-    const sortQuery: SortQuery = sortMap[sort] ?? sortMap.newest
-
-    const [posts, total] = await Promise.all([
-      PostModel.find(query)
-        .populate('author', AUTHOR_FIELDS)
-        .sort(sortQuery)
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .select('-body')
-        .lean(),
-      PostModel.countDocuments(query),
-    ])
-
-    const totalPages = Math.ceil(total / limit)
-
-    return NextResponse.json(
-      {
-        success: true,
-        data: JSON.parse(JSON.stringify(posts)),
-        pagination: {
-          total,
-          page,
-          limit,
-          totalPages,
-          hasNext: page < totalPages,
-          hasPrev: page > 1,
-        },
-      },
-      { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60' } }
-    )
+    return NextResponse.json(result, {
+      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60' },
+    })
   } catch (err) {
     console.error('[GET /api/posts]', err)
     return NextResponse.json({ success: false, error: 'Failed to fetch posts' }, { status: 500 })

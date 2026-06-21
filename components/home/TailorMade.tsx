@@ -69,7 +69,7 @@ export default function TailorMade() {
 
                 {/* Heading — character pull-up */}
                 <AnimatedHeading
-                  as="h1"
+                  as="h2"
                   textBefore="Your safari, "
                   highlightedText="your way"
                 />
