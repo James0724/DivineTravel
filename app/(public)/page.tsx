@@ -18,7 +18,7 @@ import JournalSection from "@/components/home/JournalSection";
 import FAQSection from "@/components/home/FAQSection";
 import connectDB from "@/lib/db/mongoose";
 import TestimonialModel from "@/lib/db/models/Testimonial";
-import { getCountryOrderedSafaris } from "@/lib/data/safaris";
+import { getCountryOrderedSafaris, getSignaturePackages } from "@/lib/data/safaris";
 import type { Testimonial } from "@/types";
 
 export const revalidate = 300; // ISR — revalidate every 5 minutes
@@ -56,7 +56,7 @@ async function getHomeData() {
       "name slug tagline location duration pricing images coverImage category difficulty featured rating reviewCount minGroupSize maxGroupSize";
     const [safaris, signatureSafaris, testimonials] = await Promise.all([
       getCountryOrderedSafaris({ active: true, featured: true }, { limit: 6, select }),
-      getCountryOrderedSafaris({ active: true }, { limit: 6, select }),
+      getSignaturePackages({ limit: 6, featuredCount: 2 }),
       TestimonialModel.find({ featured: true })
         .sort({ rating: -1 })
         .limit(8)

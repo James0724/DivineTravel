@@ -35,6 +35,12 @@ async function fetchFeaturedSafaris(): Promise<ApiResponse<Safari[]>> {
   return res.json()
 }
 
+async function fetchSignaturePackages(): Promise<ApiResponse<Safari[]>> {
+  const res = await fetch('/api/safaris/signature?limit=6&featuredCount=2')
+  if (!res.ok) throw new Error('Failed to fetch signature packages')
+  return res.json()
+}
+
 // ─── Hooks ────────────────────────────────────────────────────────────────────
 
 export function useSafaris(filters: SafariFilters = {}) {
@@ -59,6 +65,14 @@ export function useFeaturedSafaris() {
   return useQuery({
     queryKey: safariKeys.featured(),
     queryFn: fetchFeaturedSafaris,
+    staleTime: 1000 * 60 * 10,
+  })
+}
+
+export function useSignaturePackages() {
+  return useQuery({
+    queryKey: safariKeys.signature(),
+    queryFn: fetchSignaturePackages,
     staleTime: 1000 * 60 * 10,
   })
 }

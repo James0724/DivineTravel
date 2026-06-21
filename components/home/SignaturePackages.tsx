@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useSafaris } from "@/hooks/useSafaris";
+import { useSignaturePackages } from "@/hooks/useSafaris";
 import SiteLink from "@/components/ui/SiteLink";
 import type { Safari } from "@/types";
 import { AnimatedHeading } from "../ui/Heading";
@@ -158,11 +158,7 @@ function CardSkeleton({ large }: { large: boolean }) {
 export default function SignaturePackages({
   initialData,
 }: SignaturePackagesProps) {
-  const { data, isLoading } = useSafaris({
-    limit: 6,
-    sort: "rating",
-    balanced: true,
-  });
+  const { data, isLoading } = useSignaturePackages();
   const safaris = data?.data ?? initialData ?? [];
 
   const featuredCards = safaris.filter((s) => s.featured).slice(0, 2);
@@ -170,8 +166,6 @@ export default function SignaturePackages({
   const regularCards = safaris
     .filter((s) => !featuredIds.has(s._id))
     .slice(0, 4);
-
-  console.log("Safaris in SignaturePackages:", safaris);
 
   const showSkeleton = isLoading && safaris.length === 0;
 

@@ -23,6 +23,7 @@ export const safariKeys = {
   details: () => [...safariKeys.all, "detail"] as const,
   detail: (slug: string) => [...safariKeys.details(), slug] as const,
   featured: () => [...safariKeys.all, "featured"] as const,
+  signature: () => [...safariKeys.all, "signature"] as const,
 };
 
 export const postKeys = {

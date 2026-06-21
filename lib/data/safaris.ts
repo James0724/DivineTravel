@@ -100,6 +100,49 @@ export async function getCountryOrderedSafaris(
 }
 
 /**
+ * Backs /api/safaris/signature — the homepage "signature packages" section,
+ * which always wants exactly `featuredCount` featured + the rest regular,
+ * each half balanced across countries on its own. Kept separate from
+ * `getSafarisList`'s `balanced` mode (which round-robins a single pool and
+ * doesn't guarantee any featured/regular split) rather than overloading it.
+ */
+export async function getSignaturePackages(
+  options: { limit?: number; featuredCount?: number } = {},
+): Promise<Safari[]> {
+  await connectDB();
+  const { limit = 6, featuredCount = 2 } = options;
+  const regularCount = Math.max(limit - featuredCount, 0);
+
+  const project = {
+    ...Object.fromEntries(SELECT_FIELDS.split(" ").map((f) => [f, 1])),
+    __countryRank: 1,
+  };
+
+  const [featuredCandidates, regularCandidates] = await Promise.all([
+    SafariModel.aggregate([
+      { $match: { active: true, featured: true } },
+      { $addFields: { __countryRank: COUNTRY_RANK_FIELD } },
+      { $sort: { __countryRank: 1, rating: -1, reviewCount: -1 } },
+      { $project: project },
+    ]),
+    SafariModel.aggregate([
+      { $match: { active: true, featured: { $ne: true } } },
+      { $addFields: { __countryRank: COUNTRY_RANK_FIELD } },
+      { $sort: { __countryRank: 1, rating: -1, reviewCount: -1 } },
+      { $project: project },
+    ]),
+  ]);
+
+  const combined = [
+    ...selectCountryBalanced(featuredCandidates, featuredCount),
+    ...selectCountryBalanced(regularCandidates, regularCount),
+  ];
+  for (const doc of combined) delete (doc as Record<string, unknown>).__countryRank;
+
+  return JSON.parse(JSON.stringify(combined));
+}
+
+/**
  * Shared safari-listing query, used directly by server components (for SSR)
  * and by /api/safaris (for client-side filtering) so both stay in sync.
  */
