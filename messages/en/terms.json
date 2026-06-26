@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "title": "Terms & Conditions | Divine Travel Nest Safaris",
+    "description": "Read the Terms and Conditions governing safari bookings with Divine Travel Nest Safaris Ltd — covering payments, cancellations, liability, and your rights as a client."
+  },
+  "breadcrumbHome": "Home",
+  "breadcrumbCurrent": "Terms & Conditions",
+  "hero": {
+    "eyebrow": "Legal",
+    "titleBefore": "Terms &",
+    "titleEm": "Conditions",
+    "description": "Please read these terms carefully before making a booking. They form the contract between you and Divine Travel Nest Safaris Ltd."
+  },
+  "toc": {
+    "contentsLabel": "Contents",
+    "lastUpdatedLabel": "Last updated:",
+    "lastUpdatedValue": "June 2026",
+    "questionsLabel": "Questions?",
+    "contactUsLink": "Contact us"
+  },
+  "preamble": {
+    "lead": "These Terms and Conditions govern all bookings made with Divine Travel Nest Safaris Ltd (registered in Kenya). Making a booking constitutes your acceptance of these terms in full, on behalf of yourself and all passengers listed on the booking.",
+    "note": "We recommend you retain a copy of this document for reference throughout your trip."
+  },
+  "sections": {
+    "acceptance": {
+      "label": "Acceptance of Terms",
+      "heading": "Acceptance of Terms",
+      "p1": "By submitting a booking enquiry, paying a deposit, or otherwise confirming a safari with Divine Travel Nest Safaris Ltd, you acknowledge that you have read, understood, and unconditionally agree to be bound by these Terms and Conditions. If you do not agree, you must not proceed with a booking.",
+      "p2": "The person making the booking accepts these terms on behalf of all other members of the travelling party, and accepts responsibility for ensuring all members are aware of and agree to these conditions."
+    },
+    "definitions": {
+      "label": "Definitions",
+      "heading": "Definitions",
+      "intro": "Throughout these Terms and Conditions:",
+      "items": [
+        { "term": "\"Company\"", "desc": "means Divine Travel Nest Safaris Ltd, its employees, directors, agents, and representatives." },
+        { "term": "\"Client\" / \"You\"", "desc": "means the person or persons who submit a booking enquiry, pay a deposit, or travel on a safari arranged by the Company." },
+        { "term": "\"Safari\" / \"Tour\"", "desc": "means any travel service, package, itinerary, accommodation, or activity arranged or sold by the Company." },
+        { "term": "\"Booking\"", "desc": "means a confirmed reservation of a safari following receipt of the required deposit and the Company's written confirmation." },
+        { "term": "\"Departure Date\"", "desc": "means the first day of the safari as confirmed in the booking documentation." },
+        { "term": "\"Written notice\"", "desc": "means communication by email to the address confirmed in the booking documents." }
+      ]
+    },
+    "booking": {
+      "label": "Booking & Reservations",
+      "heading": "Booking & Reservations",
+      "p1": "A booking is considered confirmed only upon receipt of the required deposit payment and issuance of a written booking confirmation by the Company. Verbal agreements or provisional holds do not constitute confirmed bookings.",
+      "p2": "All passengers must be named at the time of booking. The lead client is responsible for providing accurate passenger information, including full legal names as they appear on passports, nationalities, and any relevant medical disclosures.",
+      "p3": "The Company reserves the right to decline any booking at its discretion, in which case any amounts paid will be refunded in full.",
+      "p4": "Bookings made by third-party agents or platforms are subject to these Terms and Conditions in addition to any platform-specific terms."
+    },
+    "payment": {
+      "label": "Payment Terms",
+      "heading": "Payment Terms",
+      "p1": "A non-refundable deposit of <strong>30% of the total safari cost</strong> is required to confirm a booking. The remaining balance is due no later than <strong>60 days before the Departure Date</strong>.",
+      "p2": "For bookings made within 60 days of the Departure Date, the full safari cost is payable at the time of booking.",
+      "p3Label": "Payments may be made via:",
+      "bullets": [
+        "Bank transfer (USD, EUR, GBP, or KES)",
+        "M-Pesa (Kenya domestic payments)",
+        "Credit or debit card (subject to a 3% processing fee)",
+        "Other methods as agreed in writing with the Company"
+      ],
+      "p4": "Where payment is made in a currency other than the quoted currency, the exchange rate applied will be that on the date the payment is received. Any bank charges or transfer fees are the sole responsibility of the Client.",
+      "p5": "Failure to make payment by the due date may result in the booking being released and the deposit forfeited. The Company will provide written notice before cancelling a booking for non-payment."
+    },
+    "cancellation-client": {
+      "label": "Cancellation by Client",
+      "heading": "Cancellation by Client",
+      "intro": "All cancellations must be received in writing by email. The date of cancellation is the date the written notice is received by the Company. The following cancellation charges apply:",
+      "table": {
+        "colDays": "Days before departure",
+        "colCharge": "Cancellation charge",
+        "rows": [
+          { "period": "More than 90 days", "charge": "Deposit only (30%)" },
+          { "period": "61 – 90 days", "charge": "50% of total cost" },
+          { "period": "31 – 60 days", "charge": "75% of total cost" },
+          { "period": "30 days or fewer", "charge": "100% of total cost" },
+          { "period": "No-show / early departure", "charge": "100% of total cost" }
+        ]
+      },
+      "p1": "No refunds are provided for unused portions of a safari, including meals, activities, or accommodation not utilised due to voluntary early departure or late arrival.",
+      "p2": "The Company strongly recommends that all clients purchase comprehensive travel insurance, including trip cancellation cover, to protect against unforeseen cancellation losses."
+    },
+    "cancellation-company": {
+      "label": "Cancellation by Company",
+      "heading": "Cancellation by Company",
+      "p1": "The Company reserves the right to cancel a safari in the following circumstances:",
+      "bullets": [
+        "A minimum group size required to operate the tour has not been reached, with at least 45 days' notice given to the Client.",
+        "Safety conditions, political instability, natural disasters, or other circumstances make the safari unsafe or impractical to operate.",
+        "Force majeure events as described in Section 12."
+      ],
+      "p2": "Where the Company cancels a safari for reasons other than force majeure, the Client will receive a <strong>full refund</strong> of all amounts paid to the Company. The Company will also use reasonable endeavours to offer an alternative safari of equal value and quality.",
+      "p3": "The Company's liability is limited to a refund of the amounts paid. No compensation is payable for consequential losses such as airline tickets, visas, or other travel arrangements booked independently by the Client."
+    },
+    "insurance": {
+      "label": "Travel Insurance",
+      "heading": "Travel Insurance",
+      "p1": "Comprehensive travel insurance is <strong>strongly recommended</strong> for all clients and may be required as a condition of participation in certain activities, particularly gorilla trekking, mountain hiking, and remote wilderness expeditions.",
+      "p2Label": "At minimum, your travel insurance should include cover for:",
+      "bullets": [
+        "Medical expenses and hospitalisation",
+        "Emergency medical evacuation (including helicopter evacuation)",
+        "Trip cancellation, interruption, and curtailment",
+        "Baggage loss, theft, and delay",
+        "Personal liability"
+      ],
+      "p3": "The Company will not be held responsible for any loss, cost, or damage that would have been covered by adequate travel insurance. Proof of insurance may be requested prior to departure."
+    },
+    "itinerary": {
+      "label": "Itinerary Changes",
+      "heading": "Itinerary Changes",
+      "p1": "While the Company makes every effort to operate safaris as planned, itineraries are subject to change due to weather conditions, road closures, park regulations, wildlife patterns, accommodation availability, or safety considerations. These variations are an inherent part of wildlife travel in Africa.",
+      "p2": "Where a significant change to a confirmed itinerary is necessary before departure, the Company will notify the Client as soon as practicable and offer:",
+      "bullets": [
+        "An alternative of equivalent or greater standard and value, or",
+        "A partial refund where a significant downgrade in accommodation or activities occurs."
+      ],
+      "p3": "Minor changes — including substitution of lodges with comparable alternatives, adjusted driving routes, or modified game drive timings — do not constitute significant changes and do not entitle the Client to a refund or compensation.",
+      "p4": "Requests by the Client to alter a confirmed booking (dates, destinations, or number of passengers) will be accommodated where possible, subject to availability and any applicable supplier amendment fees."
+    },
+    "health": {
+      "label": "Health & Fitness",
+      "heading": "Health & Fitness Requirements",
+      "p1": "The Client is solely responsible for ensuring that all members of the travelling party are in a suitable state of health and physical fitness to participate in the chosen safari activities.",
+      "p2Label": "Certain activities have specific requirements:",
+      "bullets": [
+        "Gorilla and chimpanzee trekking: minimum age of 15 years; involves hiking 2–8 km in mountainous terrain at altitude.",
+        "Walking safaris: moderate fitness required; not recommended for those with mobility impairments.",
+        "Hot air balloon safaris: weight restrictions apply as specified by the balloon operator."
+      ],
+      "p3": "The Company must be informed in writing, prior to booking confirmation, of any pre-existing medical condition, disability, pregnancy, or dietary requirement that may affect participation. The Company may require a medical certificate of fitness for certain activities.",
+      "p4": "A yellow fever vaccination certificate is required for entry to Uganda and may be required by Kenya and Tanzania depending on your country of origin or prior travel. It is the Client's responsibility to obtain all required vaccinations and health documentation. The Company recommends consulting a travel health clinic at least 6–8 weeks before departure.",
+      "p5": "The Company reserves the right to exclude a participant from any activity where a guide or medical professional reasonably considers participation to be a risk to that person's health or to other members of the group. No refund will be given in such circumstances."
+    },
+    "wildlife": {
+      "label": "Wildlife & Safety",
+      "heading": "Wildlife & Safety",
+      "p1": "Wildlife safaris take place in untamed natural environments inhabited by wild animals. Such encounters are inherently unpredictable and carry an element of risk that cannot be eliminated entirely. By booking a safari with the Company, you acknowledge and accept these risks.",
+      "p2Label": "All Clients must:",
+      "bullets": [
+        "Follow the instructions of their guide at all times, including instructions to remain in the vehicle, maintain silence, or leave an area.",
+        "Refrain from feeding, touching, or provoking wildlife.",
+        "Adhere to all park and conservancy rules and regulations.",
+        "Not consume alcohol to excess before or during any activity that may compromise safety."
+      ],
+      "p3": "The Company will not be liable for any injury, death, loss, or damage resulting from a Client's failure to follow guide instructions or park regulations. Any Client who wilfully disregards safety instructions does so at their own risk.",
+      "p4": "Our driver-guides hold valid licences issued by the Kenya Professional Safari Guides Association (KPSGA) and are trained in wilderness first aid. However, emergency medical facilities in remote areas may be limited, which underlines the importance of comprehensive travel insurance including medical evacuation cover."
+    },
+    "liability": {
+      "label": "Liability",
+      "heading": "Liability",
+      "p1": "The Company acts in part as an agent for third-party service providers, including but not limited to airlines, accommodation providers, park authorities, and activity operators. The Company is not liable for the acts, omissions, defaults, negligence, or insolvency of any such third-party provider.",
+      "p2": "Where the Company is found to be directly liable for loss or damage suffered by the Client, the Company's total liability shall not exceed the total cost paid by the Client for the safari giving rise to the claim.",
+      "p3Label": "The Company expressly excludes liability for:",
+      "bullets": [
+        "Loss of enjoyment, distress, or disappointment arising from circumstances beyond the Company's reasonable control.",
+        "Consequential, indirect, or economic losses, including loss of earnings or costs of independently booked flights, visas, or accommodation.",
+        "Loss or theft of personal property, money, or equipment.",
+        "Injury, illness, or death caused by third-party service providers.",
+        "Any loss arising from the Client's failure to obtain adequate travel insurance."
+      ],
+      "p4": "Nothing in these Terms and Conditions excludes liability for death or personal injury caused by the Company's own proven negligence, nor any liability that cannot be excluded by law."
+    },
+    "force-majeure": {
+      "label": "Force Majeure",
+      "heading": "Force Majeure",
+      "p1": "Neither the Company nor the Client shall be liable for any failure or delay in performance arising from events beyond their reasonable control, including but not limited to:",
+      "bullets": [
+        "Acts of God, natural disasters, or extreme weather events",
+        "War, armed conflict, civil unrest, or acts of terrorism",
+        "Government restrictions, border closures, or travel advisories",
+        "Epidemic, pandemic, or public health emergencies",
+        "Industrial action, strikes, or airport closures",
+        "Park closures ordered by national park authorities"
+      ],
+      "p2": "In the event of force majeure, the Company will use its best efforts to offer an alternative travel date or credit note of equivalent value. Where no alternative is possible, refunds will be considered on a case-by-case basis after deducting any unrecoverable costs already incurred from suppliers."
+    },
+    "complaints": {
+      "label": "Complaints",
+      "heading": "Complaints",
+      "p1": "The Company is committed to providing a high standard of service. If any aspect of your safari falls short of your expectations, we ask that you raise the concern with your guide or Company representative immediately so that we have the opportunity to resolve it during the trip.",
+      "p2Before": "If the matter is not resolved to your satisfaction during the safari, a formal written complaint must be submitted by email to",
+      "p2After": "within <strong>30 days of the final day of your safari</strong>. Complaints received after this period may not be considered.",
+      "p3": "The Company will acknowledge receipt of a formal complaint within 5 business days and provide a substantive response within 28 days."
+    },
+    "privacy": {
+      "label": "Privacy & Data",
+      "heading": "Privacy & Data",
+      "p1": "The Company collects personal information (including names, passport details, contact information, and health disclosures) for the sole purpose of administering your booking and delivering the safari services purchased.",
+      "p2": "Your personal information will not be sold or shared with unaffiliated third parties except where necessary to fulfil the services booked (e.g., sharing passenger names with lodges, park authorities, or transport providers).",
+      "p3": "By making a booking, you consent to the Company retaining your contact information to send occasional service-related communications. You may opt out of marketing communications at any time by contacting us in writing.",
+      "p4": "The Company stores data securely and in accordance with applicable Kenyan data protection legislation."
+    },
+    "photography": {
+      "label": "Photography & Media",
+      "heading": "Photography & Media",
+      "p1": "The Company may photograph or film safari activities for marketing, training, or record-keeping purposes. If you prefer not to be featured in such materials, please notify the Company in writing before your Departure Date and we will respect your preference.",
+      "p2": "Clients are welcome to photograph and film wildlife and landscapes for personal use. Photography of local people, communities, or cultural sites should be conducted with sensitivity and, where appropriate, with the permission of those being photographed.",
+      "p3": "Commercial drone use and professional media production within national parks require prior permits from the relevant park authority and must be declared to the Company at the time of booking."
+    },
+    "governing-law": {
+      "label": "Governing Law",
+      "heading": "Governing Law",
+      "p1": "These Terms and Conditions are governed by and construed in accordance with the laws of the Republic of Kenya. Any dispute arising out of or in connection with these terms shall be subject to the exclusive jurisdiction of the courts of Kenya.",
+      "p2": "In the event of a dispute, both parties agree to first attempt resolution through good-faith negotiation. If negotiation fails, either party may refer the matter to mediation before initiating formal legal proceedings.",
+      "p3Before": "The Company reserves the right to amend these Terms and Conditions at any time. The version in force at the date of booking confirmation shall apply to that booking. Current terms are always published on our website at",
+      "p3After": ".",
+      "contactBox": {
+        "label": "Questions about these terms?",
+        "body": "Our team is happy to clarify anything in these conditions before you book.",
+        "sendMessage": "Send a message"
+      }
+    }
+  }
+}

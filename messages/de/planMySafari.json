@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "Meine Safari planen — kostenlose individuelle Reiseroute | Divine Travel Nest Safaris",
+    "description": "Teilen Sie uns Ihre Reisedaten und Interessen mit. Wir erstellen eine maßgeschneiderte Reiseroute mit transparenter Preisgestaltung — schnelle Antwort garantiert. Oder rufen Sie direkt an: +254 722-595-916.",
+    "ogTitle": "Meine Safari planen — Divine Travel Nest Safaris",
+    "ogDescription": "Kostenlose, persönliche Safari-Angebote innerhalb von 24 Stunden. Ohne Verpflichtung."
+  },
+  "breadcrumbHome": "Startseite",
+  "breadcrumbCurrent": "Meine Safari planen",
+  "hero": {
+    "eyebrow": "Hier beginnen",
+    "titleMain": "Lassen Sie uns Ihre",
+    "titleEm": "perfekte Safari planen",
+    "description": "Teilen Sie uns Ihre Reisedaten mit und was Sie in der Wildnis erleben möchten. Wir erstellen eine maßgeschneiderte Safari-Reiseroute mit ehrlicher, transparenter Preisgestaltung von Anfang an. Bereit, Ihr afrikanisches Abenteuer zum Leben zu erwecken? Lassen Sie uns in Kontakt treten — oder überspringen Sie die Formulare und rufen Sie uns direkt an: +254 722 595 916.",
+    "callNow": "Jetzt anrufen",
+    "whatsapp": "WhatsApp"
+  },
+  "contact": {
+    "eyebrow": "Kontaktieren Sie uns direkt",
+    "headingMain1": "Reservierung",
+    "headingByEm": "Telefon",
+    "headingMain2": "E-Mail oder Nachricht.",
+    "body": "Wir glauben, dass eine großartige Safari eine nahtlose Verbindung aus unberührter Wildnis und sorgfältiger Planung ist. Von der Verfolgung der Großen Migration durch die Savanne bis zur Sicherung des perfekten versteckten Buschcamps — wir übernehmen die Logistik, damit Sie sich auf den Moment konzentrieren können. Jede Reiseroute ist vollständig maßgeschneidert, gestaltet von Experten, die den Rhythmus der Wildnis und die Feinheiten des Geländes kennen, für eine unvergessliche Reise ins Herz Afrikas.",
+    "details": {
+      "phoneLabel": "Telefon",
+      "emailLabel": "E-Mail",
+      "officeLabel": "Büro",
+      "officeValue": "Nairobi, Kenia",
+      "tripadvisorLabel": "TripAdvisor",
+      "tripadvisorValue": "Unsere Bewertungen lesen ↗",
+      "googleLabel": "Google",
+      "googleValue": "Google-Bewertungen ↗"
+    }
+  },
+  "form": {
+    "headingMain": "Ein",
+    "headingEm": "kostenloses",
+    "headingSuffix": "individuelles Angebot anfragen",
+    "subtext": "Schnelle Antwort garantiert"
+  },
+  "trust": {
+    "items": [
+      { "num": "500+", "lbl": "Durchgeführte Safaris" },
+      { "num": "4.9★", "lbl": "Durchschnittliche Gästebewertung" },
+      { "num": "24h", "lbl": "Angebotszeit" },
+      { "num": "100%", "lbl": "Individuelle Reiserouten" }
+    ]
+  }
+}

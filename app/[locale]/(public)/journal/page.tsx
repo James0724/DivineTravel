@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Suspense } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import connectDB from "@/lib/db/mongoose";
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Divine Travel Nest Safaris" }],
   creator: "Divine Travel Nest Safaris",
-  alternates: { canonical: "/journal" },
+  alternates: { canonical: "/en/journal" },
   openGraph: {
     title: "Field Journal | Divine Travel Nest Safaris",
     description: "Expert guides and stories from East Africa.",
@@ -93,7 +93,9 @@ async function getFeaturedPost(): Promise<JournalPost | null> {
         .populate("author", "name avatar title bio")
         .select("-body")
         .lean());
-    return fallback ? (JSON.parse(JSON.stringify(fallback)) as JournalPost) : null;
+    return fallback
+      ? (JSON.parse(JSON.stringify(fallback)) as JournalPost)
+      : null;
   } catch {
     return null;
   }
@@ -141,7 +143,10 @@ export default async function JournalPage({ searchParams }: Props) {
     limit: JOURNAL_LIMIT,
   };
 
-  const [featured, articleCount] = await Promise.all([getFeaturedPost(), getArticleCount()]);
+  const [featured, articleCount] = await Promise.all([
+    getFeaturedPost(),
+    getArticleCount(),
+  ]);
 
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery({
@@ -203,7 +208,10 @@ export default async function JournalPage({ searchParams }: Props) {
                 className="group grid grid-cols-1 lg:grid-cols-[1.25fr_1fr] gap-8 lg:gap-16 items-stretch"
               >
                 {/* Image */}
-                <div className="relative overflow-hidden bg-bone-paper" style={{ aspectRatio: "5/4" }}>
+                <div
+                  className="relative overflow-hidden bg-bone-paper"
+                  style={{ aspectRatio: "5/4" }}
+                >
                   <Image
                     src={featured.coverImage}
                     alt={featured.title}
@@ -215,14 +223,16 @@ export default async function JournalPage({ searchParams }: Props) {
                     className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
                     style={{ background: "var(--clay, #9d4519)" }}
                   >
-                    {CATEGORY_LABELS[featured.category as PostCategory] ?? featured.category}
+                    {CATEGORY_LABELS[featured.category as PostCategory] ??
+                      featured.category}
                   </div>
                 </div>
                 {/* Body */}
                 <div className="flex flex-col justify-center py-4">
                   <div className="flex gap-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-6">
                     <span className="text-bone-clay">
-                      {CATEGORY_LABELS[featured.category as PostCategory] ?? featured.category}
+                      {CATEGORY_LABELS[featured.category as PostCategory] ??
+                        featured.category}
                     </span>
                     <span>·</span>
                     <span>{formatDate(featured.publishedAt)}</span>
@@ -235,7 +245,10 @@ export default async function JournalPage({ searchParams }: Props) {
                   >
                     {featured.title}
                   </h2>
-                  <p className="text-[17px] leading-[1.65] text-bone-muted mb-8" style={{ maxWidth: "46ch" }}>
+                  <p
+                    className="text-[17px] leading-[1.65] text-bone-muted mb-8"
+                    style={{ maxWidth: "46ch" }}
+                  >
                     {featured.excerpt}
                   </p>
                   {featured.author &&
@@ -253,7 +266,9 @@ export default async function JournalPage({ searchParams }: Props) {
                             />
                           )}
                           <div>
-                            <div className="text-[13px] font-medium text-bone-ink">{a.name}</div>
+                            <div className="text-[13px] font-medium text-bone-ink">
+                              {a.name}
+                            </div>
                             {a.title && (
                               <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-muted">
                                 {a.title}
@@ -282,53 +297,6 @@ export default async function JournalPage({ searchParams }: Props) {
           <JournalContent />
         </Suspense>
       </HydrationBoundary>
-
-      {/* ── Newsletter CTA ──────────────────────────────────────── */}
-      <section className="bg-bone-forest text-bone-paper" style={{ padding: "96px 0" }}>
-        <div className="container-site">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <Reveal>
-              <div>
-                <h2
-                  className="font-serif font-light leading-none tracking-[-0.02em]"
-                  style={{ fontSize: "clamp(36px, 4.4vw, 60px)", maxWidth: "14ch" }}
-                >
-                  Ready for your{" "}
-                  <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>
-                    African adventure
-                  </em>
-                  ?
-                </h2>
-                <p className="text-sm leading-[1.65] mt-5" style={{ opacity: 0.82, maxWidth: "40ch" }}>
-                  Our team is on the ground in East Africa every week. Tell us
-                  what you want to see and we&apos;ll send a free, personalised
-                  itinerary within 24 hours.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-3.5 px-6 py-4 rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5 mb-4"
-                  style={{ background: "#f4d4a8" }}
-                >
-                  Plan my safari
-                  <span
-                    className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
-                    style={{ background: "#9d4519" }}
-                  >
-                    →
-                  </span>
-                </Link>
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] opacity-60 mt-4">
-                  Free · No obligation · Fast response guaranteed
-                </p>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

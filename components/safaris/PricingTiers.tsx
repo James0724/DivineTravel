@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { Check, X } from 'lucide-react'
-import { cn, formatPrice, getPriceTierLabel } from '@/lib/utils'
+import { cn, getPriceTierLabel } from '@/lib/utils'
+import { useCurrency } from '@/lib/currency/useCurrency'
 import Button from '@/components/ui/Button'
 import type { Safari, PriceTier } from '@/types'
 
@@ -55,6 +56,7 @@ export default function PricingTiers({
   selectedTier,
   onSelect,
 }: PricingTiersProps) {
+  const { displayPrice } = useCurrency()
   const tiers = (['budget', 'midRange', 'luxury'] as PriceTier[]).map(
     (tier) => ({
       key: tier,
@@ -111,7 +113,7 @@ export default function PricingTiers({
               {/* Price */}
               <div className="mb-4 pb-4 border-b border-[rgba(23,22,18,0.1)]">
                 <p className="font-serif text-3xl font-bold text-bone-ink">
-                  {formatPrice(data.pricePerPerson, data.currency)}
+                  {displayPrice(data.pricePerPerson)}
                 </p>
                 <p className="text-xs text-bone-ink/45 font-sans mt-0.5">per person</p>
               </div>

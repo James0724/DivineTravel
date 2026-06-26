@@ -1,14 +1,25 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Phone, Mail, ChevronDown } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  ChevronDown,
+  Facebook,
+  Instagram,
+  Youtube,
+  Star,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import SiteLink from "@/components/ui/SiteLink";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import type { ContactSettings } from "@/lib/getSiteSettings";
+import CurrencySwitcher from "@/components/ui/CurrencySwitcher";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NAV DATA
@@ -26,105 +37,143 @@ interface NavItem {
   dropdown?: DropdownItem[];
 }
 
-const navLinks: NavItem[] = [
-  { label: "Home", href: "/" },
-  {
-    label: "Tours & Safaris",
-    href: "/safaris",
-    dropdown: [
-      {
-        label: "Kenya Safaris",
-        href: "/safaris/kenya",
-        description: "Masai Mara, Amboseli, Tsavo & more",
-      },
-      {
-        label: "Tanzania Safaris",
-        href: "/safaris/tanzania",
-        description: "Serengeti, Ngorongoro & Zanzibar",
-      },
-      {
-        label: "Uganda Safaris",
-        href: "/safaris/uganda",
-        description: "Gorilla trekking & chimp tracking",
-      },
-      {
-        label: "Rwanda Safaris",
-        href: "/safaris/rwanda",
-        description: "Volcanoes, Nyungwe & Akagera",
-      },
-      {
-        label: "Cross-country Safaris",
-        href: "/safaris/cross-country-safaris",
-        description: "Kenya · Tanzania · Uganda · Rwanda  circuits",
-      },
-    ],
-  },
-  {
-    label: "Safari Types",
-    href: "/safari-types",
-    dropdown: [
-      {
-        label: "Walking Safaris",
-        href: "/safari-types/walking",
-        description: "On foot with an armed guide & tracker",
-      },
-      {
-        label: "Photographic Safaris",
-        href: "/safari-types/photographic",
-        description: "Extended time at sightings, photo-trained guides",
-      },
-      {
-        label: "Family Safaris",
-        href: "/safari-types/family",
-        description: "Paced for every age, kid-friendly lodges",
-      },
-      {
-        label: "Honeymoon Safaris",
-        href: "/safari-types/honeymoon",
-        description: "Private vehicles & intimate camps for two",
-      },
-      {
-        label: "Solo Safaris",
-        href: "/safari-types/solo",
-        description: "Join a small group, or go fully private",
-      },
-      {
-        label: "All safari types",
-        href: "/safari-types",
-        description: "By activity — and by who you're travelling with",
-      },
-    ],
-  },
-  {
-    label: "Destinations",
-    href: "/destinations",
-    dropdown: [
-      {
-        label: "Kenya Wildlife Parks",
-        href: "/destinations/kenya",
-        description: "Masai Mara, Amboseli, Tsavo & 9 more",
-      },
-      {
-        label: "Tanzania Wildlife Parks",
-        href: "/destinations/tanzania",
-        description: "Serengeti, Ngorongoro & beyond",
-      },
-      {
-        label: "Uganda Wildlife Parks",
-        href: "/destinations/uganda",
-        description: "Gorillas, chimps & savannah",
-      },
-      {
-        label: "Rwanda Wildlife Parks",
-        href: "/destinations/rwanda",
-        description: "Volcanoes, Nyungwe & Akagera",
-      },
-    ],
-  },
-  { label: "About Us", href: "/about" },
-  { label: "Contact", href: "/contact" },
-  { label: "Journal", href: "/journal" },
-];
+function getNavLinks(t: ReturnType<typeof useTranslations>): NavItem[] {
+  return [
+    { label: t("nav.home"), href: "/" },
+    {
+      label: t("nav.toursSafaris"),
+      href: "/safaris",
+      dropdown: [
+        {
+          label: t("nav.toursDropdown.all.label"),
+          href: "/safaris",
+          description: t("nav.toursDropdown.all.description"),
+        },
+        {
+          label: t("nav.toursDropdown.kenya.label"),
+          href: "/safaris/kenya",
+          description: t("nav.toursDropdown.kenya.description"),
+        },
+        {
+          label: t("nav.toursDropdown.tanzania.label"),
+          href: "/safaris/tanzania",
+          description: t("nav.toursDropdown.tanzania.description"),
+        },
+        {
+          label: t("nav.toursDropdown.uganda.label"),
+          href: "/safaris/uganda",
+          description: t("nav.toursDropdown.uganda.description"),
+        },
+        {
+          label: t("nav.toursDropdown.rwanda.label"),
+          href: "/safaris/rwanda",
+          description: t("nav.toursDropdown.rwanda.description"),
+        },
+        {
+          label: t("nav.toursDropdown.crossCountry.label"),
+          href: "/safaris/cross-country-safaris",
+          description: t("nav.toursDropdown.crossCountry.description"),
+        },
+      ],
+    },
+    {
+      label: t("nav.safariTypes"),
+      href: "/safari-types",
+      dropdown: [
+        {
+          label: t("nav.safariTypesDropdown.all.label"),
+          href: "/safari-types",
+          description: t("nav.safariTypesDropdown.all.description"),
+        },
+        {
+          label: t("nav.safariTypesDropdown.walking.label"),
+          href: "/safari-types/walking",
+          description: t("nav.safariTypesDropdown.walking.description"),
+        },
+        {
+          label: t("nav.safariTypesDropdown.photographic.label"),
+          href: "/safari-types/photographic",
+          description: t("nav.safariTypesDropdown.photographic.description"),
+        },
+        {
+          label: t("nav.safariTypesDropdown.family.label"),
+          href: "/safari-types/family",
+          description: t("nav.safariTypesDropdown.family.description"),
+        },
+        {
+          label: t("nav.safariTypesDropdown.honeymoon.label"),
+          href: "/safari-types/honeymoon",
+          description: t("nav.safariTypesDropdown.honeymoon.description"),
+        },
+        {
+          label: t("nav.safariTypesDropdown.solo.label"),
+          href: "/safari-types/solo",
+          description: t("nav.safariTypesDropdown.solo.description"),
+        },
+      ],
+    },
+    {
+      label: t("nav.destinations"),
+      href: "/destinations",
+      dropdown: [
+        {
+          label: t("nav.destinationsDropdown.all.label"),
+          href: "/destinations",
+          description: t("nav.destinationsDropdown.all.description"),
+        },
+        {
+          label: t("nav.destinationsDropdown.kenya.label"),
+          href: "/destinations/kenya",
+          description: t("nav.destinationsDropdown.kenya.description"),
+        },
+        {
+          label: t("nav.destinationsDropdown.tanzania.label"),
+          href: "/destinations/tanzania",
+          description: t("nav.destinationsDropdown.tanzania.description"),
+        },
+        {
+          label: t("nav.destinationsDropdown.uganda.label"),
+          href: "/destinations/uganda",
+          description: t("nav.destinationsDropdown.uganda.description"),
+        },
+        {
+          label: t("nav.destinationsDropdown.rwanda.label"),
+          href: "/destinations/rwanda",
+          description: t("nav.destinationsDropdown.rwanda.description"),
+        },
+      ],
+    },
+    {
+      label: t("nav.accommodations"),
+      href: "/accommodations",
+      dropdown: [
+        {
+          label: t("nav.accommodationsDropdown.all.label"),
+          href: "/accommodations",
+          description: t("nav.accommodationsDropdown.all.description"),
+        },
+        {
+          label: t("nav.accommodationsDropdown.luxuryLodges.label"),
+          href: "/accommodations/luxury-lodges",
+          description: t("nav.accommodationsDropdown.luxuryLodges.description"),
+        },
+        {
+          label: t("nav.accommodationsDropdown.tentedCamps.label"),
+          href: "/accommodations/tented-camps",
+          description: t("nav.accommodationsDropdown.tentedCamps.description"),
+        },
+        {
+          label: t("nav.accommodationsDropdown.beachResorts.label"),
+          href: "/accommodations/beach-resorts",
+          description: t("nav.accommodationsDropdown.beachResorts.description"),
+        },
+      ],
+    },
+    { label: t("nav.aboutUs"), href: "/about" },
+    { label: t("nav.contact"), href: "/contact" },
+    { label: t("nav.journal"), href: "/journal" },
+  ];
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    INLINE SVG ICONS
@@ -211,11 +260,40 @@ function GoogleIcon({ className }: { className?: string }) {
   );
 }
 
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M17.5 14.4c-.3-.15-1.65-.8-1.9-.9-.25-.1-.45-.15-.6.15-.2.3-.7.9-.85 1.05-.15.15-.3.2-.55.05-1.5-.75-2.5-1.35-3.5-3.05-.25-.45.25-.4.7-1.35.1-.2.05-.35-.05-.5-.1-.15-.55-1.3-.75-1.8-.2-.45-.4-.4-.6-.4-.15 0-.4 0-.6 0-.2 0-.55.1-.8.4-.3.35-1.1 1.1-1.1 2.6 0 1.5 1.1 3 1.25 3.2.15.2 2.05 3.25 5.1 4.4 2.55 1 2.55.65 3.05.6.5-.05 1.65-.65 1.9-1.3.25-.65.25-1.2.15-1.3-.1-.1-.4-.2-.85-.4z" />
+      <path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.55 3.7 1.5 5.2L2 22l4.95-1.45C8.4 21.45 10.15 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.15c-1.65 0-3.2-.45-4.55-1.3l-.3-.2-3.05.9.9-2.95-.2-.3c-.95-1.4-1.45-3.05-1.45-4.8 0-4.55 3.7-8.25 8.25-8.25s8.25 3.7 8.25 8.25-3.7 8.25-8.25 8.25z" />
+    </svg>
+  );
+}
+
+function StarRow({
+  className = "fill-[#e8c080] text-[#e8c080]",
+}: {
+  className?: string;
+}) {
+  return (
+    <span className="flex items-center gap-[1px]" aria-hidden="true">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star key={i} size={9} className={className} strokeWidth={0} />
+      ))}
+    </span>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    DESKTOP NAV LINK  (plain or with hover-dropdown)
 ═══════════════════════════════════════════════════════════════════════════ */
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 function checkActive(href: string, pathname: string): boolean {
   if (href.includes("#")) return false;
@@ -270,7 +348,9 @@ function DesktopNavLink({
         whileHover="hover"
         transition={smoothTransition}
       >
-        <h5 className="relative z-[1] text-[16px] xl:text-[17px] whitespace-nowrap">{link.label}</h5>
+        <h5 className="relative z-[1] text-[16px] xl:text-[17px] whitespace-nowrap">
+          {link.label}
+        </h5>
         <span
           className={cn(
             "absolute bottom-0 left-0 w-full h-[1.5px] bg-bone-clay origin-left",
@@ -302,7 +382,9 @@ function DesktopNavLink({
           whileHover="hover"
           transition={smoothTransition}
         >
-          <h5 className="relative z-[1] text-[16px] xl:text-[17px] whitespace-nowrap">{link.label}</h5>
+          <h5 className="relative z-[1] text-[16px] xl:text-[17px] whitespace-nowrap">
+            {link.label}
+          </h5>
           <motion.button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -356,25 +438,25 @@ function DesktopNavLink({
               className="overflow-y-auto"
               style={{ maxHeight: "min(72vh, 480px)" }}
             >
-            {link.dropdown.map((item, i) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className={cn(
-                  "flex flex-col px-5 py-3.5 transition-colors duration-150 hover:bg-bone-bg group",
-                  i < link.dropdown!.length - 1 &&
-                    "border-b border-[rgba(23,22,18,0.07)]",
-                )}
-              >
-                <p className="font-serif font-medium text-bone-ink group-hover:text-bone-forest transition-colors">
-                  {item.label}
-                </p>
-                <p className="font-serif text-bone-muted mt-0.5 leading-snug">
-                  {item.description}
-                </p>
-              </Link>
-            ))}
+              {link.dropdown.map((item, i) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={cn(
+                    "flex flex-col px-5 py-3.5 transition-colors duration-150 hover:bg-bone-bg group",
+                    i < link.dropdown!.length - 1 &&
+                      "border-b border-[rgba(23,22,18,0.07)]",
+                  )}
+                >
+                  <p className="font-serif font-medium text-bone-ink group-hover:text-bone-forest transition-colors">
+                    {item.label}
+                  </p>
+                  <p className="font-serif text-bone-muted mt-0.5 leading-snug">
+                    {item.description}
+                  </p>
+                </Link>
+              ))}
             </div>
           </motion.div>
         )}
@@ -525,7 +607,9 @@ function MobileNavItem({
    MAIN COMPONENT
 ═══════════════════════════════════════════════════════════════════════════ */
 
-export default function Navbar() {
+export default function Navbar({ settings }: { settings: ContactSettings }) {
+  const t = useTranslations("common");
+  const navLinks = getNavLinks(t);
   const [navVisible, setNavVisible] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -595,54 +679,178 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
+  const phoneHref = settings.phone
+    ? `tel:${settings.phone.replace(/[^+\d]/g, "")}`
+    : "";
+  const whatsappHref = settings.whatsapp
+    ? `https://wa.me/${settings.whatsapp.replace(/[^\d]/g, "")}`
+    : "";
+  const hasSocial = !!(
+    settings.facebook ||
+    settings.instagram ||
+    settings.youtube
+  );
+
   return (
     <>
       {/* TOPBAR */}
       <div
         ref={topbarRef}
-        className="w-full z-[50] bg-bone-ink text-[rgba(244,239,226,0.82)] font-mono text-[11px] tracking-[0.1em] px-6 lg:px-12 py-[9px] flex justify-between items-center overflow-hidden"
+        className="relative z-[150] hidden sm:block w-full text-[11px]"
       >
-        <div className="flex gap-4 items-center flex-wrap min-w-0">
-          <a
-            href="tel:+254722595916"
-            className="flex items-center gap-1.5 transition-colors hover:text-[#e8c080]"
-          >
-            <Phone size={11} strokeWidth={2.2} aria-hidden="true" />
-            +254 722-595-916
-          </a>
-          <span className="opacity-30 select-none">·</span>
-          <a
-            href="mailto:info@divinetravelnestsafaris.com"
-            className="hidden lg:flex items-center gap-1.5 transition-colors hover:text-[#e8c080]"
-          >
-            <Mail size={11} strokeWidth={2.2} aria-hidden="true" />
-            info@divinetravelnestsafaris.com
-          </a>
-        </div>
+        <div className="absolute inset-0 bg-bone-forest" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-bone-clay/40 to-transparent" />
 
-        <div className="flex gap-4 items-center">
-          <a
-            href="https://www.tripadvisor.com/Attraction_Review-g294207-d26155748-Reviews-Divine_Travel_Nest_Safaris-Nairobi.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 transition-colors hover:text-[#e8c080]"
-            aria-label="TripAdvisor reviews"
-          >
-            <TripAdvisorIcon className="w-[14px] h-[14px] opacity-90" />
-            <span className="hidden xs:inline">TripAdvisor</span>
-            <span className="opacity-50 hidden lg:inline">↗</span>
-          </a>
-          <a
-            href="https://share.google/hr0uDk89EOkgVPDGh"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden lg:flex items-center gap-1.5 transition-colors hover:text-[#e8c080]"
-            aria-label="Google Reviews"
-          >
-            <GoogleIcon className="w-[13px] h-[13px]" />
-            <span>Google Reviews</span>
-            <span className="opacity-50 hidden lg:inline">↗</span>
-          </a>
+        <div className="relative z-10 flex h-[34px] w-full items-center justify-between px-6 lg:px-12">
+          {/* Contact group */}
+          <div className="flex items-center gap-3 text-[12px] min-w-0">
+            {settings.phone && (
+              <a
+                href={phoneHref}
+                className="group flex items-center gap-1.5 text-bone-paper/80 transition-colors hover:text-[#e8c080]"
+                aria-label={`Call us: ${settings.phone}`}
+              >
+                <Phone
+                  size={13}
+                  strokeWidth={2.2}
+                  className="text-[#e8c080]"
+                  aria-hidden="true"
+                />
+                <span className="hidden md:inline font-medium">
+                  {settings.phone}
+                </span>
+                <span className="md:hidden font-medium">
+                  {t("topbar.callUs")}
+                </span>
+              </a>
+            )}
+            {settings.whatsapp && (
+              <>
+                <span
+                  className="h-4 w-px bg-bone-paper/20"
+                  aria-hidden="true"
+                />
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-1.5 text-bone-paper/80 transition-colors hover:text-[#e8c080]"
+                  aria-label={t("topbar.chatWhatsappAria")}
+                >
+                  <WhatsAppIcon className="h-[13px] w-[13px] fill-[#25D366]" />
+                  <span className="hidden lg:inline font-medium">
+                    {t("topbar.whatsapp")}
+                  </span>
+                </a>
+              </>
+            )}
+            {settings.email && (
+              <>
+                <span
+                  className="hidden md:block h-4 w-px bg-bone-paper/20"
+                  aria-hidden="true"
+                />
+                <a
+                  href={`mailto:${settings.email}`}
+                  className="group hidden md:flex items-center gap-1.5 text-bone-paper/80 transition-colors hover:text-[#e8c080]"
+                >
+                  <Mail
+                    size={13}
+                    strokeWidth={2.2}
+                    className="text-[#e8c080]"
+                    aria-hidden="true"
+                  />
+                  <span className="hidden xl:inline font-medium">
+                    {settings.email}
+                  </span>
+                  <span className="xl:hidden font-medium">
+                    {t("topbar.emailUs")}
+                  </span>
+                </a>
+              </>
+            )}
+          </div>
+
+          {/* Utility group */}
+          <div className="flex items-center gap-2">
+            <CurrencySwitcher variant="pill" />
+            <LanguageSwitcher variant="pill" />
+
+            {hasSocial && (
+              <div className="hidden xl:flex items-center gap-1.5 ml-1.5 pl-2.5 border-l border-bone-paper/20">
+                {settings.facebook && (
+                  <a
+                    href={settings.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t("topbar.facebookAria")}
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-bone-paper/65 transition-all hover:bg-bone-paper/15 hover:text-[#5b9bf5] hover:scale-110"
+                  >
+                    <Facebook size={14} strokeWidth={2.2} />
+                  </a>
+                )}
+                {settings.instagram && (
+                  <a
+                    href={settings.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t("topbar.instagramAria")}
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-bone-paper/65 transition-all hover:bg-bone-paper/15 hover:text-[#f0738a] hover:scale-110"
+                  >
+                    <Instagram size={14} strokeWidth={2.2} />
+                  </a>
+                )}
+                {settings.youtube && (
+                  <a
+                    href={settings.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t("topbar.youtubeAria")}
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-bone-paper/65 transition-all hover:bg-bone-paper/15 hover:text-[#ff5c5c] hover:scale-110"
+                  >
+                    <Youtube size={15} strokeWidth={2.2} />
+                  </a>
+                )}
+              </div>
+            )}
+
+            {settings.tripadvisor && (
+              <>
+                <span
+                  className="hidden lg:block h-4 w-px bg-bone-paper/20"
+                  aria-hidden="true"
+                />
+                <a
+                  href={settings.tripadvisor}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden lg:flex items-center gap-1.5 transition-opacity hover:opacity-80"
+                  aria-label={t("topbar.tripadvisorAria")}
+                >
+                  <TripAdvisorIcon className="h-4 w-4 text-[#e8c080]" />
+                  <StarRow className="fill-[#e8c080] text-[#e8c080]" />
+                  <span className="hidden xl:inline font-medium text-bone-paper/85">
+                    {t("topbar.tripadvisor")}
+                  </span>
+                </a>
+              </>
+            )}
+            {settings.googleReviews && (
+              <a
+                href={settings.googleReviews}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden lg:flex items-center gap-1.5 transition-opacity hover:opacity-80"
+                aria-label={t("topbar.googleAria")}
+              >
+                <GoogleIcon className="h-[13px] w-[13px]" />
+                <StarRow className="fill-[#e8c080] text-[#e8c080]" />
+                <span className="hidden xl:inline font-medium text-bone-paper/85">
+                  {t("topbar.google")}
+                </span>
+              </a>
+            )}
+          </div>
         </div>
       </div>
 
@@ -679,7 +887,7 @@ export default function Navbar() {
                 priority
               />
             </div>
-            <div className="hidden sm:block leading-tight">
+            <div className="hidden sm:block md:hidden 2xl:block leading-tight">
               <span className="font-serif text-[19px] tracking-[-0.01em] text-bone-ink">
                 Divine{" "}
                 <span className="italic text-bone-clay font-medium">
@@ -703,13 +911,13 @@ export default function Navbar() {
               href="/contact"
               containerClassName="hidden lg:flex"
             >
-              Plan My Safari
+              {t("cta.planMySafari")}
             </HoverBorderGradient>
 
             <motion.button
               className="lg:hidden font-mono text-sm uppercase tracking-[0.14em] text-bone-ink/70 hover:text-bone-clay transition-colors min-w-[36px] text-right"
               onClick={() => setMobileOpen((v) => !v)}
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-label={mobileOpen ? t("menu.close") : t("menu.open")}
               aria-expanded={mobileOpen}
               whileTap={{ scale: 0.97 }}
             >
@@ -722,7 +930,7 @@ export default function Navbar() {
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                   className="block"
                 >
-                  {mobileOpen ? "Close" : "Menu"}
+                  {mobileOpen ? t("menu.close") : t("menu.open")}
                 </motion.span>
               </AnimatePresence>
             </motion.button>
@@ -781,7 +989,7 @@ export default function Navbar() {
               variants={menuCtaVariants}
               initial="hidden"
               animate="visible"
-              className="px-6 pt-6 pb-4 flex-shrink-0"
+              className="px-6 pt-4 pb-4 flex-shrink-0"
             >
               <HoverBorderGradient
                 as={Link}
@@ -789,24 +997,77 @@ export default function Navbar() {
                 containerClassName="w-full justify-center"
                 className="w-full justify-center text-[14px] py-[10px] px-5"
               >
-                Plan My Safari
+                {t("cta.planMySafari")}
               </HoverBorderGradient>
             </motion.div>
 
-            <div className="px-6 pb-8 flex-shrink-0 flex justify-between gap-1.5 font-mono text-[12px] tracking-[0.06em] text-bone-muted">
-              <a
-                href="tel:+254722595916"
-                className="hover:text-bone-clay transition-colors"
-              >
-                +254 722-595-916
-              </a>
-              <a
-                href="mailto:info@divinetravelnestsafaris.com"
-                className="hover:text-bone-clay transition-colors"
-              >
-                info@divinetravelnestsafaris.com
-              </a>
+            <div className="px-6 pb-5 flex-shrink-0 flex flex-wrap justify-between gap-2 font-mono text-[12px] tracking-[0.06em] text-bone-muted">
+              {settings.phone && (
+                <a
+                  href={phoneHref}
+                  className="hover:text-bone-clay transition-colors"
+                >
+                  {settings.phone}
+                </a>
+              )}
+              {settings.email && (
+                <a
+                  href={`mailto:${settings.email}`}
+                  className="hover:text-bone-clay transition-colors break-all"
+                >
+                  {settings.email}
+                </a>
+              )}
             </div>
+
+            {(settings.whatsapp || hasSocial) && (
+              <div className="px-6 pb-8 flex-shrink-0 flex items-center gap-5 text-bone-muted">
+                {settings.whatsapp && (
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Chat with us on WhatsApp"
+                    className="hover:text-bone-clay transition-colors"
+                  >
+                    <WhatsAppIcon className="w-[18px] h-[18px]" />
+                  </a>
+                )}
+                {settings.facebook && (
+                  <a
+                    href={settings.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    className="hover:text-bone-clay transition-colors"
+                  >
+                    <Facebook size={18} strokeWidth={1.8} />
+                  </a>
+                )}
+                {settings.instagram && (
+                  <a
+                    href={settings.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    className="hover:text-bone-clay transition-colors"
+                  >
+                    <Instagram size={18} strokeWidth={1.8} />
+                  </a>
+                )}
+                {settings.youtube && (
+                  <a
+                    href={settings.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                    className="hover:text-bone-clay transition-colors"
+                  >
+                    <Youtube size={19} strokeWidth={1.8} />
+                  </a>
+                )}
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

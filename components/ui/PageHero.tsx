@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ChevronRight } from "lucide-react";
 
 export interface HeroStat {
@@ -60,12 +60,15 @@ export default function PageHero({
           imageOpacity !== undefined ? { opacity: imageOpacity } : undefined
         }
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-bone-ink/80 via-bone-ink/25 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-bone-ink/85 via-bone-ink/40 to-bone-ink/20" />
       <div className="relative container-site pb-16 pt-32 sm:pb-20 sm:pt-48">
-        <nav className="flex items-center gap-2 text-xs text-bone-paper/55 font-sans mb-5">
+        <nav
+          className="flex items-center gap-2 text-xs text-bone-paper/85 font-sans mb-5"
+          style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+        >
           {breadcrumbs.map((bc, i) => (
             <Fragment key={bc.label}>
-              {i > 0 && <ChevronRight size={12} className="opacity-50" />}
+              {i > 0 && <ChevronRight size={12} className="opacity-70" />}
               {bc.href ? (
                 <Link
                   href={bc.href}
@@ -74,7 +77,7 @@ export default function PageHero({
                   {bc.label}
                 </Link>
               ) : (
-                <span className="text-bone-paper/80">{bc.label}</span>
+                <span className="text-bone-paper">{bc.label}</span>
               )}
             </Fragment>
           ))}
@@ -83,7 +86,10 @@ export default function PageHero({
         {eyebrow && (
           <div
             className="eyebrow mb-5"
-            style={{ color: "rgba(244,239,226,0.65)" }}
+            style={{
+              color: "rgba(244,239,226,0.92)",
+              textShadow: "0 1px 4px rgba(0,0,0,0.55)",
+            }}
           >
             <span className="dot" />
             {eyebrow}

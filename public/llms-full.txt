@@ -57,6 +57,26 @@ Full detail and FAQs for each type: https://divinetravelnestsafaris.com/safari-t
 - Small group (`small-group`) — shared cost and experience on a set-departure trip.
 - Private (`private`) — your own vehicle, guide and pace, no fixed schedule.
 
+## Accommodation Partners
+
+Lodges, tented camps and beach resorts we partner with directly and book for our clients —
+we negotiate the rate with each property and handle the reservation as part of the itinerary.
+Full detail and partner listings for each type:
+https://divinetravelnestsafaris.com/accommodations/{slug}
+
+- **Luxury Lodges** (`luxury-lodges`) — permanent, architect-built suites with full hotel-grade
+  service. Partners include Angama Mara and Sanctuary Olonana (Masai Mara, Kenya), Singita
+  Sasakwa Lodge (Serengeti, Tanzania), &Beyond Ngorongoro Crater Lodge (Ngorongoro, Tanzania),
+  Bisate Lodge (Volcanoes National Park, Rwanda) and Ol Donyo Lodge (Chyulu Hills, Kenya).
+- **Tented Camps** (`tented-camps`) — canvas-walled suites in the bush, some fixed and some
+  genuinely mobile/seasonal. Partners include Mahali Mzuri and Serian's Nkorombo Camp (Masai
+  Mara, Kenya), Sanctuary Kichakani Serengeti Camp (Serengeti, Tanzania), Buhoma Lodge and
+  Bwindi Lodge (Bwindi, Uganda) and One Nature Nyungwe House (Nyungwe Forest, Rwanda).
+- **Beach Resorts** (`beach-resorts`) — coastal stays to close out a safari, Kenyan coast and
+  Zanzibar only (Uganda and Rwanda are landlocked). Partners include Diani Reef Beach Resort &
+  Spa, AfroChic Diani and The Sands at Nomad (Diani Beach, Kenya), and Zanzi Resort and Melia
+  Zanzibar (Zanzibar, Tanzania).
+
 ## Company Facts
 
 - Certifications: Kenya Professional Safari Guides Association (KPSGA), Eco-Tourism Kenya,
@@ -73,5 +93,6 @@ Full detail and FAQs for each type: https://divinetravelnestsafaris.com/safari-t
 - All safari packages: https://divinetravelnestsafaris.com/safaris
 - Safari types index: https://divinetravelnestsafaris.com/safari-types
 - Destinations index: https://divinetravelnestsafaris.com/destinations
+- Accommodations index: https://divinetravelnestsafaris.com/accommodations
 - About & team: https://divinetravelnestsafaris.com/about
 - Plan a custom trip: https://divinetravelnestsafaris.com/plan-my-safari

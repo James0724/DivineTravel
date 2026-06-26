@@ -3,36 +3,20 @@
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import { LettersPullUp } from "@/components/ui/LettersPullUp";
 import Reveal from "../ui/Reveal";
 import { AnimatedHeading } from "../ui/Heading";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const features = [
-  {
-    ic: "i",
-    title: "Genuine In-Country Team",
-    body: "We are based in Nairobi — not a booking engine. When you call, you speak directly with your safari consultant who knows every park personally.",
-  },
-  {
-    ic: "ii",
-    title: "Real-Time Availability",
-    body: "We hold direct lodge allocations, giving you access to the best camps even in peak season. No third-party mark-ups, no surprises.",
-  },
-  {
-    ic: "iii",
-    title: "Wildlife-First Routing",
-    body: "Our itineraries follow the animals, not the calendar. We track the migration in real time and can adjust your route mid-safari.",
-  },
-  {
-    ic: "iv",
-    title: "Transparent, All-Inclusive Pricing",
-    body: "No hidden extras. Park fees, activities, meals, transfers — all included in your quote so you can plan with confidence.",
-  },
-];
+const FEATURE_ICS = ["i", "ii", "iii", "iv"];
 
 export default function StandOut() {
+  const t = useTranslations("home.standOut");
+  const featureData = t.raw("features") as { title: string; body: string }[];
+  const features = FEATURE_ICS.map((ic, i) => ({ ic, ...featureData[i] }));
+
   const photoRef = useRef<HTMLDivElement>(null);
   const photoInView = useInView(photoRef, { once: true, margin: "-80px" });
 
@@ -84,22 +68,20 @@ export default function StandOut() {
                 <Reveal variant="fadeUp">
                   <div className="eyebrow mb-4">
                     <span className="dot" />
-                    What sets us apart
+                    {t("eyebrow")}
                   </div>
                 </Reveal>
 
                 {/* Heading — character pull-up */}
                 <AnimatedHeading
                   as="h2"
-                  textBefore="Safari done "
-                  highlightedText="properly"
+                  textBefore={t("headingBefore")}
+                  highlightedText={t("headingHighlight")}
                 />
               </div>
               <Reveal variant="fadeUp">
                 <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-                  In a market full of online booking engines, we remain a
-                  hands-on, in-country team dedicated to crafting safaris that
-                  exceed every expectation.
+                  {t("description")}
                 </p>
               </Reveal>
             </header>

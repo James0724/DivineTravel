@@ -2,7 +2,7 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
 import type { Safari } from "@/types";
@@ -11,6 +11,7 @@ import {
   SafariSchema,
 } from "@/components/seo/StructuredData";
 import BookingButton from "@/components/ui/BookingButton";
+import Price from "@/components/ui/Price";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 
 export const revalidate = 3600;
@@ -69,7 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     keywords: safari.seo?.keywords?.join(", "),
-    alternates: { canonical: `/safaris/${safari.slug}` },
+    alternates: { canonical: `/en/safaris/${safari.slug}` },
     openGraph: {
       title,
       description,
@@ -159,8 +160,7 @@ function PriceTiersBox({ safari }: { safari: Safari }) {
           >
             <span>{label}</span>
             <b className="font-serif text-xl italic text-[var(--clay)]">
-              ${t.pricePerPerson.toLocaleString()}
-              {tier === "luxury" ? "+" : ""}
+              <Price amountUsd={t.pricePerPerson} suffix={tier === "luxury" ? "+" : ""} />
             </b>
           </div>
         );
@@ -232,7 +232,7 @@ export default async function SafariDetailPage({ params }: Props) {
       {/* ════════════════════════════════════════════════════════════════════
           HERO — image fills section; price box moves below on mobile
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative h-[58vh] sm:h-[65vh] md:h-[70vh] min-h-[380px] sm:min-h-[500px] md:min-h-[580px] overflow-hidden text-white">
+      <section className="relative h-[42vh] sm:h-[48vh] md:h-[52vh] min-h-[320px] sm:min-h-[400px] md:min-h-[460px] overflow-hidden text-white">
         <Image
           src={heroImage}
           alt={safari.name}
@@ -291,7 +291,7 @@ export default async function SafariDetailPage({ params }: Props) {
                     </em>
                     .
                   </h2>
-                  <p className="text-sm leading-[1.65] text-[var(--muted)] max-w-[60ch] mt-4">
+                  <p className="text-sm leading-[1.65] text-[var(--muted)] mt-4">
                     {safari.description}
                   </p>
                 </div>
@@ -500,7 +500,7 @@ export default async function SafariDetailPage({ params }: Props) {
                     {label} <em className="italic text-[var(--clay)]">{em}</em>
                   </h3>
                   <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)] mb-[18px]">
-                    From ${t.pricePerPerson.toLocaleString()} / person
+                    From <Price amountUsd={t.pricePerPerson} /> / person
                   </div>
 
                   {t.hotels && t.hotels.length > 0 ? (
@@ -664,7 +664,7 @@ export default async function SafariDetailPage({ params }: Props) {
                             FROM
                           </span>
                           <b className="italic">
-                            ${lowestPrice.toLocaleString()}
+                            <Price amountUsd={lowestPrice} />
                           </b>
                         </div>
                         <span className="font-mono text-[11px] text-[var(--muted)] tracking-[0.14em]">

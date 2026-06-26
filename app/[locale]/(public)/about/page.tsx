@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 import {
   FaqSchema,
   OrganizationSchema,
@@ -13,223 +14,124 @@ import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { MessageSquare, Phone } from "lucide-react";
 import { AnimatedHeading } from "@/components/ui/Heading";
 import StandoutFeatureList from "@/components/about/StandoutFeatureList";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
-export const metadata: Metadata = {
-  title: "About Us | Divine Travel Nest Safaris — Kenya-Based Safari Company",
-  description:
-    "A Kenya-based, woman-led safari house planning unforgettable journeys across Kenya, Tanzania, Uganda and Rwanda — one traveller at a time. Learn our story, values, and meet the team.",
-  keywords: [
-    "about Divine Travel Nest Safaris",
-    "Kenya-based safari company",
-    "woman-led safari house",
-    "East Africa safari experts",
-    "safari company values",
-    "conservation safari",
-    "wildlife tourism Kenya",
-    "custom safari itineraries",
-  ],
-  authors: [{ name: "Divine Travel Nest Safaris" }],
-  creator: "Divine Travel Nest Safaris",
-  alternates: { canonical: "/about" },
-  openGraph: {
-    title: "About Divine Travel Nest Safaris",
-    description:
-      "A Kenya-based, woman-led safari house planning unforgettable journeys across Kenya, Tanzania, Uganda and Rwanda — one traveller at a time.",
-    type: "website",
-    url: "/about",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Golden-hour savannah, East Africa",
-      },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "about" });
+  const image =
+    "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1200&q=80";
+  return {
+    title: t("meta.title"),
+    description: t("meta.description"),
+    keywords: [
+      "about Divine Travel Nest Safaris",
+      "Kenya-based safari company",
+      "woman-led safari house",
+      "East Africa safari experts",
+      "safari company values",
+      "conservation safari",
+      "wildlife tourism Kenya",
+      "custom safari itineraries",
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "About Divine Travel Nest Safaris",
-    description:
-      "A Kenya-based, woman-led safari house planning unforgettable journeys across East Africa.",
-    images: [
-      "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1200&q=80",
-    ],
-  },
-};
+    authors: [{ name: "Divine Travel Nest Safaris" }],
+    creator: "Divine Travel Nest Safaris",
+    alternates: buildAlternates(locale, "/about"),
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      url: "/about",
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: "Golden-hour savannah, East Africa",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("meta.ogTitle"),
+      description: t("meta.twitterDescription"),
+      images: [image],
+    },
+  };
+}
 
-const whyItems = [
-  {
-    n: "i",
-    title: (
-      <>
-        Tailored <em className="italic text-bone-clay">experiences</em>
-      </>
-    ),
-    body: "Every traveller is different, so every journey is built from scratch around your pace, your interests and your budget. No two of our itineraries are the same.",
-  },
-  {
-    n: "ii",
-    title: (
-      <>
-        Comfort &amp; <em className="italic text-bone-clay">safety</em>
-      </>
-    ),
-    body: "Hand-picked lodges and tented camps, a well-maintained 4×4 fleet, and trained staff watching over every mile — luxury, authenticity and real peace of mind.",
-  },
-  {
-    n: "iii",
-    title: (
-      <>
-        Conservation &amp; <em className="italic text-bone-clay">community</em>
-      </>
-    ),
-    body: "We partner with local conservation initiatives and community projects, so your adventure helps protect Africa's wildlife and empowers the people who live alongside it.",
-  },
-  {
-    n: "iv",
-    title: (
-      <>
-        Transparent &amp; <em className="italic text-bone-clay">affordable</em>
-      </>
-    ),
-    body: "No hidden fees — just clear, honest pricing and genuine value. Unforgettable wildlife experiences, without the inflated mark-ups.",
-  },
-  {
-    n: "v",
-    title: (
-      <>
-        Trusted local <em className="italic text-bone-clay">expertise</em>
-      </>
-    ),
-    body: "Deep regional knowledge and connections, and driver-guides licensed by the Kenya Professional Safari Guides Association. Authentic experiences, rooted in the ground itself.",
-  },
-  {
-    n: "vi",
-    title: (
-      <>
-        The divine <em className="italic text-bone-clay">touch</em>
-      </>
-    ),
-    body: "The small, thoughtful details in every trip — the personal attention and meticulous planning that turn a holiday into a soulful African adventure.",
-  },
+const TEAM_PHOTOS = [
+  "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-12.05.59-780x520.jpeg",
+  "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-12.04.19-550x825.jpeg",
+  "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-12.05.06-550x825.jpeg",
 ];
 
-const standoutItems = [
-  {
-    ic: "i",
-    title: (
-      <>
-        One <em className="italic text-bone-clay">planner</em>, beginning to end
-      </>
-    ),
-    body: "Your safari curator designs the itinerary by hand and stays with it — no call centre, no handing you between departments.",
-  },
-  {
-    ic: "ii",
-    title: (
-      <>
-        KPSGA-<em className="italic text-bone-clay">licensed</em> guides &amp;
-        drivers
-      </>
-    ),
-    body: "Every guide and driver is certified by the Kenya Professional Safari Guides Association — expert tracking, real wildlife knowledge, and a genuine passion for Africa.",
-  },
-  {
-    ic: "iii",
-    title: (
-      <>
-        100+ routes, all <em className="italic text-bone-clay">flexible</em>
-      </>
-    ),
-    body: "Over a hundred East Africa packages to begin from — and every one rewritable to fit your dates, your style and your budget.",
-  },
-  {
-    ic: "iv",
-    title: (
-      <>
-        24/7 <em className="italic text-bone-clay">support</em>, before &amp;
-        after
-      </>
-    ),
-    body: "A real person at the other end of the line throughout your journey and beyond, on +254 724-163-662 — so the logistics simply disappear.",
-  },
+const CERT_LOGOS = [
+  "/logos/kenya-wildlife-service.png",
+  "/logos/tra.png",
+  "/logos/tripadvisor.png",
+  "/logos/SB-center.png",
+  "/logos/kato.png",
 ];
 
-const team = [
-  {
-    name: "John Mwangi",
-    role: "Managing Director",
-    bio: "The visionary behind Divine Travel Nest Safaris. John’s deep knowledge of East Africa and his passion for wildlife ensure every safari is authentic, safe, and unforgettable.",
-    photo:
-      "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-12.05.59-780x520.jpeg",
-  },
-  {
-    name: "Janet Wanjiru",
-    role: "Chief Executive",
-    bio: "Leads the house day to day. The reason Divine Travel Nest is a woman-led company built on integrity, warmth and an obsession with the details.",
-    photo:
-      "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-12.04.19-550x825.jpeg",
-  },
-  {
-    name: "James Kahoro",
-    role: "System Engineer and Operations",
-    bio: "Keeps the wheels turning behind the scenes. The reason your safari is seamless, your itinerary is perfect, and your memories are unforgettable.",
-    photo:
-      "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-12.05.06-550x825.jpeg",
-  },
-];
+const WHY_KEYS = ["i", "ii", "iii", "iv", "v", "vi"];
+const STANDOUT_KEYS = ["i", "ii", "iii", "iv"];
 
-const faqs = [
-  {
-    q: "What is the best time to visit for wildlife?",
-    a: "The dry seasons (Jan–Mar and Jul–Oct) offer the best wildlife visibility. July–October coincides with the Great Migration in the Masai Mara and Serengeti.",
-  },
-  {
-    q: "Are your safaris suitable for children?",
-    a: "Absolutely. We tailor itineraries for families. Most parks allow children of all ages in vehicles; some walking safaris have a minimum age of 12.",
-  },
-  {
-    q: "What is included in the price?",
-    a: "All tiers include park fees, professional guiding, meals per the itinerary, and airport transfers. Flights and visas are additional.",
-  },
-  {
-    q: "How do you support conservation?",
-    a: "We partner with community conservancies, donate a percentage of every booking to anti-poaching programs, and use low-impact camping practices.",
-  },
-  {
-    q: "Can I customise my itinerary?",
-    a: "Yes — every safari we create is bespoke. Tell us your interests, budget, and travel dates and we build around you.",
-  },
-  {
-    q: "What currencies do you accept?",
-    a: "We accept USD, EUR, GBP, and local currencies. Payments are made via bank transfer, card, or M-Pesa (Kenya).",
-  },
-];
+export default async function AboutPage() {
+  const t = await getTranslations("about");
 
-const certs = [
-  {
-    label: "Kenya Wildlife Service",
-    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/KWS.png",
-  },
-  {
-    label: "Eco-Tourism Kenya",
-    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/Eco-tourism_Kenya.png",
-  },
-  {
-    label: "Licensed Tour Operator",
-    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/tra-300x70.png",
-  },
-  {
-    label: "TripAdvisor Reviewed",
-    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/tripadvisor.png",
-  },
-  {
-    label: "SafariBookings Listed",
-    logo: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/safari-bookings.png",
-  },
-];
+  type ItemFields = {
+    titleBefore: string;
+    titleEm: string;
+    titleAfter: string;
+    body: string;
+  };
+  const whyItemsData = t.raw("why.items") as ItemFields[];
+  const standoutItemsData = t.raw("standout.items") as ItemFields[];
+  const teamMembers = t.raw("team.members") as {
+    name: string;
+    role: string;
+    bio: string;
+  }[];
+  const certs = t.raw("credentials.certs") as { label: string }[];
+  const faqs = t.raw("faq.items") as { q: string; a: string }[];
+  const stats = t.raw("stats") as {
+    numEm: string;
+    numSuffix: string;
+    lblLine1: string;
+    lblLine2: string;
+  }[];
 
-export default function AboutPage() {
+  const whyItems = WHY_KEYS.map((n, i) => ({
+    n,
+    title: (
+      <>
+        {whyItemsData[i].titleBefore}
+        <em className="italic text-bone-clay">{whyItemsData[i].titleEm}</em>
+        {whyItemsData[i].titleAfter}
+      </>
+    ),
+    body: whyItemsData[i].body,
+  }));
+
+  const standoutItems = STANDOUT_KEYS.map((ic, i) => ({
+    ic,
+    title: (
+      <>
+        {standoutItemsData[i].titleBefore}
+        <em className="italic text-bone-clay">
+          {standoutItemsData[i].titleEm}
+        </em>
+        {standoutItemsData[i].titleAfter}
+      </>
+    ),
+    body: standoutItemsData[i].body,
+  }));
+
   return (
     <>
       {/* ── Structured data ────────────────────────────────────────────── */}
@@ -237,8 +139,8 @@ export default function AboutPage() {
       <FaqSchema items={faqs.map((f) => ({ question: f.q, answer: f.a }))} />
       <BreadcrumbSchema
         items={[
-          { name: "Home", href: "/" },
-          { name: "About Us", href: "/about" },
+          { name: t("breadcrumbHome"), href: "/" },
+          { name: t("breadcrumbCurrent"), href: "/about" },
         ]}
       />
 
@@ -248,28 +150,28 @@ export default function AboutPage() {
         minHeight="min-h-[60vh]"
         imageOpacity={0.45}
         breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "About Us", href: "/about" },
+          { label: t("breadcrumbHome"), href: "/" },
+          { label: t("breadcrumbCurrent"), href: "/about" },
         ]}
-        eyebrow="About us"
+        eyebrow={t("hero.eyebrow")}
         title={
           <>
-            We are
+            {t("hero.titleLine1")}
             <br />
             <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>
-              Divine Travel Nest
+              {t("hero.titleEm")}
             </em>
             .
           </>
         }
-        description="Free personalised proposal within 24 hours. No obligations. Our experts are on the ground in East Africa — we know these parks from the inside."
+        description={t("hero.description")}
         actions={
           <div className="flex flex-wrap gap-4 mb-8">
             <a
               href="tel:+254722595916"
               className="inline-flex items-center gap-2 px-5 py-3 bg-bone-clay text-bone-paper rounded-full text-sm font-sans font-medium hover:bg-[#c0612e] transition-colors"
             >
-              <Phone size={15} /> Call us now
+              <Phone size={15} /> {t("hero.callNow")}
             </a>
             <a
               href="https://wa.me/254722595916"
@@ -277,7 +179,7 @@ export default function AboutPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 border border-bone-paper/35 text-bone-paper rounded-full text-sm font-sans hover:bg-bone-paper/10 transition-colors"
             >
-              <MessageSquare size={15} /> WhatsApp
+              <MessageSquare size={15} /> {t("hero.whatsapp")}
             </a>
           </div>
         }
@@ -287,10 +189,8 @@ export default function AboutPage() {
       <section className="bg-bone-bg py-24 sm:py-28 lg:py-32">
         <div className="container-site">
           <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-bone-clay mb-8">
-            African. Safari. Experts.{" "}
-            <span className="text-bone-muted">
-              — let us handle the planning, you make the memories.
-            </span>
+            {t("lead.kickerMain")}{" "}
+            <span className="text-bone-muted">{t("lead.kickerMuted")}</span>
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-20 items-end">
             <Reveal variant="slideLeft">
@@ -298,36 +198,37 @@ export default function AboutPage() {
                 className="font-serif font-light leading-[0.92] tracking-[-0.028em] text-bone-ink"
                 style={{ fontSize: "clamp(52px, 7.6vw, 120px)" }}
               >
-                We are
+                {t("lead.headingLine1")}
                 <br />
-                Divine{" "}
-                <em className="italic text-bone-clay">Travel&nbsp;Nest</em>.
+                {t("lead.headingLine2Before")}
+                <em className="italic text-bone-clay">
+                  {t("lead.headingLine2Em")}
+                </em>
+                .
               </h2>
             </Reveal>
             <Reveal variant="slideRight">
               <div>
                 <p className="text-[18px] leading-[1.62] text-bone-ink">
-                  A Kenya-based,{" "}
-                  <strong className="font-medium">woman-led</strong> safari
-                  house, planning unforgettable journeys across Kenya, Tanzania,
-                  Uganda and Rwanda — one traveller at a time.
+                  {t("lead.body1Before")}
+                  <strong className="font-medium">
+                    {t("lead.body1Strong")}
+                  </strong>
+                  {t("lead.body1After")}
                 </p>
                 <p className="text-sm leading-[1.62] text-bone-muted mt-4">
-                  Founded from a simple dream: to connect people to the soul of
-                  the wild. The team who answer your first message are the same
-                  people who design your route and stay with you to the last
-                  game drive.
+                  {t("lead.body2")}
                 </p>
                 <div className="flex flex-wrap items-center gap-6 mt-8">
                   <Link
                     href="/contact"
                     className="inline-flex items-center gap-2 px-6 py-3.5 bg-bone-forest text-bone-paper rounded-full text-[14px] tracking-[0.01em] transition-all duration-200 hover:bg-bone-clay hover:-translate-y-0.5"
                   >
-                    Plan my safari →
+                    {t("lead.ctaPlan")}
                   </Link>
                   <div className="font-mono text-[13px] text-bone-ink tracking-[0.03em]">
                     <span className="block text-[9px] tracking-[0.16em] uppercase text-bone-muted mb-0.5">
-                      Talk to us
+                      {t("lead.talkToUs")}
                     </span>
                     +254 722-595-916
                   </div>
@@ -341,7 +242,6 @@ export default function AboutPage() {
       {/* ── 2. PORTRAIT ─────────────────────────────────────────────────── */}
       <section className="bg-bone-bg pb-3">
         <div className="container-site">
-          {/* Removed inline aspect-ratio and replaced with responsive Tailwind classes */}
           <div
             className="relative overflow-hidden aspect-[4/3] md:aspect-[16/6.6]"
             style={{ background: "#e4dbd0" }}
@@ -356,10 +256,8 @@ export default function AboutPage() {
             />
           </div>
           <div className="flex flex-wrap justify-between gap-2 pt-4 font-mono text-[10px] tracking-[0.14em] uppercase text-bone-muted">
-            <span>Spur Mall · Nairobi, Kenya</span>
-            <span className="hidden md:block">
-              Kenya · Tanzania · Uganda · Rwanda
-            </span>
+            <span>{t("portrait.location")}</span>
+            <span className="hidden md:block">{t("portrait.countries")}</span>
           </div>
         </div>
       </section>
@@ -373,15 +271,19 @@ export default function AboutPage() {
               <div>
                 <div className="eyebrow">
                   <span className="dot" />
-                  Our story
+                  {t("story.eyebrow")}
                 </div>
                 <h2
                   className="font-serif font-normal leading-[1.0] tracking-[-0.02em] text-bone-ink mt-4"
                   style={{ fontSize: "clamp(36px, 4.2vw, 58px)" }}
                 >
-                  Born from a dream
+                  {t("story.headingBefore")}
                   <br />
-                  of the <em className="italic text-bone-clay">wild</em>.
+                  {t("story.headingMid")}
+                  <em className="italic text-bone-clay">
+                    {t("story.headingEm")}
+                  </em>
+                  {t("story.headingAfter")}
                 </h2>
               </div>
             </Reveal>
@@ -390,45 +292,19 @@ export default function AboutPage() {
             <Reveal variant="slideRight">
               <div>
                 <p className="font-serif italic text-[20px] leading-[1.55] text-bone-ink mb-5">
-                  Divine Travel Nest Safaris was born from a simple dream — to
-                  create unforgettable journeys that connect people to the soul
-                  of the wild.
+                  {t("story.lead")}
                 </p>
                 <p className="text-[16px] leading-[1.72] text-bone-muted mb-5">
-                  We are a{" "}
-                  <strong className="text-bone-ink font-medium">
-                    Kenya-based, woman-led safari company
-                  </strong>
-                  , built on a deep commitment to excellence, integrity and
-                  genuinely personal service. We specialise in{" "}
-                  <strong className="text-bone-ink font-medium">
-                    Kenya safaris
-                  </strong>
-                  ,{" "}
-                  <strong className="text-bone-ink font-medium">
-                    Tanzania safaris
-                  </strong>
-                  , combined{" "}
-                  <strong className="text-bone-ink font-medium">
-                    Kenya–Tanzania circuits
-                  </strong>{" "}
-                  and{" "}
-                  <strong className="text-bone-ink font-medium">
-                    Uganda gorilla trekking
-                  </strong>{" "}
-                  and{" "}
-                  <strong className="text-bone-ink font-medium">
-                    Rwanda gorilla safaris
-                  </strong>{" "}
-                  — the routes we know intimately rather than a catalogue of
-                  everywhere.
+                  {t.rich("story.paragraph1", {
+                    strong: (chunks) => (
+                      <strong className="text-bone-ink font-medium">
+                        {chunks}
+                      </strong>
+                    ),
+                  })}
                 </p>
                 <p className="text-[16px] leading-[1.72] text-bone-muted mb-9">
-                  Every itinerary is guided by your desires: chasing sunsets
-                  across the savannah, tracking elephants over golden plains, or
-                  unwinding at a lodge beneath the stars. Our planners and
-                  locally born guides know every corner of East Africa — and
-                  with us, you are never just a traveller. You are family.
+                  {t("story.paragraph2")}
                 </p>
 
                 {/* Mission box */}
@@ -440,12 +316,10 @@ export default function AboutPage() {
                   }}
                 >
                   <span className="block font-mono text-[10px] tracking-[0.16em] uppercase text-bone-clay mb-3">
-                    Our mission
+                    {t("story.missionLabel")}
                   </span>
                   <p className="font-serif italic text-[24px] leading-[1.32] text-bone-ink">
-                    To craft experience-rich, safe and genuinely good-value
-                    African safaris that bring you closer to the wildlife, the
-                    people and the magic of East Africa.
+                    {t("story.missionText")}
                   </p>
                 </div>
               </div>
@@ -467,101 +341,46 @@ export default function AboutPage() {
             className="grid grid-cols-2 lg:grid-cols-4 gap-px"
             style={{ background: "rgba(31,29,24,0.14)" }}
           >
-            {/* 100+ */}
-            <RevealItem>
-              <div
-                className="bg-bone-paper flex flex-col gap-3"
-                style={{
-                  padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
-                }}
-              >
+            {stats.map((s) => (
+              <RevealItem key={s.lblLine1}>
                 <div
-                  className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                  style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                  className="bg-bone-paper flex flex-col gap-3"
+                  style={{
+                    padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
+                  }}
                 >
-                  <em className="italic text-bone-clay">100</em>+
+                  <div
+                    className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
+                    style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
+                  >
+                    {s.numEm ? (
+                      <>
+                        <em className="italic text-bone-clay">{s.numEm}</em>
+                        {s.numSuffix}
+                      </>
+                    ) : (
+                      s.numSuffix
+                    )}
+                  </div>
+                  <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
+                    {s.lblLine1}
+                    <br />
+                    {s.lblLine2}
+                  </div>
                 </div>
-                <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
-                  Safari packages
-                  <br />
-                  across East Africa
-                </div>
-              </div>
-            </RevealItem>
-            {/* 3 */}
-            <RevealItem>
-              <div
-                className="bg-bone-paper flex flex-col gap-3"
-                style={{
-                  padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
-                }}
-              >
-                <div
-                  className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                  style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
-                >
-                  4
-                </div>
-                <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
-                  Countries — Kenya
-                  <br />
-                  Tanzania · Uganda · Rwanda
-                </div>
-              </div>
-            </RevealItem>
-            {/* 24/7 */}
-            <RevealItem>
-              <div
-                className="bg-bone-paper flex flex-col gap-3"
-                style={{
-                  padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
-                }}
-              >
-                <div
-                  className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                  style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
-                >
-                  <em className="italic text-bone-clay">24</em>/7
-                </div>
-                <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
-                  Support — before,
-                  <br />
-                  during &amp; after
-                </div>
-              </div>
-            </RevealItem>
-            {/* 100% */}
-            <RevealItem>
-              <div
-                className="bg-bone-paper flex flex-col gap-3"
-                style={{
-                  padding: "clamp(28px, 4vw, 56px) clamp(16px, 3vw, 36px)",
-                }}
-              >
-                <div
-                  className="font-serif font-light leading-[0.88] tracking-[-0.02em] text-bone-ink"
-                  style={{ fontSize: "clamp(36px, 8vw, 80px)" }}
-                >
-                  <em className="italic text-bone-clay">100</em>%
-                </div>
-                <div className="font-mono text-[11px] tracking-[0.12em] uppercase text-bone-muted leading-[1.55]">
-                  Tailor-made
-                  <br />
-                  itineraries
-                </div>
-              </div>
-            </RevealItem>
+              </RevealItem>
+            ))}
           </Stagger>
         </div>
       </section>
 
       {/* ── 5. VALUES ────────────────────────────────────────────────────── */}
       <WhyGrid
-        eyebrow="What we stand for"
-        textBefore="The things we"
-        highlightedText=" won't"
-        textAfter=" compromise on."
-        description="A safari is a great deal of trust to hand a stranger. These are the principles that earn it — and the reason our guests come back, and send their friends, by name."
+        eyebrow={t("why.eyebrow")}
+        textBefore={t("why.headingBefore")}
+        highlightedText={t("why.headingHighlight")}
+        textAfter={t("why.headingAfter")}
+        description={t("why.description")}
         items={whyItems}
         bg="bg-bone-bg"
       />
@@ -602,21 +421,19 @@ export default function AboutPage() {
                   <Reveal variant="fadeUp">
                     <div className="eyebrow">
                       <span className="dot" />
-                      Why travellers choose us
+                      {t("standout.eyebrow")}
                     </div>
                   </Reveal>
 
                   <AnimatedHeading
                     as="h2"
-                    textBefore="One "
-                    highlightedText="house,"
-                    textAfter="start to finish."
+                    textBefore={t("standout.headingBefore")}
+                    highlightedText={t("standout.headingHighlight")}
+                    textAfter={t("standout.headingAfter")}
                   />
                   <Reveal variant="fadeUp">
                     <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch] mb-8">
-                      The practical promises behind the brochure — the things
-                      that make a Divine Travel Nest safari run smoothly from
-                      the first email to the drive back to the airport.
+                      {t("standout.description")}
                     </p>
                   </Reveal>
                 </div>
@@ -637,27 +454,25 @@ export default function AboutPage() {
               <Reveal variant="fadeUp">
                 <div className="eyebrow mb-4">
                   <span className="dot" />
-                  Meet the team
+                  {t("team.eyebrow")}
                 </div>
               </Reveal>
               <AnimatedHeading
                 as="h2"
-                textBefore="The people who "
-                highlightedText="answer"
-                textAfter=" your call."
+                textBefore={t("team.headingBefore")}
+                highlightedText={t("team.headingHighlight")}
+                textAfter={t("team.headingAfter")}
               />
             </div>
             <Reveal>
               <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-                The advantage of a small, family-run house is that you actually
-                meet the people running your trip — the team on the other end of
-                your emails, your radio and your wake-up call.
+                {t("team.description")}
               </p>
             </Reveal>
           </header>
 
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9">
-            {team.map((member) => (
+            {teamMembers.map((member, i) => (
               <RevealItem key={member.name}>
                 <div className="group">
                   <div
@@ -666,7 +481,7 @@ export default function AboutPage() {
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={member.photo}
+                      src={TEAM_PHOTOS[i]}
                       alt={`${member.name}, ${member.role} — Divine Travel Nest Safaris`}
                       className="w-full h-full object-cover object-top transition-all duration-1000 group-hover:scale-[1.03]"
                       style={{ filter: "sepia(0.12) contrast(1.03)" }}
@@ -706,16 +521,19 @@ export default function AboutPage() {
             <div className="text-center mb-12">
               <div className="eyebrow justify-center mb-4">
                 <span className="dot" />
-                Licensed &amp; reviewed
+                {t("credentials.eyebrow")}
               </div>
               <h2
                 className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-bone-ink mt-4"
                 style={{ fontSize: "clamp(30px, 3.4vw, 46px)" }}
               >
-                Certified, registered, and vouched for
+                {t("credentials.headingBefore")}
                 <br className="hidden sm:block" />
-                by the people who{" "}
-                <em className="italic text-bone-clay">count</em>.
+                {t("credentials.headingMid")}
+                <em className="italic text-bone-clay">
+                  {t("credentials.headingEm")}
+                </em>
+                {t("credentials.headingAfter")}
               </h2>
             </div>
           </Reveal>
@@ -724,7 +542,7 @@ export default function AboutPage() {
             className="flex flex-wrap justify-center gap-5"
             style={{ maxWidth: "980px", margin: "0 auto" }}
           >
-            {certs.map((cert) => (
+            {certs.map((cert, i) => (
               <RevealItem key={cert.label}>
                 <div
                   className="flex flex-col items-center gap-3 px-6 py-5 rounded-2xl bg-bone-bg transition-transform duration-300 hover:-translate-y-1"
@@ -734,7 +552,7 @@ export default function AboutPage() {
                   }}
                 >
                   <Image
-                    src={cert.logo}
+                    src={CERT_LOGOS[i]}
                     alt={cert.label}
                     width={120}
                     height={48}
@@ -753,21 +571,21 @@ export default function AboutPage() {
       {/* ── 9. FAQ ───────────────────────────────────────────────────────── */}
       <SectionFaq
         id="faq"
-        eyebrow="Common questions"
-        textBefore="Your questions,"
-        highlightedText=" answered"
+        eyebrow={t("faq.eyebrow")}
+        textBefore={t("faq.headingBefore")}
+        highlightedText={t("faq.headingHighlight")}
         contactNote={
           <>
-            Still not sure? Call us on{" "}
+            {t("faq.contactNoteBefore")}{" "}
             <a
               href="tel:+254722595916"
               className="text-bone-clay hover:underline"
             >
               +254 722-595-916
             </a>{" "}
-            or{" "}
+            {t("faq.contactNoteMid")}{" "}
             <a href="/contact" className="text-bone-clay hover:underline">
-              send a message
+              {t("faq.contactNoteLink")}
             </a>
             .
           </>

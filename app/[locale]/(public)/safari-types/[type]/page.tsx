@@ -9,11 +9,14 @@ import {
   CollectionPageSchema,
 } from "@/components/seo/StructuredData";
 import type { Safari } from "@/types";
+import { routing } from "@/i18n/routing";
 
 export const revalidate = 300;
 
 export function generateStaticParams() {
-  return SAFARI_TYPES.map((t) => ({ type: t.slug }));
+  return routing.locales.flatMap((locale) =>
+    SAFARI_TYPES.map((t) => ({ locale, type: t.slug }))
+  );
 }
 
 export async function generateMetadata({
@@ -28,7 +31,7 @@ export async function generateMetadata({
   return {
     title: `${config.label} Packages — East Africa | Divine Travel Nest Safaris`,
     description: config.heroDescription,
-    alternates: { canonical: `/safari-types/${config.slug}` },
+    alternates: { canonical: `/en/safari-types/${config.slug}` },
     openGraph: {
       title: `${config.label} Packages | Divine Travel Nest Safaris`,
       description: config.heroDescription,

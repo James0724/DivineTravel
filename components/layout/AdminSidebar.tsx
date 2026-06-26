@@ -18,6 +18,7 @@ import {
   MessageSquare,
   UserCircle,
   Users2,
+  BedDouble,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
@@ -34,6 +35,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: 'Dashboard',    href: '/admin',            icon: LayoutDashboard, exact: true },
   { label: 'Safaris',      href: '/admin/safaris',    icon: Map },
+  { label: 'Accommodations', href: '/admin/accommodations', icon: BedDouble },
   { label: 'Journal',      href: '/admin/journal',    icon: BookOpen },
   { label: 'Comments',     href: '/admin/comments',   icon: MessageSquare },
   { label: 'Bookings',     href: '/admin/bookings',   icon: CalendarCheck },

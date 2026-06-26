@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "Contactez-nous — Organisez votre safari | Divine Travel Nest Safaris",
+    "description": "Contactez nos experts safari à Nairobi. Propositions de safari personnalisées et gratuites sous 24 heures — appelez, écrivez sur WhatsApp ou par e-mail pour commencer à planifier votre aventure en Afrique de l'Est.",
+    "ogTitle": "Contacter Divine Travel Nest Safaris",
+    "ogDescription": "Propositions de safari personnalisées et gratuites sous 24 heures. Sans engagement."
+  },
+  "breadcrumbHome": "Accueil",
+  "breadcrumbCurrent": "Contact",
+  "hero": {
+    "eyebrow": "Contactez-nous",
+    "titleMain": "Organisons votre",
+    "titleEm": "safari parfait",
+    "description": "Proposition personnalisée gratuite sous 24 heures. Sans engagement. Nos experts sont présents sur le terrain en Afrique de l'Est — nous connaissons ces parcs de l'intérieur.",
+    "callNow": "Appelez-nous",
+    "whatsapp": "WhatsApp"
+  },
+  "process": {
+    "steps": [
+      { "num": "01", "title": "Parlez-nous de votre rêve", "desc": "Indiquez vos dates, votre budget, vos centres d'intérêt et qui voyage. Sans engagement." },
+      { "num": "02", "title": "Nous créons votre itinéraire", "desc": "Un consultant dédié élabore votre plan de safari personnalisé en 24 heures." },
+      { "num": "03", "title": "Affinons et confirmons", "desc": "Nous ajustons jusqu'à la perfection. Puis un acompte de 30 % confirme tout." },
+      { "num": "04", "title": "Arrivez et laissez-vous guider", "desc": "Notre équipe locale vous accueille à l'arrivée et s'occupe de chaque détail." }
+    ]
+  },
+  "info": {
+    "eyebrow": "Coordonnées",
+    "headingLine1": "Nous serions ravis",
+    "headingLine2": "de vous entendre.",
+    "body": "Que vous ayez déjà un safari précis en tête ou que vous commenciez tout juste à rêver, notre équipe est là pour vous aider à créer l'aventure parfaite en Afrique de l'Est.",
+    "items": {
+      "phone": { "label": "Téléphone & WhatsApp", "sub": "Lun–Sam, 8h–18h EAT" },
+      "email": { "label": "E-mail", "sub": "Nous répondons sous 24 heures" },
+      "office": { "label": "Bureau", "value": "Nairobi, Kenya", "sub": "Siège Afrique de l'Est" },
+      "hours": { "label": "Horaires", "value": "Lun–Sam, 8h–18h EAT", "sub": "UTC +3" }
+    },
+    "tripadvisorLink": "Avis TripAdvisor ↗",
+    "googleLink": "Avis Google ↗",
+    "faqHeading": "Réponses rapides"
+  },
+  "quickFaqs": [
+    { "q": "Combien de temps à l'avance dois-je réserver ?", "a": "3 à 6 mois est idéal pour la haute saison (juil.–oct., janv.–mars)." },
+    { "q": "Un visa est-il nécessaire ?", "a": "La plupart des nationalités ont besoin d'un visa pour le Kenya/la Tanzanie — nous vous accompagnons dans la démarche." },
+    { "q": "Quel est le montant de l'acompte ?", "a": "Un acompte de 30 % confirme votre réservation ; le solde est dû 60 jours avant le départ." },
+    { "q": "Vous occupez-vous des permis pour les gorilles en Ouganda et au Rwanda ?", "a": "Oui — nous obtenons les permis pour tous nos clients en Ouganda et au Rwanda. Les permis doivent être réservés plusieurs mois à l'avance." }
+  ],
+  "form": {
+    "eyebrow": "Envoyez-nous un message",
+    "headingLine1": "Parlez-nous de",
+    "headingLine2Main": "votre",
+    "headingLine2Em": "safari de rêve",
+    "body": "Indiquez vos dates, votre budget, vos centres d'intérêt pour la faune et qui vous accompagne — nous créerons un itinéraire personnalisé et vous l'envoyons sous 24 heures."
+  },
+  "trust": {
+    "items": [
+      { "num": "500+", "lbl": "Safaris réalisés" },
+      { "num": "4.9★", "lbl": "Note moyenne des clients" },
+      { "num": "24h", "lbl": "Délai de proposition" },
+      { "num": "100%", "lbl": "Itinéraires personnalisés" }
+    ]
+  }
+}

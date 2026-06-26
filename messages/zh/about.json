@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "title": "关于我们 | Divine Travel Nest Safaris——总部位于肯尼亚的野生动物园公司",
+    "description": "一家总部位于肯尼亚、由女性领导的野生动物园公司,致力于为每一位旅客精心规划穿越肯尼亚、坦桑尼亚、乌干达与卢旺达的难忘旅程。了解我们的故事、价值观,并认识我们的团队。",
+    "ogTitle": "关于 Divine Travel Nest Safaris",
+    "ogDescription": "一家总部位于肯尼亚、由女性领导的野生动物园公司,致力于为每一位旅客精心规划穿越肯尼亚、坦桑尼亚、乌干达与卢旺达的难忘旅程。",
+    "twitterDescription": "一家总部位于肯尼亚、由女性领导的野生动物园公司,致力于规划穿越整个东非的难忘旅程。"
+  },
+  "breadcrumbHome": "首页",
+  "breadcrumbCurrent": "关于我们",
+  "hero": {
+    "eyebrow": "关于我们",
+    "titleLine1": "我们是",
+    "titleEm": "Divine Travel Nest",
+    "description": "24小时内提供免费个性化方案,无需任何承诺。我们的专家常驻东非——对这些公园了如指掌。",
+    "callNow": "立即致电",
+    "whatsapp": "WhatsApp"
+  },
+  "lead": {
+    "kickerMain": "非洲。野生动物园。专家。",
+    "kickerMuted": "——规划交给我们,回忆由您创造。",
+    "headingLine1": "我们是",
+    "headingLine2Before": "Divine ",
+    "headingLine2Em": "Travel Nest",
+    "body1Before": "一家总部位于肯尼亚、",
+    "body1Strong": "由女性领导",
+    "body1After": "的野生动物园公司,致力于为每一位旅客精心规划穿越肯尼亚、坦桑尼亚、乌干达与卢旺达的难忘旅程。",
+    "body2": "源于一个简单的梦想:让人们与野性的灵魂相连。回复您第一条消息的团队,正是为您设计行程并陪伴您直到最后一次游猎的同一批人。",
+    "ctaPlan": "规划我的野生动物园之旅 →",
+    "talkToUs": "联系我们"
+  },
+  "portrait": {
+    "location": "Spur Mall · 内罗毕,肯尼亚",
+    "countries": "肯尼亚 · 坦桑尼亚 · 乌干达 · 卢旺达"
+  },
+  "story": {
+    "eyebrow": "我们的故事",
+    "headingBefore": "源于一个",
+    "headingMid": "关于",
+    "headingEm": "荒野",
+    "headingAfter": "的梦想。",
+    "lead": "Divine Travel Nest Safaris 源于一个简单的梦想——创造让人们与野性灵魂相连的难忘旅程。",
+    "paragraph1": "我们是一家<strong>总部位于肯尼亚、由女性领导的野生动物园公司</strong>,致力于追求卓越、诚信以及真正个性化的服务。我们专注于<strong>肯尼亚野生动物园</strong>、<strong>坦桑尼亚野生动物园</strong>、<strong>肯尼亚-坦桑尼亚联合环线</strong>、<strong>乌干达大猩猩徒步</strong>以及<strong>卢旺达大猩猩野生动物园</strong>——这些都是我们深谙于心的路线,而非泛泛涉猎各地的目录式服务。",
+    "paragraph2": "每一份行程都以您的愿望为指引:追逐草原上的日落,在金色平原上追踪象群,或在星空下的旅馆中放松身心。我们的策划师与本地出生的向导熟悉东非的每一个角落——与我们同行,您从来不只是一名旅客,而是家人。",
+    "missionLabel": "我们的使命",
+    "missionText": "打造体验丰富、安全且真正性价比合理的非洲野生动物园之旅,让您更贴近野生动物、当地人民以及东非的魅力。"
+  },
+  "stats": [
+    { "numEm": "100", "numSuffix": "+", "lblLine1": "野生动物园套餐", "lblLine2": "遍布东非各地" },
+    { "numEm": "", "numSuffix": "4", "lblLine1": "国家——肯尼亚", "lblLine2": "坦桑尼亚 · 乌干达 · 卢旺达" },
+    { "numEm": "24", "numSuffix": "/7", "lblLine1": "全程支持——出行前、", "lblLine2": "途中及之后" },
+    { "numEm": "100", "numSuffix": "%", "lblLine1": "量身定制", "lblLine2": "行程安排" }
+  ],
+  "why": {
+    "eyebrow": "我们的坚持",
+    "headingBefore": "我们绝不",
+    "headingHighlight": "妥协",
+    "headingAfter": "的事情。",
+    "description": "一次野生动物园之旅意味着将极大的信任交给一个陌生人。以下是我们用来赢得这份信任的原则——也是我们的客人愿意回访,并指名推荐给朋友的原因。",
+    "items": [
+      { "titleBefore": "量身定制的", "titleEm": "体验", "titleAfter": "", "body": "每位旅客都是独特的,因此每段旅程都围绕您的节奏、兴趣和预算从零开始打造。我们的行程从未有两份完全相同。" },
+      { "titleBefore": "舒适与", "titleEm": "安全", "titleAfter": "", "body": "精心挑选的旅馆与帐篷营地、维护良好的4x4车队,以及全程守护每一公里旅程的专业团队——奢华、真实与真正的安心兼而有之。" },
+      { "titleBefore": "保育与", "titleEm": "社区", "titleAfter": "", "body": "我们与当地保育组织和社区项目合作,让您的旅程有助于保护非洲的野生动物,并赋能与之共存的当地居民。" },
+      { "titleBefore": "透明与", "titleEm": "实惠", "titleAfter": "", "body": "没有隐藏费用——只有清晰、诚实的定价与真正的价值。难忘的野生动物体验,没有虚高的加价。" },
+      { "titleBefore": "值得信赖的本地", "titleEm": "专业知识", "titleAfter": "", "body": "深厚的区域知识与人脉,以及由肯尼亚专业野生动物园向导协会(KPSGA)认证的司机向导。真实的体验,根植于这片土地本身。" },
+      { "titleBefore": "独特的", "titleEm": "用心服务", "titleAfter": "", "body": "每段旅程中那些细微而用心的细节——正是这种个人关怀与周密规划,将一次假期变成一场充满灵魂的非洲冒险。" }
+    ]
+  },
+  "standout": {
+    "eyebrow": "旅客选择我们的理由",
+    "headingBefore": "一家",
+    "headingHighlight": "公司,",
+    "headingAfter": "从始至终。",
+    "description": "宣传册背后的实际承诺——正是这些细节,让 Divine Travel Nest 的野生动物园之旅从第一封邮件到返程机场的路途都顺畅无阻。",
+    "items": [
+      { "titleBefore": "一位", "titleEm": "策划师", "titleAfter": ",从头到尾全程负责", "body": "您的专属野生动物园策划师亲自设计行程并全程跟进——没有客服中心转接,也不会在不同部门之间被转来转去。" },
+      { "titleBefore": "持有KPSGA", "titleEm": "认证", "titleAfter": "的向导与司机", "body": "每位向导和司机均持有肯尼亚专业野生动物园向导协会(KPSGA)的认证——专业的追踪技巧、真正的野生动物知识,以及对非洲真挚的热情。" },
+      { "titleBefore": "100多条路线,全部", "titleEm": "灵活可调", "titleAfter": "", "body": "超过一百种东非套餐可供您作为起点选择——每一份都可重新调整,以契合您的日期、风格与预算。" },
+      { "titleBefore": "24小时全天候", "titleEm": "支持", "titleAfter": ",行前与行后皆备", "body": "在您整个旅程及之后,电话+254 724-163-662 始终有真人接听——让一切后勤事务变得简单无忧。" }
+    ]
+  },
+  "team": {
+    "eyebrow": "认识我们的团队",
+    "headingBefore": "这些是",
+    "headingHighlight": "接听",
+    "headingAfter": "您电话的人。",
+    "description": "一家小型家族经营公司的优势在于,您能真正认识负责您旅程的人——也就是邮件、对讲机和叫醒电话另一端的团队。",
+    "members": [
+      { "name": "John Mwangi", "role": "董事总经理", "bio": "Divine Travel Nest Safaris 背后的远见者。约翰对东非的深厚了解以及对野生动物的热情,确保每一次野生动物园之旅都真实、安全且难忘。" },
+      { "name": "Janet Wanjiru", "role": "首席执行官", "bio": "负责公司的日常运营。正是她,使 Divine Travel Nest 成为一家建立在诚信、温暖以及对细节执着追求之上的女性领导企业。" },
+      { "name": "James Kahoro", "role": "系统工程与运营负责人", "bio": "在幕后确保一切顺畅运转。正是他,让您的野生动物园之旅天衣无缝,行程完美无瑕,回忆历久弥新。" }
+    ]
+  },
+  "credentials": {
+    "eyebrow": "持证经营,广受认可",
+    "headingBefore": "获得认证、注册,",
+    "headingMid": "并受到真正重要的人",
+    "headingEm": "认可",
+    "headingAfter": "。",
+    "certs": [
+      { "label": "Kenya Wildlife Service(肯尼亚野生动物管理局)" },
+      { "label": "持证旅游运营商" },
+      { "label": "TripAdvisor 认证点评" },
+      { "label": "SafariBookings 平台收录" },
+      { "label": "KATO 注册会员" }
+    ]
+  },
+  "faq": {
+    "eyebrow": "常见问题",
+    "headingBefore": "您的疑问,",
+    "headingHighlight": "我们解答",
+    "contactNoteBefore": "仍有疑问?请致电",
+    "contactNoteMid": "或",
+    "contactNoteLink": "给我们发送消息",
+    "items": [
+      { "q": "观赏野生动物的最佳时间是什么时候?", "a": "干旱季节(1月-3月和7月-10月)是观赏野生动物的最佳时机。7月至10月恰逢马赛马拉和塞伦盖蒂的东非大迁徙。" },
+      { "q": "您们的野生动物园之旅适合儿童参加吗?", "a": "当然适合。我们会为家庭量身定制行程。大多数公园允许任何年龄的儿童乘车进入;部分徒步野生动物园活动要求最低年龄为12岁。" },
+      { "q": "价格中包含哪些内容?", "a": "所有套餐均包含公园门票、专业向导服务、行程内的餐食以及机场接送。机票和签证费用需额外支付。" },
+      { "q": "您们如何支持环境保育?", "a": "我们与社区保护区合作,将每笔预订收入的一部分捐赠给反偷猎项目,并采用低影响的露营方式。" },
+      { "q": "我可以定制自己的行程吗?", "a": "可以——我们打造的每一次野生动物园之旅都是量身定制的。告诉我们您的兴趣、预算和出行日期,我们将围绕您来规划行程。" },
+      { "q": "您们接受哪些货币?", "a": "我们接受美元、欧元、英镑以及当地货币。付款方式包括银行转账、银行卡或 M-Pesa(肯尼亚)。" }
+    ]
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "meta": {
+    "title": "Reserva de Hoteles y Alojamiento Safari — Lodges, Campamentos de Lona y Resorts de Playa | Divine Travel Nest Safaris",
+    "description": "Reserve lodges de safari, campamentos de lona y resorts de playa en Kenia, Tanzania, Uganda y Ruanda a través de Divine Travel Nest. Trabajamos directamente con estos hoteles y propiedades para conseguir las mejores tarifas y gestionar cada reserva por usted.",
+    "ogTitle": "Reserva de Hoteles y Alojamiento Safari | Divine Travel Nest Safaris",
+    "ogDescription": "Lodges, campamentos de lona y resorts de playa con los que trabajamos en toda África Oriental — reservados para usted, a nuestras tarifas de socio.",
+    "collectionName": "Alojamientos de Safari — Lodges, Campamentos de Lona y Resorts de Playa",
+    "collectionDescription": "Los lodges, campamentos de lona y resorts de playa con los que trabajamos en toda África Oriental."
+  },
+  "breadcrumbHome": "Inicio",
+  "breadcrumbCurrent": "Alojamientos",
+  "hero": {
+    "eyebrow": "Dónde se alojará",
+    "titleMain": "Lodges, campamentos y",
+    "titleEm": "resorts",
+    "description": "Desde lujosos lodges en lo alto de acantilados hasta campamentos de lona en plena sabana y resorts de playa de arena blanca — trabajamos directamente con los mejores hoteles y propiedades de toda África Oriental, conseguimos tarifas preferentes y reservamos su estancia como parte de su itinerario."
+  },
+  "intro": {
+    "eyebrow": "Cómo trabajamos con estas propiedades",
+    "headingBefore": "Somos socios. ",
+    "headingHighlight": "Lo reservamos por usted",
+    "headingAfter": ".",
+    "lead": "Cada propiedad a continuación es un hotel, lodge, campamento o resort con el que trabajamos directamente — negociamos la tarifa, hacemos la reserva y la gestionamos como una parte fluida de su itinerario.",
+    "paragraph1": "Dónde se aloja moldea un safari casi tanto como los parques que visita. En Kenia, Tanzania, Uganda y Ruanda, las propiedades de nuestra lista de socios se dividen en tres grandes estilos: <strong>lodges de lujo</strong> — suites permanentes diseñadas por arquitectos con servicio de hotel completo; <strong>campamentos de lona</strong> — habitaciones con paredes de lona instaladas en plena sabana, algunas de ellas genuinamente móviles y estacionales, siguiendo la Gran Migración; y <strong>resorts de playa</strong> — la forma clásica de cerrar un viaje con unos días en la costa del océano Índico.",
+    "paragraph2": "Reservamos nosotros mismos cada estancia de esta lista, mediante asociaciones establecidas directamente con cada hotel, lodge, campamento y resort — de modo que usted obtiene nuestra tarifa negociada y una única reserva confirmada, no una reserva separada con cada propiedad. Lo que añadimos es la parte difícil de hacer por su cuenta: saber qué lodge conviene para una luna de miel, qué campamento está bien posicionado para los cruces de río de este año, y qué resort de playa está a la distancia correcta de su último game drive.",
+    "includesLabel": "Qué incluye cada ficha",
+    "includes": [
+      "Su ubicación — país, región y el ecosistema más amplio en el que se encuentra",
+      "Por qué es conocido — entorno, diseño y la experiencia que ofrece",
+      "Servicios y aspectos destacados, para que sepa qué esperar al llegar",
+      "Una galería de fotos de la propiedad y sus alrededores",
+      "Nuestra tarifa de socio, confirmada y reservada para usted como parte de su itinerario"
+    ]
+  },
+  "browse": {
+    "eyebrow": "Explorar por tipo",
+    "headingBefore": "Elija un ",
+    "headingHighlight": "estilo",
+    "headingAfter": " de estancia.",
+    "lead": "La mayoría de los itinerarios con varias paradas combinan más de un estilo — un lodge para la primera etapa, un campamento de lona más adentro en la sabana y un resort de playa para terminar.",
+    "explore": "Explorar"
+  },
+  "faqs": {
+    "eyebrow": "Preguntas frecuentes · Reservas",
+    "headingBefore": "Reservar su ",
+    "headingHighlight": "estancia",
+    "headingAfter": ".",
+    "contactNotePrefix": "Llámenos al",
+    "contactNoteSuffix": "— respondemos.",
+    "items": [
+      { "q": "¿Reservan los hoteles y lodges por mí, o debo reservarlos yo mismo?", "a": "Los reservamos por usted. Trabajamos directamente con cada hotel, lodge, campamento y resort que aparece aquí, negociamos la tarifa e incluimos la reserva como una parte confirmada de su itinerario — usted no trata con cada propiedad por separado." },
+      { "q": "¿Puedo obtener una mejor tarifa reservando con Divine Travel Nest que reservando directamente con el hotel?", "a": "Sí, en la mayoría de los casos. Nuestras tarifas de socio se negocian mediante una relación continua con cada propiedad, y combinamos el alojamiento con traslados, tasas de parque y guía — a menudo resultando en mejor relación calidad-precio que reservar solo la habitación." },
+      { "q": "¿Qué países cubren sus socios de alojamiento?", "a": "Kenia, Tanzania, Uganda y Ruanda — desde lodges y campamentos de lona en Masai Mara y Serengeti hasta resorts de playa en Diani y Zanzíbar y lodges para el trekking de gorilas cerca de Bwindi y el Parque Nacional de los Volcanes." },
+      { "q": "¿Puedo reservar solo un hotel o lodge sin un paquete de safari completo?", "a": "Sí — díganos la propiedad (o el estilo de estancia) y sus fechas, y le cotizaremos y reservaremos el alojamiento solo, o lo integraremos en un itinerario más amplio si desea añadir game drives o traslados." }
+    ]
+  },
+  "cta": {
+    "headingBefore": "¿No está seguro de qué estancia es la",
+    "headingEm": "adecuada",
+    "headingAfter": "?",
+    "description": "Cuéntenos su presupuesto, fechas y lo que más le importa — vista, privacidad, ambiente familiar — y reservaremos los lodges, campamentos y resorts adecuados en su itinerario.",
+    "buttonText": "Preguntar a un experto"
+  },
+  "typePage": {
+    "hero": {
+      "eyebrow": "Tipo de alojamiento",
+      "titleSuffix": "de confianza"
+    },
+    "intro": {
+      "eyebrow": "Qué es",
+      "goodToKnowLabel": "Bueno saberlo"
+    },
+    "whatToExpect": {
+      "eyebrow": "Qué esperar",
+      "headingBefore": "Alojarse en un",
+      "headingHighlight": "con nuestros socios",
+      "description": "Cada propiedad funciona de forma independiente — así es, en líneas generales, lo que suele incluir este estilo de estancia."
+    },
+    "properties": {
+      "eyebrowSuffix": "con los que somos socios",
+      "headingBefore": "Propiedades que vale la ",
+      "headingHighlight": "pena conocer",
+      "headingAfter": ".",
+      "lead": "Trabajamos directamente con estas propiedades y reservamos su estancia por usted — una reserva, nuestra tarifa negociada, integrada en su itinerario.",
+      "noneBefore": "Todavía no hay ",
+      "noneAfter": " de socios publicados — pregúntenos y encontraremos y reservaremos las mejores opciones para su viaje."
+    },
+    "faqs": {
+      "eyebrowPrefix": "Preguntas frecuentes ·",
+      "headingBefore": "Antes de ",
+      "headingHighlight": "elegir",
+      "headingAfter": ".",
+      "contactPrefix": "Llámenos para más información al",
+      "contactSuffix": "— respondemos."
+    },
+    "cta": {
+      "headingBefore": "Elijamos el ",
+      "headingHighlight": "alojamiento",
+      "headingAfter": " adecuado.",
+      "description": "Cuéntenos su presupuesto, sus fechas y quién viaja. Nuestros expertos eligen los lodges, campamentos y resorts adecuados para su itinerario, los reservan a nuestras tarifas de socio y le envían una propuesta gratuita y sin compromiso.",
+      "buttonText": "Solicitar presupuesto gratis"
+    },
+    "meta": {
+      "titleTemplate": "{label} en África Oriental — Propiedades Asociadas | Divine Travel Nest Safaris",
+      "ogTitleTemplate": "{label} | Divine Travel Nest Safaris"
+    }
+  },
+  "types": {
+    "luxury-lodges": {
+      "label": "Lodges de Lujo",
+      "shortLabel": "Lodge de Lujo",
+      "heroImageAlt": "Suite de lodge de safari de lujo con vistas a la sabana",
+      "heroDescription": "Propiedades permanentes diseñadas por arquitectos e integradas en el paisaje — suites privadas, piscinas infinitas y alta cocina, junto con el mismo guiado experto que en cualquier otra estancia que organizamos.",
+      "cardDescription": "Suites diseñadas por arquitectos, piscinas infinitas y alta cocina — propiedades permanentes integradas en el paisaje.",
+      "intro": {
+        "headingBefore": "El safari en su forma más ",
+        "headingHighlight": "refinada",
+        "headingAfter": "",
+        "body": "Los lodges de lujo son propiedades permanentes con dirección fija — normalmente construidas en piedra, madera y vidrio — ubicadas en conservancies privadas o concesiones, con vistas amplias sobre un valle, un río o una llanura. Espere suites amplias con baño privado y, en ocasiones, una piscina privada, un equipo completo de cocina y comedor, y un nivel de arquitectura y diseño que es un destino en sí mismo. Solo trabajamos con lodges socios que destacan tanto en la calidad del guiado como en la comodidad."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Suites fijas diseñadas por arquitectos", "body": "Habitaciones permanentes de piedra y paja o con paredes de vidrio, no de lona — normalmente con veranda privada o piscina propia." },
+        { "n": "02", "title": "Gastronomía de servicio completo", "body": "Un equipo dedicado de cocina y comedor, a menudo con un menú diseñado en torno al entorno del propio lodge." },
+        { "n": "03", "title": "Instalaciones de spa y bienestar", "body": "Muchos lodges de lujo añaden un spa, gimnasio o terraza de yoga junto a la oferta principal de safari." },
+        { "n": "04", "title": "Guiado premium como estándar", "body": "Los lodges de esta categoría combinan su entorno con guías experimentados, a menudo especializados." }
+      ],
+      "goodToKnow": [
+        "Es mejor reservarlos con mucha antelación — los lodges más solicitados tienen pocas habitaciones y se llenan rápido en temporada alta",
+        "Muchos se encuentran en conservancies privadas, lo que a menudo permite salidas nocturnas y conducción todoterreno no permitidas en los parques nacionales",
+        "Reservamos cada lodge de esta lista directamente a través de nuestra asociación con la propiedad, a tarifas que igualan o mejoran lo que obtendría reservando usted mismo"
+      ],
+      "faqs": [
+        { "q": "¿Reservan los lodges de lujo directamente?", "a": "Sí — somos socios de cada lodge listado aquí y reservamos su estancia como parte de su itinerario, usando tarifas de socio negociadas. Usted trata con un único equipo para vuelos, guiado y alojamiento, en lugar de una reserva separada para cada lodge." },
+        { "q": "¿Los lodges de lujo están dentro de los parques nacionales?", "a": "Algunos sí, pero muchos de los mejores se encuentran en conservancies privadas en los límites de los parques, lo que a menudo permite salidas nocturnas y conducción todoterreno restringidas dentro de los propios límites del parque." },
+        { "q": "¿Con cuánta antelación debo reservar un lodge de lujo?", "a": "Cuanto antes, mejor — los lodges más solicitados tienen pocas suites y se agotan para la temporada alta (julio–octubre, diciembre–enero) con muchos meses de antelación." }
+      ]
+    },
+    "tented-camps": {
+      "label": "Campamentos de Lona",
+      "shortLabel": "Campamento de Lona",
+      "heroImageAlt": "Suite de campamento de lona de lujo con paredes de tela abiertas a la sabana",
+      "heroDescription": "Suites con paredes de lona instaladas en plena sabana — camas reales, baño privado y el sonido de la sabana justo al otro lado de la entrada de la tienda, desde campamentos clásicos permanentes hasta instalaciones móviles estacionales que siguen la migración.",
+      "cardDescription": "Suites con paredes de lona en la sabana — camas reales y comodidad con baño privado, algunas de ellas campamentos estacionales que siguen la migración.",
+      "intro": {
+        "headingBefore": "Más cerca de la sabana que ",
+        "headingHighlight": "cualquier lodge",
+        "headingAfter": "",
+        "body": "Un campamento de lona cambia las paredes de piedra permanentes por la tela — pero los mejores campamentos con los que trabajamos no tienen nada de básico, con camas reales, baños privados (a veces con ducha de cubo, a veces totalmente instalados) y una tienda comedor para las comidas. Algunos campamentos permanecen fijos en un lugar todo el año; otros son realmente móviles, se desmontan y vuelven a montar de forma estacional para seguir la Gran Migración. En cualquier caso, se duerme con nada más que una pared de lona entre usted y los sonidos de la sabana."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Suites de lona, comodidad real", "body": "Camas reales, ropa de cama y baño privado — un mundo aparte del camping de mochilero." },
+        { "n": "02", "title": "Fijos o estacionales/móviles", "body": "Algunos campamentos permanecen en un lugar todo el año; los móviles se reubican de forma estacional para seguir la migración." },
+        { "n": "03", "title": "Comidas en tienda comedor y noches de fogata", "body": "Las comidas compartidas y las noches junto al fuego forman parte del carácter del campamento." },
+        { "n": "04", "title": "Acompañamiento en el campamento por la noche", "body": "El personal acompaña a los huéspedes entre tiendas tras el anochecer como práctica habitual." }
+      ],
+      "goodToKnow": [
+        "Los campamentos móviles son estacionales — pregunte por las fechas exactas si busca seguir la Gran Migración",
+        "Lleve ropa por capas: las noches y madrugadas en el campamento pueden ser frescas incluso en temporada seca",
+        "Reservamos cada campamento de esta lista directamente a través de nuestra asociación con la propiedad, a tarifas que igualan o mejoran lo que obtendría reservando usted mismo"
+      ],
+      "faqs": [
+        { "q": "¿Es seguro un campamento de lona por la noche?", "a": "Sí — los campamentos serios acompañan a los huéspedes entre tiendas tras el anochecer, y muchos están vallados o son vigilados activamente durante la noche por personal experimentado." },
+        { "q": "¿Cuál es la diferencia entre un campamento fijo y uno móvil?", "a": "Los campamentos fijos permanecen en un lugar todo el año. Los campamentos móviles son estacionales — se desmontan y vuelven a montar varias veces al año, a menudo siguiendo la Gran Migración." },
+        { "q": "¿Los campamentos de lona tienen baños adecuados?", "a": "Los campamentos que listamos tienen baño privado — algunos totalmente instalados, otros con ducha de cubo o calentada por energía solar en instalaciones más remotas o móviles. Podemos confirmar los detalles exactos para sus fechas al reservar." },
+        { "q": "¿Reservan el campamento de lona por mí?", "a": "Sí — todos los campamentos listados aquí son propiedades asociadas. Gestionamos la reserva, aseguramos tarifas de socio y lo integramos en su itinerario, para que no tenga que reservar cada campamento por separado." }
+      ]
+    },
+    "beach-resorts": {
+      "label": "Resorts de Playa",
+      "shortLabel": "Resort de Playa",
+      "heroImageAlt": "Piscina de resort frente a la playa con vistas a la costa del océano Índico",
+      "heroDescription": "El cierre clásico de un safari — playas de arena blanca y aguas cálidas del océano Índico en la costa de Kenia y en Zanzíbar, para viajeros que extienden su viaje con unos días para relajarse.",
+      "cardDescription": "Playas de arena blanca y aguas cálidas del océano Índico — la forma clásica de cerrar un safari.",
+      "intro": {
+        "headingBefore": "Donde termina el safari y comienza la ",
+        "headingHighlight": "playa",
+        "headingAfter": "",
+        "body": "Muchos de nuestros huéspedes cierran un safari con unos días en la costa — Diani Beach, en la costa sur de Kenia, o al otro lado del agua en Zanzíbar, ambos a un corto vuelo de Nairobi o del circuito del norte de Tanzania. Los resorts de playa que listamos van desde propiedades íntimas tipo boutique hasta resorts más grandes de servicio completo con spas, deportes acuáticos y varios restaurantes, todos en la misma costa de arena blanca y aguas cálidas."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Arena blanca y aguas cálidas todo el año", "body": "La costa de Kenia y Zanzíbar se encuentran justo al sur del ecuador — el agua permanece cálida en cualquier estación." },
+        { "n": "02", "title": "Un verdadero cambio de ritmo", "body": "Piscinas, spas y deportes acuáticos reemplazan a la alarma madrugadora del game drive." },
+        { "n": "03", "title": "Logística sencilla para añadir a su viaje", "body": "Vuelos cortos conectan Nairobi, el circuito de safari del norte y la costa — le ayudamos a organizar el traslado." },
+        { "n": "04", "title": "Variedad de estilos", "body": "Desde pequeñas propiedades boutique frente a la playa hasta resorts más grandes de servicio completo con varios restaurantes." }
+      ],
+      "goodToKnow": [
+        "Es mejor añadirlo al final del viaje — la mayoría de los huéspedes hacen primero el safari y la playa al final",
+        "Vuelos cortos nacionales o regionales conectan fácilmente tanto Diani como Zanzíbar con los principales circuitos de safari",
+        "Reservamos cada resort de esta lista directamente a través de nuestra asociación con la propiedad, a tarifas que igualan o mejoran lo que obtendría reservando usted mismo"
+      ],
+      "faqs": [
+        { "q": "¿Debería ir la playa antes o después del safari?", "a": "Casi todos lo hacen de la misma manera — primero el safari, la playa al final, para que el viaje termine con una nota más tranquila y relajante." },
+        { "q": "¿Cómo llego de la ruta del safari a la costa?", "a": "Un vuelo corto nacional o regional conecta Nairobi (o el circuito del norte de Tanzania) con Diani o Zanzíbar — le ayudamos a organizar el traslado en cuanto nos indique sus fechas." },
+        { "q": "¿Es mejor Zanzíbar o Diani Beach?", "a": "Ambos son excelentes y tienen agua cálida todo el año — Zanzíbar (Tanzania) es ideal para viajes que ya están en Tanzania, mientras que Diani (Kenia) es el complemento natural de un safari en Kenia. Con gusto le explicamos ambas opciones." },
+        { "q": "¿Reservan el resort de playa por mí?", "a": "Sí — todos los resorts listados aquí son propiedades asociadas. Gestionamos la reserva, aseguramos tarifas de socio y lo añadimos al final de su itinerario de safari como una sola reserva." }
+      ]
+    }
+  }
+}

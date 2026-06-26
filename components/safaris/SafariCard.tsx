@@ -1,16 +1,16 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
 import { Clock, Users, MapPin, Star } from 'lucide-react'
 import Badge from '@/components/ui/Badge'
 import {
-  formatPrice,
   formatDuration,
   getLowestPrice,
   truncate,
 } from '@/lib/utils'
+import { useCurrency } from '@/lib/currency/useCurrency'
 import type { Safari } from '@/types'
 
 interface SafariCardProps {
@@ -21,6 +21,7 @@ interface SafariCardProps {
 
 export default function SafariCard({ safari, index = 0, compact = false }: SafariCardProps) {
   const lowestPrice = getLowestPrice(safari.pricing)
+  const { displayPrice } = useCurrency()
 
   return (
     <motion.article
@@ -105,7 +106,7 @@ export default function SafariCard({ safari, index = 0, compact = false }: Safar
             <div>
               <p className="text-xs text-bone-ink/45 font-sans">From</p>
               <p className="font-serif text-xl font-semibold text-bone-ink">
-                {formatPrice(lowestPrice)}
+                {displayPrice(lowestPrice)}
                 <span className="text-sm font-sans font-normal text-bone-ink/50">
                   {' '}/ person
                 </span>

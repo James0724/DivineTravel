@@ -1,0 +1,199 @@
+{
+  "meta": {
+    "title": "Réservation d'hôtels safari — Lodges, camps de toile et resorts de plage | Divine Travel Nest Safaris",
+    "description": "Réservez des lodges safari, des camps de toile et des resorts de plage au Kenya, en Tanzanie, en Ouganda et au Rwanda avec Divine Travel Nest. Nous sommes partenaires directs de ces hôtels et établissements pour obtenir les meilleurs tarifs et gérer chaque réservation pour vous.",
+    "ogTitle": "Réservation d'hôtels safari | Divine Travel Nest Safaris",
+    "ogDescription": "Lodges, camps de toile et resorts de plage avec lesquels nous sommes partenaires à travers l'Afrique de l'Est — réservés pour vous, à nos tarifs partenaires.",
+    "collectionName": "Hébergements de safari — Lodges, camps de toile et resorts de plage",
+    "collectionDescription": "Les lodges, camps de toile et resorts de plage avec lesquels nous sommes partenaires à travers l'Afrique de l'Est."
+  },
+  "breadcrumbHome": "Accueil",
+  "breadcrumbCurrent": "Hébergements",
+  "hero": {
+    "eyebrow": "Où vous séjournerez",
+    "titleMain": "Lodges, camps et",
+    "titleEm": "resorts",
+    "description": "Des lodges de luxe en hauteur aux camps de toile en pleine brousse et resorts de plage de sable blanc — nous sommes partenaires directs des meilleurs hôtels et établissements d'Afrique de l'Est, obtenons des tarifs préférentiels et réservons votre séjour dans le cadre de votre itinéraire."
+  },
+  "intro": {
+    "eyebrow": "Comment nous travaillons avec ces établissements",
+    "headingBefore": "Nous sommes partenaires. ",
+    "headingHighlight": "Nous réservons pour vous",
+    "headingAfter": ".",
+    "lead": "Chaque établissement ci-dessous est un hôtel, lodge, camp ou resort avec lequel nous sommes directement partenaires — nous négocions le tarif, effectuons la réservation et la gérons comme un élément homogène de votre itinéraire.",
+    "paragraph1": "L'endroit où vous séjournez façonne un safari presque autant que les parcs que vous visitez. Au Kenya, en Tanzanie, en Ouganda et au Rwanda, les établissements de notre réseau partenaire se répartissent en trois grands styles : les <strong>lodges de luxe</strong> — suites permanentes conçues par des architectes, avec un service hôtelier complet ; les <strong>camps de toile</strong> — chambres aux parois de toile installées en pleine brousse, certaines véritablement mobiles et saisonnières, suivant la Grande Migration ; et les <strong>resorts de plage</strong> — la façon classique de conclure un voyage par quelques jours sur la côte de l'océan Indien.",
+    "paragraph2": "Nous réservons nous-mêmes chaque séjour de cette liste, grâce à des partenariats établis directement avec chaque hôtel, lodge, camp et resort — vous bénéficiez ainsi de notre tarif négocié et d'une réservation confirmée unique, et non d'une réservation séparée auprès de chaque établissement. Ce que nous apportons en plus, c'est ce qu'il est difficile de faire soi-même : savoir quel lodge convient à une lune de miel, quel camp est idéalement situé pour les traversées de rivière de cette année, et quel resort de plage se trouve à la bonne distance de votre dernier game drive.",
+    "includesLabel": "Ce que chaque fiche inclut",
+    "includes": [
+      "Sa localisation — pays, région et l'écosystème plus large dans lequel il se trouve",
+      "Ce pour quoi il est connu — cadre, design et expérience proposée",
+      "Équipements et points forts, pour savoir à quoi s'attendre à l'arrivée",
+      "Une galerie photo de l'établissement et de ses environs",
+      "Notre tarif partenaire, confirmé et réservé pour vous dans le cadre de votre itinéraire"
+    ]
+  },
+  "browse": {
+    "eyebrow": "Parcourir par type",
+    "headingBefore": "Choisissez un ",
+    "headingHighlight": "style",
+    "headingAfter": " de séjour.",
+    "lead": "La plupart des itinéraires à plusieurs étapes combinent plus d'un style — un lodge pour la première étape, un camp de toile plus loin dans la brousse, et un resort de plage pour conclure.",
+    "explore": "Découvrir"
+  },
+  "faqs": {
+    "eyebrow": "FAQ · Réservation",
+    "headingBefore": "Réserver votre ",
+    "headingHighlight": "séjour",
+    "headingAfter": ".",
+    "contactNotePrefix": "Appelez-nous au",
+    "contactNoteSuffix": "— nous répondons.",
+    "items": [
+      { "q": "Réservez-vous les hôtels et lodges pour moi, ou dois-je le faire moi-même ?", "a": "Nous les réservons pour vous. Nous sommes directement partenaires de chaque hôtel, lodge, camp et resort listé ici, négocions le tarif, et incluons la réservation comme un élément confirmé de votre itinéraire — vous n'avez pas à traiter avec chaque établissement séparément." },
+      { "q": "Puis-je obtenir un meilleur tarif en réservant via Divine Travel Nest qu'en réservant directement l'hôtel ?", "a": "Oui, dans la plupart des cas. Nos tarifs partenaires sont négociés grâce à une relation continue avec chaque établissement, et nous combinons l'hébergement avec les transferts, les frais de parc et le guidage — ce qui représente souvent un meilleur rapport qualité-prix que de réserver la chambre seule." },
+      { "q": "Quels pays couvrent vos partenaires d'hébergement ?", "a": "Le Kenya, la Tanzanie, l'Ouganda et le Rwanda — des lodges et camps de toile du Masai Mara et du Serengeti aux resorts de plage de Diani et Zanzibar, en passant par les lodges de trekking de gorilles près de Bwindi et du parc national des Volcans." },
+      { "q": "Puis-je réserver juste un hôtel ou un lodge sans package safari complet ?", "a": "Oui — indiquez-nous l'établissement (ou le style de séjour souhaité) et vos dates, et nous vous établirons un devis et réserverons l'hébergement seul, ou l'intégrerons à un itinéraire plus large si vous souhaitez ajouter des game drives ou des transferts." }
+    ]
+  },
+  "cta": {
+    "headingBefore": "Pas sûr du séjour qui vous",
+    "headingEm": "convient",
+    "headingAfter": " ?",
+    "description": "Indiquez-nous votre budget, vos dates et ce qui compte le plus pour vous — la vue, l'intimité, le côté familial — et nous intégrerons les bons lodges, camps et resorts à votre itinéraire.",
+    "buttonText": "Demander à un expert"
+  },
+  "typePage": {
+    "hero": {
+      "eyebrow": "Type d'hébergement",
+      "titleSuffix": "partenaire"
+    },
+    "intro": {
+      "eyebrow": "Qu'est-ce que c'est",
+      "goodToKnowLabel": "Bon à savoir"
+    },
+    "whatToExpect": {
+      "eyebrow": "À quoi s'attendre",
+      "headingBefore": "Séjourner dans un",
+      "headingHighlight": "partenaire",
+      "description": "Chaque établissement est géré de façon indépendante — voici, dans les grandes lignes, ce qu'inclut généralement ce style de séjour."
+    },
+    "properties": {
+      "eyebrowSuffix": "avec lesquels nous sommes partenaires",
+      "headingBefore": "Des établissements à ",
+      "headingHighlight": "connaître",
+      "headingAfter": ".",
+      "lead": "Nous sommes directement partenaires de ces établissements et réservons votre séjour pour vous — une seule réservation, notre tarif négocié, intégrée à votre itinéraire.",
+      "noneBefore": "Aucune offre de ",
+      "noneAfter": " partenaire n'est encore publiée — contactez-nous et nous trouverons et réserverons les meilleures options pour votre voyage."
+    },
+    "faqs": {
+      "eyebrowPrefix": "FAQ ·",
+      "headingBefore": "Avant de ",
+      "headingHighlight": "choisir",
+      "headingAfter": ".",
+      "contactPrefix": "Appelez-nous pour plus d'informations au",
+      "contactSuffix": "— nous répondons."
+    },
+    "cta": {
+      "headingBefore": "Choisissons le bon ",
+      "headingHighlight": "séjour",
+      "headingAfter": ".",
+      "description": "Indiquez-nous votre budget, vos dates et qui voyage. Nos experts sélectionnent les lodges, camps et resorts adaptés à votre itinéraire, les réservent à nos tarifs partenaires, et vous envoient une proposition gratuite et sans engagement.",
+      "buttonText": "Obtenir un devis gratuit"
+    },
+    "meta": {
+      "titleTemplate": "{label} en Afrique de l'Est — Établissements Partenaires | Divine Travel Nest Safaris",
+      "ogTitleTemplate": "{label} | Divine Travel Nest Safaris"
+    }
+  },
+  "types": {
+    "luxury-lodges": {
+      "label": "Lodges de Luxe",
+      "shortLabel": "Lodge de Luxe",
+      "heroImageAlt": "Suite de lodge de safari de luxe avec vue sur la savane",
+      "heroDescription": "Établissements permanents conçus par des architectes et intégrés au paysage — suites privées, piscines à débordement et gastronomie raffinée, associés au même guidage expert que pour tout autre séjour que nous organisons.",
+      "cardDescription": "Suites conçues par des architectes, piscines à débordement et gastronomie raffinée — établissements permanents intégrés au paysage.",
+      "intro": {
+        "headingBefore": "Le safari dans sa forme la plus ",
+        "headingHighlight": "raffinée",
+        "headingAfter": "",
+        "body": "Les lodges de luxe sont des établissements permanents à adresse fixe — généralement construits en pierre, bois et verre — situés sur des conservancies privées ou des terrains de concession, avec une vue dégagée sur une vallée, une rivière ou une plaine. Attendez-vous à de vastes suites avec salle de bains privative et parfois une piscine privée, une équipe de cuisine et de restauration complète, et un niveau d'architecture et de design qui constitue une destination en soi. Nous ne travaillons qu'avec des lodges partenaires qui tiennent leurs promesses, tant en matière de qualité de guidage que de confort."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Suites fixes conçues par des architectes", "body": "Chambres permanentes en pierre et chaume ou aux parois vitrées, et non en toile — généralement avec véranda privée ou piscine privée." },
+        { "n": "02", "title": "Restauration à service complet", "body": "Une équipe de cuisine et de restauration dédiée, souvent avec un menu conçu autour du cadre propre au lodge." },
+        { "n": "03", "title": "Installations de spa et de bien-être", "body": "De nombreux lodges de luxe ajoutent un spa, une salle de sport ou un espace yoga à l'offre safari de base." },
+        { "n": "04", "title": "Guidage haut de gamme en standard", "body": "Les lodges de cette catégorie associent leur cadre à des guides expérimentés, souvent spécialisés." }
+      ],
+      "goodToKnow": [
+        "À réserver de préférence bien à l'avance — les lodges les plus prisés disposent de peu de chambres et se remplissent vite en haute saison",
+        "Beaucoup se trouvent sur des conservancies privées, ce qui permet souvent des sorties nocturnes et de la conduite hors-piste interdites dans les parcs nationaux",
+        "Nous réservons chaque lodge de cette liste directement grâce à notre partenariat avec l'établissement, à des tarifs au moins équivalents à ceux que vous obtiendriez en réservant vous-même"
+      ],
+      "faqs": [
+        { "q": "Réservez-vous les lodges de luxe directement ?", "a": "Oui — nous sommes partenaires de chaque lodge listé ici et réservons votre séjour dans le cadre de votre itinéraire, en utilisant des tarifs partenaires négociés. Vous avez une seule équipe pour les vols, le guidage et l'hébergement, plutôt qu'une réservation séparée pour chaque lodge." },
+        { "q": "Les lodges de luxe se trouvent-ils à l'intérieur des parcs nationaux ?", "a": "Certains oui, mais beaucoup des meilleurs se trouvent sur des conservancies privées bordant les parcs, ce qui permet souvent des sorties nocturnes et de la conduite hors-piste restreintes à l'intérieur des limites mêmes du parc." },
+        { "q": "Combien de temps à l'avance dois-je réserver un lodge de luxe ?", "a": "Le plus tôt possible — les lodges les plus demandés disposent de peu de suites et sont complets pour la haute saison (juillet-octobre, décembre-janvier) plusieurs mois à l'avance." }
+      ]
+    },
+    "tented-camps": {
+      "label": "Camps de Toile",
+      "shortLabel": "Camp de Toile",
+      "heroImageAlt": "Suite de camp de toile de luxe avec parois en toile ouvertes sur la brousse",
+      "heroDescription": "Des suites aux parois de toile installées en pleine brousse — vrais lits, salle de bains privative et le son de la savane juste derrière le rabat de la tente, des camps classiques permanents aux installations mobiles saisonnières qui suivent la migration.",
+      "cardDescription": "Des suites aux parois de toile en pleine brousse — vrais lits et confort privatif, certains étant des camps saisonniers qui suivent la migration.",
+      "intro": {
+        "headingBefore": "Plus proche de la brousse que ",
+        "headingHighlight": "n'importe quel lodge",
+        "headingAfter": "",
+        "body": "Un camp de toile remplace les murs de pierre permanents par de la toile — mais les meilleurs camps avec lesquels nous travaillons n'ont rien de basique, avec de vrais lits, des salles de bains privatives (parfois avec douche au seau, parfois entièrement plombées) et une tente-restaurant pour les repas. Certains camps restent fixes au même endroit toute l'année ; d'autres sont véritablement mobiles, démontés et remontés selon les saisons pour suivre la Grande Migration. Dans tous les cas, vous vous endormez avec seulement une paroi de toile entre vous et les sons de la savane."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Suites en toile, confort réel", "body": "De vrais lits, du linge de maison et des salles de bains privatives — loin du camping de routard." },
+        { "n": "02", "title": "Fixes ou saisonniers/mobiles", "body": "Certains camps restent au même endroit toute l'année ; les camps mobiles se déplacent selon les saisons pour suivre la migration." },
+        { "n": "03", "title": "Repas en tente-restaurant et soirées au feu de camp", "body": "Les repas partagés et les soirées au coin du feu font partie du caractère du camp." },
+        { "n": "04", "title": "Un camp escorté la nuit", "body": "Le personnel escorte les hôtes entre les tentes après la nuit tombée, comme pratique standard." }
+      ],
+      "goodToKnow": [
+        "Les camps mobiles sont saisonniers — renseignez-vous sur les dates exactes si vous voulez suivre la Grande Migration",
+        "Prévoyez des couches de vêtements : les nuits et les premières heures du matin au camp peuvent être fraîches même en saison sèche",
+        "Nous réservons chaque camp de cette liste directement grâce à notre partenariat avec l'établissement, à des tarifs au moins équivalents à ceux que vous obtiendriez en réservant vous-même"
+      ],
+      "faqs": [
+        { "q": "Un camp de toile est-il sûr la nuit ?", "a": "Oui — les camps réputés escortent les hôtes entre les tentes après la nuit tombée, et beaucoup sont clôturés ou activement surveillés la nuit par du personnel expérimenté." },
+        { "q": "Quelle est la différence entre un camp fixe et un camp mobile ?", "a": "Les camps fixes restent au même endroit toute l'année. Les camps mobiles sont saisonniers — ils sont démontés et remontés plusieurs fois par an, souvent pour suivre la Grande Migration." },
+        { "q": "Les camps de toile ont-ils de vraies salles de bains ?", "a": "Les camps que nous listons ont des salles de bains privatives — certaines entièrement plombées, d'autres avec une douche au seau ou chauffée à l'énergie solaire dans les installations plus reculées/mobiles. Nous pouvons confirmer les détails exacts pour vos dates au moment de la réservation." },
+        { "q": "Réservez-vous le camp de toile pour moi ?", "a": "Oui — chaque camp listé ici est un établissement partenaire. Nous gérons la réservation, sécurisons les tarifs partenaires et l'intégrons à votre itinéraire, afin que vous n'ayez pas à réserver chaque camp séparément." }
+      ]
+    },
+    "beach-resorts": {
+      "label": "Resorts de Plage",
+      "shortLabel": "Resort de Plage",
+      "heroImageAlt": "Piscine de resort en bord de mer avec vue sur la côte de l'océan Indien",
+      "heroDescription": "La conclusion classique d'un safari — plages de sable blanc et eaux chaudes de l'océan Indien le long de la côte kenyane et de Zanzibar, pour les voyageurs qui prolongent leur séjour de quelques jours pour simplement se détendre.",
+      "cardDescription": "Plages de sable blanc et eaux chaudes de l'océan Indien — la façon classique de conclure un safari.",
+      "intro": {
+        "headingBefore": "Là où le safari se termine et où la ",
+        "headingHighlight": "plage commence",
+        "headingAfter": "",
+        "body": "Beaucoup de nos clients concluent un safari par quelques jours sur la côte — Diani Beach sur la côte sud du Kenya, ou de l'autre côté de l'eau à Zanzibar, tous deux à un court vol de Nairobi ou du circuit du nord de la Tanzanie. Les resorts de plage que nous listons vont de propriétés intimistes de type boutique à des resorts plus grands à service complet avec spas, sports nautiques et plusieurs restaurants, tous sur le même littoral de sable blanc et d'eaux chaudes."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Sable blanc, eau chaude toute l'année", "body": "La côte kenyane et Zanzibar se trouvent juste au sud de l'équateur — l'eau reste chaude en toute saison." },
+        { "n": "02", "title": "Un véritable changement de rythme", "body": "Piscines, spas et sports nautiques remplacent le réveil matinal du game drive." },
+        { "n": "03", "title": "Une logistique d'ajout simple", "body": "Des vols courts relient Nairobi, le circuit de safari du nord et la côte — nous aidons à organiser le transfert." },
+        { "n": "04", "title": "Une variété de styles", "body": "De petites propriétés boutique en bord de plage à des resorts plus grands à service complet avec plusieurs restaurants." }
+      ],
+      "goodToKnow": [
+        "À ajouter de préférence à la fin d'un voyage — la plupart des clients font d'abord le safari, puis la plage",
+        "De courts vols nationaux ou régionaux relient facilement Diani et Zanzibar aux principaux circuits de safari",
+        "Nous réservons chaque resort de cette liste directement grâce à notre partenariat avec l'établissement, à des tarifs au moins équivalents à ceux que vous obtiendriez en réservant vous-même"
+      ],
+      "faqs": [
+        { "q": "La plage doit-elle venir avant ou après le safari ?", "a": "Presque tout le monde procède de la même façon — le safari d'abord, la plage en dernier, afin que le voyage se termine sur une note plus calme et reposante." },
+        { "q": "Comment se rendre du circuit de safari à la côte ?", "a": "Un court vol national ou régional relie Nairobi (ou le circuit du nord de la Tanzanie) à Diani ou Zanzibar — nous vous aidons à organiser le transfert une fois vos dates connues." },
+        { "q": "Zanzibar ou Diani Beach, lequel est le mieux ?", "a": "Les deux sont excellents et ont une eau chaude toute l'année — Zanzibar (Tanzanie) convient aux voyages déjà en Tanzanie, tandis que Diani (Kenya) est le complément naturel d'un safari au Kenya. Nous serons ravis de vous présenter les deux options." },
+        { "q": "Réservez-vous le resort de plage pour moi ?", "a": "Oui — chaque resort listé ici est un établissement partenaire. Nous gérons la réservation, sécurisons les tarifs partenaires et l'ajoutons à la fin de votre itinéraire de safari en une seule réservation." }
+      ]
+    }
+  }
+}

@@ -1,0 +1,293 @@
+{
+  "meta": {
+    "title": "Safari Hotel & Accommodation Booking — Lodges, Tented Camps & Beach Resorts | Divine Travel Nest Safaris",
+    "description": "Book safari lodges, tented camps and beach resorts across Kenya, Tanzania, Uganda & Rwanda through Divine Travel Nest. We partner directly with these hotels and properties to secure the best rates and handle every booking for you.",
+    "ogTitle": "Safari Hotel & Accommodation Booking | Divine Travel Nest Safaris",
+    "ogDescription": "Lodges, tented camps and beach resorts we partner with across East Africa — booked for you, at our partner rates.",
+    "collectionName": "Safari Accommodations — Lodges, Tented Camps & Beach Resorts",
+    "collectionDescription": "The lodges, tented camps and beach resorts we partner with across East Africa."
+  },
+  "breadcrumbHome": "Home",
+  "breadcrumbCurrent": "Accommodations",
+  "hero": {
+    "eyebrow": "Where you'll stay",
+    "titleMain": "Lodges, camps &",
+    "titleEm": "resorts",
+    "description": "From clifftop luxury lodges to canvas-walled tented camps and white-sand beach resorts — we partner directly with the best hotels and properties across East Africa, secure preferred rates, and book your stay for you as part of your itinerary."
+  },
+  "intro": {
+    "eyebrow": "How we work with these properties",
+    "headingBefore": "Strategic Partnerships ",
+    "headingHighlight": "Seamless",
+    "headingAfter": "Booking.",
+    "lead": "Every property below is a hotel, lodge, camp or resort we partner with directly — we negotiate the rate, make the booking and handle it as one seamless part of your itinerary.",
+    "paragraph1": "Where you stay shapes a safari almost as much as the parks you visit. Across Kenya, Tanzania, Uganda and Rwanda, the properties on our partner list fall into three broad styles: <strong>luxury lodges</strong> — permanent, architect-built suites with full hotel-grade service; <strong>tented camps</strong> — canvas-walled rooms set right in the bush, some of them genuinely mobile and seasonal, following the Great Migration; and <strong>beach resorts</strong> — the classic way to close out a trip with a few days on the Indian Ocean coast.",
+    "paragraph2": "We book every stay on this list ourselves, through partnerships built directly with each hotel, lodge, camp and resort — so you get our negotiated rate and one confirmed reservation, not a separate booking with every property. What we add on top is the part that's hard to do yourself: knowing which lodge suits a honeymoon, which camp is positioned for this year's river crossings, and which beach resort is the right distance from your last game drive.",
+    "includesLabel": "What every listing includes",
+    "includes": [
+      "Where it is — country, region and the wider ecosystem it sits in",
+      "What it's known for — setting, design and the experience on offer",
+      "Amenities and highlights, so you know what to expect on arrival",
+      "A photo gallery of the property and its surroundings",
+      "Our partner rate, confirmed and booked for you as part of your itinerary"
+    ]
+  },
+  "browse": {
+    "eyebrow": "Browse by type",
+    "headingBefore": "Choose Your",
+    "headingHighlight": " Accommodation",
+    "headingAfter": "Style.",
+    "lead": "Most multi-stop itineraries mix more than one style — a lodge for the first leg, a tented camp deeper in the bush, and a beach resort to finish.",
+    "explore": "Explore"
+  },
+  "faqs": {
+    "eyebrow": "FAQs · Booking",
+    "headingBefore": "Ready,",
+    "headingHighlight": " Set,",
+    "headingAfter": "Book.",
+    "contactNotePrefix": "Call us at",
+    "contactNoteSuffix": "— we pick up.",
+    "items": [
+      {
+        "q": "Do you book hotels and lodges for me, or do I book them myself?",
+        "a": "We book them for you. We partner directly with every hotel, lodge, camp and resort listed here, negotiate the rate, and include the booking as one confirmed part of your itinerary — you don't deal with each property separately."
+      },
+      {
+        "q": "Can I get a better rate booking through Divine Travel Nest than booking the hotel directly?",
+        "a": "Yes, in most cases. Our partner rates are negotiated through an ongoing relationship with each property, and we package accommodation together with transfers, park fees and guiding — often working out better value than booking the room alone."
+      },
+      {
+        "q": "Which countries do your accommodation partners cover?",
+        "a": "Kenya, Tanzania, Uganda and Rwanda — from Masai Mara and Serengeti lodges and tented camps to Diani and Zanzibar beach resorts and gorilla-trekking lodges near Bwindi and Volcanoes National Park."
+      },
+      {
+        "q": "Can I book just a hotel or lodge without a full safari package?",
+        "a": "Yes — tell us the property (or the style of stay) and your dates, and we'll quote and book the accommodation alone, or build it into a wider itinerary if you'd like to add game drives or transfers."
+      }
+    ]
+  },
+  "cta": {
+    "headingBefore": "Not sure which stay is",
+    "headingEm": "right",
+    "headingAfter": "?",
+    "description": "Tell us your budget, dates and what matters most to you — view, privacy, family-friendliness — and we'll book the right lodges, camps and resorts into your itinerary.",
+    "buttonText": "Ask an expert"
+  },
+  "typePage": {
+    "hero": {
+      "eyebrow": "Accommodation Type",
+      "titleSuffix": "Partners"
+    },
+    "intro": {
+      "eyebrow": "What is it",
+      "goodToKnowLabel": "Good to know"
+    },
+    "whatToExpect": {
+      "eyebrow": "What to expect",
+      "headingBefore": "Staying at a",
+      "headingHighlight": "partner property",
+      "headingAfter": "",
+      "description": "Every property is independently run — here's the shape of what's typically included at this style of stay."
+    },
+    "properties": {
+      "eyebrowSuffix": "we partner with",
+      "headingBefore": "Properties worth ",
+      "headingHighlight": "knowing",
+      "headingAfter": "",
+      "lead": "We partner directly with these properties and book your stay for you — one reservation, our negotiated rate, built into your itinerary.",
+      "noneBefore": "No partner ",
+      "noneAfter": " published yet — ask us and we'll find and book the best options for your trip."
+    },
+    "faqs": {
+      "eyebrowPrefix": "FAQs ·",
+      "headingBefore": "Before you ",
+      "headingHighlight": "choose",
+      "headingAfter": "",
+      "contactPrefix": "Call us for more information at",
+      "contactSuffix": "— we pick up."
+    },
+    "cta": {
+      "headingBefore": "Let's pick the right ",
+      "headingHighlight": "stay",
+      "headingAfter": "",
+      "description": "Tell us your budget, dates and who's travelling. Our experts match the right lodges, camps and resorts to your itinerary, book them at our partner rates, and send a free, no-obligation proposal.",
+      "buttonText": "Get your free quote"
+    },
+    "meta": {
+      "titleTemplate": "{label} in East Africa — Partner Properties | Divine Travel Nest Safaris",
+      "ogTitleTemplate": "{label} | Divine Travel Nest Safaris"
+    }
+  },
+  "types": {
+    "luxury-lodges": {
+      "label": "Luxury Lodges",
+      "shortLabel": "Luxury Lodge",
+      "heroImageAlt": "Luxury safari lodge suite overlooking the expansive African savannah",
+      "heroDescription": "Permanent, architect-designed properties seamlessly integrated into the natural landscape. Enjoy private suites, infinity pools, and fine dining, all paired with the same expert guiding that defines our signature travel experiences.",
+      "cardDescription": "Architect-designed suites, private infinity pools, and fine dining set within permanent properties crafted from the landscape.",
+      "intro": {
+        "headingBefore": "The Safari Lodge, ",
+        "headingHighlight": "Reimagined",
+        "headingAfter": "",
+        "body": "Our partner lodges are permanent architectural masterpieces crafted from native stone, timber, and glass. Positioned on exclusive private conservancies, they offer sweeping, unobstructed views over valleys, rivers, and wild plains."
+      },
+      "whatToExpect": [
+        {
+          "n": "01",
+          "title": "Fixed, architect-built suites",
+          "body": "Permanent stone-and-thatch or glass-walled accommodations featuring structural longevity rather than canvas, typically complete with a private veranda or plunge pool."
+        },
+        {
+          "n": "02",
+          "title": "Full-service dining",
+          "body": "A dedicated culinary and dining team presenting bespoke, multi-course menus tailored around the unique landscape and seasonal ingredients of the lodge."
+        },
+        {
+          "n": "03",
+          "title": "Spa & wellness facilities",
+          "body": "Comprehensive wellness amenities, including full-service spas, fitness centers, and yoga decks designed to complement your core safari adventures."
+        },
+        {
+          "n": "04",
+          "title": "Premium guiding as standard",
+          "body": "Uncompromised tracking and interpretation, pairing your luxury stay with highly experienced, specialist local guides."
+        }
+      ],
+      "goodToKnow": [
+        "We highly recommend booking well in advance; the most sought-after properties maintain low room keys and fill up rapidly during peak travel seasons.",
+        "Many luxury lodges reside on private conservancies, granting guests exclusive access to night drives and off-road wildlife viewing, which are strictly prohibited inside national parks.",
+        "Through our direct property partnerships, we secure reservations at rates that consistently match or beat the best available public pricing."
+      ],
+      "faqs": [
+        {
+          "q": "Do you book luxury lodges directly?",
+          "a": "Yes. We partner directly with each property to manage your entire stay as a seamless part of your itinerary. By utilizing our negotiated partner rates, you enjoy a single point of contact for flights, guiding, and accommodation rather than managing separate reservations."
+        },
+        {
+          "q": "Are luxury lodges located inside national parks?",
+          "a": "While some premium properties are positioned within national parks, many of the finest lodges sit on private conservancies bordering the park boundaries. This positioning allows you to enjoy exclusive activities like night drives and off-road tracking that are restricted within the parks themselves."
+        },
+        {
+          "q": "How far in advance should I book a luxury lodge?",
+          "a": "We advise booking as early as possible. Because these boutique properties feature a very limited number of suites, they frequently sell out for peak seasons (July–October and December–January) many months ahead."
+        }
+      ]
+    },
+    "tented-camps": {
+      "label": "Tented Camps",
+      "shortLabel": "Tented Camp",
+      "heroImageAlt": "Luxury tented camp suite with panoramic canvas walls pulled open to the bush",
+      "heroDescription": "Canvas-walled suites pitched directly within the wild. Experience real beds, fully equipped en-suite bathrooms, and the proximity of nature, ranging from classic permanent camps to seasonal mobile setups that follow the migration.",
+      "cardDescription": "Canvas-walled suites in the heart of the bush, featuring real beds and en-suite comfort, including seasonal setups that track the migration.",
+      "intro": {
+        "headingBefore": "Closer to the bush than ",
+        "headingHighlight": "any lodge",
+        "headingAfter": "",
+        "body": "A premium tented camp trades stone walls for high-grade canvas without sacrificing comfort. Our curated properties feature proper beds, fine linens, private en-suite bathrooms, and elegant main mess tents for shared dining. Whether fixed in one prime location year-round or structurally mobile to track the Great Migration, these camps offer an immersive experience where only a canvas wall separates you from the sounds of the African night."
+      },
+      "whatToExpect": [
+        {
+          "n": "01",
+          "title": "Canvas suites, real comfort",
+          "body": "Substantial bedding, premium linens, and private en-suite bathrooms that elevate the experience far above traditional camping."
+        },
+        {
+          "n": "02",
+          "title": "Fixed or seasonal/mobile options",
+          "body": "Accommodations tailored to your travel goals, featuring permanent year-round positions or seasonal mobile relocations timed to mirror wildlife movements."
+        },
+        {
+          "n": "03",
+          "title": "Mess tent dining & campfire evenings",
+          "body": "Atmospheric, shared dining experiences and evening sundowners around the campfire that capture the authentic heritage of safari travel."
+        },
+        {
+          "n": "04",
+          "title": "An escorted camp at night",
+          "body": "Proactive safety measures as standard practice, with trained camp staff escorting you safely between your tent and the main areas after dark."
+        }
+      ],
+      "goodToKnow": [
+        "Because mobile camps shift locations seasonally, please consult our specialists regarding exact dates if your primary focus is witnessing the Great Migration crossing points.",
+        "We advise packing versatile layers, as temperatures in the bush drop significantly during the night and early morning hours, even in the dry season.",
+        "Every camp on this list is booked directly through our established property network, ensuring your rates match or improve upon independent booking options."
+      ],
+      "faqs": [
+        {
+          "q": "Is a tented camp safe at night?",
+          "a": "Yes. All reputable camps enforce strict safety protocols, including professional staff escorts after dark. Furthermore, these properties are actively monitored throughout the night by experienced, dedicated wildlife scouts."
+        },
+        {
+          "q": "What is the difference between a fixed and a mobile camp?",
+          "a": "Fixed camps remain stationary in a permanent location throughout the year. Mobile camps are engineered to be struck and re-pitched a few times a year, allowing travelers to stay in close proximity to the moving herds of the Great Migration."
+        },
+        {
+          "q": "Do tented camps feature proper bathrooms?",
+          "a": "Yes. Every camp we list includes private en-suite bathrooms. Depending on the remoteness or mobility of the setup, these range from fully plumbed facilities to traditional, solar-heated bucket showers. We will confirm the exact plumbing layout when organizing your itinerary."
+        },
+        {
+          "q": "Do you book the tented camp for me?",
+          "a": "Yes. Every property in our collection is an established partner. We manage the entire reservation process, secure preferred industry rates, and consolidate the booking directly into your master itinerary."
+        }
+      ]
+    },
+    "beach-resorts": {
+      "label": "Beach Resorts",
+      "shortLabel": "Beach Resort",
+      "heroImageAlt": "Boutique beachfront resort infinity pool overlooking the turquoise Indian Ocean",
+      "heroDescription": "The quintessential grand finale to an African safari. Relax along the white-sand beaches and warm Indian Ocean waters of the Kenyan coast or Zanzibar—the perfect extension for unwinding after days on game drives.",
+      "cardDescription": "Pristine white-sand beaches and warm Indian Ocean waters—the perfect coastal finale to your safari itinerary.",
+      "intro": {
+        "headingBefore": "Where the safari ends and the ",
+        "headingHighlight": "beach begins",
+        "headingAfter": "",
+        "body": "The majority of our travelers choose to conclude their bush adventures with a coastal escape. Whether you select Diani Beach on Kenya's southern coast or the historic island of Zanzibar, both destinations are accessible via short regional flights. Our curated beach portfolio spans from intimate boutique hideaways to expansive, full-service resorts offering comprehensive wellness spas, water sports, and fine-dining restaurants."
+      },
+      "whatToExpect": [
+        {
+          "n": "01",
+          "title": "White sand, warm water year-round",
+          "body": "Idyllic equatorial climates ensuring the coastal waters of Kenya and Zanzibar remain warm and inviting across all travel seasons."
+        },
+        {
+          "n": "02",
+          "title": "A genuine change of pace",
+          "body": "A relaxing transition where early-morning game-drive alarms are replaced by leisurely days spent by the pool, at the spa, or enjoying ocean water sports."
+        },
+        {
+          "n": "03",
+          "title": "Easy add-on logistics",
+          "body": "Seamless transit connectivity, featuring short domestic flights linking Nairobi and the northern safari circuits directly to the coast, with all transfers managed by our team."
+        },
+        {
+          "n": "04",
+          "title": "Range of accommodation styles",
+          "body": "Diverse property options ranging from secluded, low-key beachfront villas to comprehensive luxury resorts with multiple specialty restaurants."
+        }
+      ],
+      "goodToKnow": [
+        "To maximize your relaxation, we recommend positioning the beach resort at the end of your trip, allowing the faster pace of a wildlife safari to precede your coastal rest.",
+        "Short, highly efficient domestic and regional flight paths connect both Diani and Zanzibar directly from the primary safari hubs.",
+        "Our direct commercial partnerships mean your beach resort reservation is secured at rates that match or beat public direct pricing."
+      ],
+      "faqs": [
+        {
+          "q": "Should the beach stay come before or after the safari?",
+          "a": "We highly recommend organizing your trip with the safari first and the beach last. This structure allows you to complete the early mornings of wildlife tracking first, ensuring you return home fully rested from your coastal stay."
+        },
+        {
+          "q": "How do I travel from the safari circuit to the coast?",
+          "a": "We arrange short domestic or regional flights that connect Nairobi or the northern Tanzania circuits directly to the coast (Diani or Zanzibar). All ground transfers between the airstrips and your resort are fully integrated into your booking."
+        },
+        {
+          "q": "Is Zanzibar or Diani Beach better?",
+          "a": "Both destinations offer pristine beaches and warm waters year-round. Geographically, Zanzibar pairs seamlessly with a Tanzania-based safari, while Diani is the natural extension for a Kenyan itinerary. Our specialists are happy to advise on the distinct cultural and aesthetic differences of each."
+        },
+        {
+          "q": "Do you handle the beach resort booking?",
+          "a": "Yes. Every resort in our portfolio is a vetted partner property. We secure your reservation at preferred partner rates and manage it as a unified extension of your complete safari itinerary."
+        }
+      ]
+    }
+  }
+}

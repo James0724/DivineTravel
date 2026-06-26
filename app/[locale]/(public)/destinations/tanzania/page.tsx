@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "From the endless Serengeti plains to the Ngorongoro Crater, Tarangire and the pristine southern parks — your complete expert guide to Tanzania's national parks and game reserves.",
   keywords:
     "tanzania national parks, serengeti, ngorongoro crater, tarangire, tanzania safari, big five tanzania",
-  alternates: { canonical: "/destinations/tanzania" },
+  alternates: { canonical: "/en/destinations/tanzania" },
   openGraph: {
     title: "Tanzania Wildlife Parks & Reserves | Divine Travel Nest Safaris",
     description:
@@ -53,7 +53,7 @@ function mapToSafariPkg(safari: Safari): SafariPkg {
     parks: [safari.location?.park, safari.location?.region].filter(
       Boolean,
     ) as string[],
-    from: price ? `$${price.toLocaleString()}` : "On request",
+    from: price ?? null,
     days: safari.duration
       ? `${safari.duration}D · ${safari.duration - 1}N`
       : "",
@@ -410,7 +410,7 @@ export default async function TanzaniaDestinationPage() {
               name: "6-Day Northern Circuit Safari",
               desc: "The classic Tanzania loop — Tarangire, Ngorongoro Crater and the central Serengeti.",
               parks: ["Tarangire", "Ngorongoro", "Serengeti"],
-              from: "On request",
+              from: null,
               days: "6D · 5N",
             },
             {
@@ -419,7 +419,7 @@ export default async function TanzaniaDestinationPage() {
               name: "Great Migration Safari",
               desc: "Witness river crossings in the northern Serengeti — the greatest show on Earth.",
               parks: ["Serengeti (North)", "Ngorongoro"],
-              from: "On request",
+              from: null,
               days: "8D · 7N",
             },
             {
@@ -428,7 +428,7 @@ export default async function TanzaniaDestinationPage() {
               name: "Safari & Zanzibar Combo",
               desc: "Classic northern Tanzania safari followed by 3 days on Zanzibar's white sands.",
               parks: ["Serengeti", "Ngorongoro", "Zanzibar"],
-              from: "On request",
+              from: null,
               days: "10D · 9N",
             },
           ],

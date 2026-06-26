@@ -3,109 +3,68 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 import SiteLink from "@/components/ui/SiteLink";
 import { AnimatedHeading } from "../ui/Heading";
 import Reveal from "../ui/Reveal";
 
-const destinations = [
+const DESTINATION_META = [
   {
     id: "ke",
-    tab: "Kenya",
     count: "07 PARKS",
     image:
       "https://res.cloudinary.com/dk2j3k15k/image/upload/v1779966309/web_images/destinations/sutirta-budiman-89IBtfoz3Vw-unsplash_oqy9hl.jpg",
-    country: "Kenya · East Africa",
-    title: "The Masai Mara & beyond.",
-    blurb:
-      "Home to the Great Wildebeest Migration and the Big Five, Kenya's parks offer some of the most dramatic wildlife encounters on Earth — from the sweeping Mara plains to the snow-capped peaks of Mount Kenya.",
-    parks: [
-      { name: "Masai Mara National Reserve", note: "Migration July–Oct" },
-      { name: "Amboseli National Park", note: "Kilimanjaro backdrop" },
-      { name: "Tsavo East & West", note: "Red elephants" },
-      { name: "Lake Nakuru National Park", note: "Flamingo flocks" },
-      { name: "Samburu National Reserve", note: "Special Five" },
-      { name: "Mount Kenya National Park", note: "Trekking & wildlife" },
-      { name: "Aberdare National Park", note: "Forest elephants" },
-    ],
     href: "/safaris/kenya",
   },
   {
     id: "tz",
-    tab: "Tanzania",
     count: "06 PARKS",
     image:
       "https://res.cloudinary.com/dk2j3k15k/image/upload/v1779966350/web_images/destinations/hashim-mbita-GG-JAveq-4U-unsplash_zpjyoh.jpg",
-    country: "Tanzania · East Africa",
-    title: "Serengeti, Ngorongoro & Zanzibar.",
-    blurb:
-      "Tanzania's vast wilderness holds the world's largest wildlife spectacle. The endless Serengeti plains, the ancient Ngorongoro Crater, and the spice-scented beaches of Zanzibar await.",
-    parks: [
-      { name: "Serengeti National Park", note: "Migration year-round" },
-      { name: "Ngorongoro Conservation Area", note: "World's largest caldera" },
-      { name: "Tarangire National Park", note: "Elephant herds" },
-      { name: "Lake Manyara National Park", note: "Tree-climbing lions" },
-      { name: "Ruaha National Park", note: "Wild & remote" },
-      { name: "Zanzibar Archipelago", note: "Beach extension" },
-    ],
     href: "/safaris/tanzania",
   },
   {
     id: "ug",
-    tab: "Uganda",
     count: "03 PARKS",
     image:
       "https://res.cloudinary.com/dk2j3k15k/image/upload/v1779966309/web_images/destinations/nathalie-lays-m0y_GPr8lXA-unsplash_yx2vgm.jpg",
-    country: "Uganda · East Africa",
-    title: "Gorillas in the heart of Africa.",
-    blurb:
-      "Uganda is the Pearl of Africa — trekking mountain gorillas in Bwindi Impenetrable Forest is a once-in-a-lifetime encounter. Add chimpanzee tracking and dramatic Nile cruises.",
-    parks: [
-      { name: "Bwindi Impenetrable Forest", note: "Mountain gorilla trekking" },
-      { name: "Queen Elizabeth National Park", note: "Tree-climbing lions" },
-      { name: "Kibale Forest National Park", note: "Chimp tracking" },
-    ],
     href: "/safaris/uganda",
   },
   {
     id: "rw",
-    tab: "Rwanda",
     count: "04 PARKS",
     image:
       "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-    country: "Rwanda · East Africa",
-    title: "The land of a thousand hills.",
-    blurb:
-      "Rwanda offers an intimate, luxury approach to East African wildlife — gorilla trekking in the misty Virunga volcanoes, chimpanzees in Nyungwe's ancient forest canopy, and the Big Five in Akagera's vast savannah.",
-    parks: [
-      { name: "Volcanoes National Park", note: "Gorilla & golden monkey trekking" },
-      { name: "Nyungwe Forest National Park", note: "Chimps & canopy walk" },
-      { name: "Akagera National Park", note: "Big Five savannah safari" },
-      { name: "Lake Kivu", note: "Scenic beach extension" },
-    ],
     href: "/safaris/rwanda",
   },
   {
     id: "cb",
-    tab: "Cross Country",
     count: "CIRCUITS",
     image:
       "https://res.cloudinary.com/dk2j3k15k/image/upload/v1779966346/web_images/destinations/david-clode-qHliP9cWqx4-unsplash_ii2dlp.jpg",
-    country: "East Africa · Multi-country",
-    title: "One circuit, three countries.",
-    blurb:
-      "The Mara and the Serengeti are one ecosystem divided by a line on a map. Combine Kenya, Tanzania and Uganda into a single unforgettable cross-border itinerary.",
-    parks: [
-      { name: "Masai Mara + Serengeti", note: "Great Migration circuit" },
-      { name: "Kenya + Tanzania + Uganda", note: "14–21 day grand tour" },
-      { name: "Nairobi + Kilimanjaro fly-in", note: "Luxury combination" },
-    ],
     href: "/cross-country-safaris",
   },
 ];
 
+type DestinationItem = {
+  tab: string;
+  country: string;
+  title: string;
+  blurb: string;
+  parks: { name: string; note: string }[];
+};
+
 export default function DestinationsSection() {
+  const t = useTranslations("home.destinations");
+  const items = t.raw("items") as Record<string, DestinationItem>;
+  const destinations = DESTINATION_META.map((meta) => ({
+    ...meta,
+    ...items[meta.id],
+  }));
+
   const [active, setActive] = useState("ke");
   const dest = destinations.find((d) => d.id === active)!;
+  const exploreCta = t("exploreCta", { tab: dest.tab });
 
   return (
     <section
@@ -119,22 +78,20 @@ export default function DestinationsSection() {
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
-                Top East Africa Safari Destinations
+                {t("eyebrow")}
               </div>
             </Reveal>
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
               as="h2"
-              textBefore="Four countries, one "
-              highlightedText="circuit"
+              textBefore={t("headingBefore")}
+              highlightedText={t("headingHighlight")}
             />
           </div>
           <Reveal variant="fadeUp">
             <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-              The Mara and the Serengeti are one ecosystem split by a line on a
-              map. Choose a country to begin, or let us combine them into a
-              single cross-border itinerary.
+              {t("lead")}
             </p>
           </Reveal>
         </div>
@@ -246,7 +203,7 @@ export default function DestinationsSection() {
                 size="md"
                 className="mt-7 sm:mt-8 self-start"
               >
-                Explore {dest.tab} safaris
+                {exploreCta}
               </SiteLink>
             </div>
           </motion.div>

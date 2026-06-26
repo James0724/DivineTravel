@@ -24,6 +24,7 @@ interface SiteSettings {
   twitter: string
   youtube: string
   tripadvisor: string
+  googleReviews: string
 
   defaultMetaTitle: string
   defaultMetaDescription: string
@@ -49,6 +50,7 @@ const DEFAULT: SiteSettings = {
   twitter: '',
   youtube: '',
   tripadvisor: '',
+  googleReviews: '',
   defaultMetaTitle: 'Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Tour Packages',
   defaultMetaDescription: 'Expert-guided, tailor-made East Africa safaris. Kenya, Tanzania, Uganda & Rwanda — Budget to Luxury.',
   defaultCurrency: 'USD',
@@ -272,6 +274,7 @@ export default function AdminSettingsPage() {
             { key: 'twitter',     label: 'X / Twitter', placeholder: 'https://x.com/…' },
             { key: 'youtube',     label: 'YouTube',     placeholder: 'https://youtube.com/…' },
             { key: 'tripadvisor', label: 'TripAdvisor', placeholder: 'https://tripadvisor.com/…' },
+            { key: 'googleReviews', label: 'Google Reviews', placeholder: 'https://g.page/r/…/review' },
           ] as { key: keyof SiteSettings; label: string; placeholder: string }[]).map(({ key, label, placeholder }) => (
             <Input
               key={key}

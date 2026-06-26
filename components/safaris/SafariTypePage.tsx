@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import PageHero from "@/components/ui/PageHero";
 import WhyGrid from "@/components/ui/WhyGrid";
 import SectionFaq from "@/components/ui/SectionFaq";

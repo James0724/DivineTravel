@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "Contact Us — Plan Your Safari | Divine Travel Nest Safaris",
+    "description": "Get in touch with our safari experts in Nairobi. Free personalised safari proposals within 24 hours — call, WhatsApp or email us to start planning your East Africa adventure.",
+    "ogTitle": "Contact Divine Travel Nest Safaris",
+    "ogDescription": "Free personalised safari proposals within 24 hours. No obligations."
+  },
+  "breadcrumbHome": "Home",
+  "breadcrumbCurrent": "Contact",
+  "hero": {
+    "eyebrow": "Get in touch",
+    "titleMain": "Let's plan your",
+    "titleEm": "perfect safari",
+    "description": "Free personalised proposal within 24 hours. No obligations. Our experts are on the ground in East Africa — we know these parks from the inside.",
+    "callNow": "Call us now",
+    "whatsapp": "WhatsApp"
+  },
+  "process": {
+    "steps": [
+      { "num": "01", "title": "Tell us your dream", "desc": "Share your dates, budget, interests and who's travelling. No obligation." },
+      { "num": "02", "title": "We craft your itinerary", "desc": "A dedicated consultant builds your personalised safari plan within 24 hours." },
+      { "num": "03", "title": "Refine & confirm", "desc": "We adjust until it's perfect. Then a 30% deposit secures everything." },
+      { "num": "04", "title": "Arrive & be guided", "desc": "Our local team meets you on arrival and takes care of every detail." }
+    ]
+  },
+  "info": {
+    "eyebrow": "Contact details",
+    "headingLine1": "We'd love to",
+    "headingLine2": "hear from you.",
+    "body": "Whether you have a specific safari in mind or are just starting to dream, our team is here to help craft the perfect East African adventure.",
+    "items": {
+      "phone": { "label": "Phone & WhatsApp", "sub": "Mon–Sat, 8am–6pm EAT" },
+      "email": { "label": "Email", "sub": "We reply within 24 hours" },
+      "office": { "label": "Office", "value": "Nairobi, Kenya", "sub": "East Africa HQ" },
+      "hours": { "label": "Office Hours", "value": "Mon–Sat, 8am–6pm EAT", "sub": "UTC +3" }
+    },
+    "tripadvisorLink": "TripAdvisor Reviews ↗",
+    "googleLink": "Google Reviews ↗",
+    "faqHeading": "Quick answers"
+  },
+  "quickFaqs": [
+    { "q": "How far in advance should I book?", "a": "3–6 months is ideal for peak season (Jul–Oct, Jan–Mar)." },
+    { "q": "Is a visa required?", "a": "Most nationalities need a visa for Kenya/Tanzania — we guide you through the process." },
+    { "q": "What's the deposit?", "a": "A 30% deposit confirms your booking; the balance is due 60 days before departure." },
+    { "q": "Do you handle gorilla permits for Uganda and Rwanda?", "a": "Yes — we source permits for all our Uganda and Rwanda clients. Permits must be booked months in advance." }
+  ],
+  "form": {
+    "eyebrow": "Send us a message",
+    "headingLine1": "Tell us about",
+    "headingLine2Main": "your",
+    "headingLine2Em": "dream safari",
+    "body": "Share your dates, budget, wildlife interests and who's coming — we'll build a personalised itinerary and send it within 24 hours."
+  },
+  "trust": {
+    "items": [
+      { "num": "500+", "lbl": "Safaris delivered" },
+      { "num": "4.9★", "lbl": "Average guest rating" },
+      { "num": "24h", "lbl": "Proposal turnaround" },
+      { "num": "100%", "lbl": "Custom itineraries" }
+    ]
+  }
+}

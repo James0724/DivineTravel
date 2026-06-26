@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "title": "Conditions générales | Divine Travel Nest Safaris",
+    "description": "Consultez les Conditions Générales régissant les réservations de safaris avec Divine Travel Nest Safaris Ltd — couvrant les paiements, les annulations, la responsabilité et vos droits en tant que client."
+  },
+  "breadcrumbHome": "Accueil",
+  "breadcrumbCurrent": "Conditions générales",
+  "hero": {
+    "eyebrow": "Mentions légales",
+    "titleBefore": "Conditions",
+    "titleEm": "générales",
+    "description": "Veuillez lire attentivement ces conditions avant d'effectuer une réservation. Elles constituent le contrat entre vous et Divine Travel Nest Safaris Ltd."
+  },
+  "toc": {
+    "contentsLabel": "Sommaire",
+    "lastUpdatedLabel": "Dernière mise à jour :",
+    "lastUpdatedValue": "Juin 2026",
+    "questionsLabel": "Des questions ?",
+    "contactUsLink": "Contactez-nous"
+  },
+  "preamble": {
+    "lead": "Ces Conditions Générales régissent toutes les réservations effectuées auprès de Divine Travel Nest Safaris Ltd (immatriculée au Kenya). En effectuant une réservation, vous acceptez ces conditions dans leur intégralité, en votre nom et au nom de tous les passagers mentionnés dans la réservation.",
+    "note": "Nous vous recommandons de conserver une copie de ce document à titre de référence pendant toute la durée de votre voyage."
+  },
+  "sections": {
+    "acceptance": {
+      "label": "Acceptation des conditions",
+      "heading": "Acceptation des conditions",
+      "p1": "En soumettant une demande de réservation, en payant un acompte, ou en confirmant d'une autre manière un safari auprès de Divine Travel Nest Safaris Ltd, vous reconnaissez avoir lu, compris et accepté sans condition d'être lié par ces Conditions Générales. Si vous n'êtes pas d'accord, vous ne devez pas procéder à une réservation.",
+      "p2": "La personne effectuant la réservation accepte ces conditions au nom de tous les autres membres du groupe de voyage, et accepte la responsabilité de s'assurer que tous les membres en ont connaissance et les acceptent."
+    },
+    "definitions": {
+      "label": "Définitions",
+      "heading": "Définitions",
+      "intro": "Dans l'ensemble de ces Conditions Générales :",
+      "items": [
+        { "term": "« Société »", "desc": "désigne Divine Travel Nest Safaris Ltd, ses employés, dirigeants, agents et représentants." },
+        { "term": "« Client » / « Vous »", "desc": "désigne la ou les personnes qui soumettent une demande de réservation, paient un acompte, ou voyagent lors d'un safari organisé par la Société." },
+        { "term": "« Safari » / « Circuit »", "desc": "désigne tout service de voyage, forfait, itinéraire, hébergement ou activité organisé ou vendu par la Société." },
+        { "term": "« Réservation »", "desc": "désigne une réservation confirmée d'un safari suite à la réception de l'acompte requis et de la confirmation écrite de la Société." },
+        { "term": "« Date de départ »", "desc": "désigne le premier jour du safari tel que confirmé dans les documents de réservation." },
+        { "term": "« Notification écrite »", "desc": "désigne une communication par email à l'adresse confirmée dans les documents de réservation." }
+      ]
+    },
+    "booking": {
+      "label": "Réservations",
+      "heading": "Réservations",
+      "p1": "Une réservation n'est considérée comme confirmée qu'après réception du paiement de l'acompte requis et l'émission d'une confirmation de réservation écrite par la Société. Les accords verbaux ou les options provisoires ne constituent pas des réservations confirmées.",
+      "p2": "Tous les passagers doivent être nommés au moment de la réservation. Le client principal est responsable de fournir des informations exactes sur les passagers, y compris les noms légaux complets tels qu'ils figurent sur les passeports, les nationalités et toute déclaration médicale pertinente.",
+      "p3": "La Société se réserve le droit de refuser toute réservation à sa discrétion, auquel cas tout montant payé sera intégralement remboursé.",
+      "p4": "Les réservations effectuées par des agents ou plateformes tiers sont soumises à ces Conditions Générales en plus de toute condition spécifique à la plateforme."
+    },
+    "payment": {
+      "label": "Conditions de paiement",
+      "heading": "Conditions de paiement",
+      "p1": "Un acompte non remboursable de <strong>30 % du coût total du safari</strong> est requis pour confirmer une réservation. Le solde restant est dû au plus tard <strong>60 jours avant la date de départ</strong>.",
+      "p2": "Pour les réservations effectuées dans les 60 jours précédant la date de départ, le coût total du safari est payable au moment de la réservation.",
+      "p3Label": "Les paiements peuvent être effectués par :",
+      "bullets": [
+        "Virement bancaire (USD, EUR, GBP ou KES)",
+        "M-Pesa (paiements domestiques au Kenya)",
+        "Carte de crédit ou de débit (sous réserve de frais de traitement de 3 %)",
+        "Autres méthodes convenues par écrit avec la Société"
+      ],
+      "p4": "Lorsque le paiement est effectué dans une devise autre que la devise indiquée, le taux de change appliqué sera celui en vigueur à la date de réception du paiement. Tous frais bancaires ou de transfert sont à la charge exclusive du Client.",
+      "p5": "Le non-paiement à l'échéance peut entraîner la libération de la réservation et la perte de l'acompte. La Société fournira un préavis écrit avant d'annuler une réservation pour non-paiement."
+    },
+    "cancellation-client": {
+      "label": "Annulation par le Client",
+      "heading": "Annulation par le Client",
+      "intro": "Toutes les annulations doivent être reçues par écrit, par email. La date d'annulation est la date à laquelle l'avis écrit est reçu par la Société. Les frais d'annulation suivants s'appliquent :",
+      "table": {
+        "colDays": "Jours avant le départ",
+        "colCharge": "Frais d'annulation",
+        "rows": [
+          { "period": "Plus de 90 jours", "charge": "Acompte uniquement (30 %)" },
+          { "period": "61 à 90 jours", "charge": "50 % du coût total" },
+          { "period": "31 à 60 jours", "charge": "75 % du coût total" },
+          { "period": "30 jours ou moins", "charge": "100 % du coût total" },
+          { "period": "Non-présentation / départ anticipé", "charge": "100 % du coût total" }
+        ]
+      },
+      "p1": "Aucun remboursement n'est accordé pour les parties non utilisées d'un safari, y compris les repas, activités ou hébergements non utilisés en raison d'un départ anticipé volontaire ou d'une arrivée tardive.",
+      "p2": "La Société recommande fortement à tous les clients de souscrire une assurance voyage complète, incluant une couverture annulation de voyage, afin de se protéger contre des pertes imprévues liées à l'annulation."
+    },
+    "cancellation-company": {
+      "label": "Annulation par la Société",
+      "heading": "Annulation par la Société",
+      "p1": "La Société se réserve le droit d'annuler un safari dans les circonstances suivantes :",
+      "bullets": [
+        "Le nombre minimum de participants requis pour opérer le circuit n'a pas été atteint, avec un préavis d'au moins 45 jours donné au Client.",
+        "Des conditions de sécurité, une instabilité politique, des catastrophes naturelles ou d'autres circonstances rendent le safari dangereux ou impossible à organiser.",
+        "Des événements de force majeure tels que décrits à la Section 12."
+      ],
+      "p2": "Lorsque la Société annule un safari pour des raisons autres que la force majeure, le Client recevra un <strong>remboursement intégral</strong> de tous les montants payés à la Société. La Société s'efforcera également, dans la mesure du raisonnable, de proposer un safari alternatif de valeur et de qualité équivalentes.",
+      "p3": "La responsabilité de la Société est limitée au remboursement des montants payés. Aucune indemnisation n'est due pour les pertes consécutives telles que les billets d'avion, les visas, ou d'autres dispositions de voyage réservées indépendamment par le Client."
+    },
+    "insurance": {
+      "label": "Assurance voyage",
+      "heading": "Assurance voyage",
+      "p1": "Une assurance voyage complète est <strong>fortement recommandée</strong> pour tous les clients et peut être exigée comme condition de participation à certaines activités, en particulier le trekking de gorilles, la randonnée en montagne et les expéditions en nature sauvage isolée.",
+      "p2Label": "Au minimum, votre assurance voyage devrait inclure une couverture pour :",
+      "bullets": [
+        "Les frais médicaux et l'hospitalisation",
+        "L'évacuation médicale d'urgence (y compris par hélicoptère)",
+        "L'annulation, l'interruption et l'écourtement de voyage",
+        "La perte, le vol et le retard de bagages",
+        "La responsabilité civile personnelle"
+      ],
+      "p3": "La Société ne sera pas tenue responsable de toute perte, coût ou dommage qui aurait été couvert par une assurance voyage adéquate. Une preuve d'assurance peut être demandée avant le départ."
+    },
+    "itinerary": {
+      "label": "Modifications d'itinéraire",
+      "heading": "Modifications d'itinéraire",
+      "p1": "Bien que la Société fasse tout son possible pour organiser les safaris comme prévu, les itinéraires sont susceptibles d'être modifiés en raison des conditions météorologiques, de fermetures de routes, de réglementations des parcs, des déplacements de la faune, de la disponibilité de l'hébergement, ou de considérations de sécurité. Ces variations font partie intégrante des voyages de découverte de la faune en Afrique.",
+      "p2": "Lorsqu'un changement significatif d'un itinéraire confirmé est nécessaire avant le départ, la Société en informera le Client dès que possible et proposera :",
+      "bullets": [
+        "Une alternative de standard et de valeur équivalents ou supérieurs, ou",
+        "Un remboursement partiel en cas de dégradation significative de l'hébergement ou des activités."
+      ],
+      "p3": "Les changements mineurs — y compris la substitution de lodges par des alternatives comparables, l'ajustement des itinéraires de conduite, ou la modification des horaires de game drive — ne constituent pas des changements significatifs et ne donnent pas droit à un remboursement ou une indemnisation pour le Client.",
+      "p4": "Les demandes du Client visant à modifier une réservation confirmée (dates, destinations, ou nombre de passagers) seront accommodées dans la mesure du possible, sous réserve de disponibilité et de tous frais de modification applicables des fournisseurs."
+    },
+    "health": {
+      "label": "Santé & condition physique",
+      "heading": "Exigences de santé et de condition physique",
+      "p1": "Le Client est seul responsable de s'assurer que tous les membres du groupe de voyage sont en bon état de santé et de condition physique adéquate pour participer aux activités de safari choisies.",
+      "p2Label": "Certaines activités ont des exigences spécifiques :",
+      "bullets": [
+        "Trekking de gorilles et de chimpanzés : âge minimum de 15 ans ; implique une marche de 2 à 8 km en terrain montagneux à altitude.",
+        "Safaris à pied : condition physique modérée requise ; non recommandé pour les personnes à mobilité réduite.",
+        "Safaris en montgolfière : des restrictions de poids s'appliquent telles que spécifiées par l'opérateur de la montgolfière."
+      ],
+      "p3": "La Société doit être informée par écrit, avant la confirmation de la réservation, de toute condition médicale préexistante, handicap, grossesse, ou exigence alimentaire pouvant affecter la participation. La Société peut exiger un certificat médical d'aptitude pour certaines activités.",
+      "p4": "Un certificat de vaccination contre la fièvre jaune est requis pour entrer en Ouganda et peut être exigé par le Kenya et la Tanzanie selon votre pays d'origine ou vos voyages antérieurs. Il appartient au Client d'obtenir toutes les vaccinations et documents de santé requis. La Société recommande de consulter une clinique de médecine des voyages au moins 6 à 8 semaines avant le départ.",
+      "p5": "La Société se réserve le droit d'exclure un participant de toute activité lorsqu'un guide ou un professionnel de santé estime raisonnablement que la participation représente un risque pour la santé de cette personne ou des autres membres du groupe. Aucun remboursement ne sera accordé dans de telles circonstances."
+    },
+    "wildlife": {
+      "label": "Faune & sécurité",
+      "heading": "Faune & sécurité",
+      "p1": "Les safaris de découverte de la faune se déroulent dans des environnements naturels sauvages habités par des animaux sauvages. De telles rencontres sont par nature imprévisibles et comportent un élément de risque qui ne peut être totalement éliminé. En réservant un safari auprès de la Société, vous reconnaissez et acceptez ces risques.",
+      "p2Label": "Tous les Clients doivent :",
+      "bullets": [
+        "Suivre à tout moment les instructions de leur guide, y compris les instructions de rester dans le véhicule, de garder le silence, ou de quitter une zone.",
+        "S'abstenir de nourrir, toucher ou provoquer la faune.",
+        "Respecter l'ensemble des règles et réglementations des parcs et réserves.",
+        "Ne pas consommer d'alcool de manière excessive avant ou pendant une activité pouvant compromettre la sécurité."
+      ],
+      "p3": "La Société ne sera pas responsable de toute blessure, décès, perte ou dommage résultant du non-respect par un Client des instructions du guide ou des réglementations du parc. Tout Client qui ignore délibérément les instructions de sécurité le fait à ses propres risques.",
+      "p4": "Nos chauffeurs-guides détiennent des licences valides délivrées par la Kenya Professional Safari Guides Association (KPSGA) et sont formés aux premiers secours en milieu sauvage. Cependant, les installations médicales d'urgence dans les zones reculées peuvent être limitées, ce qui souligne l'importance d'une assurance voyage complète incluant une couverture d'évacuation médicale."
+    },
+    "liability": {
+      "label": "Responsabilité",
+      "heading": "Responsabilité",
+      "p1": "La Société agit en partie comme agent pour des prestataires de services tiers, notamment, sans s'y limiter, les compagnies aériennes, les fournisseurs d'hébergement, les autorités des parcs et les opérateurs d'activités. La Société n'est pas responsable des actes, omissions, défaillances, négligences ou insolvabilités de ces prestataires tiers.",
+      "p2": "Lorsque la Société est reconnue directement responsable d'une perte ou d'un dommage subi par le Client, la responsabilité totale de la Société ne dépassera pas le coût total payé par le Client pour le safari à l'origine de la réclamation.",
+      "p3Label": "La Société exclut expressément sa responsabilité pour :",
+      "bullets": [
+        "La perte de jouissance, la détresse ou la déception résultant de circonstances échappant au contrôle raisonnable de la Société.",
+        "Les pertes consécutives, indirectes ou économiques, y compris la perte de revenus ou les coûts de vols, visas ou hébergements réservés indépendamment.",
+        "La perte ou le vol de biens personnels, d'argent ou d'équipement.",
+        "Les blessures, maladies ou décès causés par des prestataires de services tiers.",
+        "Toute perte résultant du défaut du Client d'obtenir une assurance voyage adéquate."
+      ],
+      "p4": "Rien dans ces Conditions Générales n'exclut la responsabilité en cas de décès ou de blessure corporelle causée par la négligence prouvée de la Société, ni aucune responsabilité qui ne peut être exclue par la loi."
+    },
+    "force-majeure": {
+      "label": "Force majeure",
+      "heading": "Force majeure",
+      "p1": "Ni la Société ni le Client ne seront responsables de toute défaillance ou retard dans l'exécution résultant d'événements échappant à leur contrôle raisonnable, y compris, sans s'y limiter :",
+      "bullets": [
+        "Les catastrophes naturelles ou les événements météorologiques extrêmes",
+        "La guerre, les conflits armés, les troubles civils ou les actes de terrorisme",
+        "Les restrictions gouvernementales, fermetures de frontières ou avis de voyage",
+        "Les épidémies, pandémies ou urgences de santé publique",
+        "Les actions syndicales, grèves ou fermetures d'aéroports",
+        "Les fermetures de parcs ordonnées par les autorités des parcs nationaux"
+      ],
+      "p2": "En cas de force majeure, la Société mettra tout en œuvre pour proposer une date de voyage alternative ou un avoir d'une valeur équivalente. Lorsqu'aucune alternative n'est possible, les remboursements seront examinés au cas par cas après déduction de tous coûts irrécupérables déjà engagés auprès des fournisseurs."
+    },
+    "complaints": {
+      "label": "Réclamations",
+      "heading": "Réclamations",
+      "p1": "La Société s'engage à fournir un service de haute qualité. Si un aspect de votre safari ne répond pas à vos attentes, nous vous demandons de signaler le problème immédiatement à votre guide ou à un représentant de la Société afin que nous ayons l'opportunité de le résoudre pendant le voyage.",
+      "p2Before": "Si la question n'est pas résolue à votre satisfaction pendant le safari, une réclamation écrite formelle doit être soumise par email à",
+      "p2After": "dans un délai de <strong>30 jours après le dernier jour de votre safari</strong>. Les réclamations reçues après ce délai pourront ne pas être prises en compte.",
+      "p3": "La Société accusera réception d'une réclamation formelle dans un délai de 5 jours ouvrables et fournira une réponse de fond dans un délai de 28 jours."
+    },
+    "privacy": {
+      "label": "Confidentialité & données",
+      "heading": "Confidentialité & données",
+      "p1": "La Société collecte des informations personnelles (notamment les noms, les détails de passeport, les coordonnées et les déclarations médicales) dans le seul but de gérer votre réservation et de fournir les services de safari achetés.",
+      "p2": "Vos informations personnelles ne seront ni vendues ni partagées avec des tiers non affiliés, sauf si cela est nécessaire pour la fourniture des services réservés (par exemple, partager les noms des passagers avec les lodges, les autorités des parcs ou les fournisseurs de transport).",
+      "p3": "En effectuant une réservation, vous consentez à ce que la Société conserve vos coordonnées pour vous envoyer des communications occasionnelles liées au service. Vous pouvez vous désinscrire des communications marketing à tout moment en nous contactant par écrit.",
+      "p4": "La Société stocke les données de manière sécurisée et conformément à la législation kényane applicable en matière de protection des données."
+    },
+    "photography": {
+      "label": "Photographie & médias",
+      "heading": "Photographie & médias",
+      "p1": "La Société peut photographier ou filmer les activités du safari à des fins de marketing, de formation ou d'archivage. Si vous préférez ne pas figurer dans ce type de contenu, veuillez en informer la Société par écrit avant votre date de départ, et nous respecterons votre préférence.",
+      "p2": "Les clients sont libres de photographier et de filmer la faune et les paysages pour un usage personnel. La photographie des populations locales, des communautés ou des sites culturels doit être réalisée avec sensibilité et, le cas échéant, avec la permission des personnes photographiées.",
+      "p3": "L'utilisation commerciale de drones et la production professionnelle de médias dans les parcs nationaux nécessitent des autorisations préalables de l'autorité du parc concernée et doivent être déclarées à la Société au moment de la réservation."
+    },
+    "governing-law": {
+      "label": "Droit applicable",
+      "heading": "Droit applicable",
+      "p1": "Ces Conditions Générales sont régies et interprétées conformément aux lois de la République du Kenya. Tout litige découlant de ou lié à ces conditions sera soumis à la juridiction exclusive des tribunaux du Kenya.",
+      "p2": "En cas de litige, les deux parties s'engagent à tenter d'abord une résolution par négociation de bonne foi. Si la négociation échoue, l'une ou l'autre des parties peut soumettre l'affaire à une médiation avant d'engager une procédure judiciaire formelle.",
+      "p3Before": "La Société se réserve le droit de modifier ces Conditions Générales à tout moment. La version en vigueur à la date de confirmation de la réservation s'appliquera à cette réservation. Les conditions actuelles sont toujours publiées sur notre site web à l'adresse",
+      "p3After": ".",
+      "contactBox": {
+        "label": "Des questions sur ces conditions ?",
+        "body": "Notre équipe se tient à votre disposition pour clarifier tout point de ces conditions avant votre réservation.",
+        "sendMessage": "Envoyer un message"
+      }
+    }
+  }
+}

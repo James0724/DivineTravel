@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "title": "Safari-Reiseziele in Ostafrika — Kenia, Tansania, Uganda & Ruanda",
+    "description": "Entdecken Sie die vier großen Safari-Länder Ostafrikas. Vom Masai Mara in Kenia und der Serengeti in Tansania bis zu den Gorillawäldern Ugandas und den Vulkanen Ruandas — ein Expertenleitfaden, wohin und warum.",
+    "ogTitle": "Safari-Reiseziele in Ostafrika | Divine Travel Nest Safaris",
+    "ogDescription": "Kenia, Tansania, Uganda & Ruanda — ein Expertenleitfaden zu den vier großen Safari-Ländern Ostafrikas.",
+    "collectionName": "Safari-Reiseziele in Ostafrika",
+    "collectionDescription": "Kenia, Tansania, Uganda und Ruanda — ein Expertenleitfaden zu den vier großen Safari-Ländern Ostafrikas."
+  },
+  "breadcrumbHome": "Start",
+  "breadcrumbCurrent": "Reiseziele",
+  "hero": {
+    "eyebrow": "Ostafrika · Vier Länder",
+    "titleBefore": "Wohin würden Sie gerne",
+    "titleMid": "",
+    "titleEm": "reisen",
+    "titleSuffix": "?",
+    "description": "Kenia, Tansania, Uganda und Ruanda — vier Länder, jedes mit seinem eigenen Charakter. Wir helfen Ihnen, auszuwählen, zu kombinieren und das Beste aus allen zu erleben.",
+    "stats": [
+      { "num": "4", "sup": "", "lbl": "Safari-Länder" },
+      { "num": "50", "sup": "+", "lbl": "Nationalparks" },
+      { "num": "Big 5", "sup": "", "lbl": "Über ganz Ostafrika" }
+    ]
+  },
+  "countries": {
+    "eyebrow": "Nach Land erkunden",
+    "headingBefore": "Vier Länder, ",
+    "headingHighlight": "jede Art von ",
+    "headingAfter": "Safari",
+    "overline": "Ostafrika",
+    "exploreLabel": "Entdecken",
+    "items": {
+      "kenya": {
+        "name": "Kenia",
+        "tagline": "Heimat der Big Five & der Großen Migration",
+        "description": "Kenia ist das klassische Safari-Ziel Ostafrikas — weite goldene Savannen, die berühmte Massai-Kultur und das größte Tierschauspiel der Erde. Das Land, das das Wort Safari erfunden hat.",
+        "highlights": ["Big Five in einem einzigen Land", "Große Migration (Jul. – Okt.)", "Ganzjährige Tierbeobachtung", "12+ Nationalparks & Reservate"],
+        "stat1Lbl": "Parks & Reservate",
+        "stat2Lbl": "Ganzjährig"
+      },
+      "tanzania": {
+        "name": "Tansania",
+        "tagline": "Serengeti, Ngorongoro & Sansibar",
+        "description": "Tansania besitzt Afrikas größten Nationalpark — die Serengeti — sowie den weltberühmten Ngorongoro-Krater, eine intakte Vulkancaldera mit ganzjährig ansässigen Big Five, plus eine ebenso beeindruckende weiße Sandküste.",
+        "highlights": ["Serengeti-Gnu-Rundreise", "Löwen im Ngorongoro-Krater", "Strandverlängerung Sansibar", "Kilimandscharo als Kulisse"],
+        "stat1Lbl": "Schutzgebiete",
+        "stat2Lbl": "Gnus jährlich"
+      },
+      "uganda": {
+        "name": "Uganda",
+        "tagline": "Gorilla-Trekking & Schimpansen-Tracking in der Perle Afrikas",
+        "description": "Uganda ist Afrikas artenreichstes Geheimnis — dichte Regenwälder, die Berggorillas und Schimpansen beherbergen, Savanne mit baumkletternden Löwen und die donnernden Murchison Falls. Wenige Orte bewegen Sie so.",
+        "highlights": ["Berggorilla-Trekking", "Schimpansen-Tracking", "Baumkletternde Löwen", "Spektakel der Murchison Falls"],
+        "stat1Lbl": "Nationalparks",
+        "stat2Lbl": "Der Weltgorillas"
+      },
+      "rwanda": {
+        "name": "Ruanda",
+        "tagline": "Vulkane, Gorillas und kompakter Luxus",
+        "description": "Klein, sicher und erstaunlich artenreich — Ruanda vereint Gorilla-Treks, Pirschfahrten in der Savanne, Begegnungen mit Goldmeerkatzen und den Schimpansenwald von Nyungwe in einem Land, das Sie an einem Vormittag durchqueren können.",
+        "highlights": ["Berg- und Goldgorillas", "Baumkronen-Treks in den Vulkanen", "Großwild-Pirschfahrten in Akagera", "Primatenwald Nyungwe"],
+        "stat1Lbl": "Hauptparks",
+        "stat2Lbl": "Verbleibende Berggorillas"
+      }
+    }
+  },
+  "compare": {
+    "eyebrow": "Schnelle Länderauswahl",
+    "headingBefore": "Finden Sie das richtige Land für ",
+    "headingEm": "Ihre",
+    "headingAfter": " Safari.",
+    "bestForLabel": "Am besten für",
+    "exploreLabel": "Entdecken",
+    "items": {
+      "kenya": { "best": ["Großkatzen", "Die Migration", "Familien"] },
+      "tanzania": { "best": ["Große Gnu-Rundreise", "Hochzeitsreisen", "Strandkombination"] },
+      "uganda": { "best": ["Gorilla-Trekking", "Primaten", "Abenteuerlustige"] },
+      "rwanda": { "best": ["Kurzreisen", "Gorillas und nochmal Gorillas", "Fokus auf Luxus"] }
+    }
+  },
+  "popular": {
+    "eyebrow": "Beliebt in allen Ländern",
+    "headingBefore": "Bestbewertete ",
+    "headingHighlight": " Pakete.",
+    "headingAfter": "Safari",
+    "browseAllPackages": "Alle Pakete ansehen",
+    "browseAllSafariPackages": "Alle Safari-Pakete ansehen",
+    "onRequest": "Auf Anfrage",
+    "fallback": [
+      { "name": "3-tägige Masai-Mara-Safari", "country": "Kenia", "days": "3T · 2N" },
+      { "name": "7 Tage Tansania-Highlights", "country": "Tansania", "days": "7T · 6N" },
+      { "name": "5 Tage Uganda-Gorilla-Trekking", "country": "Uganda", "days": "5T · 4N" }
+    ]
+  }
+}

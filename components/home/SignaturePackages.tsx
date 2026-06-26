@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { useSignaturePackages } from "@/hooks/useSafaris";
+import { useCurrency } from "@/lib/currency/useCurrency";
 import SiteLink from "@/components/ui/SiteLink";
 import type { Safari } from "@/types";
 import { AnimatedHeading } from "../ui/Heading";
@@ -21,15 +23,18 @@ function PackageCard({
   safari,
   large,
   index,
+  labels,
 }: {
   safari: Safari;
   large: boolean;
   index: number;
+  labels: { signatureBadge: string; fromLabel: string; onRequest: string; daysLabel: string };
 }) {
   const price =
     safari.pricing?.budget?.pricePerPerson ??
     safari.pricing?.midRange?.pricePerPerson ??
     safari.pricing?.luxury?.pricePerPerson;
+  const { displayPrice } = useCurrency();
 
   const categoryLabel = Array.isArray(safari.category)
     ? safari.category[0]
@@ -76,7 +81,7 @@ function PackageCard({
           <div className="flex flex-wrap gap-2 mb-3">
             {safari.featured && (
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-[10px] tracking-[0.1em] bg-bone-clay/12 text-bone-clay border border-bone-clay/30">
-                ★ Signature
+                ★ {labels.signatureBadge}
               </span>
             )}
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-[10px] tracking-[0.1em] bg-bone-bg text-bone-muted border border-[rgba(23,22,18,0.12)]">
@@ -113,15 +118,15 @@ function PackageCard({
           <div className="mt-auto flex items-end justify-between pt-4 border-t border-[rgba(23,22,18,0.1)]">
             <div>
               <span className="block font-mono text-[9px] tracking-[0.16em] text-bone-muted mb-0.5">
-                FROM
+                {labels.fromLabel}
               </span>
               <strong className="font-serif text-[26px] sm:text-[28px] font-light text-bone-ink leading-none">
-                {price ? `$${price.toLocaleString()}` : "On request"}
+                {price ? displayPrice(price) : labels.onRequest}
               </strong>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-mono text-[10px] tracking-[0.1em] text-bone-muted">
-                {safari.duration} DAYS
+                {safari.duration} {labels.daysLabel}
               </span>
               <span className="w-7 h-7 rounded-full bg-bone-forest text-bone-paper flex items-center justify-center text-[12px] flex-shrink-0 transition-colors duration-200 group-hover:bg-bone-clay">
                 →
@@ -158,6 +163,13 @@ function CardSkeleton({ large }: { large: boolean }) {
 export default function SignaturePackages({
   initialData,
 }: SignaturePackagesProps) {
+  const t = useTranslations("home.signaturePackages");
+  const labels = {
+    signatureBadge: t("signatureBadge"),
+    fromLabel: t("fromLabel"),
+    onRequest: t("onRequest"),
+    daysLabel: t("daysLabel"),
+  };
   const { data, isLoading } = useSignaturePackages();
   const safaris = data?.data ?? initialData ?? [];
 
@@ -181,25 +193,22 @@ export default function SignaturePackages({
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
-                Our Signature Safari Experiences
+                {t("eyebrow")}
               </div>
             </Reveal>
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
               as="h2"
-              textBefore="Popular safari "
-              highlightedText="categories"
-              textAfter="tuned"
+              textBefore={t("headingBefore")}
+              highlightedText={t("headingHighlight")}
+              textAfter={t("headingAfter")}
             />
           </div>
 
           <Reveal variant="fadeUp">
             <p className="text-sm leading-[1.7] text-bone-muted max-w-[54ch]">
-              Discover the wonders of Africa with Divine Travel Nest Safaris.
-              Our popular safari tours offer unforgettable wildlife encounters,
-              stunning landscapes, and authentic cultural experiences — whether
-              you're seeking adventure or relaxation.
+              {t("description")}
             </p>
           </Reveal>
         </div>
@@ -228,6 +237,7 @@ export default function SignaturePackages({
                     safari={safari}
                     large={true}
                     index={i}
+                    labels={labels}
                   />
                 ))}
               </div>
@@ -242,6 +252,7 @@ export default function SignaturePackages({
                     safari={safari}
                     large={false}
                     index={featuredCards.length + i}
+                    labels={labels}
                   />
                 ))}
               </div>
@@ -252,8 +263,7 @@ export default function SignaturePackages({
         {/* ── CTA ─────────────────────────────────────────────────────── */}
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 pt-10 border-t border-[rgba(23,22,18,0.12)]">
           <p className="text-[14px] text-bone-muted max-w-[42ch] text-center sm:text-left">
-            Can't find what you're looking for? We craft fully bespoke
-            itineraries around your dates, budget and dream destinations.
+            {t("ctaText")}
           </p>
           <SiteLink
             href="/safaris"
@@ -261,7 +271,7 @@ export default function SignaturePackages({
             size="md"
             className="flex-shrink-0"
           >
-            View all safari packages
+            {t("ctaButton")}
           </SiteLink>
         </div>
       </div>

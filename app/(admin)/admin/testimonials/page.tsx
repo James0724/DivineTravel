@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Star, Plus, Trash2, X } from 'lucide-react'
+import { Star, Plus, Trash2, X, Eye } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { ConfirmDialog } from '@/components/ui/Modal'
+import Modal, { ConfirmDialog } from '@/components/ui/Modal'
 import { TableSkeleton } from '@/components/ui/Skeleton'
 import { NoTestimonialsFound } from '@/components/ui/EmptyState'
 import Input, { Textarea, Select } from '@/components/ui/Input'
@@ -193,11 +193,69 @@ function TestimonialModal({
   )
 }
 
+/* ── View Modal ── */
+function TestimonialViewModal({
+  testimonial,
+  onClose,
+}: {
+  testimonial: Testimonial | null
+  onClose: () => void
+}) {
+  return (
+    <Modal open={!!testimonial} onClose={onClose} size="lg" title="Testimonial">
+      {testimonial && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                size={14}
+                className={i < testimonial.rating ? 'fill-bone-clay text-bone-clay' : 'text-bone-ink/15'}
+              />
+            ))}
+          </div>
+
+          <h3 className="font-serif text-lg font-semibold text-bone-ink">
+            &ldquo;{testimonial.title}&rdquo;
+          </h3>
+
+          <p className="text-sm text-bone-ink/70 leading-relaxed whitespace-pre-wrap">
+            {testimonial.body}
+          </p>
+
+          <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-[rgba(23,22,18,0.08)] text-sm">
+            <span className="font-medium text-bone-ink">{testimonial.name}</span>
+            <span className="text-bone-ink/45">· {testimonial.country}</span>
+            {testimonial.safariName && (
+              <span className="text-bone-clay font-sans font-medium">· {testimonial.safariName}</span>
+            )}
+            <span className="text-bone-ink/45">· {formatDateShort(testimonial.createdAt)}</span>
+          </div>
+
+          <div className="flex gap-2 pt-1">
+            {testimonial.featured && (
+              <span className="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-bone-forest/10 text-bone-forest">
+                ✓ Featured
+              </span>
+            )}
+            {testimonial.verified && (
+              <span className="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                ✓ Verified
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+    </Modal>
+  )
+}
+
 /* ── Page ── */
 
 export default function AdminTestimonialsPage() {
   const [page, setPage] = useState(1)
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
+  const [viewTarget, setViewTarget] = useState<Testimonial | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const qc = useQueryClient()
@@ -333,8 +391,14 @@ export default function AdminTestimonialsPage() {
                         ))}
                       </div>
                     </td>
-                    <td className="max-w-[180px]">
-                      <p className="text-sm truncate">{t.title}</p>
+                    <td className="max-w-[180px] overflow-hidden">
+                      <button
+                        onClick={() => setViewTarget(t)}
+                        className="w-full truncate block text-left text-sm hover:text-bone-clay hover:underline transition-colors"
+                        title="View full testimonial"
+                      >
+                        {t.title}
+                      </button>
                     </td>
                     <td className="text-sm text-bone-ink/50">{formatDateShort(t.createdAt)}</td>
                     <td>
@@ -365,6 +429,13 @@ export default function AdminTestimonialsPage() {
                     </td>
                     <td>
                       <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => setViewTarget(t)}
+                          className="p-1.5 rounded text-bone-ink/40 hover:text-bone-ink hover:bg-bone-bg transition-colors"
+                          aria-label="View testimonial"
+                        >
+                          <Eye size={14} />
+                        </button>
                         <button
                           onClick={() => setDeleteTarget(t._id)}
                           className="p-1.5 rounded text-bone-ink/40 hover:text-red-600 hover:bg-red-50 transition-colors"
@@ -407,6 +478,8 @@ export default function AdminTestimonialsPage() {
         onClose={() => setShowModal(false)}
         onSaved={() => qc.invalidateQueries({ queryKey: ['admin-testimonials'] })}
       />
+
+      <TestimonialViewModal testimonial={viewTarget} onClose={() => setViewTarget(null)} />
 
       <ConfirmDialog
         open={!!deleteTarget}

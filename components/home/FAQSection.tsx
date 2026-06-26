@@ -2,73 +2,52 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-const faqs = [
-  {
-    q: "When is the best time to visit Kenya for the Great Migration?",
-    a: "The most famous part of the Great Migration — the Mara River crossings — occurs from July to October when the herds are in the Masai Mara. However, the migration is a year-round event. January–February offers calving season in the southern Serengeti, while June–July features the dramatic Grumeti River crossings in Tanzania.",
-  },
-  {
-    q: "How far in advance should I book a gorilla trekking permit?",
-    a: "Gorilla trekking permits in Uganda (Bwindi Impenetrable Forest) and Rwanda (Volcanoes NP) sell out months in advance, especially during peak season (July–September and December–January). We recommend booking at least 6 months ahead, and up to 12 months for peak season travel. We handle all permit applications on your behalf.",
-  },
-  {
-    q: "What is included in a typical safari package?",
-    a: (
-      <div>
-        <p className="mb-3">
-          A standard Divine Travel Nest Safaris package includes:
-        </p>
-        <table className="w-full border-collapse text-[14px]">
-          <tbody>
-            {[
-              ["Park fees & conservation levies", "✓"],
-              ["All game drives & activities listed", "✓"],
-              ["Accommodation (lodge or tented camp)", "✓"],
-              ["Full board (breakfast, lunch, dinner)", "✓"],
-              ["Airport & inter-park transfers", "✓"],
-              ["English-speaking guide", "✓"],
-              ["International flights", "✗"],
-              ["Travel insurance", "✗"],
-              ["Personal gratuities", "✗"],
-            ].map(([item, inc]) => (
-              <tr
-                key={item as string}
-                style={{ borderBottom: "1px solid rgba(23,22,18,0.1)" }}
-              >
-                <td className="py-2.5 px-3.5">{item}</td>
-                <td
-                  className="py-2.5 px-3.5 text-right font-serif italic"
-                  style={{
-                    color: (inc as string) === "✓" ? "#9d4519" : "#7a7264",
-                  }}
-                >
-                  {inc}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    ),
-  },
-  {
-    q: "Can you customise a safari for families with young children?",
-    a: "Absolutely — family safaris are one of our specialties. We select family-friendly lodges with dedicated children's programs, experienced child-friendly guides, and age-appropriate activities. We also plan activity schedules around younger children's energy levels. Minimum age restrictions apply for certain activities (gorilla trekking requires guests to be 15+).",
-  },
-  {
-    q: "What is the difference between a budget, mid-range and luxury safari?",
-    a: "The main difference lies in accommodation and vehicle quality. Budget safaris use shared minibus vehicles and tented camps or basic lodges. Mid-range safaris offer private vehicles and comfortable lodge rooms with en-suite facilities. Luxury safaris feature exclusive-use vehicles, private guides, and world-class tented camps or lodges with exceptional service. All tiers include the same wildlife access and expert guiding.",
-  },
-  {
-    q: "Do I need a visa and vaccinations for Kenya and Tanzania?",
-    a: "Most nationalities require a visa for Kenya and Tanzania, both available online via e-visa portals. For health requirements, Yellow Fever vaccination is mandatory if arriving from a yellow fever-endemic country. We strongly recommend consulting your travel health clinic at least 6–8 weeks before departure for current vaccination advice including malaria prophylaxis.",
-  },
-];
+import { useTranslations } from "next-intl";
 
 const ease = [0.4, 0, 0.2, 1] as const;
 
+type FaqItem = { q: string; a: string };
+type TableRow = { item: string; included: boolean };
+
 export default function FAQSection() {
+  const t = useTranslations("home.faqSection");
+  const items = t.raw("items") as FaqItem[];
+  const tableIntro = t("tableIntro");
+  const tableRows = t.raw("tableRows") as TableRow[];
+
+  const faqs = items.map((faq, i) =>
+    i === 2
+      ? {
+          q: faq.q,
+          a: (
+            <div>
+              <p className="mb-3">{tableIntro}</p>
+              <table className="w-full border-collapse text-[14px]">
+                <tbody>
+                  {tableRows.map((row) => (
+                    <tr
+                      key={row.item}
+                      style={{ borderBottom: "1px solid rgba(23,22,18,0.1)" }}
+                    >
+                      <td className="py-2.5 px-3.5">{row.item}</td>
+                      <td
+                        className="py-2.5 px-3.5 text-right font-serif italic"
+                        style={{
+                          color: row.included ? "#9d4519" : "#7a7264",
+                        }}
+                      >
+                        {row.included ? "✓" : "✗"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ),
+        }
+      : faq
+  );
+
   const [open, setOpen] = useState<number | null>(null);
 
   return (
@@ -82,17 +61,17 @@ export default function FAQSection() {
           <div>
             <div className="eyebrow mb-4">
               <span className="dot" />
-              Kenya, Tanzania, Uganda &amp; Rwanda Safari FAQ
+              {t("eyebrow")}
             </div>
             <h2
               className="font-serif font-normal text-bone-ink leading-none tracking-[-0.02em] mt-4"
               style={{ fontSize: "clamp(32px, 5vw, 72px)" }}
             >
-              East Africa safari <em className="italic text-bone-clay">FAQ</em>.
+              {t("headingMain")}
+              <em className="italic text-bone-clay">{t("headingEm")}</em>.
             </h2>
             <p className="text-[14px] text-bone-muted mt-[18px] max-w-[40ch] lg:max-w-[32ch] leading-[1.6]">
-              Common questions about Kenya, Tanzania, Uganda, Rwanda and gorilla trekking
-              safaris. Can't find your answer? Call or email us any time.
+              {t("description")}
             </p>
           </div>
 

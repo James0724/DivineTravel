@@ -21,6 +21,7 @@ export interface ISetting extends Document {
   twitter: string
   youtube: string
   tripadvisor: string
+  googleReviews: string
 
   // SEO defaults
   defaultMetaTitle: string
@@ -57,6 +58,7 @@ const SettingSchema = new Schema<ISetting>(
     twitter: { type: String, default: '' },
     youtube: { type: String, default: '' },
     tripadvisor: { type: String, default: '' },
+    googleReviews: { type: String, default: '' },
 
     defaultMetaTitle: { type: String, default: 'Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Tour Packages' },
     defaultMetaDescription: { type: String, default: 'Expert-guided, tailor-made East Africa safaris. Kenya, Tanzania, Uganda & Rwanda — Budget to Luxury.' },

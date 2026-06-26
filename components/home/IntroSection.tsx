@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import { BlurReveal } from "@/components/ui/TextReveal";
 import { LettersPullUp } from "@/components/ui/LettersPullUp";
 import { AnimatedHeading } from "../ui/Heading";
@@ -10,22 +11,15 @@ import Reveal from "../ui/Reveal";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const contacts = [
-  {
-    href: "tel:+254722595916",
-    label: "Reservation by phone",
-    value: "+254 722-595-916",
-    isEmail: false,
-  },
-  {
-    href: "mailto:info@divinetravelnestsafaris.com",
-    label: "Reservation by email",
-    value: "info@divinetravelnestsafaris.com",
-    isEmail: true,
-  },
+const CONTACT_META = [
+  { href: "tel:+254722595916", value: "+254 722-595-916", isEmail: false },
+  { href: "mailto:info@divinetravelnestsafaris.com", value: "info@divinetravelnestsafaris.com", isEmail: true },
 ];
 
 export default function IntroSection() {
+  const t = useTranslations("home.intro");
+  const contactLabels = t.raw("contacts") as { label: string }[];
+  const contacts = CONTACT_META.map((c, i) => ({ ...c, label: contactLabels[i].label }));
   const leftRef = useRef<HTMLDivElement>(null);
   const leftInView = useInView(leftRef, { once: true, margin: "-80px" });
 
@@ -39,16 +33,16 @@ export default function IntroSection() {
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
-                Divine Travel Nest Safaris
+                {t("eyebrow")}
               </div>
             </Reveal>
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
               as="h2"
-              textBefore="Your trusted gateway to "
-              highlightedText="unforgettable"
-              textAfter="East Africa safaris."
+              textBefore={t("headingBefore")}
+              highlightedText={t("headingHighlight")}
+              textAfter={t("headingAfter")}
             />
 
             {/* Contact blocks — staggered slide-up */}
@@ -107,21 +101,13 @@ export default function IntroSection() {
               >
                 W
               </motion.span>
-              elcome to Divine Travel Nest Safaris, the home of immersive,
-              authentic, and expertly crafted East Africa safari experiences. We
-              specialize in Kenya safaris, Tanzania safaris, cross-border
-              Kenya–Tanzania safari circuits, unforgettable Uganda gorilla
-              trekking and Rwanda gorilla safaris.
+              {t("paragraph1Rest")}
             </p>
             <p className="text-[14px] sm:text-sm leading-[1.7] text-bone-muted mb-4">
-              Whether you dream of witnessing the Great Wildebeest Migration in
-              the Masai Mara, tracking mountain gorillas deep in Bwindi Forest,
-              or exploring the vast Serengeti plains, we are your dedicated
-              travel partner — turning safari dreams into life-lasting memories.
+              {t("paragraph2")}
             </p>
             <p className="text-[14px] sm:text-sm leading-[1.7] text-bone-muted mb-8">
-              At Divine Travel Nest Safaris, every journey is designed with
-              passion, precision, and personalized attention.
+              {t("paragraph3")}
             </p>
 
             {/* Mission quote — slides from left with left-border accent */}
@@ -133,11 +119,9 @@ export default function IntroSection() {
               transition={{ duration: 0.85, delay: 0.45, ease: EASE }}
             >
               <span className="block font-mono not-italic text-[10px] uppercase tracking-[0.16em] text-bone-muted mb-3">
-                Our mission
+                {t("missionLabel")}
               </span>
-              To create experience-rich, safe, and value-driven African safaris
-              that bring you closer to wildlife, culture, and the magic of East
-              Africa.
+              {t("missionText")}
             </motion.blockquote>
           </BlurReveal>
         </div>

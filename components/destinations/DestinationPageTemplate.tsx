@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { X, AlignJustify } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -13,6 +13,7 @@ import {
 import PageHero, { type HeroStat } from "@/components/ui/PageHero";
 import FaqAccordion from "@/components/ui/FaqAccordion";
 import JumpNav from "@/components/ui/JumpNav";
+import Price from "@/components/ui/Price";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { NAV_H } from "@/components/safaris/CountrySafariPage";
 import { cn } from "@/lib/utils";
@@ -50,7 +51,8 @@ export interface SafariPkg {
   name: string;
   desc: string;
   parks: string[];
-  from: string;
+  /** Lowest per-person price in USD, or null/undefined when unpriced ("On request"). */
+  from: number | null;
   days: string;
 }
 
@@ -674,7 +676,7 @@ export default function DestinationPageTemplate({
                               From{" "}
                             </span>
                             <span className="font-serif text-xl text-bone-ink">
-                              {pkg.from}
+                              {pkg.from != null ? <Price amountUsd={pkg.from} /> : "On request"}
                             </span>
                           </div>
                           <span className="text-xs text-bone-muted font-mono">

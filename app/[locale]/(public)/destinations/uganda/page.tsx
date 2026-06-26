@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     "Home to half the world's mountain gorillas, wild chimpanzees and tree-climbing lions — your complete guide to Uganda's national parks, primate habitats and safari experiences.",
   keywords: 'uganda gorilla trekking, bwindi impenetrable forest, queen elizabeth national park, kibale, uganda safari',
-  alternates: { canonical: '/destinations/uganda' },
+  alternates: { canonical: '/en/destinations/uganda' },
   openGraph: {
     title: 'Uganda Wildlife Parks & Reserves | Divine Travel Nest Safaris',
     description: "A complete expert guide to Uganda's national parks and primate habitats.",
@@ -36,7 +36,7 @@ function mapToSafariPkg(safari: Safari): SafariPkg {
     name: safari.name,
     desc: safari.tagline ?? '',
     parks: [safari.location?.park, safari.location?.region].filter(Boolean) as string[],
-    from: price ? `$${price.toLocaleString()}` : 'On request',
+    from: price ?? null,
     days: safari.duration ? `${safari.duration}D · ${safari.duration - 1}N` : '',
   }
 }
@@ -162,9 +162,9 @@ export default async function UgandaDestinationPage() {
     },
 
     packages: packages.length > 0 ? packages : [
-      { img: 'https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=900&q=80', tag: 'Uganda · Gorilla', name: '4-Day Gorilla Trekking Safari', desc: 'Fly to Bwindi, trek to the gorillas, enjoy lodge accommodation in the forest.', parks: ['Bwindi Impenetrable'], from: 'On request', days: '4D · 3N' },
-      { img: 'https://images.pexels.com/photos/12635318/pexels-photo-12635318.jpeg?auto=compress&cs=tinysrgb&w=900&q=80', tag: 'Uganda · Circuit', name: '8-Day Uganda Primate Circuit', desc: 'Gorillas in Bwindi, chimps in Kibale, tree lions in Queen Elizabeth.', parks: ['Bwindi', 'Kibale', 'Queen Elizabeth'], from: 'On request', days: '8D · 7N' },
-      { img: 'https://images.pexels.com/photos/29897218/pexels-photo-29897218.jpeg?auto=compress&cs=tinysrgb&w=900&q=80', tag: 'Uganda · Full circuit', name: '12-Day Complete Uganda Safari', desc: 'The ultimate Uganda experience — gorillas, chimps, savannah and Murchison Falls.', parks: ['Bwindi', 'Queen Elizabeth', 'Kibale', 'Murchison'], from: 'On request', days: '12D · 11N' },
+      { img: 'https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=900&q=80', tag: 'Uganda · Gorilla', name: '4-Day Gorilla Trekking Safari', desc: 'Fly to Bwindi, trek to the gorillas, enjoy lodge accommodation in the forest.', parks: ['Bwindi Impenetrable'], from: null, days: '4D · 3N' },
+      { img: 'https://images.pexels.com/photos/12635318/pexels-photo-12635318.jpeg?auto=compress&cs=tinysrgb&w=900&q=80', tag: 'Uganda · Circuit', name: '8-Day Uganda Primate Circuit', desc: 'Gorillas in Bwindi, chimps in Kibale, tree lions in Queen Elizabeth.', parks: ['Bwindi', 'Kibale', 'Queen Elizabeth'], from: null, days: '8D · 7N' },
+      { img: 'https://images.pexels.com/photos/29897218/pexels-photo-29897218.jpeg?auto=compress&cs=tinysrgb&w=900&q=80', tag: 'Uganda · Full circuit', name: '12-Day Complete Uganda Safari', desc: 'The ultimate Uganda experience — gorillas, chimps, savannah and Murchison Falls.', parks: ['Bwindi', 'Queen Elizabeth', 'Kibale', 'Murchison'], from: null, days: '12D · 11N' },
     ],
     packagesHref: '/safaris?country=Uganda',
     packagesLinkText: 'Browse all Uganda safari packages →',

@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "title": "Destinos de Safari en África Oriental — Kenia, Tanzania, Uganda y Ruanda",
+    "description": "Descubra los cuatro grandes países de safari de África Oriental. Desde el Masai Mara de Kenia y el Serengeti de Tanzania hasta los bosques de gorilas de Uganda y los Volcanes de Ruanda — una guía experta sobre adónde ir y por qué.",
+    "ogTitle": "Destinos de Safari en África Oriental | Divine Travel Nest Safaris",
+    "ogDescription": "Kenia, Tanzania, Uganda y Ruanda — una guía experta sobre los cuatro grandes países de safari de África Oriental.",
+    "collectionName": "Destinos de Safari en África Oriental",
+    "collectionDescription": "Kenia, Tanzania, Uganda y Ruanda — una guía experta sobre los cuatro grandes países de safari de África Oriental."
+  },
+  "breadcrumbHome": "Inicio",
+  "breadcrumbCurrent": "Destinos",
+  "hero": {
+    "eyebrow": "África Oriental · Cuatro países",
+    "titleBefore": "¿A dónde le gustaría",
+    "titleMid": "",
+    "titleEm": "ir",
+    "titleSuffix": "?",
+    "description": "Kenia, Tanzania, Uganda y Ruanda — cuatro países, cada uno con su propio carácter. Le ayudamos a elegir, combinar y vivir lo mejor de todos ellos.",
+    "stats": [
+      { "num": "4", "sup": "", "lbl": "Países de safari" },
+      { "num": "50", "sup": "+", "lbl": "Parques nacionales" },
+      { "num": "Big 5", "sup": "", "lbl": "En toda África Oriental" }
+    ]
+  },
+  "countries": {
+    "eyebrow": "Explorar por país",
+    "headingBefore": "Cuatro países, ",
+    "headingHighlight": "todos los tipos de ",
+    "headingAfter": "safari",
+    "overline": "África Oriental",
+    "exploreLabel": "Explorar",
+    "items": {
+      "kenya": {
+        "name": "Kenia",
+        "tagline": "El hogar de los Big Five y la Gran Migración",
+        "description": "Kenia es el destino de safari clásico de África Oriental — sabanas doradas a perder de vista, la icónica cultura masái, y el mayor espectáculo de vida salvaje de la Tierra. El país que inventó la palabra safari.",
+        "highlights": ["Big Five en un solo país", "Gran Migración (jul. – oct.)", "Avistamiento de fauna todo el año", "Más de 12 parques nacionales y reservas"],
+        "stat1Lbl": "Parques y reservas",
+        "stat2Lbl": "Todo el año"
+      },
+      "tanzania": {
+        "name": "Tanzania",
+        "tagline": "Serengeti, Ngorongoro y Zanzíbar",
+        "description": "Tanzania alberga el parque nacional más grande de África — el Serengeti — además del mundialmente famoso cráter del Ngorongoro, una caldera volcánica intacta con Big Five residentes todo el año, y una costa de arena blanca a la altura.",
+        "highlights": ["Circuito de los ñus del Serengeti", "Leones del cráter del Ngorongoro", "Extensión de playa en Zanzíbar", "El Kilimanjaro como telón de fondo"],
+        "stat1Lbl": "Áreas protegidas",
+        "stat2Lbl": "Ñus al año"
+      },
+      "uganda": {
+        "name": "Uganda",
+        "tagline": "Trekking de gorilas y seguimiento de chimpancés en la Perla de África",
+        "description": "Uganda es el secreto con mayor biodiversidad de África — densas selvas tropicales que albergan gorilas de montaña y chimpancés, sabana con leones trepadores de árboles, y las atronadoras cataratas Murchison. Pocos lugares conmueven así.",
+        "highlights": ["Trekking de gorilas de montaña", "Seguimiento de chimpancés", "Leones trepadores de árboles", "El espectáculo de las cataratas Murchison"],
+        "stat1Lbl": "Parques nacionales",
+        "stat2Lbl": "De los gorilas del mundo"
+      },
+      "rwanda": {
+        "name": "Ruanda",
+        "tagline": "Volcanes, gorilas y lujo compacto",
+        "description": "Pequeño, seguro y notablemente biodiverso — Ruanda reúne treks de gorilas, game drives en sabana, encuentros con monos dorados y el bosque de chimpancés de Nyungwe en un país que se puede cruzar en una mañana.",
+        "highlights": ["Gorilas de montaña y gorilas dorados", "Treks por el dosel de los Volcanes", "Game drives de grandes mamíferos en Akagera", "Bosque de primates de Nyungwe"],
+        "stat1Lbl": "Parques principales",
+        "stat2Lbl": "Gorilas de montaña restantes"
+      }
+    }
+  },
+  "compare": {
+    "eyebrow": "Selector rápido de país",
+    "headingBefore": "Encuentre el país adecuado para ",
+    "headingEm": "su",
+    "headingAfter": " safari.",
+    "bestForLabel": "Ideal para",
+    "exploreLabel": "Explorar",
+    "items": {
+      "kenya": { "best": ["Grandes felinos", "La Migración", "Familias"] },
+      "tanzania": { "best": ["Gran circuito de ñus", "Lunas de miel", "Combinado de playa"] },
+      "uganda": { "best": ["Trekking de gorilas", "Primates", "Amantes de la aventura"] },
+      "rwanda": { "best": ["Viajes cortos", "Gorilas y más gorilas", "Enfoque de lujo"] }
+    }
+  },
+  "popular": {
+    "eyebrow": "Popular en todos los países",
+    "headingBefore": "Paquetes de ",
+    "headingHighlight": " mejor valorados.",
+    "headingAfter": "safari",
+    "browseAllPackages": "Ver todos los paquetes",
+    "browseAllSafariPackages": "Ver todos los paquetes de safari",
+    "onRequest": "A consultar",
+    "fallback": [
+      { "name": "Safari de 3 días en Masai Mara", "country": "Kenia", "days": "3D · 2N" },
+      { "name": "7 días, lo más destacado de Tanzania", "country": "Tanzania", "days": "7D · 6N" },
+      { "name": "5 días, trekking de gorilas en Uganda", "country": "Uganda", "days": "5D · 4N" }
+    ]
+  }
+}

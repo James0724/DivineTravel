@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "home": "Главная",
+    "toursSafaris": "Туры и сафари",
+    "safariTypes": "Виды сафари",
+    "destinations": "Направления",
+    "accommodations": "Размещение",
+    "aboutUs": "О нас",
+    "contact": "Контакты",
+    "journal": "Журнал",
+    "toursDropdown": {
+      "kenya": {
+        "label": "Сафари в Кении",
+        "description": "Масаи-Мара, Амбосели, Тсаво и другие"
+      },
+      "tanzania": {
+        "label": "Сафари в Танзании",
+        "description": "Серенгети, Нгоронгоро и Занзибар"
+      },
+      "uganda": {
+        "label": "Сафари в Уганде",
+        "description": "Трекинг к гориллам и наблюдение за шимпанзе"
+      },
+      "rwanda": {
+        "label": "Сафари в Руанде",
+        "description": "Вулканы, Нюнгве и Акагера"
+      },
+      "crossCountry": {
+        "label": "Сафари по нескольким странам",
+        "description": "Маршруты Кения · Танзания · Уганда · Руанда"
+      },
+      "all": {
+        "label": "Все сафари",
+        "description": "Все туры и сафари по Восточной Африке"
+      }
+    },
+    "safariTypesDropdown": {
+      "walking": {
+        "label": "Пешие сафари",
+        "description": "Пешком с вооружённым гидом и следопытом"
+      },
+      "photographic": {
+        "label": "Фотосафари",
+        "description": "Больше времени у объектов наблюдения, гиды с опытом в фотографии"
+      },
+      "family": {
+        "label": "Семейные сафари",
+        "description": "Подходит для любого возраста, лоджи для детей"
+      },
+      "honeymoon": {
+        "label": "Сафари для медового месяца",
+        "description": "Частные автомобили и уютные лагеря для двоих"
+      },
+      "solo": {
+        "label": "Сафари в одиночку",
+        "description": "Присоединяйтесь к небольшой группе или путешествуйте лично"
+      },
+      "all": {
+        "label": "Все виды сафари",
+        "description": "По типу активности — и по тому, с кем вы путешествуете"
+      }
+    },
+    "destinationsDropdown": {
+      "kenya": {
+        "label": "Парки Кении",
+        "description": "Масаи-Мара, Амбосели, Тсаво и ещё 9"
+      },
+      "tanzania": {
+        "label": "Парки Танзании",
+        "description": "Серенгети, Нгоронгоро и другие"
+      },
+      "uganda": {
+        "label": "Парки Уганды",
+        "description": "Гориллы, шимпанзе и саванна"
+      },
+      "rwanda": {
+        "label": "Парки Руанды",
+        "description": "Вулканы, Нюнгве и Акагера"
+      },
+      "all": {
+        "label": "Все направления",
+        "description": "Все парки и направления, которые мы предлагаем"
+      }
+    },
+    "accommodationsDropdown": {
+      "luxuryLodges": {
+        "label": "Люксовые лоджи",
+        "description": "Дизайнерские номера, бассейны с эффектом бесконечности и изысканная кухня"
+      },
+      "tentedCamps": {
+        "label": "Палаточные лагеря",
+        "description": "Комфорт под тканевыми стенами, некоторые следуют за миграцией"
+      },
+      "beachResorts": {
+        "label": "Пляжные курорты",
+        "description": "Отдых на белоснежных пляжах в завершение сафари"
+      },
+      "all": {
+        "label": "Все варианты размещения",
+        "description": "Лоджи, лагеря и курорты по всей Восточной Африке"
+      }
+    }
+  },
+  "cta": {
+    "planMySafari": "Спланировать сафари"
+  },
+  "menu": {
+    "open": "Меню",
+    "close": "Закрыть"
+  },
+  "topbar": {
+    "callUs": "Позвоните нам",
+    "emailUs": "Напишите нам",
+    "whatsapp": "WhatsApp",
+    "tripadvisor": "TripAdvisor",
+    "google": "Google",
+    "chatWhatsappAria": "Напишите нам в WhatsApp",
+    "tripadvisorAria": "Отзывы на TripAdvisor — 5 из 5 звёзд",
+    "googleAria": "Отзывы Google — 5 из 5 звёзд",
+    "facebookAria": "Divine Travel Nest Safaris в Facebook",
+    "instagramAria": "Divine Travel Nest Safaris в Instagram",
+    "youtubeAria": "Divine Travel Nest Safaris на YouTube"
+  },
+  "currencySwitcher": {
+    "ariaLabel": "Выбрать валюту",
+    "selectTitle": "Выберите вашу валюту",
+    "searchPlaceholder": "Поиск валюты…",
+    "noResults": "Валюта не найдена",
+    "footerCount": "{count} из {total} валют · Актуальные курсы"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "Выбрать язык",
+    "selectTitle": "Выберите ваш язык",
+    "searchPlaceholder": "Поиск языка…",
+    "noResults": "Язык не найден",
+    "availableIn": "Доступно на 6 языках"
+  },
+  "footer": {
+    "heading": "Позвольте нам пройти этот путь с вами — в дикую природу, к <em>чуду</em>.",
+    "subtext": "Ваше сафари — это не просто отпуск, а история жизни, которую ещё предстоит написать. Запросите бесплатный индивидуальный расчёт стоимости сафари прямо сейчас — быстрый ответ гарантирован.",
+    "requestQuote": "Запросить бесплатный расчёт",
+    "brandBlurb": "Divine Travel Nest Safaris предлагает сафари в Кении, сафари в Танзании, трекинг к гориллам в Уганде и сафари к гориллам и дикой природе в Руанде — начните своё африканское приключение с нами уже сегодня.",
+    "toursHeading": "Туры и сафари",
+    "tours": {
+      "kenya": "Сафари в Кении",
+      "tanzania": "Сафари в Танзании",
+      "crossCountry": "Кения–Танзания",
+      "uganda": "Трекинг к гориллам в Уганде",
+      "rwanda": "Сафари к гориллам в Руанде",
+      "nairobi": "Однодневные туры из Найроби"
+    },
+    "discoverHeading": "Откройте Африку",
+    "discover": {
+      "specialized": "Специализированные сафари",
+      "family": "Подходит для семей",
+      "honeymoon": "Сафари для медового месяца",
+      "walking": "Пешие сафари",
+      "migration": "Великая миграция",
+      "journal": "Полевой журнал"
+    },
+    "reachHeading": "Связаться с нами",
+    "whatsappLink": "WhatsApp ↗",
+    "tripadvisorLink": "TripAdvisor ↗",
+    "googleLink": "Отзывы Google ↗",
+    "copyright": "© {year} Divine Travel Nest Safaris · Найроби, Кения",
+    "guidelines": "Правила сообщества",
+    "terms": "Условия использования"
+  }
+}

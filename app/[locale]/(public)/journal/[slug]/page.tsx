@@ -2,7 +2,7 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
 import {
@@ -100,7 +100,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: [post.coverImage],
     },
-    alternates: { canonical: `/journal/${post.slug}` },
+    alternates: { canonical: `/en/journal/${post.slug}` },
   };
 }
 
@@ -415,60 +415,6 @@ export default async function JournalDetailPage({ params }: Props) {
           </div>
         </section>
       )}
-
-      {/* ── CTA Band ─────────────────────────────────────────────────────────── */}
-      <section
-        className="bg-bone-forest text-bone-paper"
-        style={{ padding: "110px 0" }}
-      >
-        <div className="container-site">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-end">
-            <Reveal>
-              <h2
-                className="font-serif font-light leading-[0.98] tracking-[-0.025em]"
-                style={{
-                  fontSize: "clamp(44px, 5.5vw, 84px)",
-                  maxWidth: "15ch",
-                }}
-              >
-                Ready to see it
-                <br />
-                for{" "}
-                <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>
-                  yourself
-                </em>
-                ?
-              </h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div>
-                <p
-                  className="text-sm leading-[1.7]"
-                  style={{ opacity: 0.8, maxWidth: "38ch" }}
-                >
-                  Every dispatch here is a place we&apos;ll happily take you.
-                  Tell us your dates and interests and we&apos;ll build a
-                  tailor-made itinerary — free, no obligation, answered by a
-                  real person.
-                </p>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-3.5 mt-6 px-6 py-4 rounded-full text-[14px] text-bone-ink transition-all duration-200 hover:-translate-y-0.5"
-                  style={{ background: "#f4efe2" }}
-                >
-                  Plan my safari
-                  <span
-                    className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[13px] text-white flex-shrink-0"
-                    style={{ background: "#9d4519" }}
-                  >
-                    →
-                  </span>
-                </Link>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

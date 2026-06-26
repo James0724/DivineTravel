@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "title": "Über uns | Divine Travel Nest Safaris — Safari-Unternehmen mit Sitz in Kenia",
+    "description": "Ein in Kenia ansässiges, von einer Frau geführtes Safari-Haus, das unvergessliche Reisen durch Kenia, Tansania, Uganda und Ruanda plant — ein Reisender nach dem anderen. Erfahren Sie unsere Geschichte, unsere Werte, und lernen Sie das Team kennen.",
+    "ogTitle": "Über Divine Travel Nest Safaris",
+    "ogDescription": "Ein in Kenia ansässiges, von einer Frau geführtes Safari-Haus, das unvergessliche Reisen durch Kenia, Tansania, Uganda und Ruanda plant — ein Reisender nach dem anderen.",
+    "twitterDescription": "Ein in Kenia ansässiges, von einer Frau geführtes Safari-Haus, das unvergessliche Reisen durch ganz Ostafrika plant."
+  },
+  "breadcrumbHome": "Start",
+  "breadcrumbCurrent": "Über uns",
+  "hero": {
+    "eyebrow": "Über uns",
+    "titleLine1": "Wir sind",
+    "titleEm": "Divine Travel Nest",
+    "description": "Kostenloser, persönlicher Vorschlag innerhalb von 24 Stunden. Unverbindlich. Unsere Experten sind vor Ort in Ostafrika — wir kennen diese Parks von innen.",
+    "callNow": "Jetzt anrufen",
+    "whatsapp": "WhatsApp"
+  },
+  "lead": {
+    "kickerMain": "Afrikanische Safari-Experten.",
+    "kickerMuted": "— lassen Sie uns die Planung übernehmen, Sie sammeln die Erinnerungen.",
+    "headingLine1": "Wir sind",
+    "headingLine2Before": "Divine ",
+    "headingLine2Em": "Travel Nest",
+    "body1Before": "Ein in Kenia ansässiges, ",
+    "body1Strong": "von einer Frau geführtes",
+    "body1After": " Safari-Haus, das unvergessliche Reisen durch Kenia, Tansania, Uganda und Ruanda plant — ein Reisender nach dem anderen.",
+    "body2": "Gegründet aus einem einfachen Traum: Menschen mit der Seele der Wildnis zu verbinden. Das Team, das Ihre erste Nachricht beantwortet, ist dasselbe Team, das Ihre Route entwirft und bis zur letzten Pirschfahrt an Ihrer Seite bleibt.",
+    "ctaPlan": "Meine Safari planen →",
+    "talkToUs": "Sprechen Sie mit uns"
+  },
+  "portrait": {
+    "location": "Spur Mall · Nairobi, Kenia",
+    "countries": "Kenia · Tansania · Uganda · Ruanda"
+  },
+  "story": {
+    "eyebrow": "Unsere Geschichte",
+    "headingBefore": "Geboren aus einem Traum",
+    "headingMid": "von der ",
+    "headingEm": "Wildnis",
+    "headingAfter": ".",
+    "lead": "Divine Travel Nest Safaris entstand aus einem einfachen Traum — unvergessliche Reisen zu schaffen, die Menschen mit der Seele der Wildnis verbinden.",
+    "paragraph1": "Wir sind ein <strong>in Kenia ansässiges, von einer Frau geführtes Safari-Unternehmen</strong>, das auf einem tiefen Engagement für Exzellenz, Integrität und echten persönlichen Service aufgebaut ist. Wir sind spezialisiert auf <strong>Kenia-Safaris</strong>, <strong>Tansania-Safaris</strong>, kombinierte <strong>Kenia–Tansania-Rundreisen</strong> sowie <strong>Gorilla-Trekking in Uganda</strong> und <strong>Gorilla-Safaris in Ruanda</strong> — die Routen, die wir genau kennen, statt eines Katalogs von überall.",
+    "paragraph2": "Jede Reiseroute richtet sich nach Ihren Wünschen: der Verfolgung von Sonnenuntergängen über der Savanne, der Beobachtung von Elefanten auf goldenen Ebenen, oder dem Entspannen in einer Lodge unter den Sternen. Unsere Planer und einheimischen Guides kennen jeden Winkel Ostafrikas — und bei uns sind Sie nie nur ein Reisender. Sie sind Familie.",
+    "missionLabel": "Unsere Mission",
+    "missionText": "Erlebnisreiche, sichere und wirklich preiswerte afrikanische Safaris zu gestalten, die Sie der Tierwelt, den Menschen und der Magie Ostafrikas näherbringen."
+  },
+  "stats": [
+    { "numEm": "100", "numSuffix": "+", "lblLine1": "Safari-Pakete", "lblLine2": "in ganz Ostafrika" },
+    { "numEm": "", "numSuffix": "4", "lblLine1": "Länder — Kenia", "lblLine2": "Tansania · Uganda · Ruanda" },
+    { "numEm": "24", "numSuffix": "/7", "lblLine1": "Unterstützung — vor,", "lblLine2": "während & nach der Reise" },
+    { "numEm": "100", "numSuffix": "%", "lblLine1": "Maßgeschneiderte", "lblLine2": "Reiserouten" }
+  ],
+  "why": {
+    "eyebrow": "Wofür wir stehen",
+    "headingBefore": "Die Dinge, bei denen wir keine",
+    "headingHighlight": " Kompromisse",
+    "headingAfter": " eingehen.",
+    "description": "Eine Safari ist ein großes Maß an Vertrauen, das man einem Fremden schenkt. Das sind die Prinzipien, die es verdienen — und der Grund, warum unsere Gäste wiederkommen und ihre Freunde namentlich empfehlen.",
+    "items": [
+      { "titleBefore": "Maßgeschneiderte ", "titleEm": "Erlebnisse", "titleAfter": "", "body": "Jeder Reisende ist anders, daher wird jede Reise von Grund auf um Ihr Tempo, Ihre Interessen und Ihr Budget herum gestaltet. Keine zwei unserer Reiserouten sind gleich." },
+      { "titleBefore": "Komfort & ", "titleEm": "Sicherheit", "titleAfter": "", "body": "Handverlesene Lodges und Zeltcamps, eine gut gewartete 4x4-Flotte und geschultes Personal, das über jeden Kilometer wacht — Luxus, Authentizität und echte Seelenruhe." },
+      { "titleBefore": "Naturschutz & ", "titleEm": "Gemeinschaft", "titleAfter": "", "body": "Wir arbeiten mit lokalen Naturschutzinitiativen und Gemeinschaftsprojekten zusammen, damit Ihr Abenteuer dazu beiträgt, Afrikas Tierwelt zu schützen und die Menschen zu stärken, die mit ihr zusammenleben." },
+      { "titleBefore": "Transparent & ", "titleEm": "erschwinglich", "titleAfter": "", "body": "Keine versteckten Gebühren — nur klare, ehrliche Preise und echten Mehrwert. Unvergessliche Tiererlebnisse, ohne überhöhte Aufschläge." },
+      { "titleBefore": "Vertrauenswürdige lokale ", "titleEm": "Expertise", "titleAfter": "", "body": "Tiefes regionales Wissen und Verbindungen, sowie Fahrer-Guides, die von der Kenya Professional Safari Guides Association lizenziert sind. Authentische Erlebnisse, verwurzelt im Boden selbst." },
+      { "titleBefore": "Die göttliche ", "titleEm": "Note", "titleAfter": "", "body": "Die kleinen, durchdachten Details in jeder Reise — die persönliche Aufmerksamkeit und akribische Planung, die einen Urlaub in ein seelenvolles afrikanisches Abenteuer verwandeln." }
+    ]
+  },
+  "standout": {
+    "eyebrow": "Warum Reisende uns wählen",
+    "headingBefore": "Ein ",
+    "headingHighlight": "Haus,",
+    "headingAfter": "von Anfang bis Ende.",
+    "description": "Die praktischen Versprechen hinter der Broschüre — die Dinge, die eine Divine-Travel-Nest-Safari von der ersten E-Mail bis zur Fahrt zurück zum Flughafen reibungslos ablaufen lassen.",
+    "items": [
+      { "titleBefore": "Ein ", "titleEm": "Planer", "titleAfter": ", von Anfang bis Ende", "body": "Ihr Safari-Kurator entwirft die Reiseroute persönlich und bleibt dabei — kein Callcenter, keine Weiterleitung zwischen Abteilungen." },
+      { "titleBefore": "KPSGA-", "titleEm": "lizenzierte", "titleAfter": " Guides & Fahrer", "body": "Jeder Guide und Fahrer ist von der Kenya Professional Safari Guides Association zertifiziert — fachkundiges Spurenlesen, echtes Wildtierwissen und echte Leidenschaft für Afrika." },
+      { "titleBefore": "100+ Routen, alle ", "titleEm": "flexibel", "titleAfter": "", "body": "Über hundert Ostafrika-Pakete als Ausgangspunkt — und jedes davon umschreibbar, um zu Ihren Daten, Ihrem Stil und Ihrem Budget zu passen." },
+      { "titleBefore": "24/7-", "titleEm": "Support", "titleAfter": ", vor und nach der Reise", "body": "Eine echte Person am anderen Ende der Leitung während Ihrer gesamten Reise und darüber hinaus, unter +254 724-163-662 — damit sich die Logistik einfach in Luft auflöst." }
+    ]
+  },
+  "team": {
+    "eyebrow": "Lernen Sie das Team kennen",
+    "headingBefore": "Die Menschen, die ",
+    "headingHighlight": "Ihren Anruf",
+    "headingAfter": " entgegennehmen.",
+    "description": "Der Vorteil eines kleinen, familiengeführten Hauses ist, dass Sie die Menschen, die Ihre Reise leiten, tatsächlich kennenlernen — das Team am anderen Ende Ihrer E-Mails, Ihres Funkgeräts und Ihres Wecks.",
+    "members": [
+      { "name": "John Mwangi", "role": "Geschäftsführer", "bio": "Der Visionär hinter Divine Travel Nest Safaris. Johns tiefes Wissen über Ostafrika und seine Leidenschaft für Wildtiere stellen sicher, dass jede Safari authentisch, sicher und unvergesslich ist." },
+      { "name": "Janet Wanjiru", "role": "Geschäftsführende Direktorin", "bio": "Leitet das Haus im Tagesgeschäft. Der Grund, warum Divine Travel Nest ein von einer Frau geführtes Unternehmen ist, das auf Integrität, Wärme und einer Detailbesessenheit aufgebaut ist." },
+      { "name": "James Kahoro", "role": "Systemingenieur und Betrieb", "bio": "Hält die Räder im Hintergrund am Laufen. Der Grund, warum Ihre Safari nahtlos verläuft, Ihre Reiseroute perfekt ist und Ihre Erinnerungen unvergesslich sind." }
+    ]
+  },
+  "credentials": {
+    "eyebrow": "Lizenziert & bewertet",
+    "headingBefore": "Zertifiziert, registriert und empfohlen",
+    "headingMid": "von den Menschen, die ",
+    "headingEm": "zählen",
+    "headingAfter": ".",
+    "certs": [
+      { "label": "Kenya Wildlife Service" },
+      { "label": "Lizenzierter Reiseveranstalter" },
+      { "label": "Bewertet auf TripAdvisor" },
+      { "label": "Gelistet auf SafariBookings" },
+      { "label": "Bei KATO registriert" }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Häufige Fragen",
+    "headingBefore": "Ihre Fragen,",
+    "headingHighlight": " beantwortet",
+    "contactNoteBefore": "Immer noch unsicher? Rufen Sie uns an unter",
+    "contactNoteMid": "oder",
+    "contactNoteLink": "senden Sie uns eine Nachricht",
+    "items": [
+      { "q": "Wann ist die beste Zeit für Tierbeobachtungen?", "a": "Die Trockenzeiten (Jan.–März und Jul.–Okt.) bieten die beste Sicht auf Wildtiere. Juli bis Oktober fällt mit der Großen Migration im Masai Mara und der Serengeti zusammen." },
+      { "q": "Sind Ihre Safaris für Kinder geeignet?", "a": "Absolut. Wir passen Reiserouten für Familien an. Die meisten Parks erlauben Kinder jeden Alters im Fahrzeug; einige Wandersafaris haben ein Mindestalter von 12 Jahren." },
+      { "q": "Was ist im Preis enthalten?", "a": "Alle Stufen umfassen Parkgebühren, professionelle Führung, Mahlzeiten gemäß Reiseroute und Flughafentransfers. Flüge und Visa sind zusätzlich." },
+      { "q": "Wie unterstützen Sie den Naturschutz?", "a": "Wir arbeiten mit Gemeinschafts-Schutzgebieten zusammen, spenden einen Prozentsatz jeder Buchung an Anti-Wilderei-Programme und setzen auf umweltschonende Camping-Praktiken." },
+      { "q": "Kann ich meine Reiseroute individuell anpassen?", "a": "Ja — jede Safari, die wir erstellen, ist maßgeschneidert. Teilen Sie uns Ihre Interessen, Ihr Budget und Ihre Reisedaten mit, und wir gestalten alles um Sie herum." },
+      { "q": "Welche Währungen akzeptieren Sie?", "a": "Wir akzeptieren USD, EUR, GBP und lokale Währungen. Zahlungen erfolgen per Banküberweisung, Karte oder M-Pesa (Kenia)." }
+    ]
+  }
+}

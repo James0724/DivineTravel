@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, ChevronLeft, MapPin, Clock } from "lucide-react";
 import { useSafaris, useSafari } from "@/hooks/useSafaris";
 import { useCreateBooking } from "@/hooks/useBooking";
+import { useCurrency } from "@/lib/currency/useCurrency";
 import { getLowestPrice } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
@@ -50,6 +51,7 @@ function SafariPickCard({
 }) {
   const lowestPrice = getLowestPrice(safari.pricing);
   const country = safari.location?.countries?.[0] ?? safari.location?.country;
+  const { displayPrice } = useCurrency();
 
   return (
     <div className="group flex flex-col w-full h-full bg-[var(--paper)] border border-[var(--line)] rounded-sm overflow-hidden transition-all duration-200 hover:border-[var(--forest)] hover:shadow-lg">
@@ -88,7 +90,7 @@ function SafariPickCard({
               FROM
             </span>
             <strong className="font-serif text-[22px] font-light text-[var(--ink)] leading-none">
-              ${lowestPrice.toLocaleString()}
+              {displayPrice(lowestPrice)}
             </strong>
           </div>
           <div className="flex items-center gap-1 font-mono text-[10px] tracking-[0.1em] text-[var(--muted)]">
@@ -241,7 +243,7 @@ export default function BookPageContent() {
   return (
     <>
       {/* ── Header band ─────────────────────────────────────────────────── */}
-      <section style={{ background: "var(--forest)", padding: "64px 0 48px" }}>
+      <section style={{ background: "var(--forest)", padding: "40px 0 28px" }}>
         <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 text-center">
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-paper/55 mb-3">
             Book Your Trip
@@ -502,6 +504,7 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
   const [success, setSuccess] = useState<{ bookingRef: string } | null>(null);
 
   const createBooking = useCreateBooking();
+  const { displayPrice } = useCurrency();
 
   const pricePerPerson = safari.pricing?.[tier]?.pricePerPerson ?? 0;
   const groupSize = adults + children;
@@ -640,7 +643,7 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
                     {label}
                   </div>
                   <div className="font-serif italic text-[20px] leading-none text-[var(--clay)]">
-                    ${price.toLocaleString()}
+                    {displayPrice(price)}
                   </div>
                   <div className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
                     per person
@@ -745,11 +748,11 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
                 Estimated total
               </div>
               <div className="font-serif italic text-[36px] leading-none">
-                ${totalPrice.toLocaleString()}
+                {displayPrice(totalPrice)}
               </div>
             </div>
             <div className="text-right text-[12px] opacity-65 leading-relaxed">
-              ${pricePerPerson.toLocaleString()} × {groupSize}{" "}
+              {displayPrice(pricePerPerson)} × {groupSize}{" "}
               {groupSize === 1 ? "person" : "people"}
               <br />
               <span className="font-mono text-[9px] uppercase tracking-[0.12em]">
@@ -899,7 +902,7 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
         >
           {createBooking.isPending
             ? "Submitting your request…"
-            : `Submit Booking Request — $${totalPrice.toLocaleString()}`}
+            : `Submit Booking Request — ${displayPrice(totalPrice)}`}
         </Button>
 
         <p className="text-[11px] text-[var(--muted)] text-center leading-relaxed">

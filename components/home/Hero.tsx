@@ -5,6 +5,7 @@ import Image from "next/image";
 import SiteLink from "@/components/ui/SiteLink";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { LettersPullUp } from "@/components/ui/LettersPullUp";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -30,6 +31,7 @@ const INTERVAL = 5500;
    HERO
 ═══════════════════════════════════════════════════════════════════════════ */
 export default function Hero() {
+  const t = useTranslations("home.hero");
   const [current, setCurrent] = useState(0);
   const heroHeight = "calc(100svh - var(--navbar-h, 90px))";
 
@@ -112,7 +114,7 @@ export default function Hero() {
           transition={{ duration: 0.65, delay: 0.15, ease: EASE }}
         >
           <span className="dot" />
-          African Safari Experts
+          {t("eyebrow")}
         </motion.div>
 
         {/* Headline — each line pulls up character-by-character */}
@@ -123,25 +125,25 @@ export default function Hero() {
           >
             {/* Line 1 */}
             <LettersPullUp
-              text="Kenya, Tanzania,"
+              text={t("line1")}
               initialDelay={0.15}
               charDelay={0.035}
             />
             {/* Line 2 */}
             <LettersPullUp
-              text="Uganda & Rwanda —"
+              text={t("line2")}
               initialDelay={0.3}
               charDelay={0.035}
             />
             {/* Line 3 — two inline segments to keep clay italic on "safari" */}
             <span className="flex flex-wrap items-baseline">
               <LettersPullUp
-                text="East Africa "
+                text={t("line3Before")}
                 initialDelay={0.45}
                 charDelay={0.035}
               />
               <LettersPullUp
-                text="safari"
+                text={t("line3Em")}
                 initialDelay={0.45 + 12 * 0.035}
                 charDelay={0.035}
                 charStyle={{ color: "#f4d4a8", fontStyle: "italic" }}
@@ -149,7 +151,7 @@ export default function Hero() {
             </span>
             {/* Line 4 */}
             <LettersPullUp
-              text="packages 2026."
+              text={t("line4")}
               initialDelay={0.7}
               charDelay={0.035}
             />
@@ -161,9 +163,7 @@ export default function Hero() {
             animate={{ opacity: 0.9, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.85, delay: 0.92, ease: EASE }}
           >
-            Kenya Masai Mara game drives, Tanzania Serengeti migration tours,
-            Uganda gorilla trekking in Bwindi and Rwanda Volcanoes — all
-            tailor-made by a Nairobi-based team. Budget to luxury, 2026/2027.
+            {t("description")}
           </motion.p>
         </div>
 
@@ -236,7 +236,7 @@ export default function Hero() {
           <div className="flex flex-col gap-4 sm:hidden">
             <div className="flex flex-wrap gap-2.5 items-center">
               <SiteLink href="/contact" variant="outline-light" size="sm">
-                Plan my safari
+                {t("planSafari")}
               </SiteLink>
               <SiteLink
                 href="/safaris"
@@ -244,7 +244,7 @@ export default function Hero() {
                 size="sm"
                 arrow={false}
               >
-                Explore our journeys
+                {t("exploreJourneys")}
               </SiteLink>
             </div>
           </div>
@@ -261,7 +261,7 @@ export default function Hero() {
                 size="md"
                 className="mt-7 sm:mt-8 self-start"
               >
-                Plan my safari
+                {t("planSafari")}
               </SiteLink>
               <SiteLink
                 href="/safaris"
@@ -269,16 +269,12 @@ export default function Hero() {
                 size="md"
                 arrow={false}
               >
-                Explore our journeys
+                {t("exploreJourneys")}
               </SiteLink>
             </div>
 
             <div className="flex items-end justify-end gap-6 lg:gap-9 flex-wrap">
-              {[
-                { num: "10", sup: "+yr", label: "Guiding experience" },
-                { num: "3", sup: "×", label: "Countries" },
-                { num: "24", sup: "/7", label: "Support" },
-              ].map((s, i) => (
+              {(t.raw("stats") as { num: string; sup: string; label: string }[]).map((s, i) => (
                 <motion.div
                   key={s.label}
                   initial={{ opacity: 0, y: 10 }}

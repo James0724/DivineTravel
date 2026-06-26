@@ -17,6 +17,9 @@ export interface IBooking extends Document {
   pricePerPerson: number
   totalPrice: number
   currency: string
+  /** What the visitor was shown at submit time — informational only, never used in revenue math (always USD-authoritative via pricePerPerson/totalPrice/currency above). */
+  displayCurrency?: string
+  displayTotalPrice?: number
   status: 'pending' | 'confirmed' | 'cancelled' | 'completed'
   paymentStatus: 'unpaid' | 'partial' | 'paid' | 'refunded'
   specialRequests?: string
@@ -69,6 +72,8 @@ const BookingSchema = new Schema<IBooking>(
     pricePerPerson: { type: Number, required: true },
     totalPrice: { type: Number, required: true },
     currency: { type: String, default: 'USD' },
+    displayCurrency: String,
+    displayTotalPrice: Number,
     // Status
     status: {
       type: String,

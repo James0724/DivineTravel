@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Mail, Phone, MapPin, Clock, MessageSquare } from "lucide-react";
 import ContactForm from "@/components/forms/ContactForm";
 import {
@@ -7,129 +8,92 @@ import {
 } from "@/components/seo/StructuredData";
 import PageHero from "@/components/ui/PageHero";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
-export const metadata: Metadata = {
-  title: "Contact Us — Plan Your Safari | Divine Travel Nest Safaris",
-  description:
-    "Get in touch with our safari experts in Nairobi. Free personalised safari proposals within 24 hours — call, WhatsApp or email us to start planning your East Africa adventure.",
-  keywords: [
-    "contact Divine Travel Nest",
-    "safari contact Nairobi",
-    "plan safari contact",
-    "safari proposal",
-    "customize safari itinerary",
-    "East Africa safari booking",
-    "safari planning help",
-    "Nairobi safari company contact",
-  ],
-  authors: [{ name: "Divine Travel Nest Safaris" }],
-  creator: "Divine Travel Nest Safaris",
-  alternates: { canonical: "/contact" },
-  openGraph: {
-    title: "Contact Divine Travel Nest Safaris",
-    description:
-      "Free personalised safari proposals within 24 hours. No obligations.",
-    type: "website",
-    url: "/contact",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Plan your African safari",
-      },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contact" });
+  const image = "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80";
+  return {
+    title: t("meta.title"),
+    description: t("meta.description"),
+    keywords: [
+      "contact Divine Travel Nest",
+      "safari contact Nairobi",
+      "plan safari contact",
+      "safari proposal",
+      "customize safari itinerary",
+      "East Africa safari booking",
+      "safari planning help",
+      "Nairobi safari company contact",
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Contact Divine Travel Nest Safaris",
-    description: "Free personalised safari proposals within 24 hours.",
-    images: [
-      "https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-    ],
-  },
-};
+    authors: [{ name: "Divine Travel Nest Safaris" }],
+    creator: "Divine Travel Nest Safaris",
+    alternates: buildAlternates(locale, "/contact"),
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+      url: "/contact",
+      images: [{ url: image, width: 1200, height: 630, alt: "Plan your African safari" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      images: [image],
+    },
+  };
+}
 
-const contactInfo = [
-  {
-    icon: Phone,
-    label: "Phone & WhatsApp",
-    value: "+254 722-595-916",
-    href: "tel:+254722595916",
-    sub: "Mon–Sat, 8am–6pm EAT",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "info@divinetravelnestsafaris.com",
-    href: "mailto:info@divinetravelnestsafaris.com",
-    sub: "We reply within 24 hours",
-  },
-  {
-    icon: MapPin,
-    label: "Office",
-    value: "Nairobi, Kenya",
-    href: undefined,
-    sub: "East Africa HQ",
-  },
-  {
-    icon: Clock,
-    label: "Office Hours",
-    value: "Mon–Sat, 8am–6pm EAT",
-    href: undefined,
-    sub: "UTC +3",
-  },
-];
+export default async function ContactPage() {
+  const t = await getTranslations("contact");
 
-const quickFaqs = [
-  {
-    q: "How far in advance should I book?",
-    a: "3–6 months is ideal for peak season (Jul–Oct, Jan–Mar).",
-  },
-  {
-    q: "Is a visa required?",
-    a: "Most nationalities need a visa for Kenya/Tanzania — we guide you through the process.",
-  },
-  {
-    q: "What's the deposit?",
-    a: "A 30% deposit confirms your booking; the balance is due 60 days before departure.",
-  },
-  {
-    q: "Do you handle gorilla permits for Uganda and Rwanda?",
-    a: "Yes — we source permits for all our Uganda and Rwanda clients. Permits must be booked months in advance.",
-  },
-];
+  const contactInfo = [
+    {
+      icon: Phone,
+      label: t("info.items.phone.label"),
+      value: "+254 722-595-916",
+      href: "tel:+254722595916",
+      sub: t("info.items.phone.sub"),
+    },
+    {
+      icon: Mail,
+      label: t("info.items.email.label"),
+      value: "info@divinetravelnestsafaris.com",
+      href: "mailto:info@divinetravelnestsafaris.com",
+      sub: t("info.items.email.sub"),
+    },
+    {
+      icon: MapPin,
+      label: t("info.items.office.label"),
+      value: t("info.items.office.value"),
+      href: undefined,
+      sub: t("info.items.office.sub"),
+    },
+    {
+      icon: Clock,
+      label: t("info.items.hours.label"),
+      value: t("info.items.hours.value"),
+      href: undefined,
+      sub: t("info.items.hours.sub"),
+    },
+  ];
 
-const processSteps = [
-  {
-    num: "01",
-    title: "Tell us your dream",
-    desc: "Share your dates, budget, interests and who's travelling. No obligation.",
-  },
-  {
-    num: "02",
-    title: "We craft your itinerary",
-    desc: "A dedicated consultant builds your personalised safari plan within 24 hours.",
-  },
-  {
-    num: "03",
-    title: "Refine & confirm",
-    desc: "We adjust until it's perfect. Then a 30% deposit secures everything.",
-  },
-  {
-    num: "04",
-    title: "Arrive & be guided",
-    desc: "Our local team meets you on arrival and takes care of every detail.",
-  },
-];
+  const quickFaqs = t.raw("quickFaqs") as { q: string; a: string }[];
+  const processSteps = t.raw("process.steps") as { num: string; title: string; desc: string }[];
+  const trustItems = t.raw("trust.items") as { num: string; lbl: string }[];
 
-export default function ContactPage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: "Home", href: "/" },
-          { name: "Contact", href: "/contact" },
+          { name: t("breadcrumbHome"), href: "/" },
+          { name: t("breadcrumbCurrent"), href: "/contact" },
         ]}
       />
       <LocalBusinessSchema />
@@ -139,26 +103,26 @@ export default function ContactPage() {
         imageAlt="Plan your African safari"
         minHeight="min-h-[60vh]"
         imageOpacity={0.45}
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
-        eyebrow="Get in touch"
+        breadcrumbs={[{ label: t("breadcrumbHome"), href: "/" }, { label: t("breadcrumbCurrent") }]}
+        eyebrow={t("hero.eyebrow")}
         title={
           <>
-            Let&apos;s plan your
+            {t("hero.titleMain")}
             <br />
             <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>
-              perfect safari
+              {t("hero.titleEm")}
             </em>
             .
           </>
         }
-        description="Free personalised proposal within 24 hours. No obligations. Our experts are on the ground in East Africa — we know these parks from the inside."
+        description={t("hero.description")}
         actions={
           <div className="flex flex-wrap gap-4 mb-8">
             <a
               href="tel:+254722595916"
               className="inline-flex items-center gap-2 px-5 py-3 bg-bone-clay text-bone-paper rounded-full text-sm font-sans font-medium hover:bg-[#c0612e] transition-colors"
             >
-              <Phone size={15} /> Call us now
+              <Phone size={15} /> {t("hero.callNow")}
             </a>
             <a
               href="https://wa.me/254722595916"
@@ -166,7 +130,7 @@ export default function ContactPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 border border-bone-paper/35 text-bone-paper rounded-full text-sm font-sans hover:bg-bone-paper/10 transition-colors"
             >
-              <MessageSquare size={15} /> WhatsApp
+              <MessageSquare size={15} /> {t("hero.whatsapp")}
             </a>
           </div>
         }
@@ -204,17 +168,15 @@ export default function ContactPage() {
               <div>
                 <div className="eyebrow mb-4">
                   <span className="dot" />
-                  Contact details
+                  {t("info.eyebrow")}
                 </div>
                 <h2 className="font-serif text-2xl sm:text-3xl font-normal text-bone-ink mt-3 mb-3">
-                  We&apos;d love to
+                  {t("info.headingLine1")}
                   <br />
-                  hear from you.
+                  {t("info.headingLine2")}
                 </h2>
                 <p className="text-bone-ink/65 leading-relaxed text-sm">
-                  Whether you have a specific safari in mind or are just
-                  starting to dream, our team is here to help craft the perfect
-                  East African adventure.
+                  {t("info.body")}
                 </p>
               </div>
 
@@ -268,7 +230,7 @@ export default function ContactPage() {
                   rel="noopener noreferrer"
                   className="text-xs font-mono uppercase tracking-[0.1em] text-bone-muted hover:text-bone-clay transition-colors border border-[rgba(23,22,18,0.15)] px-3 py-2 rounded"
                 >
-                  TripAdvisor Reviews ↗
+                  {t("info.tripadvisorLink")}
                 </a>
                 <a
                   href="https://share.google/hr0uDk89EOkgVPDGh"
@@ -276,13 +238,13 @@ export default function ContactPage() {
                   rel="noopener noreferrer"
                   className="text-xs font-mono uppercase tracking-[0.1em] text-bone-muted hover:text-bone-clay transition-colors border border-[rgba(23,22,18,0.15)] px-3 py-2 rounded"
                 >
-                  Google Reviews ↗
+                  {t("info.googleLink")}
                 </a>
               </div>
 
               <div className="bg-bone-paper border border-[rgba(23,22,18,0.10)] rounded-sm p-5">
                 <h3 className="font-serif text-base font-semibold text-bone-ink mb-4">
-                  Quick answers
+                  {t("info.faqHeading")}
                 </h3>
                 <ul className="divide-y divide-[rgba(23,22,18,0.08)]">
                   {quickFaqs.map(({ q, a }) => (
@@ -304,17 +266,15 @@ export default function ContactPage() {
               <div className="bg-bone-paper border border-[rgba(23,22,18,0.10)] rounded-sm p-6 sm:p-8">
                 <div className="eyebrow mb-4">
                   <span className="dot" />
-                  Send us a message
+                  {t("form.eyebrow")}
                 </div>
                 <h2 className="font-serif text-2xl sm:text-3xl font-normal text-bone-ink mb-2">
-                  Tell us about
+                  {t("form.headingLine1")}
                   <br />
-                  your <em className="italic text-bone-clay">dream safari</em>.
+                  {t("form.headingLine2Main")} <em className="italic text-bone-clay">{t("form.headingLine2Em")}</em>.
                 </h2>
                 <p className="text-bone-ink/55 text-sm leading-relaxed mb-7">
-                  Share your dates, budget, wildlife interests and who&apos;s
-                  coming — we&apos;ll build a personalised itinerary and send it
-                  within 24 hours.
+                  {t("form.body")}
                 </p>
                 <ContactForm />
               </div>
@@ -327,12 +287,7 @@ export default function ContactPage() {
       <section className="py-12 bg-bone-forest text-bone-paper border-t border-bone-paper/10">
         <div className="container-site">
           <Stagger className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-            {[
-              { num: "500+", lbl: "Safaris delivered" },
-              { num: "4.9★", lbl: "Average guest rating" },
-              { num: "24h", lbl: "Proposal turnaround" },
-              { num: "100%", lbl: "Custom itineraries" },
-            ].map((s) => (
+            {trustItems.map((s) => (
               <RevealItem key={s.lbl}>
                 <div>
                   <div className="font-serif text-3xl sm:text-4xl text-[#f4d4a8] leading-none mb-1">

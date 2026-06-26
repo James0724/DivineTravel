@@ -10,7 +10,9 @@ import Input, { Textarea, Select } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import { BookingSchema, type BookingFormValues } from '@/lib/validations/booking'
 import { useCreateBooking } from '@/hooks/useBooking'
-import { formatPrice, getPriceTierLabel } from '@/lib/utils'
+import { getPriceTierLabel } from '@/lib/utils'
+import { useCurrency } from '@/lib/currency/useCurrency'
+import { convertPrice } from '@/lib/currency/convertPrice'
 import type { Safari, PriceTier } from '@/types'
 
 interface BookingFormProps {
@@ -53,6 +55,7 @@ const referralOptions = [
 
 export default function BookingForm({ safari, initialTier, onSuccess }: BookingFormProps) {
   const { mutateAsync, isPending } = useCreateBooking()
+  const { displayPrice, currency, rates } = useCurrency()
 
   const {
     register,
@@ -82,7 +85,17 @@ export default function BookingForm({ safari, initialTier, onSuccess }: BookingF
 
   const onSubmit = async (data: BookingFormValues) => {
     try {
-      const res = await mutateAsync({ ...data, safariId: safari._id })
+      const { amount: displayTotalPrice, currency: displayCurrency } = convertPrice(
+        total,
+        currency,
+        rates
+      )
+      const res = await mutateAsync({
+        ...data,
+        safariId: safari._id,
+        displayCurrency,
+        displayTotalPrice,
+      })
       toast.success('Booking request submitted! We\'ll confirm within 24 hours.')
       onSuccess?.(res.data?.bookingRef ?? '')
     } catch (err: unknown) {
@@ -112,10 +125,10 @@ export default function BookingForm({ safari, initialTier, onSuccess }: BookingF
           <div className="text-right">
             <p className="text-xs text-bone-ink/45 font-sans">Estimated total</p>
             <p className="font-serif text-2xl font-bold text-bone-clay">
-              {formatPrice(total)}
+              {displayPrice(total)}
             </p>
             <p className="text-xs text-bone-ink/40 font-sans">
-              {formatPrice(pricingData?.pricePerPerson ?? 0)} × {groupSize || 1} pax
+              {displayPrice(pricingData?.pricePerPerson ?? 0)} × {groupSize || 1} pax
             </p>
           </div>
         </div>
@@ -147,7 +160,7 @@ export default function BookingForm({ safari, initialTier, onSuccess }: BookingF
                 />
                 <p className="text-xs font-sans font-semibold text-bone-ink">{t.label}</p>
                 <p className="text-sm font-serif font-bold text-bone-ink mt-1">
-                  {formatPrice(p.pricePerPerson)}
+                  {displayPrice(p.pricePerPerson)}
                 </p>
                 <p className="text-xs text-bone-ink/40 font-sans">/ person</p>
               </label>

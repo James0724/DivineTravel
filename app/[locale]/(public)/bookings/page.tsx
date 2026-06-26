@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Book Your Safari",
   description:
     "Choose your East Africa safari and request a booking online. Our team confirms availability, pricing and your itinerary within 24 hours — no payment required now.",
-  alternates: { canonical: "/bookings" },
+  alternates: { canonical: "/en/bookings" },
   openGraph: {
     title: "Book Your Safari — Divine Travel Nest Safaris",
     description:

@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "toursSafaris": "Circuits & Safaris",
+    "safariTypes": "Types de Safaris",
+    "destinations": "Destinations",
+    "accommodations": "Hébergements",
+    "aboutUs": "À propos",
+    "contact": "Contact",
+    "journal": "Journal",
+    "toursDropdown": {
+      "kenya": {
+        "label": "Safaris au Kenya",
+        "description": "Masai Mara, Amboseli, Tsavo et plus"
+      },
+      "tanzania": {
+        "label": "Safaris en Tanzanie",
+        "description": "Serengeti, Ngorongoro et Zanzibar"
+      },
+      "uganda": {
+        "label": "Safaris en Ouganda",
+        "description": "Trek des gorilles et suivi des chimpanzés"
+      },
+      "rwanda": {
+        "label": "Safaris au Rwanda",
+        "description": "Volcans, Nyungwe et Akagera"
+      },
+      "crossCountry": {
+        "label": "Safaris multi-pays",
+        "description": "Circuits Kenya · Tanzanie · Ouganda · Rwanda"
+      },
+      "all": {
+        "label": "Tous les Safaris",
+        "description": "Découvrez tous nos circuits & safaris en Afrique de l'Est"
+      }
+    },
+    "safariTypesDropdown": {
+      "walking": {
+        "label": "Safaris à pied",
+        "description": "À pied avec un guide armé et un pisteur"
+      },
+      "photographic": {
+        "label": "Safaris photographiques",
+        "description": "Temps prolongé aux observations, guides formés à la photo"
+      },
+      "family": {
+        "label": "Safaris en famille",
+        "description": "Adapté à tous les âges, lodges accueillant les enfants"
+      },
+      "honeymoon": {
+        "label": "Safaris lune de miel",
+        "description": "Véhicules privés et camps intimes pour deux"
+      },
+      "solo": {
+        "label": "Safaris solo",
+        "description": "Rejoignez un petit groupe, ou partez en privé"
+      },
+      "all": {
+        "label": "Tous les types de safaris",
+        "description": "Par activité — et selon vos compagnons de voyage"
+      }
+    },
+    "destinationsDropdown": {
+      "kenya": {
+        "label": "Parcs nationaux du Kenya",
+        "description": "Masai Mara, Amboseli, Tsavo et 9 autres"
+      },
+      "tanzania": {
+        "label": "Parcs nationaux de Tanzanie",
+        "description": "Serengeti, Ngorongoro et plus"
+      },
+      "uganda": {
+        "label": "Parcs nationaux d'Ouganda",
+        "description": "Gorilles, chimpanzés et savane"
+      },
+      "rwanda": {
+        "label": "Parcs nationaux du Rwanda",
+        "description": "Volcans, Nyungwe et Akagera"
+      },
+      "all": {
+        "label": "Toutes les Destinations",
+        "description": "Tous les parcs et destinations que nous couvrons"
+      }
+    },
+    "accommodationsDropdown": {
+      "luxuryLodges": {
+        "label": "Lodges de luxe",
+        "description": "Suites d'architecte, piscines à débordement et grande gastronomie"
+      },
+      "tentedCamps": {
+        "label": "Camps de toile",
+        "description": "Confort sous toile, certains suivent la migration"
+      },
+      "beachResorts": {
+        "label": "Resorts de plage",
+        "description": "Séjours sur plage de sable blanc pour conclure un safari"
+      },
+      "all": {
+        "label": "Tous les hébergements",
+        "description": "Lodges, camps et resorts à travers l'Afrique de l'Est"
+      }
+    }
+  },
+  "cta": {
+    "planMySafari": "Organiser mon safari"
+  },
+  "menu": {
+    "open": "Menu",
+    "close": "Fermer"
+  },
+  "topbar": {
+    "callUs": "Appelez-nous",
+    "emailUs": "Écrivez-nous",
+    "whatsapp": "WhatsApp",
+    "tripadvisor": "TripAdvisor",
+    "google": "Google",
+    "chatWhatsappAria": "Discutez avec nous sur WhatsApp",
+    "tripadvisorAria": "Avis TripAdvisor — 5 étoiles sur 5",
+    "googleAria": "Avis Google — 5 étoiles sur 5",
+    "facebookAria": "Divine Travel Nest Safaris sur Facebook",
+    "instagramAria": "Divine Travel Nest Safaris sur Instagram",
+    "youtubeAria": "Divine Travel Nest Safaris sur YouTube"
+  },
+  "currencySwitcher": {
+    "ariaLabel": "Sélectionner la devise",
+    "selectTitle": "Sélectionnez votre devise",
+    "searchPlaceholder": "Rechercher une devise…",
+    "noResults": "Aucune devise trouvée",
+    "footerCount": "{count} sur {total} devises · Taux en direct"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "Sélectionner la langue",
+    "selectTitle": "Sélectionnez votre langue",
+    "searchPlaceholder": "Rechercher une langue…",
+    "noResults": "Aucune langue trouvée",
+    "availableIn": "Disponible en 6 langues"
+  },
+  "footer": {
+    "heading": "Parcourons ce chemin avec vous — vers la nature sauvage, vers <em>l'émerveillement</em>.",
+    "subtext": "Votre safari n'est pas qu'des vacances — c'est une histoire de vie qui attend d'être écrite. Demandez dès maintenant un devis de safari personnalisé gratuit — réponse rapide garantie.",
+    "requestQuote": "Demander un devis gratuit",
+    "brandBlurb": "Divine Travel Nest Safaris propose des safaris au Kenya, en Tanzanie, des treks de gorilles en Ouganda et des safaris gorilles et faune au Rwanda — commencez votre aventure africaine avec nous dès aujourd'hui.",
+    "toursHeading": "Circuits & Safaris",
+    "tours": {
+      "kenya": "Safaris au Kenya",
+      "tanzania": "Safaris en Tanzanie",
+      "crossCountry": "Kenya–Tanzanie",
+      "uganda": "Trek des gorilles en Ouganda",
+      "rwanda": "Safaris gorilles au Rwanda",
+      "nairobi": "Excursions d'un jour à Nairobi"
+    },
+    "discoverHeading": "Découvrir l'Afrique",
+    "discover": {
+      "specialized": "Safaris spécialisés",
+      "family": "Adapté aux familles",
+      "honeymoon": "Safaris lune de miel",
+      "walking": "Safaris à pied",
+      "migration": "Grande Migration",
+      "journal": "Journal de terrain"
+    },
+    "reachHeading": "Nous contacter",
+    "whatsappLink": "WhatsApp ↗",
+    "tripadvisorLink": "TripAdvisor ↗",
+    "googleLink": "Avis Google ↗",
+    "copyright": "© {year} Divine Travel Nest Safaris · Nairobi, Kenya",
+    "guidelines": "Règles de la communauté",
+    "terms": "Conditions générales"
+  }
+}

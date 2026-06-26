@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "title": "Destinations de safari en Afrique de l'Est — Kenya, Tanzanie, Ouganda et Rwanda",
+    "description": "Découvrez les quatre grands pays de safari d'Afrique de l'Est. Du Masai Mara au Kenya et du Serengeti en Tanzanie aux forêts de gorilles en Ouganda et aux Volcans du Rwanda — un guide expert sur où aller et pourquoi.",
+    "ogTitle": "Destinations de safari en Afrique de l'Est | Divine Travel Nest Safaris",
+    "ogDescription": "Kenya, Tanzanie, Ouganda et Rwanda — un guide expert sur les quatre grands pays de safari d'Afrique de l'Est.",
+    "collectionName": "Destinations de safari en Afrique de l'Est",
+    "collectionDescription": "Kenya, Tanzanie, Ouganda et Rwanda — un guide expert sur les quatre grands pays de safari d'Afrique de l'Est."
+  },
+  "breadcrumbHome": "Accueil",
+  "breadcrumbCurrent": "Destinations",
+  "hero": {
+    "eyebrow": "Afrique de l'Est · Quatre pays",
+    "titleBefore": "Où souhaitez-vous",
+    "titleMid": "",
+    "titleEm": "aller",
+    "titleSuffix": " ?",
+    "description": "Kenya, Tanzanie, Ouganda et Rwanda — quatre pays, chacun avec son propre caractère. Nous vous aidons à choisir, combiner et vivre le meilleur de chacun d'eux.",
+    "stats": [
+      { "num": "4", "sup": "", "lbl": "Pays de safari" },
+      { "num": "50", "sup": "+", "lbl": "Parcs nationaux" },
+      { "num": "Big 5", "sup": "", "lbl": "À travers l'Afrique de l'Est" }
+    ]
+  },
+  "countries": {
+    "eyebrow": "Explorer par pays",
+    "headingBefore": "Quatre pays, ",
+    "headingHighlight": "tous les types de ",
+    "headingAfter": "safari",
+    "overline": "Afrique de l'Est",
+    "exploreLabel": "Découvrir",
+    "items": {
+      "kenya": {
+        "name": "Kenya",
+        "tagline": "Le pays des Big Five et de la Grande Migration",
+        "description": "Le Kenya est la destination de safari classique de l'Afrique de l'Est — savanes dorées à perte de vue, culture masaï emblématique, et le plus grand spectacle animalier de la planète. Le pays qui a inventé le mot safari.",
+        "highlights": ["Les Big Five dans un seul pays", "Grande Migration (juil. – oct.)", "Observation de la faune toute l'année", "12+ parcs nationaux et réserves"],
+        "stat1Lbl": "Parcs et réserves",
+        "stat2Lbl": "Toute l'année"
+      },
+      "tanzania": {
+        "name": "Tanzanie",
+        "tagline": "Serengeti, Ngorongoro et Zanzibar",
+        "description": "La Tanzanie abrite le plus grand parc national d'Afrique — le Serengeti — ainsi que le célèbre cratère du Ngorongoro, une caldeira volcanique intacte abritant les Big Five toute l'année, sans oublier une côte de sable blanc à la hauteur.",
+        "highlights": ["Circuit des gnous du Serengeti", "Lions du cratère du Ngorongoro", "Extension plage à Zanzibar", "Le Kilimandjaro en toile de fond"],
+        "stat1Lbl": "Zones protégées",
+        "stat2Lbl": "Gnous par an"
+      },
+      "uganda": {
+        "name": "Ouganda",
+        "tagline": "Trekking de gorilles et suivi des chimpanzés, perle de l'Afrique",
+        "description": "L'Ouganda est le secret le plus biodiversifié d'Afrique — des forêts tropicales denses abritant gorilles des montagnes et chimpanzés, une savane peuplée de lions grimpeurs d'arbres, et les chutes tonitruantes de Murchison. Peu d'endroits vous bouleversent ainsi.",
+        "highlights": ["Trekking des gorilles des montagnes", "Suivi des chimpanzés", "Lions grimpeurs d'arbres", "Spectacle des chutes de Murchison"],
+        "stat1Lbl": "Parcs nationaux",
+        "stat2Lbl": "Des gorilles du monde"
+      },
+      "rwanda": {
+        "name": "Rwanda",
+        "tagline": "Volcans, gorilles et luxe compact",
+        "description": "Petit, sûr et remarquablement biodivers — le Rwanda regroupe treks de gorilles, safaris en savane, rencontres avec les singes dorés et la forêt de chimpanzés de Nyungwe dans un pays que l'on peut traverser en une matinée.",
+        "highlights": ["Gorilles des montagnes et gorilles dorés", "Treks dans la canopée des Volcans", "Safaris au grand gibier d'Akagera", "Forêt de primates de Nyungwe"],
+        "stat1Lbl": "Parcs principaux",
+        "stat2Lbl": "Gorilles des montagnes restants"
+      }
+    }
+  },
+  "compare": {
+    "eyebrow": "Sélecteur rapide de pays",
+    "headingBefore": "Trouvez le bon pays pour ",
+    "headingEm": "votre",
+    "headingAfter": " safari.",
+    "bestForLabel": "Idéal pour",
+    "exploreLabel": "Découvrir",
+    "items": {
+      "kenya": { "best": ["Grands félins", "La Migration", "Familles"] },
+      "tanzania": { "best": ["Grand circuit des gnous", "Lunes de miel", "Combiné plage"] },
+      "uganda": { "best": ["Trekking de gorilles", "Primates", "Amateurs d'aventure"] },
+      "rwanda": { "best": ["Courts séjours", "Gorilles et encore gorilles", "Axé sur le luxe"] }
+    }
+  },
+  "popular": {
+    "eyebrow": "Populaire dans tous les pays",
+    "headingBefore": "Forfaits ",
+    "headingHighlight": " les mieux notés.",
+    "headingAfter": "safari",
+    "browseAllPackages": "Voir tous les forfaits",
+    "browseAllSafariPackages": "Voir tous les forfaits safari",
+    "onRequest": "Sur demande",
+    "fallback": [
+      { "name": "Safari de 3 jours au Masai Mara", "country": "Kenya", "days": "3J · 2N" },
+      { "name": "7 jours, les incontournables de Tanzanie", "country": "Tanzanie", "days": "7J · 6N" },
+      { "name": "5 jours, trek des gorilles en Ouganda", "country": "Ouganda", "days": "5J · 4N" }
+    ]
+  }
+}

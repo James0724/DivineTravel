@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     'Book the best Kenya safari packages for 2026/2027. Masai Mara game drives, Amboseli elephant safaris, Big Five in Tsavo, Samburu rare species and Lake Nakuru flamingos — tailor-made by a Nairobi in-country team. Budget, mid-range and luxury.',
   keywords: 'kenya safari packages 2026, masai mara safari tours, kenya safari tours 2027, best kenya safari, amboseli elephant safari, big five kenya safari, tsavo safari packages, samburu national reserve, kenya wildlife tour, affordable kenya safari, masai mara game drive, kenya luxury safari, nairobi national park day trip',
-  alternates: { canonical: '/safaris/kenya' },
+  alternates: { canonical: '/en/safaris/kenya' },
   openGraph: {
     title: 'Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five',
     description: 'Best Kenya safari tours 2026/2027 — Masai Mara game drives, Amboseli, Tsavo Big Five & more. Tailor-made by a Nairobi-based team.',

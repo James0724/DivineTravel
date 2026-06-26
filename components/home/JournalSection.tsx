@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
@@ -33,6 +34,7 @@ function formatDate(dateStr?: string) {
 }
 
 export default async function JournalSection() {
+  const t = await getTranslations("home.journalSection");
   const posts = await getFeaturedPosts();
 
   if (posts.length === 0) return null;
@@ -49,20 +51,19 @@ export default async function JournalSection() {
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
-                Safari Journal
+                {t("eyebrow")}
               </div>
             </Reveal>
             <AnimatedHeading
               as="h2"
-              textBefore="Stories from "
-              highlightedText="the field"
+              textBefore={t("headingBefore")}
+              highlightedText={t("headingHighlight")}
             />
           </div>
           <Reveal>
             <div>
               <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-                Guides, tips and behind-the-scenes stories from our in-country
-                team and the wildlife they follow across East Africa.
+                {t("description")}
               </p>
               <SiteLink
                 href="/journal"
@@ -70,7 +71,7 @@ export default async function JournalSection() {
                 arrow
                 className="mt-5"
               >
-                View all articles
+                {t("viewAll")}
               </SiteLink>
             </div>
           </Reveal>

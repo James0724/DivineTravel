@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { X, Check } from "lucide-react";
 import { useCreateBooking } from "@/hooks/useBooking";
+import { useCurrency } from "@/lib/currency/useCurrency";
 
 interface PricingTier {
   pricePerPerson: number;
@@ -56,6 +57,7 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
   const [success, setSuccess] = useState<{ bookingRef: string } | null>(null);
 
   const createBooking = useCreateBooking();
+  const { displayPrice } = useCurrency();
 
   // Lock body scroll while modal is open
   useEffect(() => {
@@ -230,7 +232,7 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                       {label}
                     </div>
                     <div className="font-serif italic text-[20px] leading-none text-[var(--clay)]">
-                      ${price.toLocaleString()}
+                      {displayPrice(price)}
                     </div>
                     <div className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
                       per person
@@ -335,11 +337,11 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                   Estimated total
                 </div>
                 <div className="font-serif italic text-[36px] leading-none">
-                  ${totalPrice.toLocaleString()}
+                  {displayPrice(totalPrice)}
                 </div>
               </div>
               <div className="text-right text-[12px] opacity-65 leading-relaxed">
-                ${pricePerPerson.toLocaleString()} × {groupSize}{" "}
+                {displayPrice(pricePerPerson)} × {groupSize}{" "}
                 {groupSize === 1 ? "person" : "people"}
                 <br />
                 <span className="font-mono text-[9px] uppercase tracking-[0.12em]">
@@ -491,7 +493,7 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
           >
             {createBooking.isPending
               ? "Submitting your request…"
-              : `Submit Booking Request — $${totalPrice.toLocaleString()}`}
+              : `Submit Booking Request — ${displayPrice(totalPrice)}`}
           </button>
 
           <p className="text-[11px] text-[var(--muted)] text-center leading-relaxed">

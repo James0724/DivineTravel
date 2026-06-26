@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "Browse our complete East Africa safari package catalogue for 2026/2027. Kenya Masai Mara tours, Tanzania Serengeti migration circuits, Uganda gorilla trekking and Rwanda packages — filter by country, duration and budget. Every itinerary tailor-made by a Nairobi-based team.",
   keywords:
     "east africa safari packages 2026, kenya safari packages, tanzania safari tours, uganda gorilla trekking, rwanda safari, masai mara tours 2026, serengeti safari packages, big five safari east africa, tailor-made safari holiday, budget safari packages africa, luxury safari 2027, safari tour packages, gorilla trekking packages, best africa safari 2026",
-  alternates: { canonical: "/safaris" },
+  alternates: { canonical: "/en/safaris" },
   openGraph: {
     title: "East Africa Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
     description:

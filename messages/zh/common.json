@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "home": "首页",
+    "toursSafaris": "旅游团与野生动物园",
+    "safariTypes": "野生动物园类型",
+    "destinations": "目的地",
+    "accommodations": "住宿",
+    "aboutUs": "关于我们",
+    "contact": "联系我们",
+    "journal": "旅行日志",
+    "toursDropdown": {
+      "kenya": {
+        "label": "肯尼亚野生动物园",
+        "description": "马赛马拉、安博塞利、察沃及更多"
+      },
+      "tanzania": {
+        "label": "坦桑尼亚野生动物园",
+        "description": "塞伦盖蒂、恩戈罗恩戈罗及桑给巴尔"
+      },
+      "uganda": {
+        "label": "乌干达野生动物园",
+        "description": "大猩猩徒步与黑猩猩追踪"
+      },
+      "rwanda": {
+        "label": "卢旺达野生动物园",
+        "description": "火山、纽恩威及阿卡盖拉"
+      },
+      "crossCountry": {
+        "label": "跨国野生动物园",
+        "description": "肯尼亚·坦桑尼亚·乌干达·卢旺达环线"
+      },
+      "all": {
+        "label": "所有野生动物园之旅",
+        "description": "浏览东非所有旅游团与野生动物园"
+      }
+    },
+    "safariTypesDropdown": {
+      "walking": {
+        "label": "徒步野生动物园",
+        "description": "由武装向导和追踪员带领徒步探索"
+      },
+      "photographic": {
+        "label": "摄影野生动物园",
+        "description": "更长的观赏时间,配备专业摄影向导"
+      },
+      "family": {
+        "label": "家庭野生动物园",
+        "description": "适合各年龄段,提供亲子友好旅舍"
+      },
+      "honeymoon": {
+        "label": "蜜月野生动物园",
+        "description": "私人车辆与双人专属营地"
+      },
+      "solo": {
+        "label": "独行野生动物园",
+        "description": "加入小团体,或完全私人定制"
+      },
+      "all": {
+        "label": "所有野生动物园类型",
+        "description": "按活动类型——也按同行伙伴"
+      }
+    },
+    "destinationsDropdown": {
+      "kenya": {
+        "label": "肯尼亚野生公园",
+        "description": "马赛马拉、安博塞利、察沃及另外9个"
+      },
+      "tanzania": {
+        "label": "坦桑尼亚野生公园",
+        "description": "塞伦盖蒂、恩戈罗恩戈罗及更多"
+      },
+      "uganda": {
+        "label": "乌干达野生公园",
+        "description": "大猩猩、黑猩猩与大草原"
+      },
+      "rwanda": {
+        "label": "卢旺达野生公园",
+        "description": "火山、纽恩威及阿卡盖拉"
+      },
+      "all": {
+        "label": "所有目的地",
+        "description": "我们覆盖的所有野生公园及目的地"
+      }
+    },
+    "accommodationsDropdown": {
+      "luxuryLodges": {
+        "label": "豪华旅舍",
+        "description": "建筑师设计套房、无边泳池及精致美食"
+      },
+      "tentedCamps": {
+        "label": "帐篷营地",
+        "description": "帆布墙内的舒适体验,部分营地随迁徙移动"
+      },
+      "beachResorts": {
+        "label": "海滩度假村",
+        "description": "以白沙海滩之旅为野生动物园之行画上圆满句号"
+      },
+      "all": {
+        "label": "所有住宿",
+        "description": "遍布东非的旅舍、营地及度假村"
+      }
+    }
+  },
+  "cta": {
+    "planMySafari": "规划我的野生动物园之旅"
+  },
+  "menu": {
+    "open": "菜单",
+    "close": "关闭"
+  },
+  "topbar": {
+    "callUs": "致电我们",
+    "emailUs": "给我们发邮件",
+    "whatsapp": "WhatsApp",
+    "tripadvisor": "TripAdvisor",
+    "google": "Google",
+    "chatWhatsappAria": "通过WhatsApp与我们聊天",
+    "tripadvisorAria": "TripAdvisor 评价——5星好评",
+    "googleAria": "Google 评价——5星好评",
+    "facebookAria": "Divine Travel Nest Safaris 的 Facebook 主页",
+    "instagramAria": "Divine Travel Nest Safaris 的 Instagram 主页",
+    "youtubeAria": "Divine Travel Nest Safaris 的 YouTube 频道"
+  },
+  "currencySwitcher": {
+    "ariaLabel": "选择货币",
+    "selectTitle": "选择您的货币",
+    "searchPlaceholder": "搜索货币…",
+    "noResults": "未找到货币",
+    "footerCount": "{count} / {total} 种货币 · 实时汇率"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "选择语言",
+    "selectTitle": "选择您的语言",
+    "searchPlaceholder": "搜索语言…",
+    "noResults": "未找到语言",
+    "availableIn": "支持6种语言"
+  },
+  "footer": {
+    "heading": "让我们与您同行——走进荒野,走进<em>奇迹</em>。",
+    "subtext": "您的野生动物园之旅不仅是一次假期——它是一段等待被书写的人生故事。立即免费获取专属野生动物园报价——快速回复保证。",
+    "requestQuote": "免费获取报价",
+    "brandBlurb": "Divine Travel Nest Safaris 提供肯尼亚野生动物园之旅、坦桑尼亚野生动物园之旅、乌干达大猩猩徒步以及卢旺达大猩猩与野生动物之旅——今天就与我们开启您的非洲之旅。",
+    "toursHeading": "旅游团与野生动物园",
+    "tours": {
+      "kenya": "肯尼亚野生动物园",
+      "tanzania": "坦桑尼亚野生动物园",
+      "crossCountry": "肯尼亚-坦桑尼亚",
+      "uganda": "乌干达大猩猩徒步",
+      "rwanda": "卢旺达大猩猩野生动物园",
+      "nairobi": "内罗毕一日游"
+    },
+    "discoverHeading": "探索非洲",
+    "discover": {
+      "specialized": "特色野生动物园",
+      "family": "适合家庭",
+      "honeymoon": "蜜月野生动物园",
+      "walking": "徒步野生动物园",
+      "migration": "大迁徙",
+      "journal": "野外日志"
+    },
+    "reachHeading": "联系我们",
+    "whatsappLink": "WhatsApp ↗",
+    "tripadvisorLink": "TripAdvisor ↗",
+    "googleLink": "Google 评价 ↗",
+    "copyright": "© {year} Divine Travel Nest Safaris · 肯尼亚内罗毕",
+    "guidelines": "社区准则",
+    "terms": "条款与条件"
+  }
+}

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
 
 export type SiteLinkVariant =
@@ -26,7 +26,7 @@ interface SiteLinkProps {
   children: React.ReactNode
 }
 
-const MotionLink = motion(Link)
+const MotionLink = motion.create(Link)
 const MotionButton = motion.button
 
 const EASE = [0.25, 0.1, 0.25, 1] as [number, number, number, number]

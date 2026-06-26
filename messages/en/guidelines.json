@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "Community Guidelines | Divine Travel Nest Safaris",
+    "description": "Our Community Guidelines for travelling with Divine Travel Nest Safaris — respecting wildlife, local communities, fellow travellers, and our Field Journal community."
+  },
+  "breadcrumbHome": "Home",
+  "breadcrumbCurrent": "Community Guidelines",
+  "hero": {
+    "eyebrow": "Our Community",
+    "titleMain": "Community",
+    "titleEm": "Guidelines",
+    "description": "A short, plain-language guide to travelling responsibly with us — for the wildlife, the communities who host us, and everyone you'll share a safari with."
+  },
+  "toc": {
+    "contents": "Contents",
+    "lastUpdated": "Last updated:",
+    "lastUpdatedDate": "June 2026",
+    "questions": "Questions?",
+    "contactUs": "Contact us"
+  },
+  "intro": "A safari is a privilege — for us, for you, and for the wildlife, parks and communities that make it possible. These guidelines set out what we expect of everyone who travels with Divine Travel Nest Safaris, and what you can expect from us in return.",
+  "sections": {
+    "who": {
+      "label": "Who This Applies To",
+      "heading": "Who This Applies To",
+      "body": "These Community Guidelines apply to every guest travelling on a Divine Travel Nest Safaris booking, to anyone commenting on or interacting with our Field Journal, and to our guides, drivers and partner lodges representing us in the field."
+    },
+    "wildlife": {
+      "label": "Respecting Wildlife & Environment",
+      "heading": "Respecting Wildlife & the Environment",
+      "intro": "We ask every guest to:",
+      "items": [
+        "Stay inside the vehicle or on the marked trail unless your guide says otherwise.",
+        "Never feed, touch or attempt to attract wildlife.",
+        "Keep noise low and avoid sudden movement near animals.",
+        "Carry out everything you carry in — no littering, ever.",
+        "Avoid flash photography near animals, and follow your guide's instructions on drones (most parks restrict or ban them entirely).",
+        "Stick to designated tracks — off-roading damages fragile habitats and is against park regulations."
+      ]
+    },
+    "communities": {
+      "label": "Respecting Local Communities",
+      "heading": "Respecting Local Communities & Culture",
+      "intro": "Many of our itineraries include visits to Maasai villages and other local communities who generously welcome travellers. Please:",
+      "items": [
+        "Always ask before photographing people, homes or ceremonies.",
+        "Dress and behave respectfully, taking cues from your guide on local norms.",
+        "Treat village visits as a cultural exchange, not a photo opportunity — ask questions, listen, and engage.",
+        "Tip and purchase crafts directly where invited to do so — it supports the community hosting you."
+      ]
+    },
+    "groupEtiquette": {
+      "label": "Group Safari Etiquette",
+      "heading": "Group Safari Etiquette",
+      "intro": "If you're sharing a vehicle with other travellers on a group or joining safari:",
+      "items": [
+        "Be ready on time for game drives — a late start can cost the whole vehicle a sighting.",
+        "Share window seats and viewing space fairly during sightings.",
+        "Keep conversation at a respectful volume near wildlife.",
+        "Follow your guide's instructions — they're balancing everyone's safety and experience."
+      ]
+    },
+    "lodgeConduct": {
+      "label": "Lodge & Camp Conduct",
+      "heading": "Lodge & Camp Conduct",
+      "body": "Our partner lodges and camps are shared spaces, often unfenced and close to wildlife. Please respect quiet hours after dark, follow staff instructions about walking between rooms at night, treat all staff with courtesy, and drink responsibly."
+    },
+    "photography": {
+      "label": "Photography & Sharing",
+      "heading": "Photography & Sharing on Social Media",
+      "body": "We love seeing your safari photos. When sharing publicly, please avoid geotagging sensitive locations such as active anti-poaching zones or den sites, credit local guides and communities where you can, and avoid captions that misrepresent wild animals as tame or approachable — it can encourage unsafe behaviour in others."
+    },
+    "comments": {
+      "label": "Journal Comments & Reviews",
+      "heading": "Journal Comments & Reviews",
+      "intro": "Our <link>Field Journal</link> is a space for genuine questions, stories and feedback. When commenting or leaving a review, please:",
+      "items": [
+        "Keep it respectful — no harassment, hate speech or personal attacks.",
+        "Don't post spam, promotional links or unrelated content.",
+        "Don't share other people's personal information without consent.",
+        "Keep reviews honest and based on real experiences with us."
+      ],
+      "outro": "Comments are moderated and we reserve the right to remove any that breach these guidelines."
+    },
+    "safety": {
+      "label": "Health, Safety & Guide Authority",
+      "heading": "Health, Safety & Guide Authority",
+      "body": "Your guide's instructions are given for your safety and the safety of the wildlife — please follow them at all times, even if a request seems overly cautious in the moment. Let your guide know about any medical conditions, allergies or mobility needs before the trip so we can plan around them."
+    },
+    "reporting": {
+      "label": "Reporting a Concern",
+      "heading": "Reporting a Concern",
+      "body": "If you witness behaviour from another guest, staff member or guide that breaches these guidelines — or you simply have a concern during your trip — please tell your guide immediately or <link>contact our team</link>. We take every report seriously."
+    },
+    "updates": {
+      "label": "Updates to These Guidelines",
+      "heading": "Updates to These Guidelines",
+      "body": "We may update these Community Guidelines from time to time to reflect new park regulations, community feedback or changes to our operations. The version published here is always the current one."
+    }
+  }
+}

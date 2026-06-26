@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "title": "Allgemeine Geschäftsbedingungen | Divine Travel Nest Safaris",
+    "description": "Lesen Sie die Allgemeinen Geschäftsbedingungen für Safari-Buchungen bei Divine Travel Nest Safaris Ltd — zu Zahlungen, Stornierungen, Haftung und Ihren Rechten als Kunde."
+  },
+  "breadcrumbHome": "Start",
+  "breadcrumbCurrent": "AGB",
+  "hero": {
+    "eyebrow": "Rechtliches",
+    "titleBefore": "Allgemeine",
+    "titleEm": "Geschäftsbedingungen",
+    "description": "Bitte lesen Sie diese Bedingungen sorgfältig durch, bevor Sie eine Buchung vornehmen. Sie bilden den Vertrag zwischen Ihnen und Divine Travel Nest Safaris Ltd."
+  },
+  "toc": {
+    "contentsLabel": "Inhalt",
+    "lastUpdatedLabel": "Zuletzt aktualisiert:",
+    "lastUpdatedValue": "Juni 2026",
+    "questionsLabel": "Fragen?",
+    "contactUsLink": "Kontaktieren Sie uns"
+  },
+  "preamble": {
+    "lead": "Diese Allgemeinen Geschäftsbedingungen gelten für alle Buchungen bei Divine Travel Nest Safaris Ltd (registriert in Kenia). Mit einer Buchung akzeptieren Sie diese Bedingungen vollständig, im eigenen Namen und im Namen aller in der Buchung aufgeführten Reisenden.",
+    "note": "Wir empfehlen Ihnen, eine Kopie dieses Dokuments während Ihrer gesamten Reise als Referenz aufzubewahren."
+  },
+  "sections": {
+    "acceptance": {
+      "label": "Annahme der Bedingungen",
+      "heading": "Annahme der Bedingungen",
+      "p1": "Durch das Einreichen einer Buchungsanfrage, das Zahlen einer Anzahlung oder die anderweitige Bestätigung einer Safari mit Divine Travel Nest Safaris Ltd bestätigen Sie, dass Sie diese Allgemeinen Geschäftsbedingungen gelesen, verstanden und bedingungslos akzeptiert haben. Wenn Sie nicht zustimmen, dürfen Sie keine Buchung vornehmen.",
+      "p2": "Die Person, die die Buchung vornimmt, akzeptiert diese Bedingungen im Namen aller anderen Mitglieder der Reisegruppe und übernimmt die Verantwortung dafür, dass alle Mitglieder diese Bedingungen kennen und ihnen zustimmen."
+    },
+    "definitions": {
+      "label": "Begriffsbestimmungen",
+      "heading": "Begriffsbestimmungen",
+      "intro": "In diesen Allgemeinen Geschäftsbedingungen gilt:",
+      "items": [
+        { "term": "„Unternehmen“", "desc": "bezeichnet Divine Travel Nest Safaris Ltd, deren Mitarbeiter, Direktoren, Agenten und Vertreter." },
+        { "term": "„Kunde“ / „Sie“", "desc": "bezeichnet die Person(en), die eine Buchungsanfrage einreichen, eine Anzahlung leisten, oder an einer vom Unternehmen organisierten Safari teilnehmen." },
+        { "term": "„Safari“ / „Tour“", "desc": "bezeichnet jede Reisedienstleistung, jedes Paket, jede Reiseroute, Unterkunft oder Aktivität, die vom Unternehmen organisiert oder verkauft wird." },
+        { "term": "„Buchung“", "desc": "bezeichnet eine bestätigte Reservierung einer Safari nach Eingang der erforderlichen Anzahlung und der schriftlichen Bestätigung des Unternehmens." },
+        { "term": "„Abreisedatum“", "desc": "bezeichnet den ersten Tag der Safari, wie in den Buchungsunterlagen bestätigt." },
+        { "term": "„Schriftliche Mitteilung“", "desc": "bezeichnet eine Mitteilung per E-Mail an die in den Buchungsunterlagen bestätigte Adresse." }
+      ]
+    },
+    "booking": {
+      "label": "Buchungen & Reservierungen",
+      "heading": "Buchungen & Reservierungen",
+      "p1": "Eine Buchung gilt erst als bestätigt, wenn die erforderliche Anzahlung eingegangen ist und das Unternehmen eine schriftliche Buchungsbestätigung ausgestellt hat. Mündliche Vereinbarungen oder vorläufige Reservierungen stellen keine bestätigten Buchungen dar.",
+      "p2": "Alle Reisenden müssen zum Zeitpunkt der Buchung namentlich genannt werden. Der Hauptkunde ist verantwortlich für die Bereitstellung korrekter Reisendendaten, einschließlich vollständiger gesetzlicher Namen gemäß Reisepass, Staatsangehörigkeiten und relevanter medizinischer Angaben.",
+      "p3": "Das Unternehmen behält sich das Recht vor, jede Buchung nach eigenem Ermessen abzulehnen; in diesem Fall werden alle geleisteten Zahlungen vollständig erstattet.",
+      "p4": "Buchungen über Drittanbieter oder Plattformen unterliegen diesen Allgemeinen Geschäftsbedingungen zusätzlich zu etwaigen plattformspezifischen Bedingungen."
+    },
+    "payment": {
+      "label": "Zahlungsbedingungen",
+      "heading": "Zahlungsbedingungen",
+      "p1": "Zur Bestätigung einer Buchung ist eine nicht erstattungsfähige Anzahlung von <strong>30 % der gesamten Safari-Kosten</strong> erforderlich. Der Restbetrag ist spätestens <strong>60 Tage vor dem Abreisedatum</strong> fällig.",
+      "p2": "Bei Buchungen innerhalb von 60 Tagen vor dem Abreisedatum sind die vollen Safari-Kosten zum Zeitpunkt der Buchung zu zahlen.",
+      "p3Label": "Zahlungen können wie folgt erfolgen:",
+      "bullets": [
+        "Banküberweisung (USD, EUR, GBP oder KES)",
+        "M-Pesa (Inlandszahlungen in Kenia)",
+        "Kredit- oder Debitkarte (zzgl. 3 % Bearbeitungsgebühr)",
+        "Andere, schriftlich mit dem Unternehmen vereinbarte Methoden"
+      ],
+      "p4": "Erfolgt die Zahlung in einer anderen Währung als der angegebenen, gilt der am Tag des Zahlungseingangs geltende Wechselkurs. Etwaige Bankgebühren oder Überweisungskosten trägt allein der Kunde.",
+      "p5": "Eine verspätete Zahlung kann zur Freigabe der Buchung und zum Verlust der Anzahlung führen. Das Unternehmen wird vor der Stornierung einer Buchung wegen Nichtzahlung eine schriftliche Mitteilung versenden."
+    },
+    "cancellation-client": {
+      "label": "Stornierung durch den Kunden",
+      "heading": "Stornierung durch den Kunden",
+      "intro": "Alle Stornierungen müssen schriftlich per E-Mail eingehen. Das Stornierungsdatum ist das Datum, an dem die schriftliche Mitteilung beim Unternehmen eingeht. Es gelten folgende Stornierungsgebühren:",
+      "table": {
+        "colDays": "Tage vor Abreise",
+        "colCharge": "Stornierungsgebühr",
+        "rows": [
+          { "period": "Mehr als 90 Tage", "charge": "Nur Anzahlung (30 %)" },
+          { "period": "61 – 90 Tage", "charge": "50 % der Gesamtkosten" },
+          { "period": "31 – 60 Tage", "charge": "75 % der Gesamtkosten" },
+          { "period": "30 Tage oder weniger", "charge": "100 % der Gesamtkosten" },
+          { "period": "Nichterscheinen / vorzeitige Abreise", "charge": "100 % der Gesamtkosten" }
+        ]
+      },
+      "p1": "Für nicht genutzte Teile einer Safari, einschließlich Mahlzeiten, Aktivitäten oder Unterkünfte, die aufgrund einer freiwilligen vorzeitigen Abreise oder verspäteten Anreise nicht genutzt wurden, werden keine Rückerstattungen gewährt.",
+      "p2": "Das Unternehmen empfiehlt allen Kunden ausdrücklich den Abschluss einer umfassenden Reiseversicherung einschließlich Reiserücktrittsversicherung, um sich gegen unvorhergesehene Stornierungsverluste zu schützen."
+    },
+    "cancellation-company": {
+      "label": "Stornierung durch das Unternehmen",
+      "heading": "Stornierung durch das Unternehmen",
+      "p1": "Das Unternehmen behält sich das Recht vor, eine Safari unter folgenden Umständen zu stornieren:",
+      "bullets": [
+        "Die für die Durchführung der Tour erforderliche Mindestgruppengröße wurde nicht erreicht, wobei dem Kunden eine Frist von mindestens 45 Tagen eingeräumt wird.",
+        "Sicherheitsbedingungen, politische Instabilität, Naturkatastrophen oder andere Umstände machen die Safari unsicher oder unpraktikabel.",
+        "Ereignisse höherer Gewalt gemäß Abschnitt 12."
+      ],
+      "p2": "Storniert das Unternehmen eine Safari aus anderen Gründen als höherer Gewalt, erhält der Kunde eine <strong>vollständige Rückerstattung</strong> aller an das Unternehmen geleisteten Zahlungen. Das Unternehmen wird sich außerdem nach besten Kräften bemühen, eine alternative Safari von gleichem Wert und gleicher Qualität anzubieten.",
+      "p3": "Die Haftung des Unternehmens ist auf die Erstattung der gezahlten Beträge beschränkt. Es wird keine Entschädigung für Folgeschäden wie Flugtickets, Visa oder andere unabhängig vom Kunden gebuchte Reisearrangements gezahlt."
+    },
+    "insurance": {
+      "label": "Reiseversicherung",
+      "heading": "Reiseversicherung",
+      "p1": "Eine umfassende Reiseversicherung wird <strong>dringend empfohlen</strong> für alle Kunden und kann als Voraussetzung für die Teilnahme an bestimmten Aktivitäten erforderlich sein, insbesondere Gorilla-Trekking, Bergwandern und abgelegene Wildnis-Expeditionen.",
+      "p2Label": "Ihre Reiseversicherung sollte mindestens Folgendes abdecken:",
+      "bullets": [
+        "Medizinische Kosten und Krankenhausaufenthalt",
+        "Medizinischer Noteinsatz (einschließlich Hubschrauberevakuierung)",
+        "Reiserücktritt, -unterbrechung und -verkürzung",
+        "Gepäckverlust, -diebstahl und -verspätung",
+        "Persönliche Haftpflicht"
+      ],
+      "p3": "Das Unternehmen haftet nicht für Verluste, Kosten oder Schäden, die durch eine angemessene Reiseversicherung gedeckt gewesen wären. Ein Versicherungsnachweis kann vor der Abreise angefordert werden."
+    },
+    "itinerary": {
+      "label": "Änderungen der Reiseroute",
+      "heading": "Änderungen der Reiseroute",
+      "p1": "Obwohl sich das Unternehmen bemüht, Safaris wie geplant durchzuführen, können sich Reiserouten aufgrund von Wetterbedingungen, Straßensperrungen, Parkvorschriften, Tierwanderungen, Unterkunftsverfügbarkeit oder Sicherheitsüberlegungen ändern. Diese Abweichungen sind ein wesentlicher Bestandteil von Wildtierreisen in Afrika.",
+      "p2": "Ist vor der Abreise eine wesentliche Änderung einer bestätigten Reiseroute notwendig, wird das Unternehmen den Kunden so bald wie praktikabel informieren und Folgendes anbieten:",
+      "bullets": [
+        "Eine Alternative von gleichwertigem oder höherem Standard und Wert, oder",
+        "Eine teilweise Rückerstattung bei einer erheblichen Verschlechterung der Unterkunft oder der Aktivitäten."
+      ],
+      "p3": "Geringfügige Änderungen — einschließlich des Austauschs von Lodges durch vergleichbare Alternativen, angepasster Fahrtrouten oder geänderter Pirschfahrtzeiten — stellen keine wesentlichen Änderungen dar und berechtigen den Kunden nicht zu einer Rückerstattung oder Entschädigung.",
+      "p4": "Anfragen des Kunden zur Änderung einer bestätigten Buchung (Daten, Reiseziele oder Anzahl der Reisenden) werden, soweit möglich, vorbehaltlich der Verfügbarkeit und etwaiger anfallender Änderungsgebühren der Anbieter, berücksichtigt."
+    },
+    "health": {
+      "label": "Gesundheit & Fitness",
+      "heading": "Anforderungen an Gesundheit & Fitness",
+      "p1": "Der Kunde ist allein dafür verantwortlich, sicherzustellen, dass alle Mitglieder der Reisegruppe in einem geeigneten gesundheitlichen und körperlichen Zustand sind, um an den gewählten Safari-Aktivitäten teilzunehmen.",
+      "p2Label": "Bestimmte Aktivitäten haben spezifische Anforderungen:",
+      "bullets": [
+        "Gorilla- und Schimpansen-Trekking: Mindestalter 15 Jahre; beinhaltet 2–8 km Wandern in bergigem Gelände in Höhenlage.",
+        "Wandersafaris: mäßige Fitness erforderlich; nicht empfohlen für Personen mit Mobilitätseinschränkungen.",
+        "Heißluftballon-Safaris: Es gelten Gewichtsbeschränkungen gemäß den Vorgaben des Ballonbetreibers."
+      ],
+      "p3": "Das Unternehmen muss vor der Buchungsbestätigung schriftlich über jede bestehende medizinische Erkrankung, Behinderung, Schwangerschaft oder Ernährungsanforderung informiert werden, die die Teilnahme beeinträchtigen könnte. Das Unternehmen kann für bestimmte Aktivitäten ein ärztliches Tauglichkeitszeugnis verlangen.",
+      "p4": "Ein Gelbfieber-Impfzertifikat ist für die Einreise nach Uganda erforderlich und kann je nach Herkunftsland oder vorherigen Reisen auch von Kenia und Tansania verlangt werden. Es liegt in der Verantwortung des Kunden, alle erforderlichen Impfungen und Gesundheitsdokumente zu beschaffen. Das Unternehmen empfiehlt, mindestens 6–8 Wochen vor der Abreise eine reisemedizinische Beratung in Anspruch zu nehmen.",
+      "p5": "Das Unternehmen behält sich das Recht vor, einen Teilnehmer von einer Aktivität auszuschließen, wenn ein Guide oder medizinisches Fachpersonal die Teilnahme vernünftigerweise als Risiko für die Gesundheit dieser Person oder anderer Gruppenmitglieder einschätzt. In solchen Fällen wird keine Rückerstattung gewährt."
+    },
+    "wildlife": {
+      "label": "Tierwelt & Sicherheit",
+      "heading": "Tierwelt & Sicherheit",
+      "p1": "Wildtier-Safaris finden in unberührten natürlichen Umgebungen statt, die von Wildtieren bewohnt werden. Solche Begegnungen sind naturgemäß unvorhersehbar und bergen ein Risiko, das nicht vollständig ausgeschlossen werden kann. Mit der Buchung einer Safari beim Unternehmen erkennen Sie diese Risiken an und akzeptieren sie.",
+      "p2Label": "Alle Kunden müssen:",
+      "bullets": [
+        "Jederzeit den Anweisungen ihres Guides folgen, einschließlich Anweisungen, im Fahrzeug zu bleiben, Stille zu bewahren oder einen Bereich zu verlassen.",
+        "Davon absehen, Wildtiere zu füttern, zu berühren oder zu provozieren.",
+        "Alle Regeln und Vorschriften der Parks und Schutzgebiete einhalten.",
+        "Vor oder während einer Aktivität, die die Sicherheit beeinträchtigen könnte, keinen übermäßigen Alkohol konsumieren."
+      ],
+      "p3": "Das Unternehmen haftet nicht für Verletzungen, Tod, Verlust oder Schäden, die durch die Nichtbeachtung von Guide-Anweisungen oder Parkvorschriften durch einen Kunden entstehen. Jeder Kunde, der Sicherheitsanweisungen vorsätzlich missachtet, tut dies auf eigenes Risiko.",
+      "p4": "Unsere Fahrer-Guides verfügen über gültige Lizenzen der Kenya Professional Safari Guides Association (KPSGA) und sind in Wildnis-Erster-Hilfe geschult. Notfalleinrichtungen in abgelegenen Gebieten können jedoch begrenzt sein, was die Bedeutung einer umfassenden Reiseversicherung einschließlich medizinischer Evakuierungsdeckung unterstreicht."
+    },
+    "liability": {
+      "label": "Haftung",
+      "heading": "Haftung",
+      "p1": "Das Unternehmen agiert teilweise als Vermittler für Drittanbieter, einschließlich, aber nicht beschränkt auf Fluggesellschaften, Unterkunftsanbieter, Parkbehörden und Aktivitätsanbieter. Das Unternehmen haftet nicht für Handlungen, Unterlassungen, Pflichtverletzungen, Fahrlässigkeit oder Insolvenz solcher Drittanbieter.",
+      "p2": "Wird das Unternehmen für einen vom Kunden erlittenen Verlust oder Schaden unmittelbar haftbar gemacht, übersteigt die Gesamthaftung des Unternehmens nicht die vom Kunden für die betreffende Safari gezahlten Gesamtkosten.",
+      "p3Label": "Das Unternehmen schließt die Haftung ausdrücklich aus für:",
+      "bullets": [
+        "Verlust an Freude, Leid oder Enttäuschung infolge von Umständen außerhalb der angemessenen Kontrolle des Unternehmens.",
+        "Folge-, indirekte oder wirtschaftliche Schäden, einschließlich Verdienstausfall oder Kosten unabhängig gebuchter Flüge, Visa oder Unterkünfte.",
+        "Verlust oder Diebstahl von persönlichem Eigentum, Geld oder Ausrüstung.",
+        "Verletzung, Krankheit oder Tod, verursacht durch Drittanbieter.",
+        "Jeden Verlust, der daraus entsteht, dass der Kunde keine angemessene Reiseversicherung abgeschlossen hat."
+      ],
+      "p4": "Nichts in diesen Allgemeinen Geschäftsbedingungen schließt die Haftung für Tod oder Personenschäden aus, die durch nachgewiesene Fahrlässigkeit des Unternehmens verursacht wurden, noch jede Haftung, die gesetzlich nicht ausgeschlossen werden kann."
+    },
+    "force-majeure": {
+      "label": "Höhere Gewalt",
+      "heading": "Höhere Gewalt",
+      "p1": "Weder das Unternehmen noch der Kunde haften für ein Versagen oder eine Verzögerung der Leistung, die auf Ereignisse außerhalb ihrer angemessenen Kontrolle zurückzuführen sind, einschließlich, aber nicht beschränkt auf:",
+      "bullets": [
+        "Höhere Gewalt, Naturkatastrophen oder extreme Wetterereignisse",
+        "Krieg, bewaffnete Konflikte, zivile Unruhen oder Terrorakte",
+        "Staatliche Beschränkungen, Grenzschließungen oder Reisewarnungen",
+        "Epidemien, Pandemien oder gesundheitliche Notlagen",
+        "Arbeitskampfmaßnahmen, Streiks oder Flughafenschließungen",
+        "Parkschließungen, die von den Nationalparkbehörden angeordnet wurden"
+      ],
+      "p2": "Im Falle höherer Gewalt wird sich das Unternehmen nach besten Kräften bemühen, einen alternativen Reisetermin oder einen Gutschein in gleichwertiger Höhe anzubieten. Ist keine Alternative möglich, werden Rückerstattungen von Fall zu Fall geprüft, nach Abzug etwaiger bereits angefallener, nicht erstattungsfähiger Kosten der Anbieter."
+    },
+    "complaints": {
+      "label": "Beschwerden",
+      "heading": "Beschwerden",
+      "p1": "Das Unternehmen verpflichtet sich zu einem hohen Servicestandard. Sollte ein Aspekt Ihrer Safari Ihren Erwartungen nicht entsprechen, bitten wir Sie, das Anliegen umgehend bei Ihrem Guide oder einem Vertreter des Unternehmens anzusprechen, damit wir die Möglichkeit haben, es während der Reise zu lösen.",
+      "p2Before": "Wird die Angelegenheit während der Safari nicht zu Ihrer Zufriedenheit gelöst, muss eine formelle schriftliche Beschwerde per E-Mail an",
+      "p2After": "innerhalb von <strong>30 Tagen nach dem letzten Tag Ihrer Safari</strong> eingereicht werden. Nach diesem Zeitraum eingegangene Beschwerden können möglicherweise nicht berücksichtigt werden.",
+      "p3": "Das Unternehmen bestätigt den Eingang einer formellen Beschwerde innerhalb von 5 Werktagen und gibt innerhalb von 28 Tagen eine inhaltliche Antwort."
+    },
+    "privacy": {
+      "label": "Datenschutz",
+      "heading": "Datenschutz",
+      "p1": "Das Unternehmen erhebt personenbezogene Daten (einschließlich Namen, Reisepassangaben, Kontaktinformationen und gesundheitliche Angaben) ausschließlich zum Zweck der Verwaltung Ihrer Buchung und der Erbringung der gebuchten Safari-Leistungen.",
+      "p2": "Ihre persönlichen Daten werden nicht verkauft oder an nicht verbundene Dritte weitergegeben, außer wenn dies zur Erbringung der gebuchten Leistungen erforderlich ist (z. B. Weitergabe von Reisendennamen an Lodges, Parkbehörden oder Transportanbieter).",
+      "p3": "Mit der Buchung stimmen Sie zu, dass das Unternehmen Ihre Kontaktdaten speichert, um Ihnen gelegentlich servicebezogene Mitteilungen zu senden. Sie können sich jederzeit schriftlich von Marketingmitteilungen abmelden.",
+      "p4": "Das Unternehmen speichert Daten sicher und im Einklang mit der geltenden kenianischen Datenschutzgesetzgebung."
+    },
+    "photography": {
+      "label": "Fotografie & Medien",
+      "heading": "Fotografie & Medien",
+      "p1": "Das Unternehmen kann Safari-Aktivitäten zu Marketing-, Schulungs- oder Dokumentationszwecken fotografieren oder filmen. Wenn Sie nicht in solchen Materialien erscheinen möchten, informieren Sie das Unternehmen bitte schriftlich vor Ihrem Abreisedatum; wir werden Ihre Präferenz respektieren.",
+      "p2": "Kunden dürfen Wildtiere und Landschaften für den persönlichen Gebrauch fotografieren und filmen. Die Fotografie von Einheimischen, Gemeinschaften oder kulturellen Stätten sollte mit Sensibilität und, wo angemessen, mit Erlaubnis der fotografierten Personen erfolgen.",
+      "p3": "Die gewerbliche Nutzung von Drohnen und professionelle Medienproduktion innerhalb der Nationalparks erfordert vorherige Genehmigungen der zuständigen Parkbehörde und muss dem Unternehmen zum Zeitpunkt der Buchung mitgeteilt werden."
+    },
+    "governing-law": {
+      "label": "Geltendes Recht",
+      "heading": "Geltendes Recht",
+      "p1": "Diese Allgemeinen Geschäftsbedingungen unterliegen den Gesetzen der Republik Kenia und werden entsprechend ausgelegt. Jede Streitigkeit, die sich aus oder im Zusammenhang mit diesen Bedingungen ergibt, unterliegt der ausschließlichen Zuständigkeit der Gerichte Kenias.",
+      "p2": "Im Streitfall vereinbaren beide Parteien, zunächst eine Lösung durch Verhandlungen in gutem Glauben zu versuchen. Scheitert die Verhandlung, kann jede Partei die Angelegenheit vor Einleitung eines formellen Gerichtsverfahrens einer Mediation vorlegen.",
+      "p3Before": "Das Unternehmen behält sich das Recht vor, diese Allgemeinen Geschäftsbedingungen jederzeit zu ändern. Die zum Zeitpunkt der Buchungsbestätigung gültige Fassung gilt für diese Buchung. Die aktuellen Bedingungen werden stets auf unserer Website veröffentlicht unter",
+      "p3After": ".",
+      "contactBox": {
+        "label": "Fragen zu diesen Bedingungen?",
+        "body": "Unser Team klärt gerne alle Fragen zu diesen Bedingungen, bevor Sie buchen.",
+        "sendMessage": "Nachricht senden"
+      }
+    }
+  }
+}

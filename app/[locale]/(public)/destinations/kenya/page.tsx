@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "From the legendary Masai Mara to the elephant kingdom of Amboseli — your complete field guide to Kenya's national parks and reserves. Where to go, what to see, and when.",
   keywords:
     "kenya national parks, masai mara, amboseli, tsavo, kenya safari, big five kenya, kenya wildlife parks",
-  alternates: { canonical: "/destinations/kenya" },
+  alternates: { canonical: "/en/destinations/kenya" },
   openGraph: {
     title: "Kenya Wildlife Parks & Reserves | Divine Travel Nest Safaris",
     description:
@@ -53,7 +53,7 @@ function mapToSafariPkg(safari: Safari): SafariPkg {
     parks: [safari.location?.park, safari.location?.region].filter(
       Boolean,
     ) as string[],
-    from: price ? `$${price.toLocaleString()}` : "On request",
+    from: price ?? null,
     days: safari.duration
       ? `${safari.duration}D · ${safari.duration - 1}N`
       : "",
@@ -440,7 +440,7 @@ export default async function KenyaDestinationPage() {
               name: "3 Days Masai Mara Safari",
               desc: "Two full game drives in the Big Five reserve — sunrise to sundowner, optional balloon.",
               parks: ["Masai Mara"],
-              from: "On request",
+              from: null,
               days: "3D · 2N",
             },
             {
@@ -449,7 +449,7 @@ export default async function KenyaDestinationPage() {
               name: "7-Day Kenya Highlights Safari",
               desc: "Kenya's greatest hits in a week — open plains, flamingo lakes and elephant country.",
               parks: ["Masai Mara", "Lake Nakuru", "Amboseli"],
-              from: "On request",
+              from: null,
               days: "7D · 6N",
             },
             {
@@ -458,7 +458,7 @@ export default async function KenyaDestinationPage() {
               name: "Honeymoon Safaris in the Mara",
               desc: "Slow private mornings and bush dinners — the ultimate wedding-dream trip.",
               parks: ["Masai Mara", "Lewa"],
-              from: "On request",
+              from: null,
               days: "6D · 5N",
             },
           ],

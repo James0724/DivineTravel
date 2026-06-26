@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 import PageHero from "@/components/ui/PageHero";
 import CtaBand from "@/components/ui/CtaBand";
 import { Stagger, RevealItem } from "@/components/ui/Reveal";
@@ -18,29 +19,37 @@ import {
 import TwoQuestionsImage from "@/components/safari-types/TwoQuestionsImage";
 import { AnimatedHeading } from "@/components/ui/Heading";
 import SiteLink from "@/components/ui/SiteLink";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
-export const metadata: Metadata = {
-  title:
-    "Safari Types — Activity & Traveller Styles Compared | Divine Travel Nest Safaris",
-  description:
-    "Every style of East Africa safari, compared — by activity (walking, photographic, water-based, night, birding, wellness, conservation safaris) and by who you're travelling with (family, solo, small group, couple's, honeymoon, private).",
-  keywords:
-    "safari types, types of safari, photographic safari, walking safari, water based safari, night safari, birding safari, family safari, solo safari, small group safari, honeymoon safari, private safari east africa",
-  alternates: { canonical: "/safari-types" },
-  openGraph: {
-    title: "Safari Types | Divine Travel Nest Safaris",
-    description:
-      "Every style of East Africa safari, compared — find the one that fits you.",
-    type: "website",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "safariTypes" });
+  return {
+    title: t("meta.title"),
+    description: t("meta.description"),
+    keywords:
+      "safari types, types of safari, photographic safari, walking safari, water based safari, night safari, birding safari, family safari, solo safari, small group safari, honeymoon safari, private safari east africa",
+    alternates: buildAlternates(locale, "/safari-types"),
+    openGraph: {
+      title: t("meta.ogTitle"),
+      description: t("meta.ogDescription"),
+      type: "website",
+    },
+  };
+}
 
 function TypeCard({
   t,
   priority,
+  exploreLabel,
 }: {
   t: SafariTypeConfig;
   priority?: boolean;
+  exploreLabel: string;
 }) {
   return (
     <RevealItem>
@@ -69,13 +78,12 @@ function TypeCard({
             {t.cardDescription}
           </p>
           <SiteLink
-            href={`/safari-types/${t.slug}`}
             variant="ghost-mono"
             size="md"
             arrow
             className="flex-shrink-0"
           >
-            Explore
+            {exploreLabel}
           </SiteLink>
         </div>
       </Link>
@@ -91,6 +99,7 @@ function GroupSection({
   description,
   types,
   bg,
+  exploreLabel,
 }: {
   eyebrow: string;
   textBefore: string;
@@ -99,6 +108,7 @@ function GroupSection({
   description: string;
   types: SafariTypeConfig[];
   bg?: string;
+  exploreLabel: string;
 }) {
   return (
     <section className={bg ?? "bg-bone-bg"} style={{ padding: "96px 0" }}>
@@ -129,7 +139,7 @@ function GroupSection({
 
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-7">
           {types.map((t, i) => (
-            <TypeCard key={t.slug} t={t} priority={i < 3} />
+            <TypeCard key={t.slug} t={t} priority={i < 3} exploreLabel={exploreLabel} />
           ))}
         </Stagger>
       </div>
@@ -137,26 +147,36 @@ function GroupSection({
   );
 }
 
-export default function SafariTypesIndexPage() {
+const COMBOS = [
+  { activity: "walking", traveller: "family" },
+  { activity: "photographic", traveller: "private" },
+  { activity: "conservation", traveller: "small-group" },
+  { activity: "wellness", traveller: "honeymoon" },
+];
+
+export default async function SafariTypesIndexPage() {
+  const t = await getTranslations("safariTypes");
   const activityTypes = getSafariTypesByGroup("activity");
   const travellerTypes = getSafariTypesByGroup("traveller");
+  const combineItems = t.raw("combine.items") as string[];
+  const exploreLabel = t("explore");
 
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: "Home", href: "/" },
-          { name: "Safari Types", href: "/safari-types" },
+          { name: t("breadcrumbHome"), href: "/" },
+          { name: t("breadcrumbCurrent"), href: "/safari-types" },
         ]}
       />
       <CollectionPageSchema
-        name="Safari Types — Activity & Traveller Styles Compared"
-        description="Every style of East Africa safari, compared — by activity and by who you're travelling with."
+        name={t("meta.collectionName")}
+        description={t("meta.collectionDescription")}
         url="https://divinetravelnestsafaris.com/safari-types"
-        items={SAFARI_TYPES.map((t) => ({
-          name: t.label,
-          url: `https://divinetravelnestsafaris.com/safari-types/${t.slug}`,
-          description: t.cardDescription,
+        items={SAFARI_TYPES.map((type) => ({
+          name: type.label,
+          url: `https://divinetravelnestsafaris.com/safari-types/${type.slug}`,
+          description: type.cardDescription,
         }))}
       />
 
@@ -164,27 +184,28 @@ export default function SafariTypesIndexPage() {
         image="https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
         imageAlt="Different styles of East Africa safari"
         minHeight="min-h-[48vh]"
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Safari Types" }]}
-        eyebrow="Find your style"
+        breadcrumbs={[{ label: t("breadcrumbHome"), href: "/" }, { label: t("breadcrumbCurrent") }]}
+        eyebrow={t("hero.eyebrow")}
         title={
           <>
-            Every way to{" "}
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>safari</em>.
+            {t("hero.titleBefore")}{" "}
+            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>{t("hero.titleEm")}</em>.
           </>
         }
-        description="There are two questions worth answering before anything else: what kind of safari experience do you want, and who are you travelling with? Together they shape almost every other decision — park, pace, vehicle and lodge."
+        description={t("hero.description")}
       />
       <CtaBand
         variant="large"
         buttonHref="/contact"
         heading={
           <>
-            Not sure which style is{" "}
-            <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>right</em>?
+            {t("cta.headingBefore")}{" "}
+            <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>{t("cta.headingEm")}</em>
+            {t("cta.headingAfter")}
           </>
         }
-        description="Tell us about your group, budget and dream wildlife sightings — our team will recommend the activity and traveller style that fits, then build the itinerary around it."
-        buttonText="Ask an expert"
+        description={t("cta.description")}
+        buttonText={t("cta.buttonText")}
       />
 
       {/* ── Understanding safari types ──────────────────────────────────── */}
@@ -195,21 +216,19 @@ export default function SafariTypesIndexPage() {
               <Reveal variant="fadeUp">
                 <div className="eyebrow mb-4">
                   <span className="dot" />
-                  Two questions, one itinerary
+                  {t("intro.eyebrow")}
                 </div>
               </Reveal>
               <AnimatedHeading
                 as="h1"
-                textBefore=" There's no single "
-                highlightedText="type"
-                textAfter=" of safari."
+                textBefore={t("intro.headingBefore")}
+                highlightedText={t("intro.headingHighlight")}
+                textAfter={t("intro.headingAfter")}
               />
             </div>
             <Reveal>
               <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-                We&apos;ve been the bridge between travellers and the African
-                wild for over a decade. Here&apos;s what sets Divine Travel Nest
-                Safaris apart.
+                {t("intro.lead")}
               </p>
             </Reveal>
           </div>
@@ -217,23 +236,10 @@ export default function SafariTypesIndexPage() {
             <Reveal variant="slideRight">
               <div>
                 <p className="text-[16px] leading-[1.75] text-bone-muted mb-4">
-                  Most safari companies talk as if there's one product — a
-                  vehicle, a guide, a checklist of animals. In practice, what
-                  actually shapes a trip is two separate decisions stacked on
-                  top of each other: the kind of experience you want inside the
-                  bush, and the kind of group you're travelling as.
+                  {t("intro.paragraph1")}
                 </p>
                 <p className="text-[16px] leading-[1.75] text-bone-muted">
-                  The first — activity type — covers everything from how you
-                  physically move through a park (on foot, by 4x4, by boat, in
-                  the air, after dark) to what you actually spend the day doing,
-                  whether that's chasing the best light for a photograph,
-                  slowing down for a spa afternoon, or riding along with a
-                  conservation team. The second — traveller type — is about who
-                  the itinerary is built around: solo, as a couple, with
-                  children, or as a fully private group. Almost every package we
-                  run is a combination of one or two from each list, not a
-                  single box ticked.
+                  {t("intro.paragraph2")}
                 </p>
               </div>
             </Reveal>
@@ -255,18 +261,13 @@ export default function SafariTypesIndexPage() {
                   className="font-mono text-[10px] uppercase tracking-[0.18em] mb-3"
                   style={{ color: "var(--clay)" }}
                 >
-                  01 — Safari activity types
+                  {t("intro.box1.label")}
                 </div>
                 <h3 className="font-serif text-[24px] font-normal leading-tight text-bone-ink mb-3">
-                  Safari your way
+                  {t("intro.box1.heading")}
                 </h3>
                 <p className="text-[14px] leading-[1.65] text-bone-muted">
-                  This is about <em>what you spend your time doing</em> — from
-                  how you move through the bush (on foot, by 4x4, by boat, in
-                  the air, after dark) to more purpose-driven days built around
-                  photography, birding, conservation work or simply slowing
-                  down. Most trips combine two or three activity types rather
-                  than sticking to just one.
+                  {t("intro.box1.body")}
                 </p>
               </div>
             </Reveal>
@@ -283,15 +284,13 @@ export default function SafariTypesIndexPage() {
                   className="font-mono text-[10px] uppercase tracking-[0.18em] mb-3"
                   style={{ color: "var(--clay)" }}
                 >
-                  02 — Safari types by traveller
+                  {t("intro.box2.label")}
                 </div>
                 <h3 className="font-serif text-[24px] font-normal leading-tight text-bone-ink mb-3">
-                  Who you're travelling with
+                  {t("intro.box2.heading")}
                 </h3>
                 <p className="text-[14px] leading-[1.65] text-bone-muted">
-                  This is about <em>who</em> the trip is built around — solo, as
-                  a couple, with the kids, or as a private group. It shapes
-                  pacing, vehicle exclusivity and the lodges we recommend.
+                  {t("intro.box2.body")}
                 </p>
               </div>
             </Reveal>
@@ -300,21 +299,23 @@ export default function SafariTypesIndexPage() {
       </section>
 
       <GroupSection
-        eyebrow="Safari activity types"
-        textBefore="Safari your "
-        highlightedText="way"
-        description="What you spend your time doing — from how you move through the bush (on foot, by vehicle, on water, in the air, after dark) to more purpose-driven days built around photography, birding, conservation or simply slowing down. Compare them below and combine as many as you like in one trip."
+        eyebrow={t("activityGroup.eyebrow")}
+        textBefore={t("activityGroup.textBefore")}
+        highlightedText={t("activityGroup.highlightedText")}
+        description={t("activityGroup.description")}
         types={activityTypes}
+        exploreLabel={exploreLabel}
       />
 
       <GroupSection
-        eyebrow="Safari types by traveller"
-        textAfter="with?"
-        textBefore="Who are you "
-        highlightedText="travelling"
-        description="The same parks and lodges, shaped around your group — solo, as a couple, with family, or fully private."
+        eyebrow={t("travellerGroup.eyebrow")}
+        textAfter={t("travellerGroup.textAfter")}
+        textBefore={t("travellerGroup.textBefore")}
+        highlightedText={t("travellerGroup.highlightedText")}
+        description={t("travellerGroup.description")}
         types={travellerTypes}
         bg="bg-bone-paper"
+        exploreLabel={exploreLabel}
       />
 
       {/* ── How they combine ────────────────────────────────────────────── */}
@@ -325,54 +326,31 @@ export default function SafariTypesIndexPage() {
               <Reveal variant="fadeUp">
                 <div className="eyebrow mb-4">
                   <span className="dot" />
-                  Putting it together
+                  {t("combine.eyebrow")}
                 </div>
               </Reveal>
 
               {/* Heading — character pull-up */}
               <AnimatedHeading
                 as="h1"
-                textBefore=" A few ways these "
-                highlightedText="combine"
+                textBefore={t("combine.headingBefore")}
+                highlightedText={t("combine.headingHighlight")}
               />
             </div>
             <Reveal variant="fadeUp">
               <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-                Pick one activity type and one traveller type as a starting
-                point — we'll build the rest of the itinerary, park selection
-                and accommodation around that combination.
+                {t("combine.lead")}
               </p>
             </Reveal>
           </div>
 
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {[
-              {
-                activity: "walking",
-                traveller: "family",
-                note: "Gentle morning walks paired with family-paced game drives — ideal for curious older kids.",
-              },
-              {
-                activity: "photographic",
-                traveller: "private",
-                note: "A dedicated vehicle, no rush, and a guide who understands light, angles and timing.",
-              },
-              {
-                activity: "conservation",
-                traveller: "small-group",
-                note: "Join a capped group ride-along with a research or ranger team, splitting the conservancy fee.",
-              },
-              {
-                activity: "wellness",
-                traveller: "honeymoon",
-                note: "Fewer parks, longer stays, and a spa afternoon built into the schedule for two.",
-              },
-            ].map((combo) => {
+            {COMBOS.map((combo, idx) => {
               const a = getSafariType(combo.activity);
-              const t = getSafariType(combo.traveller);
-              if (!a || !t) return null;
+              const tt = getSafariType(combo.traveller);
+              if (!a || !tt) return null;
               return (
-                <RevealItem key={`${a.slug}-${t.slug}`}>
+                <RevealItem key={`${a.slug}-${tt.slug}`}>
                   <div
                     className="flex flex-col h-full p-7"
                     style={{
@@ -390,15 +368,15 @@ export default function SafariTypesIndexPage() {
                       </Link>
                       <span className="text-bone-muted text-sm">+</span>
                       <Link
-                        href={`/safari-types/${t.slug}`}
+                        href={`/safari-types/${tt.slug}`}
                         className="font-mono text-[10px] uppercase tracking-[0.12em] px-2.5 py-1 text-white transition-opacity hover:opacity-85"
                         style={{ background: "var(--forest, #2a3a2a)" }}
                       >
-                        {t.shortLabel}
+                        {tt.shortLabel}
                       </Link>
                     </div>
                     <p className="text-[14px] leading-[1.65] text-bone-muted">
-                      {combo.note}
+                      {combineItems[idx]}
                     </p>
                   </div>
                 </RevealItem>

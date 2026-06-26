@@ -1,0 +1,199 @@
+{
+  "meta": {
+    "title": "Safari-Hotel- & Unterkunftsbuchung — Lodges, Zeltcamps & Strandresorts | Divine Travel Nest Safaris",
+    "description": "Buchen Sie Safari-Lodges, Zeltcamps und Strandresorts in Kenia, Tansania, Uganda und Ruanda über Divine Travel Nest. Wir arbeiten direkt mit diesen Hotels und Unterkünften zusammen, um die besten Raten zu sichern und jede Buchung für Sie zu übernehmen.",
+    "ogTitle": "Safari-Hotel- & Unterkunftsbuchung | Divine Travel Nest Safaris",
+    "ogDescription": "Lodges, Zeltcamps und Strandresorts, mit denen wir in ganz Ostafrika zusammenarbeiten — für Sie gebucht, zu unseren Partnertarifen.",
+    "collectionName": "Safari-Unterkünfte — Lodges, Zeltcamps & Strandresorts",
+    "collectionDescription": "Die Lodges, Zeltcamps und Strandresorts, mit denen wir in ganz Ostafrika zusammenarbeiten."
+  },
+  "breadcrumbHome": "Start",
+  "breadcrumbCurrent": "Unterkünfte",
+  "hero": {
+    "eyebrow": "Wo Sie übernachten werden",
+    "titleMain": "Lodges, Camps &",
+    "titleEm": "Resorts",
+    "description": "Von Luxus-Lodges hoch über der Steppe bis zu Zeltcamps mitten im Busch und weißen Strandresorts am Indischen Ozean — wir arbeiten direkt mit den besten Hotels und Unterkünften Ostafrikas zusammen, sichern bevorzugte Raten und buchen Ihren Aufenthalt als Teil Ihrer Reiseroute."
+  },
+  "intro": {
+    "eyebrow": "Wie wir mit diesen Unterkünften zusammenarbeiten",
+    "headingBefore": "Wir sind Partner. ",
+    "headingHighlight": "Wir buchen für Sie",
+    "headingAfter": ".",
+    "lead": "Jede Unterkunft unten ist ein Hotel, eine Lodge, ein Camp oder ein Resort, mit dem wir direkt zusammenarbeiten — wir verhandeln die Rate, nehmen die Buchung vor und behandeln sie als nahtlosen Teil Ihrer Reiseroute.",
+    "paragraph1": "Wo Sie übernachten, prägt eine Safari fast genauso stark wie die Parks, die Sie besuchen. In Kenia, Tansania, Uganda und Ruanda lassen sich die Unterkünfte unseres Partnernetzwerks in drei grobe Stile einteilen: <strong>Luxus-Lodges</strong> — feste, architektonisch gestaltete Suiten mit vollem Hotel-Service; <strong>Zeltcamps</strong> — Zimmer mit Leinwänden mitten im Busch, einige davon echte mobile, saisonale Camps, die der Großen Migration folgen; und <strong>Strandresorts</strong> — die klassische Art, eine Reise mit ein paar Tagen an der Küste des Indischen Ozeans abzuschließen.",
+    "paragraph2": "Wir buchen jeden Aufenthalt auf dieser Liste selbst, durch Partnerschaften, die wir direkt mit jedem Hotel, jeder Lodge, jedem Camp und Resort aufgebaut haben — so erhalten Sie unsere ausgehandelte Rate und eine einzige bestätigte Reservierung, statt eine separate Buchung mit jeder Unterkunft. Was wir zusätzlich bieten, ist der Teil, der schwer selbst zu bewerkstelligen ist: zu wissen, welche Lodge sich für eine Hochzeitsreise eignet, welches Camp dieses Jahr ideal für die Flussüberquerungen liegt, und welches Strandresort die richtige Entfernung zu Ihrer letzten Pirschfahrt hat.",
+    "includesLabel": "Was jede Auflistung enthält",
+    "includes": [
+      "Wo sie liegt — Land, Region und das umgebende Ökosystem",
+      "Wofür sie bekannt ist — Lage, Design und das angebotene Erlebnis",
+      "Ausstattung und Highlights, damit Sie wissen, was Sie bei der Ankunft erwartet",
+      "Eine Fotogalerie der Unterkunft und ihrer Umgebung",
+      "Unsere Partnerrate, bestätigt und für Sie als Teil Ihrer Reiseroute gebucht"
+    ]
+  },
+  "browse": {
+    "eyebrow": "Nach Typ durchsuchen",
+    "headingBefore": "Wählen Sie einen ",
+    "headingHighlight": "Stil",
+    "headingAfter": " für Ihren Aufenthalt.",
+    "lead": "Die meisten mehretappigen Reiserouten kombinieren mehr als einen Stil — eine Lodge für die erste Etappe, ein Zeltcamp tiefer im Busch und ein Strandresort zum Abschluss.",
+    "explore": "Entdecken"
+  },
+  "faqs": {
+    "eyebrow": "FAQ · Buchung",
+    "headingBefore": "Ihren ",
+    "headingHighlight": "Aufenthalt",
+    "headingAfter": " buchen.",
+    "contactNotePrefix": "Rufen Sie uns an unter",
+    "contactNoteSuffix": "— wir nehmen ab.",
+    "items": [
+      { "q": "Buchen Sie Hotels und Lodges für mich, oder buche ich sie selbst?", "a": "Wir buchen sie für Sie. Wir arbeiten direkt mit jedem hier aufgeführten Hotel, jeder Lodge, jedem Camp und Resort zusammen, verhandeln die Rate und integrieren die Buchung als bestätigten Teil Ihrer Reiseroute — Sie müssen sich nicht mit jeder Unterkunft einzeln auseinandersetzen." },
+      { "q": "Erhalte ich über Divine Travel Nest eine bessere Rate als bei direkter Hotelbuchung?", "a": "Ja, in den meisten Fällen. Unsere Partnerraten werden durch eine fortlaufende Beziehung mit jeder Unterkunft ausgehandelt, und wir kombinieren die Unterkunft mit Transfers, Parkgebühren und Guiding — das ist oft besseres Preis-Leistungs-Verhältnis als die alleinige Buchung des Zimmers." },
+      { "q": "Welche Länder decken Ihre Unterkunftspartner ab?", "a": "Kenia, Tansania, Uganda und Ruanda — von Lodges und Zeltcamps in Masai Mara und Serengeti bis zu Strandresorts in Diani und Sansibar und Gorilla-Trekking-Lodges in der Nähe von Bwindi und dem Volcanoes-Nationalpark." },
+      { "q": "Kann ich nur ein Hotel oder eine Lodge ohne komplettes Safari-Paket buchen?", "a": "Ja — nennen Sie uns die Unterkunft (oder den gewünschten Stil) und Ihre Daten, und wir erstellen ein Angebot und buchen die Unterkunft allein, oder integrieren sie in eine umfassendere Reiseroute, wenn Sie Pirschfahrten oder Transfers hinzufügen möchten." }
+    ]
+  },
+  "cta": {
+    "headingBefore": "Nicht sicher, welcher Aufenthalt",
+    "headingEm": "richtig",
+    "headingAfter": " ist?",
+    "description": "Teilen Sie uns Ihr Budget, Ihre Daten und das, was Ihnen am wichtigsten ist — Aussicht, Privatsphäre, Familienfreundlichkeit — mit, und wir buchen die richtigen Lodges, Camps und Resorts in Ihre Reiseroute ein.",
+    "buttonText": "Experten fragen"
+  },
+  "typePage": {
+    "hero": {
+      "eyebrow": "Unterkunftstyp",
+      "titleSuffix": "Partner"
+    },
+    "intro": {
+      "eyebrow": "Was ist das",
+      "goodToKnowLabel": "Gut zu wissen"
+    },
+    "whatToExpect": {
+      "eyebrow": "Was Sie erwartet",
+      "headingBefore": "So wohnt man in einer",
+      "headingHighlight": "Partnerunterkunft",
+      "description": "Jede Unterkunft wird unabhängig betrieben — hier sehen Sie, was bei diesem Aufenthaltsstil typischerweise enthalten ist."
+    },
+    "properties": {
+      "eyebrowSuffix": "in unserem Partnernetzwerk",
+      "headingBefore": "Unterkünfte, die man ",
+      "headingHighlight": "kennen sollte",
+      "headingAfter": ".",
+      "lead": "Wir arbeiten direkt mit diesen Unterkünften zusammen und buchen Ihren Aufenthalt für Sie — eine Reservierung, unsere ausgehandelte Rate, integriert in Ihre Reiseroute.",
+      "noneBefore": "Noch keine Partner-",
+      "noneAfter": " veröffentlicht — fragen Sie uns, und wir finden und buchen die besten Optionen für Ihre Reise."
+    },
+    "faqs": {
+      "eyebrowPrefix": "FAQ ·",
+      "headingBefore": "Bevor Sie sich ",
+      "headingHighlight": "entscheiden",
+      "headingAfter": ".",
+      "contactPrefix": "Rufen Sie uns für weitere Informationen an unter",
+      "contactSuffix": "— wir nehmen ab."
+    },
+    "cta": {
+      "headingBefore": "Lassen Sie uns den richtigen ",
+      "headingHighlight": "Aufenthalt",
+      "headingAfter": " auswählen.",
+      "description": "Teilen Sie uns Ihr Budget, Ihre Daten und die Reisenden mit. Unsere Experten wählen die passenden Lodges, Camps und Resorts für Ihre Reiseroute, buchen sie zu unseren Partnertarifen und senden Ihnen ein kostenloses, unverbindliches Angebot.",
+      "buttonText": "Kostenloses Angebot anfordern"
+    },
+    "meta": {
+      "titleTemplate": "{label} in Ostafrika — Partnerunterkünfte | Divine Travel Nest Safaris",
+      "ogTitleTemplate": "{label} | Divine Travel Nest Safaris"
+    }
+  },
+  "types": {
+    "luxury-lodges": {
+      "label": "Luxus-Lodges",
+      "shortLabel": "Luxus-Lodge",
+      "heroImageAlt": "Luxus-Safari-Lodge-Suite mit Blick über die Savanne",
+      "heroDescription": "Feste, architektonisch gestaltete Unterkünfte, die sich in die Landschaft einfügen — private Suiten, Infinity-Pools und gehobene Küche, kombiniert mit derselben fachkundigen Führung wie bei jedem anderen Aufenthalt, den wir organisieren.",
+      "cardDescription": "Architektonisch gestaltete Suiten, Infinity-Pools und gehobene Küche — feste Unterkünfte, die sich in die Landschaft einfügen.",
+      "intro": {
+        "headingBefore": "Safari in ihrer ",
+        "headingHighlight": "edelsten Form",
+        "headingAfter": "",
+        "body": "Luxus-Lodges sind feste Unterkünfte mit fester Adresse — meist aus Stein, Holz und Glas gebaut — auf privaten Conservancies oder Konzessionsgebieten mit weitem Blick über ein Tal, einen Fluss oder eine Ebene. Erwarten Sie geräumige Suiten mit eigenem Bad und manchmal einem privaten Tauchbecken, ein vollständiges Küchen- und Serviceteam sowie ein architektonisches Niveau, das selbst ein Reiseziel ist. Wir arbeiten nur mit Partner-Lodges zusammen, die sowohl bei der Führungsqualität als auch beim Komfort überzeugen."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Feste, architektonisch gestaltete Suiten", "body": "Feste Zimmer aus Stein und Reet oder mit Glaswänden, kein Leinwandzelt — meist mit privater Veranda oder Tauchbecken." },
+        { "n": "02", "title": "Vollservice-Gastronomie", "body": "Ein eigenes Küchen- und Serviceteam, oft mit einem Menü, das auf die Umgebung der Lodge abgestimmt ist." },
+        { "n": "03", "title": "Spa- und Wellness-Einrichtungen", "body": "Viele Luxus-Lodges bieten zusätzlich ein Spa, ein Fitnessstudio oder ein Yoga-Deck neben dem eigentlichen Safari-Angebot." },
+        { "n": "04", "title": "Erstklassige Führung als Standard", "body": "Lodges dieser Kategorie kombinieren ihre Lage mit erfahrenen, oft spezialisierten Guides." }
+      ],
+      "goodToKnow": [
+        "Am besten frühzeitig buchen — die begehrtesten Lodges haben nur wenige Zimmer und sind in der Hochsaison schnell ausgebucht",
+        "Viele liegen auf privaten Conservancies, was oft Nachtfahrten und Geländefahrten ermöglicht, die in Nationalparks nicht erlaubt sind",
+        "Wir buchen jede Lodge auf dieser Liste direkt über unsere Partnerschaft mit der Unterkunft, zu Raten, die mindestens so gut sind wie eine Eigenbuchung"
+      ],
+      "faqs": [
+        { "q": "Buchen Sie Luxus-Lodges direkt?", "a": "Ja — wir arbeiten mit jeder hier aufgeführten Lodge zusammen und buchen Ihren Aufenthalt als Teil Ihrer Reiseroute zu ausgehandelten Partnerraten. Sie haben ein Team für Flüge, Führung und Unterkunft, statt einer separaten Reservierung für jede Lodge." },
+        { "q": "Liegen Luxus-Lodges innerhalb der Nationalparks?", "a": "Einige schon, aber viele der besten liegen auf privaten Conservancies an den Parkgrenzen, was oft Nachtfahrten und Geländefahrten erlaubt, die innerhalb der Parkgrenzen selbst eingeschränkt sind." },
+        { "q": "Wie weit im Voraus sollte ich eine Luxus-Lodge buchen?", "a": "So früh wie möglich — die gefragtesten Lodges haben nur wenige Suiten und sind für die Hochsaison (Juli–Oktober, Dezember–Januar) viele Monate im Voraus ausgebucht." }
+      ]
+    },
+    "tented-camps": {
+      "label": "Zeltcamps",
+      "shortLabel": "Zeltcamp",
+      "heroImageAlt": "Luxuriöse Zeltcamp-Suite mit Leinwandwänden, offen zum Busch",
+      "heroDescription": "Suiten mit Leinwandwänden, direkt im Busch errichtet — echte Betten, eigenes Bad und die Geräusche der Savanne direkt vor der Zeltklappe, von klassischen festen Camps bis zu saisonalen mobilen Lagern, die der Migration folgen.",
+      "cardDescription": "Suiten mit Leinwandwänden im Busch — echte Betten und eigener Komfort, manche davon saisonale Camps, die der Migration folgen.",
+      "intro": {
+        "headingBefore": "Näher am Busch als ",
+        "headingHighlight": "jede Lodge",
+        "headingAfter": "",
+        "body": "Ein Zeltcamp tauscht feste Steinwände gegen Leinwand — doch die besseren Camps, mit denen wir zusammenarbeiten, sind alles andere als einfach: mit richtigen Betten, eigenem Bad (manchmal mit Dusche aus dem Eimer, manchmal voll installiert) und einem Speisezelt für die Mahlzeiten. Manche Camps stehen das ganze Jahr an einem festen Ort, andere sind wirklich mobil und werden saisonal abgebaut und neu aufgestellt, um der Großen Migration zu folgen. In jedem Fall schlafen Sie mit nichts als einer Leinwand zwischen sich und den Geräuschen der Savanne ein."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Leinwand-Suiten mit echtem Komfort", "body": "Richtige Betten, Bettwäsche und eigenes Bad — weit entfernt vom Rucksacktourismus-Camping." },
+        { "n": "02", "title": "Fest oder saisonal/mobil", "body": "Manche Camps bleiben das ganze Jahr an einem Ort; mobile Camps ziehen saisonal um, um der Migration zu folgen." },
+        { "n": "03", "title": "Essen im Speisezelt und Lagerfeuerabende", "body": "Gemeinsames Essen und Abende am Lagerfeuer gehören zum Charakter des Camps." },
+        { "n": "04", "title": "Begleitung im Camp bei Nacht", "body": "Mitarbeiter begleiten Gäste nach Einbruch der Dunkelheit standardmäßig zwischen den Zelten." }
+      ],
+      "goodToKnow": [
+        "Mobile Camps sind saisonal — fragen Sie nach genauen Terminen, wenn Sie der Großen Migration folgen möchten",
+        "Packen Sie Schichten ein: Nächte und frühe Morgen im Camp können selbst in der Trockenzeit kühl sein",
+        "Wir buchen jedes Camp auf dieser Liste direkt über unsere Partnerschaft mit der Unterkunft, zu Raten, die mindestens so gut sind wie eine Eigenbuchung"
+      ],
+      "faqs": [
+        { "q": "Ist ein Zeltcamp nachts sicher?", "a": "Ja — seriöse Camps begleiten Gäste nach Einbruch der Dunkelheit zwischen den Zelten, und viele sind eingezäunt oder werden nachts von erfahrenem Personal aktiv überwacht." },
+        { "q": "Was ist der Unterschied zwischen einem festen und einem mobilen Camp?", "a": "Feste Camps bleiben das ganze Jahr an einem Standort. Mobile Camps sind saisonal — sie werden mehrmals im Jahr abgebaut und neu aufgestellt, oft um der Großen Migration zu folgen." },
+        { "q": "Haben Zeltcamps richtige Bäder?", "a": "Die Camps, die wir auflisten, haben eigene Bäder — einige voll installiert, andere mit einer Eimer- oder solarbeheizten Dusche in abgelegeneren/mobilen Lagern. Wir können die genauen Details für Ihre Reisedaten bei der Buchung bestätigen." },
+        { "q": "Buchen Sie das Zeltcamp für mich?", "a": "Ja — jedes hier aufgeführte Camp ist eine Partnerunterkunft. Wir übernehmen die Reservierung, sichern Partnerraten und integrieren es in Ihre Reiseroute, sodass Sie nicht jedes Camp einzeln buchen müssen." }
+      ]
+    },
+    "beach-resorts": {
+      "label": "Strandresorts",
+      "shortLabel": "Strandresort",
+      "heroImageAlt": "Pool eines Strandresorts mit Blick auf die Küste des Indischen Ozeans",
+      "heroDescription": "Der klassische Abschluss einer Safari — weiße Sandstrände und warmes Wasser des Indischen Ozeans an der kenianischen Küste und auf Sansibar, für Reisende, die ihre Reise mit ein paar Tagen zum Entspannen verlängern.",
+      "cardDescription": "Weiße Sandstrände und warmes Wasser des Indischen Ozeans — der klassische Abschluss einer Safari.",
+      "intro": {
+        "headingBefore": "Wo die Safari endet und der ",
+        "headingHighlight": "Strand beginnt",
+        "headingAfter": "",
+        "body": "Viele unserer Gäste schließen eine Safari mit ein paar Tagen an der Küste ab — Diani Beach an der Südküste Kenias oder auf der anderen Seite des Wassers auf Sansibar, beide nur einen kurzen Flug von Nairobi oder der nördlichen Tansania-Route entfernt. Die Strandresorts, die wir aufführen, reichen von kleinen, intimen Unterkünften bis zu größeren Vollservice-Resorts mit Spas, Wassersport und mehreren Restaurants, alle an derselben Küste mit weißem Sand und warmem Wasser."
+      },
+      "whatToExpect": [
+        { "n": "01", "title": "Weißer Sand, warmes Wasser das ganze Jahr", "body": "Die kenianische Küste und Sansibar liegen knapp südlich des Äquators — das Wasser bleibt in jeder Saison warm." },
+        { "n": "02", "title": "Ein echter Tempowechsel", "body": "Pools, Spas und Wassersport ersetzen den frühmorgendlichen Wecker für die Pirschfahrt." },
+        { "n": "03", "title": "Einfache Anschlusslogistik", "body": "Kurze Flüge verbinden Nairobi, die nördliche Safari-Route und die Küste — wir helfen, den Transfer zu organisieren." },
+        { "n": "04", "title": "Verschiedene Stile", "body": "Von kleinen, intimen Strandunterkünften bis zu größeren Vollservice-Resorts mit mehreren Restaurants." }
+      ],
+      "goodToKnow": [
+        "Am besten zum Abschluss einer Reise hinzufügen — die meisten Gäste machen zuerst die Safari, dann den Strand",
+        "Kurze Inland- oder Regionalflüge verbinden sowohl Diani als auch Sansibar problemlos mit den wichtigsten Safari-Routen",
+        "Wir buchen jedes Resort auf dieser Liste direkt über unsere Partnerschaft mit der Unterkunft, zu Raten, die mindestens so gut sind wie eine Eigenbuchung"
+      ],
+      "faqs": [
+        { "q": "Sollte der Strand vor oder nach der Safari kommen?", "a": "Fast jeder macht es auf die gleiche Weise — zuerst die Safari, dann der Strand, sodass die Reise auf einer ruhigeren, erholsameren Note endet." },
+        { "q": "Wie komme ich von der Safari-Route an die Küste?", "a": "Ein kurzer Inland- oder Regionalflug verbindet Nairobi (oder die nördliche Tansania-Route) mit Diani oder Sansibar — wir helfen beim Organisieren des Transfers, sobald Sie uns Ihre Reisedaten mitteilen." },
+        { "q": "Ist Sansibar oder Diani Beach besser?", "a": "Beide sind ausgezeichnet und haben das ganze Jahr warmes Wasser — Sansibar (Tansania) passt zu Reisen, die bereits in Tansania stattfinden, während Diani (Kenia) die natürliche Ergänzung zu einer Kenia-Safari ist. Wir sprechen gerne über beide Optionen." },
+        { "q": "Buchen Sie das Strandresort für mich?", "a": "Ja — jedes hier aufgeführte Resort ist eine Partnerunterkunft. Wir übernehmen die Reservierung, sichern Partnerraten und fügen es als eine Buchung an das Ende Ihrer Safari-Reiseroute an." }
+      ]
+    }
+  }
+}

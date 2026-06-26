@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "Plan My Safari — Free Custom Itinerary | Divine Travel Nest Safaris",
+    "description": "Tell us your dates and interests. We draft a tailor-made itinerary with transparent pricing — fast response guaranteed. Or pick up the phone: +254 722-595-916.",
+    "ogTitle": "Plan My Safari — Divine Travel Nest Safaris",
+    "ogDescription": "Free personalised safari proposals within 24 hours. No obligations."
+  },
+  "breadcrumbHome": "Home",
+  "breadcrumbCurrent": "Plan My Safari",
+  "hero": {
+    "eyebrow": "Start here",
+    "titleMain": "Let's plan your",
+    "titleEm": "perfect safari",
+    "description": "Share your travel dates and what you dream of seeing in the wild. We'll craft a bespoke safari itinerary with honest, transparent pricing from the start. Ready to bring your African adventure to life? Let's connect, or skip the forms and call us directly at +254 722 595 916.",
+    "callNow": "Call us now",
+    "whatsapp": "WhatsApp"
+  },
+  "contact": {
+    "eyebrow": "Reach us directly",
+    "headingMain1": "Reservation",
+    "headingByEm": "phone",
+    "headingMain2": "or message.",
+    "body": "We believe a great safari is a seamless blend of untamed wilderness and meticulous design. From tracking the Great Migration across the savannah to securing the perfect hidden bush camp, we handle the logistics so you can focus on the moment. Every itinerary is entirely bespoke, crafted by experts who know the rhythm of the wild and the nuances of the terrain, ensuring an unforgettable journey into the heart of Africa.",
+    "details": {
+      "phoneLabel": "Phone",
+      "emailLabel": "Email",
+      "officeLabel": "Office",
+      "officeValue": "Nairobi, Kenya",
+      "tripadvisorLabel": "TripAdvisor",
+      "tripadvisorValue": "Read our reviews ↗",
+      "googleLabel": "Google",
+      "googleValue": "Google Reviews ↗"
+    }
+  },
+  "form": {
+    "headingMain": "Request a",
+    "headingEm": "free",
+    "headingSuffix": "custom quote",
+    "subtext": "Fast response guaranteed"
+  },
+  "trust": {
+    "items": [
+      { "num": "500+", "lbl": "Safaris delivered" },
+      { "num": "4.9★", "lbl": "Average guest rating" },
+      { "num": "24h", "lbl": "Proposal turnaround" },
+      { "num": "100%", "lbl": "Custom itineraries" }
+    ]
+  }
+}

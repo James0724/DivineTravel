@@ -16,12 +16,13 @@ export const CLOUDINARY_FOLDERS = {
   portfolio:      'web_images/portfolio',
   team:           'web_images/team',
   misc:           'web_images/misc',
+  accommodations: 'web_images/accommodations',
   // Legacy (kept for backward compatibility)
   safaris:     (slug: string) => `divine-travel-nest-safaris/safaris/${slug}`,
   testimonials:'divine-travel-nest-safaris/testimonials',
 } as const
 
-export type ImageUsage = 'safari-cover' | 'safari-gallery' | 'blog-cover' | 'portfolio' | 'team' | 'misc'
+export type ImageUsage = 'safari-cover' | 'safari-gallery' | 'blog-cover' | 'portfolio' | 'team' | 'misc' | 'accommodation-cover' | 'accommodation-gallery'
 
 export function usageToFolder(usage: ImageUsage): string {
   switch (usage) {
@@ -34,6 +35,9 @@ export function usageToFolder(usage: ImageUsage): string {
       return CLOUDINARY_FOLDERS.portfolio
     case 'team':
       return CLOUDINARY_FOLDERS.team
+    case 'accommodation-cover':
+    case 'accommodation-gallery':
+      return CLOUDINARY_FOLDERS.accommodations
     default:
       return CLOUDINARY_FOLDERS.misc
   }

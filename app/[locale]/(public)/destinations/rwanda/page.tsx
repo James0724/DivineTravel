@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     'Your complete guide to Rwanda safari destinations — gorilla trekking in Volcanoes National Park, chimpanzees in Nyungwe Forest and the Big Five in Akagera National Park.',
   keywords: 'rwanda gorilla trekking, volcanoes national park, nyungwe forest, akagera national park, rwanda safari guide',
-  alternates: { canonical: '/destinations/rwanda' },
+  alternates: { canonical: '/en/destinations/rwanda' },
   openGraph: {
     title: 'Rwanda Wildlife Parks & Reserves | Divine Travel Nest Safaris',
     description: 'A complete expert guide to Rwanda\'s national parks — gorillas, chimps and the Big Five.',
@@ -36,7 +36,7 @@ function mapToSafariPkg(safari: Safari): SafariPkg {
     name: safari.name,
     desc: safari.tagline ?? '',
     parks: [safari.location?.park, safari.location?.region].filter(Boolean) as string[],
-    from: price ? `$${price.toLocaleString()}` : 'On request',
+    from: price ?? null,
     days: safari.duration ? `${safari.duration}D · ${safari.duration - 1}N` : '',
   }
 }
@@ -275,7 +275,7 @@ export default async function RwandaDestinationPage() {
         name: '3-Day Volcanoes Gorilla Trek',
         desc: 'Fly into Kigali, transfer to the Virunga foothills and spend one extraordinary hour with a habituated gorilla family.',
         parks: ['Volcanoes National Park'],
-        from: 'On request',
+        from: null,
         days: '3D · 2N',
       },
       {
@@ -284,7 +284,7 @@ export default async function RwandaDestinationPage() {
         name: '7-Day Rwanda Primate & Safari Circuit',
         desc: 'Gorillas in Volcanoes, chimps and the canopy walk in Nyungwe, Big Five in Akagera — the complete Rwanda experience.',
         parks: ['Volcanoes', 'Nyungwe', 'Akagera'],
-        from: 'On request',
+        from: null,
         days: '7D · 6N',
       },
       {
@@ -293,7 +293,7 @@ export default async function RwandaDestinationPage() {
         name: '10-Day Complete Rwanda Safari',
         desc: 'The ultimate Rwanda trip — two gorilla treks, chimps, the canopy walk, Akagera game drives and two nights on Lake Kivu.',
         parks: ['Volcanoes', 'Nyungwe', 'Akagera', 'Lake Kivu'],
-        from: 'On request',
+        from: null,
         days: '10D · 9N',
       },
     ],

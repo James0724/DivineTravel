@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "Organiser mon safari — Itinéraire personnalisé gratuit | Divine Travel Nest Safaris",
+    "description": "Indiquez-nous vos dates et vos envies. Nous concevons un itinéraire sur mesure avec des tarifs transparents — réponse rapide garantie. Ou appelez-nous directement au +254 722-595-916.",
+    "ogTitle": "Organiser mon safari — Divine Travel Nest Safaris",
+    "ogDescription": "Propositions de safari personnalisées et gratuites sous 24 heures. Sans engagement."
+  },
+  "breadcrumbHome": "Accueil",
+  "breadcrumbCurrent": "Organiser mon safari",
+  "hero": {
+    "eyebrow": "Commencez ici",
+    "titleMain": "Organisons votre",
+    "titleEm": "safari parfait",
+    "description": "Indiquez-nous vos dates de voyage et ce dont vous rêvez de voir dans la nature. Nous concevrons un itinéraire de safari sur mesure avec une tarification honnête et transparente dès le départ. Prêt à donner vie à votre aventure africaine ? Échangeons, ou passez les formulaires et appelez-nous directement au +254 722 595 916.",
+    "callNow": "Appelez-nous",
+    "whatsapp": "WhatsApp"
+  },
+  "contact": {
+    "eyebrow": "Contactez-nous directement",
+    "headingMain1": "Réservation",
+    "headingByEm": "téléphone",
+    "headingMain2": "e-mail ou message.",
+    "body": "Nous pensons qu'un grand safari est un mélange harmonieux de nature sauvage et de conception minutieuse. Du suivi de la Grande Migration à travers la savane à la réservation du camp de brousse caché parfait, nous gérons la logistique pour que vous puissiez profiter de l'instant. Chaque itinéraire est entièrement sur mesure, conçu par des experts qui connaissent le rythme de la nature sauvage et les subtilités du terrain, pour un voyage inoubliable au cœur de l'Afrique.",
+    "details": {
+      "phoneLabel": "Téléphone",
+      "emailLabel": "E-mail",
+      "officeLabel": "Bureau",
+      "officeValue": "Nairobi, Kenya",
+      "tripadvisorLabel": "TripAdvisor",
+      "tripadvisorValue": "Lire nos avis ↗",
+      "googleLabel": "Google",
+      "googleValue": "Avis Google ↗"
+    }
+  },
+  "form": {
+    "headingMain": "Demandez un devis",
+    "headingEm": "gratuit",
+    "headingSuffix": "personnalisé",
+    "subtext": "Réponse rapide garantie"
+  },
+  "trust": {
+    "items": [
+      { "num": "500+", "lbl": "Safaris réalisés" },
+      { "num": "4.9★", "lbl": "Note moyenne des clients" },
+      { "num": "24h", "lbl": "Délai de proposition" },
+      { "num": "100%", "lbl": "Itinéraires personnalisés" }
+    ]
+  }
+}

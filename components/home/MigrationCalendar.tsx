@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Reveal from "../ui/Reveal";
 import { AnimatedHeading } from "../ui/Heading";
 
@@ -23,7 +24,6 @@ const MONTHS = [
 interface UgandaData {
   pos: [number, number];
   park: string;
-  note: string;
 }
 
 interface MonthData {
@@ -39,204 +39,47 @@ interface MonthData {
   uganda: UgandaData;
 }
 
-const DATA: MonthData[] = [
-  {
-    title: ["Calving on the", "short-grass plains."],
-    body: "Roughly 1.3 million wildebeest are spread across the Ndutu region and the southern Serengeti, grazing the mineral-rich short grass. The first calves drop in the last week of January.",
-    region: "Ndutu · S. Serengeti",
-    best: "Calving · predators",
-    crowd: "Medium",
-    rain: "Dry · short grass",
-    cap: "JAN · NDUTU",
-    pos: [205, 348],
-    country: "tz",
-    uganda: {
-      pos: [78, 198],
-      park: "Bwindi",
-      note: "Dry season — peak gorilla trekking.",
-    },
-  },
-  {
-    title: ["Peak calving —", "eight thousand a day."],
-    body: "Around 400,000 calves are born across a three-week window, almost all of them in February. The synchrony overwhelms the predators, so most calves survive. The southern plains hold the densest game on earth this month.",
-    region: "Ndutu · S. Serengeti",
-    best: "Calving · big cats",
-    crowd: "High",
-    rain: "Dry · short grass",
-    cap: "FEB · NDUTU",
-    pos: [200, 340],
-    country: "tz",
-    uganda: {
-      pos: [78, 198],
-      park: "Bwindi",
-      note: "Clear forest trails, dry permits window.",
-    },
-  },
-  {
-    title: ["Plains dry —", "herds begin to drift."],
-    body: "The short-grass plains brown off. The herd starts a slow, scattered drift northwest toward Moru and Seronera. Calves are six weeks old and can keep up. Quiet, low-season pricing, beautiful light.",
-    region: "Moru · C. Serengeti",
-    best: "Photography · solitude",
-    crowd: "Low",
-    rain: "Short rains end",
-    cap: "MAR · MORU",
-    pos: [198, 308],
-    country: "tz",
-    uganda: {
-      pos: [82, 170],
-      park: "Kibale",
-      note: "Chimp tracking · Palearctic bird arrivals.",
-    },
-  },
-  {
-    title: ["The long rains", "arrive."],
-    body: "Heavy daily rain. Many mobile camps close for the month. The herd is in the central Serengeti around Seronera and Moru, hard to follow on muddy tracks. Permits and lodging are at their lowest prices of the year.",
-    region: "Seronera · C. Serengeti",
-    best: "Value · solitude",
-    crowd: "Very low",
-    rain: "Long rains",
-    cap: "APR · SERONERA",
-    pos: [192, 292],
-    country: "tz",
-    uganda: {
-      pos: [82, 170],
-      park: "Kibale",
-      note: "Lush forest · discounted gorilla permits.",
-    },
-  },
-  {
-    title: ["The rut on", "the move."],
-    body: "Rains taper. The herd forms ribbon-like columns through the western Serengeti — up to forty kilometres long. Mating happens on the march: 90% of females are bred in a three-week window. The procession runs day and night.",
-    region: "W. Corridor · Serengeti",
-    best: "Rut · columns",
-    crowd: "Low",
-    rain: "Rains taper",
-    cap: "MAY · WESTERN CORRIDOR",
-    pos: [165, 280],
-    country: "tz",
-    uganda: {
-      pos: [76, 184],
-      park: "Queen Elizabeth",
-      note: "Tree-climbing lions in Ishasha.",
-    },
-  },
-  {
-    title: ["The Grumeti", "River crossings."],
-    body: "The first major water test of the year. Crocodiles in the Grumeti are some of the largest on the continent — six metres, fifty years old, waiting for this month. Fewer guests than the Mara, equally dramatic.",
-    region: "Grumeti · W. Serengeti",
-    best: "Grumeti crossings",
-    crowd: "Building",
-    rain: "Dry begins",
-    cap: "JUN · GRUMETI",
-    pos: [155, 268],
-    country: "tz",
-    uganda: {
-      pos: [76, 184],
-      park: "Queen Elizabeth",
-      note: "Dry season game viewing peaks.",
-    },
-  },
-  {
-    title: ["Front of the herd", "reaches the Mara."],
-    body: "The leading edge pushes through the Lamai Wedge and reaches the Mara River. The first nervous crossings happen late in the month. The Maasai Mara fills with vehicles — we work the quieter northern Serengeti side.",
-    region: "Lamai · Mara River",
-    best: "First crossings",
-    crowd: "High",
-    rain: "Dry",
-    cap: "JUL · LAMAI",
-    pos: [205, 218],
-    country: "ke",
-    uganda: {
-      pos: [92, 138],
-      park: "Murchison Falls",
-      note: "Nile boat cruises, big herds on the delta.",
-    },
-  },
-  {
-    title: ["Mara River", "in full crossing."],
-    body: "Herds mass on the south bank for hours — sometimes a week — before a single line tips them in. Crossings of 30,000+ animals are not unusual. We position you on the north bank at first light; most stays see at least one crossing.",
-    region: "Mara River",
-    best: "Crossings",
-    crowd: "Peak",
-    rain: "Dry · cool nights",
-    cap: "AUG · MARA RIVER",
-    pos: [210, 188],
-    country: "ke",
-    uganda: {
-      pos: [92, 138],
-      park: "Murchison Falls",
-      note: "Peak dry-season tracking.",
-    },
-  },
-  {
-    title: ["Peak crossings —", "the classic month."],
-    body: "September is the photographer's month: crossings every two or three days, golden grass, low light, dust. We move you between the Mara Triangle and the Sand River crossings on the Tanzanian side to dodge the busiest sites.",
-    region: "Mara Triangle",
-    best: "Crossings · photography",
-    crowd: "Peak",
-    rain: "Dry",
-    cap: "SEP · MARA TRIANGLE",
-    pos: [212, 180],
-    country: "ke",
-    uganda: {
-      pos: [78, 198],
-      park: "Bwindi",
-      note: "Second dry window opens for gorillas.",
-    },
-  },
-  {
-    title: ["Settled in", "the Mara."],
-    body: "The herd grazes the Mara through October. Big-cat action is at its annual high — every pride is hunting calves and yearlings. Occasional return crossings as small groups peel south through Sand River.",
-    region: "Masai Mara",
-    best: "Cats · landscape",
-    crowd: "High",
-    rain: "Dry ends",
-    cap: "OCT · MASAI MARA",
-    pos: [200, 195],
-    country: "ke",
-    uganda: {
-      pos: [78, 198],
-      park: "Bwindi",
-      note: "Crisp mornings, clear forest views.",
-    },
-  },
-  {
-    title: ["Short rains —", "turning south."],
-    body: "Storms over the Loita plains pull the herd south. They re-cross the Mara River the wrong way and push through Lobo and Loliondo back into the central Serengeti. Camps repaint, prices fall, cats still hunt.",
-    region: "Loliondo · N. Serengeti",
-    best: "Value · cats",
-    crowd: "Medium",
-    rain: "Short rains",
-    cap: "NOV · LOLIONDO",
-    pos: [200, 248],
-    country: "tz",
-    uganda: {
-      pos: [82, 170],
-      park: "Kibale",
-      note: "Migrant bird peak across the rift.",
-    },
-  },
-  {
-    title: ["Returning to", "the calving grounds."],
-    body: "Most of the herd is back in the central and southern Serengeti by mid-December. The short-grass plains are green again from the November rains. Christmas in the central Serengeti is its own particular magic.",
-    region: "Seronera → Ndutu",
-    best: "Family trips",
-    crowd: "Medium",
-    rain: "Short rains end",
-    cap: "DEC · SERONERA",
-    pos: [200, 300],
-    country: "tz",
-    uganda: {
-      pos: [78, 198],
-      park: "Bwindi",
-      note: "Festive trekking — dry & cool again.",
-    },
-  },
+const MONTH_META: Omit<MonthData, "title" | "body" | "region" | "best" | "crowd" | "rain">[] = [
+  { cap: "JAN · NDUTU", pos: [205, 348], country: "tz", uganda: { pos: [78, 198], park: "Bwindi" } },
+  { cap: "FEB · NDUTU", pos: [200, 340], country: "tz", uganda: { pos: [78, 198], park: "Bwindi" } },
+  { cap: "MAR · MORU", pos: [198, 308], country: "tz", uganda: { pos: [82, 170], park: "Kibale" } },
+  { cap: "APR · SERONERA", pos: [192, 292], country: "tz", uganda: { pos: [82, 170], park: "Kibale" } },
+  { cap: "MAY · WESTERN CORRIDOR", pos: [165, 280], country: "tz", uganda: { pos: [76, 184], park: "Queen Elizabeth" } },
+  { cap: "JUN · GRUMETI", pos: [155, 268], country: "tz", uganda: { pos: [76, 184], park: "Queen Elizabeth" } },
+  { cap: "JUL · LAMAI", pos: [205, 218], country: "ke", uganda: { pos: [92, 138], park: "Murchison Falls" } },
+  { cap: "AUG · MARA RIVER", pos: [210, 188], country: "ke", uganda: { pos: [92, 138], park: "Murchison Falls" } },
+  { cap: "SEP · MARA TRIANGLE", pos: [212, 180], country: "ke", uganda: { pos: [78, 198], park: "Bwindi" } },
+  { cap: "OCT · MASAI MARA", pos: [200, 195], country: "ke", uganda: { pos: [78, 198], park: "Bwindi" } },
+  { cap: "NOV · LOLIONDO", pos: [200, 248], country: "tz", uganda: { pos: [82, 170], park: "Kibale" } },
+  { cap: "DEC · SERONERA", pos: [200, 300], country: "tz", uganda: { pos: [78, 198], park: "Bwindi" } },
 ];
+
+type MonthTranslation = {
+  title: [string, string];
+  body: string;
+  region: string;
+  best: string;
+  crowd: string;
+  rain: string;
+  ugandaNote: string;
+};
 
 const AUTO_DELAY = 5000;
 
 export default function MigrationCalendar() {
+  const t = useTranslations("home.migrationCalendar");
+  const monthsData = t.raw("months") as MonthTranslation[];
+  const DATA: (MonthData & { ugandaNote: string })[] = MONTH_META.map((meta, i) => ({
+    ...meta,
+    title: monthsData[i].title,
+    body: monthsData[i].body,
+    region: monthsData[i].region,
+    best: monthsData[i].best,
+    crowd: monthsData[i].crowd,
+    rain: monthsData[i].rain,
+    ugandaNote: monthsData[i].ugandaNote,
+  }));
+
   const [m, setM] = useState<number>(7); // August default
   const [auto, setAuto] = useState<boolean>(false);
   const d = DATA[m];
@@ -287,22 +130,20 @@ export default function MigrationCalendar() {
           <div>
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
-                <span className="dot" />A year in the ecosystem
+                <span className="dot" />{t("eyebrow")}
               </div>
             </Reveal>
             <AnimatedHeading
               as="h2"
-              textBefore="A "
-              highlightedText="calendar "
-              textAfter="of two million hooves"
+              textBefore={t("headingBefore")}
+              highlightedText={t("headingHighlight")}
+              textAfter={t("headingAfter")}
             />
           </div>
           <Reveal variant="fadeUp">
             <div>
               <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-                The Great Migration is a year-long loop, not a single moment.
-                Select a month — or use the arrow keys — to follow the herd and
-                parallel highlights up in Uganda.
+                {t("lead")}
               </p>
             </div>
           </Reveal>
@@ -352,7 +193,7 @@ export default function MigrationCalendar() {
             <dl className="mb-10 grid grid-cols-2 gap-x-8 gap-y-6 border-y border-border py-7 max-xs:grid-cols-1 min-h-[110px] sm:min-h-[85px] md:min-h-[70px]">
               <div className="flex flex-col gap-1.5">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/40">
-                  Region
+                  {t("regionLabel")}
                 </dt>
                 {/* Adding key={m} forces the Reveal component to replay on month shifts */}
                 <Reveal key={m} variant="slideLeft">
@@ -363,7 +204,7 @@ export default function MigrationCalendar() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/40">
-                  Best for
+                  {t("bestForLabel")}
                 </dt>
                 <Reveal key={m} variant="slideRight">
                   <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
@@ -373,7 +214,7 @@ export default function MigrationCalendar() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/40">
-                  Crowd
+                  {t("crowdLabel")}
                 </dt>
                 <Reveal key={m} variant="slideLeft">
                   <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
@@ -383,7 +224,7 @@ export default function MigrationCalendar() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone-ink/40">
-                  Season
+                  {t("seasonLabel")}
                 </dt>
                 <Reveal key={m} variant="slideRight">
                   <dd className="font-serif text-[clamp(18px,1.5vw,22px)] leading-none text-bone-clay">
@@ -396,13 +237,13 @@ export default function MigrationCalendar() {
             <Reveal key={m} variant="fadeDown">
               <div className="flex flex-wrap items-baseline gap-x-4.5 gap-y-2.5 bg-bone-paper border-l-2 border-bone-forest p-5">
                 <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-bone-forest mr-2 font-medium">
-                  Meanwhile in Uganda
+                  {t("meanwhileUganda")}
                 </span>
                 <span className="font-serif text-[19px] text-bone-ink">
                   {d.uganda.park}
                 </span>
                 <span className="w-full text-sm text-bone-ink/60 mt-1 sm:mt-0 sm:flex-1 sm:basis-full">
-                  {d.uganda.note}
+                  {d.ugandaNote}
                 </span>
               </div>
             </Reveal>
@@ -410,11 +251,11 @@ export default function MigrationCalendar() {
 
           {/* ── Right: map + calendar nav docked flush below ── */}
           <div className="flex flex-col max-h-[80dvh]">
-            <MigrationMap d={d} />
+            <MigrationMap d={d} mapAria={t("mapAria")} />
 
             {/* Calendar navigation bar — zero gap from the map border */}
             <nav
-              aria-label="Migration calendar — select a month"
+              aria-label={t("calendarNavAria")}
               className="border border-t-0 border-border bg-bone-paper"
             >
               {/* Auto-play progress bar */}
@@ -434,7 +275,7 @@ export default function MigrationCalendar() {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  aria-label={`Previous: ${MONTHS[(m + 11) % 12]}`}
+                  aria-label={`${t("prevPrefix")}${MONTHS[(m + 11) % 12]}`}
                   className="flex min-w-[44px] items-center justify-center border-r border-border px-4 py-4 text-bone-ink/50 transition-colors duration-200 hover:bg-bone-clay/5 hover:text-bone-clay focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-clay"
                 >
                   <span
@@ -449,7 +290,7 @@ export default function MigrationCalendar() {
                 <div
                   ref={stripRef}
                   role="tablist"
-                  aria-label="Months"
+                  aria-label={t("monthsAria")}
                   className="chip-scroll flex flex-1 overflow-x-auto"
                 >
                   {MONTHS.map((label, i) => (
@@ -485,7 +326,7 @@ export default function MigrationCalendar() {
                 <button
                   type="button"
                   onClick={() => navigate(1)}
-                  aria-label={`Next: ${MONTHS[(m + 1) % 12]}`}
+                  aria-label={`${t("nextPrefix")}${MONTHS[(m + 1) % 12]}`}
                   className="flex min-w-[44px] items-center justify-center border-l border-border px-4 py-4 text-bone-ink/50 transition-colors duration-200 hover:bg-bone-clay/5 hover:text-bone-clay focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-clay"
                 >
                   <span
@@ -500,7 +341,7 @@ export default function MigrationCalendar() {
                   type="button"
                   onClick={() => setAuto((a) => !a)}
                   aria-label={
-                    auto ? "Pause auto-play" : "Play year automatically"
+                    auto ? t("pauseAria") : t("playAria")
                   }
                   aria-pressed={auto}
                   className={`flex min-w-[44px] items-center justify-center border-l border-border px-4 py-4 font-mono text-[9px] tracking-[0.14em] uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bone-clay ${
@@ -520,7 +361,7 @@ export default function MigrationCalendar() {
   );
 }
 
-function MigrationMap({ d }: { d: MonthData }) {
+function MigrationMap({ d, mapAria }: { d: MonthData; mapAria: string }) {
   return (
     <div className="relative mx-auto w-full max-w-[640px] border border-border bg-bone-paper aspect-[5/4] overflow-hidden lg:aspect-[4/5] lg:max-w-none before:absolute before:inset-0 before:bg-[linear-gradient(to_right,rgba(23,22,18,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(23,22,18,0.04)_1px,transparent_1px)] before:bg-[size:32px_32px] before:pointer-events-none after:absolute after:inset-0 after:border after:border-bone-clay after:translate-x-3.5 after:translate-y-3.5 after:pointer-events-none after:z-30">
       <svg
@@ -528,7 +369,7 @@ function MigrationMap({ d }: { d: MonthData }) {
         preserveAspectRatio="xMidYMid meet"
         className="relative z-10 block h-full w-full"
         role="img"
-        aria-label="East Africa Ecosystem Map"
+        aria-label={mapAria}
       >
         {/* Uganda */}
         <path

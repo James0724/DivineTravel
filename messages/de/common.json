@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "toursSafaris": "Touren & Safaris",
+    "safariTypes": "Safari-Arten",
+    "destinations": "Reiseziele",
+    "accommodations": "Unterkünfte",
+    "aboutUs": "Über uns",
+    "contact": "Kontakt",
+    "journal": "Journal",
+    "toursDropdown": {
+      "kenya": {
+        "label": "Kenia-Safaris",
+        "description": "Masai Mara, Amboseli, Tsavo und mehr"
+      },
+      "tanzania": {
+        "label": "Tansania-Safaris",
+        "description": "Serengeti, Ngorongoro und Sansibar"
+      },
+      "uganda": {
+        "label": "Uganda-Safaris",
+        "description": "Gorilla-Trekking und Schimpansenbeobachtung"
+      },
+      "rwanda": {
+        "label": "Ruanda-Safaris",
+        "description": "Vulkane, Nyungwe und Akagera"
+      },
+      "crossCountry": {
+        "label": "Länderübergreifende Safaris",
+        "description": "Rundreisen durch Kenia · Tansania · Uganda · Ruanda"
+      },
+      "all": {
+        "label": "Alle Safaris",
+        "description": "Alle Touren & Safaris in Ostafrika entdecken"
+      }
+    },
+    "safariTypesDropdown": {
+      "walking": {
+        "label": "Wandersafaris",
+        "description": "Zu Fuß mit bewaffnetem Guide und Spurenleser"
+      },
+      "photographic": {
+        "label": "Fotosafaris",
+        "description": "Mehr Zeit an Sichtungen, fotoerfahrene Guides"
+      },
+      "family": {
+        "label": "Familiensafaris",
+        "description": "Für jedes Alter geeignet, kinderfreundliche Lodges"
+      },
+      "honeymoon": {
+        "label": "Honeymoon-Safaris",
+        "description": "Private Fahrzeuge und intime Camps für zwei"
+      },
+      "solo": {
+        "label": "Solo-Safaris",
+        "description": "In einer kleinen Gruppe, oder ganz privat"
+      },
+      "all": {
+        "label": "Alle Safari-Arten",
+        "description": "Nach Aktivität — und nach Reisebegleitung"
+      }
+    },
+    "destinationsDropdown": {
+      "kenya": {
+        "label": "Wildparks Kenias",
+        "description": "Masai Mara, Amboseli, Tsavo und 9 weitere"
+      },
+      "tanzania": {
+        "label": "Wildparks Tansanias",
+        "description": "Serengeti, Ngorongoro und mehr"
+      },
+      "uganda": {
+        "label": "Wildparks Ugandas",
+        "description": "Gorillas, Schimpansen und Savanne"
+      },
+      "rwanda": {
+        "label": "Wildparks Ruandas",
+        "description": "Vulkane, Nyungwe und Akagera"
+      },
+      "all": {
+        "label": "Alle Reiseziele",
+        "description": "Alle Wildparks und Reiseziele, die wir abdecken"
+      }
+    },
+    "accommodationsDropdown": {
+      "luxuryLodges": {
+        "label": "Luxus-Lodges",
+        "description": "Architektonisch gestaltete Suiten, Infinity-Pools und Gourmetküche"
+      },
+      "tentedCamps": {
+        "label": "Zeltcamps",
+        "description": "Komfort unter Leinwand, manche folgen der Migration"
+      },
+      "beachResorts": {
+        "label": "Strandresorts",
+        "description": "Aufenthalte am weißen Sandstrand zum Abschluss einer Safari"
+      },
+      "all": {
+        "label": "Alle Unterkünfte",
+        "description": "Lodges, Camps und Resorts in ganz Ostafrika"
+      }
+    }
+  },
+  "cta": {
+    "planMySafari": "Meine Safari planen"
+  },
+  "menu": {
+    "open": "Menü",
+    "close": "Schließen"
+  },
+  "topbar": {
+    "callUs": "Anrufen",
+    "emailUs": "E-Mail senden",
+    "whatsapp": "WhatsApp",
+    "tripadvisor": "TripAdvisor",
+    "google": "Google",
+    "chatWhatsappAria": "Chatten Sie mit uns auf WhatsApp",
+    "tripadvisorAria": "TripAdvisor-Bewertungen — 5 von 5 Sternen",
+    "googleAria": "Google-Bewertungen — 5 von 5 Sternen",
+    "facebookAria": "Divine Travel Nest Safaris auf Facebook",
+    "instagramAria": "Divine Travel Nest Safaris auf Instagram",
+    "youtubeAria": "Divine Travel Nest Safaris auf YouTube"
+  },
+  "currencySwitcher": {
+    "ariaLabel": "Währung auswählen",
+    "selectTitle": "Wählen Sie Ihre Währung",
+    "searchPlaceholder": "Währung suchen…",
+    "noResults": "Keine Währung gefunden",
+    "footerCount": "{count} von {total} Währungen · Live-Kurse"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "Sprache auswählen",
+    "selectTitle": "Wählen Sie Ihre Sprache",
+    "searchPlaceholder": "Sprache suchen…",
+    "noResults": "Keine Sprache gefunden",
+    "availableIn": "Verfügbar in 6 Sprachen"
+  },
+  "footer": {
+    "heading": "Lassen Sie uns diesen Weg gemeinsam gehen — in die Wildnis, ins <em>Staunen</em>.",
+    "subtext": "Ihre Safari ist nicht nur ein Urlaub — sie ist eine Lebensgeschichte, die darauf wartet, geschrieben zu werden. Fordern Sie jetzt ein kostenloses, individuelles Safari-Angebot an — schnelle Antwort garantiert.",
+    "requestQuote": "Kostenloses Angebot anfragen",
+    "brandBlurb": "Divine Travel Nest Safaris bietet Kenia-Safaris, Tansania-Safaris, Gorilla-Trekking in Uganda sowie Gorilla- und Wildtiersafaris in Ruanda — starten Sie noch heute Ihr afrikanisches Abenteuer mit uns.",
+    "toursHeading": "Touren & Safaris",
+    "tours": {
+      "kenya": "Kenia-Safaris",
+      "tanzania": "Tansania-Safaris",
+      "crossCountry": "Kenia–Tansania",
+      "uganda": "Uganda-Gorilla-Trekking",
+      "rwanda": "Ruanda-Gorilla-Safaris",
+      "nairobi": "Tagesausflüge ab Nairobi"
+    },
+    "discoverHeading": "Afrika entdecken",
+    "discover": {
+      "specialized": "Spezialisierte Safaris",
+      "family": "Familienfreundlich",
+      "honeymoon": "Honeymoon-Safaris",
+      "walking": "Wandersafaris",
+      "migration": "Große Migration",
+      "journal": "Feldjournal"
+    },
+    "reachHeading": "Kontaktieren Sie uns",
+    "whatsappLink": "WhatsApp ↗",
+    "tripadvisorLink": "TripAdvisor ↗",
+    "googleLink": "Google-Bewertungen ↗",
+    "copyright": "© {year} Divine Travel Nest Safaris · Nairobi, Kenia",
+    "guidelines": "Community-Richtlinien",
+    "terms": "Allgemeine Geschäftsbedingungen"
+  }
+}

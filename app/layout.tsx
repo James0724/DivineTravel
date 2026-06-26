@@ -6,6 +6,7 @@ import {
   Nunito,
 } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { getLocale } from "next-intl/server";
 import { Providers } from "./providers";
 import {
   OrganizationSchema,
@@ -131,14 +132,16 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${geist.variable} ${geistMono.variable} ${cormorant.variable} ${nunito.variable}`}
       suppressHydrationWarning
     >

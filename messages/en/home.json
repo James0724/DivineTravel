@@ -1,0 +1,638 @@
+{
+  "meta": {
+    "title": "Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Packages 2026/2027",
+    "description": "Expert-guided Kenya safari tours, Masai Mara game drives, Serengeti Tanzania packages, Uganda gorilla trekking in Bwindi and Rwanda Volcanoes safaris — tailor-made by a Nairobi-based team. Budget to luxury, 2026/2027."
+  },
+  "faqSchema": [
+    {
+      "question": "When is the best time to visit Kenya for the Great Migration?",
+      "answer": "The most famous part of the Great Migration — the Mara River crossings — occurs from July to October when the herds are in the Masai Mara. January–February offers calving season in the southern Serengeti, while June–July features the dramatic Grumeti River crossings in Tanzania."
+    },
+    {
+      "question": "How far in advance should I book a gorilla trekking permit?",
+      "answer": "Gorilla trekking permits in Uganda (Bwindi Impenetrable Forest) sell out months in advance, especially during peak season (July–September and December–January). We recommend booking at least 6 months ahead, and up to 12 months for peak season travel. We handle all permit applications on your behalf."
+    },
+    {
+      "question": "What is included in a typical safari package?",
+      "answer": "A standard Divine Travel Nest Safaris package includes: park fees and conservation levies, all listed game drives and activities, accommodation (lodge or tented camp), full board (breakfast, lunch and dinner), airport and inter-park transfers, and an English-speaking licensed guide. International flights, travel insurance and personal gratuities are not included."
+    },
+    {
+      "question": "Can you customise a safari for families with young children?",
+      "answer": "Absolutely — family safaris are one of our specialties. We select family-friendly lodges with dedicated children's programs, experienced child-friendly guides, and age-appropriate activities. Minimum age restrictions apply for certain activities (gorilla trekking requires guests to be 15+)."
+    },
+    {
+      "question": "What is the difference between a budget, mid-range and luxury safari?",
+      "answer": "Budget safaris use shared minibus vehicles and tented camps or basic lodges. Mid-range safaris offer private vehicles and comfortable lodge rooms with en-suite facilities. Luxury safaris feature exclusive-use vehicles, private guides, and world-class tented camps or lodges with exceptional service. All tiers include the same wildlife access and expert guiding."
+    },
+    {
+      "question": "Do I need a visa and vaccinations for Kenya and Tanzania?",
+      "answer": "Most nationalities require a visa for Kenya and Tanzania, both available online via e-visa portals. Yellow Fever vaccination is mandatory if arriving from a yellow fever-endemic country. We strongly recommend consulting your travel health clinic at least 6–8 weeks before departure for current vaccination advice including malaria prophylaxis."
+    }
+  ],
+  "hero": {
+    "eyebrow": "African Safari Experts",
+    "line1": "Kenya, Tanzania,",
+    "line2": "Uganda & Rwanda —",
+    "line3Before": "East Africa ",
+    "line3Em": "safari",
+    "line4": "packages 2026.",
+    "description": "Kenya Masai Mara game drives, Tanzania Serengeti migration tours, Uganda gorilla trekking in Bwindi and Rwanda Volcanoes — all tailor-made by a Nairobi-based team. Budget to luxury, 2026/2027.",
+    "planSafari": "Plan my safari",
+    "exploreJourneys": "Explore our journeys",
+    "stats": [
+      {
+        "num": "10",
+        "sup": "+yr",
+        "label": "Guiding experience"
+      },
+      {
+        "num": "3",
+        "sup": "×",
+        "label": "Countries"
+      },
+      {
+        "num": "24",
+        "sup": "/7",
+        "label": "Support"
+      }
+    ]
+  },
+  "intro": {
+    "eyebrow": "Divine Travel Nest Safaris",
+    "headingBefore": "Your trusted gateway to ",
+    "headingHighlight": "unforgettable",
+    "headingAfter": "East Africa safaris.",
+    "contacts": [
+      {
+        "label": "Reservation by phone"
+      },
+      {
+        "label": "Reservation by email"
+      }
+    ],
+    "paragraph1Rest": "elcome to Divine Travel Nest Safaris, the home of immersive, authentic, and expertly crafted East Africa safari experiences. We specialize in Kenya safaris, Tanzania safaris, cross-border Kenya–Tanzania safari circuits, unforgettable Uganda gorilla trekking and Rwanda gorilla safaris.",
+    "paragraph2": "Whether you dream of witnessing the Great Wildebeest Migration in the Masai Mara, tracking mountain gorillas deep in Bwindi Forest, or exploring the vast Serengeti plains, we are your dedicated travel partner — turning safari dreams into life-lasting memories.",
+    "paragraph3": "At Divine Travel Nest Safaris, every journey is designed with passion, precision, and personalized attention.",
+    "missionLabel": "Our mission",
+    "missionText": "To create experience-rich, safe, and value-driven African safaris that bring you closer to wildlife, culture, and the magic of East Africa."
+  },
+  "destinations": {
+    "eyebrow": "Top East Africa Safari Destinations",
+    "headingBefore": "Four countries, one ",
+    "headingHighlight": "circuit",
+    "lead": "The Mara and the Serengeti are one ecosystem split by a line on a map. Choose a country to begin, or let us combine them into a single cross-border itinerary.",
+    "exploreCta": "Explore {tab} safaris",
+    "items": {
+      "ke": {
+        "tab": "Kenya",
+        "country": "Kenya · East Africa",
+        "title": "The Masai Mara & beyond.",
+        "blurb": "Home to the Great Wildebeest Migration and the Big Five, Kenya's parks offer some of the most dramatic wildlife encounters on Earth — from the sweeping Mara plains to the snow-capped peaks of Mount Kenya.",
+        "parks": [
+          {
+            "name": "Masai Mara National Reserve",
+            "note": "Migration July–Oct"
+          },
+          {
+            "name": "Amboseli National Park",
+            "note": "Kilimanjaro backdrop"
+          },
+          {
+            "name": "Tsavo East & West",
+            "note": "Red elephants"
+          },
+          {
+            "name": "Lake Nakuru National Park",
+            "note": "Flamingo flocks"
+          },
+          {
+            "name": "Samburu National Reserve",
+            "note": "Special Five"
+          },
+          {
+            "name": "Mount Kenya National Park",
+            "note": "Trekking & wildlife"
+          },
+          {
+            "name": "Aberdare National Park",
+            "note": "Forest elephants"
+          }
+        ]
+      },
+      "tz": {
+        "tab": "Tanzania",
+        "country": "Tanzania · East Africa",
+        "title": "Serengeti, Ngorongoro & Zanzibar.",
+        "blurb": "Tanzania's vast wilderness holds the world's largest wildlife spectacle. The endless Serengeti plains, the ancient Ngorongoro Crater, and the spice-scented beaches of Zanzibar await.",
+        "parks": [
+          {
+            "name": "Serengeti National Park",
+            "note": "Migration year-round"
+          },
+          {
+            "name": "Ngorongoro Conservation Area",
+            "note": "World's largest caldera"
+          },
+          {
+            "name": "Tarangire National Park",
+            "note": "Elephant herds"
+          },
+          {
+            "name": "Lake Manyara National Park",
+            "note": "Tree-climbing lions"
+          },
+          {
+            "name": "Ruaha National Park",
+            "note": "Wild & remote"
+          },
+          {
+            "name": "Zanzibar Archipelago",
+            "note": "Beach extension"
+          }
+        ]
+      },
+      "ug": {
+        "tab": "Uganda",
+        "country": "Uganda · East Africa",
+        "title": "Gorillas in the heart of Africa.",
+        "blurb": "Uganda is the Pearl of Africa — trekking mountain gorillas in Bwindi Impenetrable Forest is a once-in-a-lifetime encounter. Add chimpanzee tracking and dramatic Nile cruises.",
+        "parks": [
+          {
+            "name": "Bwindi Impenetrable Forest",
+            "note": "Mountain gorilla trekking"
+          },
+          {
+            "name": "Queen Elizabeth National Park",
+            "note": "Tree-climbing lions"
+          },
+          {
+            "name": "Kibale Forest National Park",
+            "note": "Chimp tracking"
+          }
+        ]
+      },
+      "rw": {
+        "tab": "Rwanda",
+        "country": "Rwanda · East Africa",
+        "title": "The land of a thousand hills.",
+        "blurb": "Rwanda offers an intimate, luxury approach to East African wildlife — gorilla trekking in the misty Virunga volcanoes, chimpanzees in Nyungwe's ancient forest canopy, and the Big Five in Akagera's vast savannah.",
+        "parks": [
+          {
+            "name": "Volcanoes National Park",
+            "note": "Gorilla & golden monkey trekking"
+          },
+          {
+            "name": "Nyungwe Forest National Park",
+            "note": "Chimps & canopy walk"
+          },
+          {
+            "name": "Akagera National Park",
+            "note": "Big Five savannah safari"
+          },
+          {
+            "name": "Lake Kivu",
+            "note": "Scenic beach extension"
+          }
+        ]
+      },
+      "cb": {
+        "tab": "Cross Country",
+        "country": "East Africa · Multi-country",
+        "title": "One circuit, three countries.",
+        "blurb": "The Mara and the Serengeti are one ecosystem divided by a line on a map. Combine Kenya, Tanzania and Uganda into a single unforgettable cross-border itinerary.",
+        "parks": [
+          {
+            "name": "Masai Mara + Serengeti",
+            "note": "Great Migration circuit"
+          },
+          {
+            "name": "Kenya + Tanzania + Uganda",
+            "note": "14–21 day grand tour"
+          },
+          {
+            "name": "Nairobi + Kilimanjaro fly-in",
+            "note": "Luxury combination"
+          }
+        ]
+      }
+    }
+  },
+  "signaturePackages": {
+    "eyebrow": "Our Signature Safari Experiences",
+    "headingBefore": "Popular safari ",
+    "headingHighlight": "categories",
+    "headingAfter": "tuned",
+    "description": "Discover the wonders of Africa with Divine Travel Nest Safaris. Our popular safari tours offer unforgettable wildlife encounters, stunning landscapes, and authentic cultural experiences — whether you're seeking adventure or relaxation.",
+    "signatureBadge": "Signature",
+    "fromLabel": "FROM",
+    "onRequest": "On request",
+    "daysLabel": "DAYS",
+    "ctaText": "Can't find what you're looking for? We craft fully bespoke itineraries around your dates, budget and dream destinations.",
+    "ctaButton": "View all safari packages"
+  },
+  "featuredSafaris": {
+    "eyebrow": "Signature Packages",
+    "headingBefore": "Popular safari ",
+    "headingHighlight": "Our best",
+    "headingAfter": "journeys",
+    "description": "Handpicked itineraries designed by our in-country team — each one refined through years of guiding guests across East Africa.",
+    "viewAllSafaris": "View all safaris",
+    "featuredBadge": "Featured",
+    "fromLabel": "from",
+    "quoteOnRequest": "Quote on request",
+    "daysLabel": "days"
+  },
+  "bestSellers": {
+    "eyebrow": "Most Booked Tours",
+    "headingBefore": "Guest ",
+    "headingHighlight": "favourites",
+    "description": "These are our most-requested itineraries — handpicked by our team based on wildlife density, seasonal timing, and guest feedback.",
+    "viewItinerary": "View itinerary",
+    "items": [
+      {
+        "title": "7-Day Masai Mara & Amboseli",
+        "route": "Nairobi → Masai Mara → Amboseli → Nairobi. Big Five, wildebeest herds & Kilimanjaro views."
+      },
+      {
+        "title": "10-Day Kenya–Tanzania Classic",
+        "route": "Masai Mara → Serengeti → Ngorongoro → Amboseli. The ultimate cross-border safari."
+      },
+      {
+        "title": "5-Day Gorilla Trekking Uganda",
+        "route": "Entebbe → Bwindi Impenetrable Forest → Queen Elizabeth NP. Mountain gorillas & tree-climbing lions."
+      },
+      {
+        "title": "14-Day East Africa Grand Tour",
+        "route": "Kenya + Tanzania + Uganda + Rwanda. Masai Mara, Serengeti, Bwindi & Volcanoes — the full East Africa experience."
+      }
+    ]
+  },
+  "migrationCalendar": {
+    "eyebrow": "A year in the ecosystem",
+    "headingBefore": "A ",
+    "headingHighlight": "calendar ",
+    "headingAfter": "of two million hooves",
+    "lead": "The Great Migration is a year-long loop, not a single moment. Select a month — or use the arrow keys — to follow the herd and parallel highlights up in Uganda.",
+    "regionLabel": "Region",
+    "bestForLabel": "Best for",
+    "crowdLabel": "Crowd",
+    "seasonLabel": "Season",
+    "meanwhileUganda": "Meanwhile in Uganda",
+    "months": [
+      {
+        "title": [
+          "Calving on the",
+          "short-grass plains."
+        ],
+        "body": "Roughly 1.3 million wildebeest are spread across the Ndutu region and the southern Serengeti, grazing the mineral-rich short grass. The first calves drop in the last week of January.",
+        "region": "Ndutu · S. Serengeti",
+        "best": "Calving · predators",
+        "crowd": "Medium",
+        "rain": "Dry · short grass",
+        "ugandaNote": "Dry season — peak gorilla trekking."
+      },
+      {
+        "title": [
+          "Peak calving —",
+          "eight thousand a day."
+        ],
+        "body": "Around 400,000 calves are born across a three-week window, almost all of them in February. The synchrony overwhelms the predators, so most calves survive. The southern plains hold the densest game on earth this month.",
+        "region": "Ndutu · S. Serengeti",
+        "best": "Calving · big cats",
+        "crowd": "High",
+        "rain": "Dry · short grass",
+        "ugandaNote": "Clear forest trails, dry permits window."
+      },
+      {
+        "title": [
+          "Plains dry —",
+          "herds begin to drift."
+        ],
+        "body": "The short-grass plains brown off. The herd starts a slow, scattered drift northwest toward Moru and Seronera. Calves are six weeks old and can keep up. Quiet, low-season pricing, beautiful light.",
+        "region": "Moru · C. Serengeti",
+        "best": "Photography · solitude",
+        "crowd": "Low",
+        "rain": "Short rains end",
+        "ugandaNote": "Chimp tracking · Palearctic bird arrivals."
+      },
+      {
+        "title": [
+          "The long rains",
+          "arrive."
+        ],
+        "body": "Heavy daily rain. Many mobile camps close for the month. The herd is in the central Serengeti around Seronera and Moru, hard to follow on muddy tracks. Permits and lodging are at their lowest prices of the year.",
+        "region": "Seronera · C. Serengeti",
+        "best": "Value · solitude",
+        "crowd": "Very low",
+        "rain": "Long rains",
+        "ugandaNote": "Lush forest · discounted gorilla permits."
+      },
+      {
+        "title": [
+          "The rut on",
+          "the move."
+        ],
+        "body": "Rains taper. The herd forms ribbon-like columns through the western Serengeti — up to forty kilometres long. Mating happens on the march: 90% of females are bred in a three-week window. The procession runs day and night.",
+        "region": "W. Corridor · Serengeti",
+        "best": "Rut · columns",
+        "crowd": "Low",
+        "rain": "Rains taper",
+        "ugandaNote": "Tree-climbing lions in Ishasha."
+      },
+      {
+        "title": [
+          "The Grumeti",
+          "River crossings."
+        ],
+        "body": "The first major water test of the year. Crocodiles in the Grumeti are some of the largest on the continent — six metres, fifty years old, waiting for this month. Fewer guests than the Mara, equally dramatic.",
+        "region": "Grumeti · W. Serengeti",
+        "best": "Grumeti crossings",
+        "crowd": "Building",
+        "rain": "Dry begins",
+        "ugandaNote": "Dry season game viewing peaks."
+      },
+      {
+        "title": [
+          "Front of the herd",
+          "reaches the Mara."
+        ],
+        "body": "The leading edge pushes through the Lamai Wedge and reaches the Mara River. The first nervous crossings happen late in the month. The Maasai Mara fills with vehicles — we work the quieter northern Serengeti side.",
+        "region": "Lamai · Mara River",
+        "best": "First crossings",
+        "crowd": "High",
+        "rain": "Dry",
+        "ugandaNote": "Nile boat cruises, big herds on the delta."
+      },
+      {
+        "title": [
+          "Mara River",
+          "in full crossing."
+        ],
+        "body": "Herds mass on the south bank for hours — sometimes a week — before a single line tips them in. Crossings of 30,000+ animals are not unusual. We position you on the north bank at first light; most stays see at least one crossing.",
+        "region": "Mara River",
+        "best": "Crossings",
+        "crowd": "Peak",
+        "rain": "Dry · cool nights",
+        "ugandaNote": "Peak dry-season tracking."
+      },
+      {
+        "title": [
+          "Peak crossings —",
+          "the classic month."
+        ],
+        "body": "September is the photographer's month: crossings every two or three days, golden grass, low light, dust. We move you between the Mara Triangle and the Sand River crossings on the Tanzanian side to dodge the busiest sites.",
+        "region": "Mara Triangle",
+        "best": "Crossings · photography",
+        "crowd": "Peak",
+        "rain": "Dry",
+        "ugandaNote": "Second dry window opens for gorillas."
+      },
+      {
+        "title": [
+          "Settled in",
+          "the Mara."
+        ],
+        "body": "The herd grazes the Mara through October. Big-cat action is at its annual high — every pride is hunting calves and yearlings. Occasional return crossings as small groups peel south through Sand River.",
+        "region": "Masai Mara",
+        "best": "Cats · landscape",
+        "crowd": "High",
+        "rain": "Dry ends",
+        "ugandaNote": "Crisp mornings, clear forest views."
+      },
+      {
+        "title": [
+          "Short rains —",
+          "turning south."
+        ],
+        "body": "Storms over the Loita plains pull the herd south. They re-cross the Mara River the wrong way and push through Lobo and Loliondo back into the central Serengeti. Camps repaint, prices fall, cats still hunt.",
+        "region": "Loliondo · N. Serengeti",
+        "best": "Value · cats",
+        "crowd": "Medium",
+        "rain": "Short rains",
+        "ugandaNote": "Migrant bird peak across the rift."
+      },
+      {
+        "title": [
+          "Returning to",
+          "the calving grounds."
+        ],
+        "body": "Most of the herd is back in the central and southern Serengeti by mid-December. The short-grass plains are green again from the November rains. Christmas in the central Serengeti is its own particular magic.",
+        "region": "Seronera → Ndutu",
+        "best": "Family trips",
+        "crowd": "Medium",
+        "rain": "Short rains end",
+        "ugandaNote": "Festive trekking — dry & cool again."
+      }
+    ],
+    "calendarNavAria": "Migration calendar — select a month",
+    "monthsAria": "Months",
+    "prevPrefix": "Previous: ",
+    "nextPrefix": "Next: ",
+    "pauseAria": "Pause auto-play",
+    "playAria": "Play year automatically",
+    "mapAria": "East Africa Ecosystem Map"
+  },
+  "photoMarquee": {
+    "items": [
+      {
+        "caption": "The Marsh Pride at dawn"
+      },
+      {
+        "caption": "Flamingos at the rim"
+      },
+      {
+        "caption": "Tracking a small family"
+      },
+      {
+        "caption": "Western corridor"
+      },
+      {
+        "caption": "An unnamed lodge, evening"
+      },
+      {
+        "caption": "Under the baobabs"
+      }
+    ]
+  },
+  "whyChooseUs": {
+    "eyebrow": "Why Choose Us",
+    "headingBefore": "Africa with ",
+    "headingHighlight": "confidence",
+    "description": "We've been the bridge between travellers and the African wild for over a decade. Here's what sets Divine Travel Nest Safaris apart.",
+    "cells": [
+      {
+        "titleLine1": "Expert Local",
+        "titleLine2": "Guides",
+        "body": "Fluent naturalists with deep regional knowledge — turning every sighting into a story. Our guides hold professional safari guide certifications and have decades of field experience."
+      },
+      {
+        "titleLine1": "Tailor-Made",
+        "titleLine2": "Itineraries",
+        "body": "From solo travelers to family groups, we craft each journey around your pace and interests. No two Divine Travel Nest safaris are ever identical."
+      },
+      {
+        "titleLine1": "Budget to",
+        "titleLine2": "Luxury",
+        "body": "Whether you choose a classic bush camp or an ultra-luxury tented lodge, you'll receive the same passionate service, wildlife access, and care."
+      },
+      {
+        "titleLine1": "No hidden",
+        "titleLine2": "costs",
+        "body": "Quotes include park fees, accommodation, every meal, your vehicle, your guide and airport transfers. The only things we leave out are international flights and visas."
+      },
+      {
+        "titleLine1": "Eco-Conscious",
+        "titleLine2": "Travel",
+        "body": "We partner with conservation projects and community wildlife programs. Every booking directly supports the landscapes that make your safari possible."
+      },
+      {
+        "titleLine1": "24/7",
+        "titleLine2": "Support",
+        "body": "Our operations team is reachable around the clock — from the moment you first enquire to the day you return home safely."
+      }
+    ]
+  },
+  "standOut": {
+    "eyebrow": "What sets us apart",
+    "headingBefore": "Safari done ",
+    "headingHighlight": "properly",
+    "description": "In a market full of online booking engines, we remain a hands-on, in-country team dedicated to crafting safaris that exceed every expectation.",
+    "features": [
+      {
+        "title": "Genuine In-Country Team",
+        "body": "We are based in Nairobi — not a booking engine. When you call, you speak directly with your safari consultant who knows every park personally."
+      },
+      {
+        "title": "Real-Time Availability",
+        "body": "We hold direct lodge allocations, giving you access to the best camps even in peak season. No third-party mark-ups, no surprises."
+      },
+      {
+        "title": "Wildlife-First Routing",
+        "body": "Our itineraries follow the animals, not the calendar. We track the migration in real time and can adjust your route mid-safari."
+      },
+      {
+        "title": "Transparent, All-Inclusive Pricing",
+        "body": "No hidden extras. Park fees, activities, meals, transfers — all included in your quote so you can plan with confidence."
+      }
+    ]
+  },
+  "tailorMade": {
+    "eyebrow": "Custom Safari Design",
+    "headingBefore": "Your safari, ",
+    "headingHighlight": "your way",
+    "description": "No two safaris are alike at Divine Travel Nest. We start with your wishes, build around your budget, and refine until every detail is exactly right.",
+    "cta": "Start planning my safari",
+    "points": [
+      {
+        "title": "Budget to Luxury",
+        "desc": "Camping, mid-range lodges or ultra-luxury tented camps — we cover every tier."
+      },
+      {
+        "title": "Solo, Couple & Group",
+        "desc": "Individual travellers, honeymoon couples, families and group expeditions."
+      },
+      {
+        "title": "Any Duration",
+        "desc": "From a 3-day weekend escape to a 21-day grand East Africa expedition."
+      },
+      {
+        "title": "Flexible Routing",
+        "desc": "Fly-in safaris, self-drive, guided overland — or any combination."
+      },
+      {
+        "title": "Special Interest",
+        "desc": "Birding, photography, cultural immersion, gorilla trekking or migration-focused tours."
+      },
+      {
+        "title": "Free Proposal in 24h",
+        "desc": "Tell us your dream. We respond with a full itinerary within 24 hours, at no cost."
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Guest Stories",
+    "heading": "Told by Travellers",
+    "prevAria": "Previous testimonial",
+    "nextAria": "Next testimonial",
+    "verified": "Verified",
+    "readMore": "Read full review"
+  },
+  "journalSection": {
+    "eyebrow": "Safari Journal",
+    "headingBefore": "Stories from ",
+    "headingHighlight": "the field",
+    "description": "Guides, tips and behind-the-scenes stories from our in-country team and the wildlife they follow across East Africa.",
+    "viewAll": "View all articles"
+  },
+  "faqSection": {
+    "eyebrow": "Kenya, Tanzania, Uganda & Rwanda Safari FAQ",
+    "headingMain": "East Africa safari ",
+    "headingEm": "FAQ",
+    "description": "Common questions about Kenya, Tanzania, Uganda, Rwanda and gorilla trekking safaris. Can't find your answer? Call or email us any time.",
+    "items": [
+      {
+        "q": "When is the best time to visit Kenya for the Great Migration?",
+        "a": "The most famous part of the Great Migration — the Mara River crossings — occurs from July to October when the herds are in the Masai Mara. However, the migration is a year-round event. January–February offers calving season in the southern Serengeti, while June–July features the dramatic Grumeti River crossings in Tanzania."
+      },
+      {
+        "q": "How far in advance should I book a gorilla trekking permit?",
+        "a": "Gorilla trekking permits in Uganda (Bwindi Impenetrable Forest) and Rwanda (Volcanoes NP) sell out months in advance, especially during peak season (July–September and December–January). We recommend booking at least 6 months ahead, and up to 12 months for peak season travel. We handle all permit applications on your behalf."
+      },
+      {
+        "q": "What is included in a typical safari package?",
+        "a": ""
+      },
+      {
+        "q": "Can you customise a safari for families with young children?",
+        "a": "Absolutely — family safaris are one of our specialties. We select family-friendly lodges with dedicated children's programs, experienced child-friendly guides, and age-appropriate activities. We also plan activity schedules around younger children's energy levels. Minimum age restrictions apply for certain activities (gorilla trekking requires guests to be 15+)."
+      },
+      {
+        "q": "What is the difference between a budget, mid-range and luxury safari?",
+        "a": "The main difference lies in accommodation and vehicle quality. Budget safaris use shared minibus vehicles and tented camps or basic lodges. Mid-range safaris offer private vehicles and comfortable lodge rooms with en-suite facilities. Luxury safaris feature exclusive-use vehicles, private guides, and world-class tented camps or lodges with exceptional service. All tiers include the same wildlife access and expert guiding."
+      },
+      {
+        "q": "Do I need a visa and vaccinations for Kenya and Tanzania?",
+        "a": "Most nationalities require a visa for Kenya and Tanzania, both available online via e-visa portals. For health requirements, Yellow Fever vaccination is mandatory if arriving from a yellow fever-endemic country. We strongly recommend consulting your travel health clinic at least 6–8 weeks before departure for current vaccination advice including malaria prophylaxis."
+      }
+    ],
+    "tableIntro": "A standard Divine Travel Nest Safaris package includes:",
+    "tableRows": [
+      {
+        "item": "Park fees & conservation levies",
+        "included": true
+      },
+      {
+        "item": "All game drives & activities listed",
+        "included": true
+      },
+      {
+        "item": "Accommodation (lodge or tented camp)",
+        "included": true
+      },
+      {
+        "item": "Full board (breakfast, lunch, dinner)",
+        "included": true
+      },
+      {
+        "item": "Airport & inter-park transfers",
+        "included": true
+      },
+      {
+        "item": "English-speaking guide",
+        "included": true
+      },
+      {
+        "item": "International flights",
+        "included": false
+      },
+      {
+        "item": "Travel insurance",
+        "included": false
+      },
+      {
+        "item": "Personal gratuities",
+        "included": false
+      }
+    ]
+  }
+}

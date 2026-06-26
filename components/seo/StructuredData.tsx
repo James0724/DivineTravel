@@ -528,6 +528,14 @@ export function SiteNavigationSchema() {
       {
         "@type": "SiteNavigationElement",
         position: 7,
+        name: "Safari Accommodations",
+        description:
+          "Lodges, tented camps & beach resorts we partner with across East Africa.",
+        url: `${APP_URL}/accommodations`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 8,
         name: "Plan My Safari",
         description:
           "Tell us your dates and interests — get a free tailor-made itinerary within 24 hours.",
@@ -535,7 +543,7 @@ export function SiteNavigationSchema() {
       },
       {
         "@type": "SiteNavigationElement",
-        position: 8,
+        position: 9,
         name: "Book Your Safari",
         description:
           "Pick a Kenya, Tanzania, Uganda or Rwanda safari package and request a booking online.",
@@ -543,7 +551,7 @@ export function SiteNavigationSchema() {
       },
       {
         "@type": "SiteNavigationElement",
-        position: 9,
+        position: 10,
         name: "About Us",
         description:
           "Meet the team behind Divine Travel Nest Safaris — Kenya-based, woman-led safari experts.",
@@ -551,7 +559,7 @@ export function SiteNavigationSchema() {
       },
       {
         "@type": "SiteNavigationElement",
-        position: 10,
+        position: 11,
         name: "Contact Us",
         description:
           "Reach our Nairobi safari team by call, WhatsApp or email — free safari proposals in 24 h.",
@@ -559,7 +567,7 @@ export function SiteNavigationSchema() {
       },
       {
         "@type": "SiteNavigationElement",
-        position: 11,
+        position: 12,
         name: "Field Journal",
         description:
           "Safari stories, wildlife guides and travel tips from East Africa.",

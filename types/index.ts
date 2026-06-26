@@ -177,6 +177,56 @@ export interface Testimonial {
   createdAt: string
 }
 
+// ─── Accommodation (Lodges / Tented Camps / Beach Resorts) ─────────────────
+
+export type AccommodationType = 'luxury-lodge' | 'tented-camp' | 'beach-resort'
+export type AccommodationPriceTier = 'budget' | 'midRange' | 'luxury'
+
+export interface AccommodationImage {
+  url: string
+  publicId: string
+  alt: string
+  width?: number
+  height?: number
+}
+
+export interface Accommodation {
+  _id: string
+  name: string
+  slug: string
+  type: AccommodationType
+  location: {
+    country: string
+    region: string
+  }
+  description: string
+  highlights: string[]
+  amenities: string[]
+  coverImage: string
+  coverImagePublicId?: string
+  images: AccommodationImage[]
+  websiteUrl: string
+  priceTier?: AccommodationPriceTier
+  featured: boolean
+  active: boolean
+  seo: {
+    metaTitle?: string
+    metaDescription?: string
+    keywords?: string[]
+  }
+  createdAt: string
+  updatedAt: string
+}
+
+export interface AccommodationFilters {
+  search?: string
+  type?: AccommodationType
+  country?: string
+  featured?: boolean
+  page?: number
+  limit?: number
+}
+
 // ─── User (Admin) ────────────────────────────────────────────────────────────
 
 export type UserRole = 'super_admin' | 'admin' | 'editor' | 'viewer'
@@ -256,6 +306,9 @@ export interface BookingFormData {
   emergencyContactName?: string
   emergencyContactPhone?: string
   referralSource?: string
+  /** What the visitor was shown at submit time — informational only. */
+  displayCurrency?: string
+  displayTotalPrice?: number
 }
 
 export interface ContactFormData {

@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "Normas de la comunidad | Divine Travel Nest Safaris",
+    "description": "Nuestras Normas de la comunidad para viajar con Divine Travel Nest Safaris — respeto por la fauna, las comunidades locales, otros viajeros y nuestra comunidad del Diario de campo."
+  },
+  "breadcrumbHome": "Inicio",
+  "breadcrumbCurrent": "Normas de la comunidad",
+  "hero": {
+    "eyebrow": "Nuestra comunidad",
+    "titleMain": "Normas de la",
+    "titleEm": "comunidad",
+    "description": "Una guía breve y clara para viajar de forma responsable con nosotros — por la fauna, las comunidades que nos acogen y todos con quienes compartirás un safari."
+  },
+  "toc": {
+    "contents": "Contenido",
+    "lastUpdated": "Última actualización:",
+    "lastUpdatedDate": "Junio de 2026",
+    "questions": "¿Preguntas?",
+    "contactUs": "Contáctanos"
+  },
+  "intro": "Un safari es un privilegio — para nosotros, para ti, y para la fauna, los parques y las comunidades que lo hacen posible. Estas normas establecen lo que esperamos de cada persona que viaja con Divine Travel Nest Safaris, y lo que tú puedes esperar de nosotros a cambio.",
+  "sections": {
+    "who": {
+      "label": "A quién se aplican estas normas",
+      "heading": "A quién se aplican estas normas",
+      "body": "Estas Normas de la comunidad se aplican a todo huésped que viaje con una reserva de Divine Travel Nest Safaris, a cualquier persona que comente o interactúe con nuestro Diario de campo, y a nuestros guías, conductores y lodges asociados que nos representan sobre el terreno."
+    },
+    "wildlife": {
+      "label": "Respeto por la fauna y el entorno",
+      "heading": "Respeto por la fauna y el entorno",
+      "intro": "Pedimos a cada huésped que:",
+      "items": [
+        "Permanezca dentro del vehículo o en el sendero marcado, salvo indicación contraria del guía.",
+        "Nunca alimente, toque ni intente atraer a la fauna.",
+        "Mantenga el ruido bajo y evite movimientos bruscos cerca de los animales.",
+        "Se lleve todo lo que traiga — nunca deje basura.",
+        "Evite el flash fotográfico cerca de los animales y siga las instrucciones del guía sobre drones (la mayoría de los parques los restringen o prohíben por completo).",
+        "Se mantenga en las pistas designadas — conducir fuera de pista daña hábitats frágiles e infringe la normativa del parque."
+      ]
+    },
+    "communities": {
+      "label": "Respeto por las comunidades locales",
+      "heading": "Respeto por las comunidades locales y su cultura",
+      "intro": "Muchos de nuestros itinerarios incluyen visitas a poblados masái y otras comunidades locales que reciben generosamente a los viajeros. Por favor:",
+      "items": [
+        "Pide siempre permiso antes de fotografiar a personas, viviendas o ceremonias.",
+        "Vístete y compórtate con respeto, siguiendo las indicaciones de tu guía sobre las costumbres locales.",
+        "Trata las visitas a los poblados como un intercambio cultural, no como una oportunidad fotográfica — haz preguntas, escucha y participa.",
+        "Da propina y compra artesanías directamente cuando se te invite a hacerlo — apoya a la comunidad que te recibe."
+      ]
+    },
+    "groupEtiquette": {
+      "label": "Etiqueta en safaris de grupo",
+      "heading": "Etiqueta en safaris de grupo",
+      "intro": "Si compartes vehículo con otros viajeros en un safari grupal o combinado:",
+      "items": [
+        "Está listo a tiempo para los game drives — un retraso puede costarle un avistamiento a todo el vehículo.",
+        "Comparte de forma equitativa los asientos junto a la ventana y el espacio de observación.",
+        "Mantén un volumen de conversación respetuoso cerca de la fauna.",
+        "Sigue las instrucciones de tu guía — vela por la seguridad y la experiencia de todos."
+      ]
+    },
+    "lodgeConduct": {
+      "label": "Conducta en lodges y campamentos",
+      "heading": "Conducta en lodges y campamentos",
+      "body": "Nuestros lodges y campamentos asociados son espacios compartidos, a menudo sin vallar y cercanos a la fauna. Por favor, respeta las horas de silencio tras el anochecer, sigue las indicaciones del personal para desplazarte entre habitaciones de noche, trata a todo el personal con cortesía y consume alcohol con responsabilidad."
+    },
+    "photography": {
+      "label": "Fotografía y publicación",
+      "heading": "Fotografía y publicación en redes sociales",
+      "body": "Nos encanta ver tus fotos de safari. Al publicarlas, evita geoetiquetar ubicaciones sensibles como zonas activas contra la caza furtiva o madrigueras, da crédito a guías y comunidades locales cuando sea posible, y evita pies de foto que hagan parecer dóciles o accesibles a los animales salvajes — puede fomentar comportamientos inseguros en otras personas."
+    },
+    "comments": {
+      "label": "Comentarios y reseñas del diario",
+      "heading": "Comentarios y reseñas del diario",
+      "intro": "Nuestro <link>Diario de campo</link> es un espacio para preguntas genuinas, historias y comentarios. Al comentar o dejar una reseña, por favor:",
+      "items": [
+        "Mantén el respeto — sin acoso, discurso de odio ni ataques personales.",
+        "No publiques spam, enlaces promocionales ni contenido ajeno al tema.",
+        "No compartas información personal de otras personas sin su consentimiento.",
+        "Mantén las reseñas honestas y basadas en experiencias reales con nosotros."
+      ],
+      "outro": "Los comentarios se moderan y nos reservamos el derecho de eliminar cualquiera que infrinja estas normas."
+    },
+    "safety": {
+      "label": "Salud, seguridad y autoridad del guía",
+      "heading": "Salud, seguridad y autoridad del guía",
+      "body": "Las instrucciones de tu guía se dan por tu seguridad y la de la fauna — síguelas en todo momento, incluso si una indicación parece excesivamente cautelosa en el momento. Informa a tu guía de cualquier condición médica, alergia o necesidad de movilidad antes del viaje para que podamos planificar en consecuencia."
+    },
+    "reporting": {
+      "label": "Reportar una preocupación",
+      "heading": "Reportar una preocupación",
+      "body": "Si presencias un comportamiento de otro huésped, miembro del personal o guía que infrinja estas normas — o simplemente tienes una preocupación durante tu viaje — informa de inmediato a tu guía o <link>contacta con nuestro equipo</link>. Nos tomamos muy en serio cada reporte."
+    },
+    "updates": {
+      "label": "Actualizaciones de estas normas",
+      "heading": "Actualizaciones de estas normas",
+      "body": "Podemos actualizar estas Normas de la comunidad de vez en cuando para reflejar nuevas normativas de los parques, comentarios de la comunidad o cambios en nuestras operaciones. La versión publicada aquí es siempre la vigente."
+    }
+  }
+}

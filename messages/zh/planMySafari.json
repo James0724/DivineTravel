@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "规划我的野生动物园之旅——免费定制行程 | Divine Travel Nest Safaris",
+    "description": "告诉我们您的出行日期和兴趣所在。我们将为您量身定制行程并提供透明报价——快速回复保证。或直接致电:+254 722-595-916。",
+    "ogTitle": "规划我的野生动物园之旅 — Divine Travel Nest Safaris",
+    "ogDescription": "24小时内提供免费个性化野生动物园方案,无需任何承诺。"
+  },
+  "breadcrumbHome": "首页",
+  "breadcrumbCurrent": "规划我的野生动物园之旅",
+  "hero": {
+    "eyebrow": "从这里开始",
+    "titleMain": "让我们规划您的",
+    "titleEm": "完美野生动物园之旅",
+    "description": "告诉我们您的出行日期,以及您梦想在野外看到的景象。我们将从一开始就以诚实透明的报价,为您打造专属的野生动物园行程。准备好让您的非洲冒险成真了吗?让我们联系吧,或者跳过表单,直接致电 +254 722 595 916。",
+    "callNow": "立即致电",
+    "whatsapp": "WhatsApp"
+  },
+  "contact": {
+    "eyebrow": "直接联系我们",
+    "headingMain1": "通过",
+    "headingByEm": "电话",
+    "headingMain2": "邮件或留言预订。",
+    "body": "我们相信,一次精彩的野生动物园之旅,是原始荒野与精心设计的完美融合。从追踪横跨大草原的大迁徙,到预订隐世丛林营地,我们为您处理一切后勤事务,让您只需尽情享受当下。每一份行程均完全定制,由深谙荒野节律与地形细节的专家精心打造,确保您在非洲腹地获得一段难忘的旅程。",
+    "details": {
+      "phoneLabel": "电话",
+      "emailLabel": "邮箱",
+      "officeLabel": "办公室",
+      "officeValue": "肯尼亚内罗毕",
+      "tripadvisorLabel": "TripAdvisor",
+      "tripadvisorValue": "查看我们的评价 ↗",
+      "googleLabel": "Google",
+      "googleValue": "Google 评价 ↗"
+    }
+  },
+  "form": {
+    "headingMain": "申请",
+    "headingEm": "免费",
+    "headingSuffix": "定制报价",
+    "subtext": "快速回复保证"
+  },
+  "trust": {
+    "items": [
+      { "num": "500+", "lbl": "已完成的野生动物园之旅" },
+      { "num": "4.9★", "lbl": "客人平均评分" },
+      { "num": "24小时", "lbl": "方案回复时长" },
+      { "num": "100%", "lbl": "定制行程" }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "Planea mi safari — Itinerario personalizado gratuito | Divine Travel Nest Safaris",
+    "description": "Cuéntanos tus fechas e intereses. Diseñamos un itinerario a tu medida con precios transparentes — respuesta rápida garantizada. O llama directamente al +254 722-595-916.",
+    "ogTitle": "Planea mi safari — Divine Travel Nest Safaris",
+    "ogDescription": "Propuestas de safari personalizadas y gratuitas en 24 horas. Sin compromiso."
+  },
+  "breadcrumbHome": "Inicio",
+  "breadcrumbCurrent": "Planea mi safari",
+  "hero": {
+    "eyebrow": "Empieza aquí",
+    "titleMain": "Planeemos tu",
+    "titleEm": "safari perfecto",
+    "description": "Cuéntanos tus fechas de viaje y qué sueñas con ver en la naturaleza. Crearemos un itinerario de safari a tu medida con precios honestos y transparentes desde el principio. ¿Listo para dar vida a tu aventura africana? Conectemos, o sáltate los formularios y llámanos directamente al +254 722 595 916.",
+    "callNow": "Llámanos ahora",
+    "whatsapp": "WhatsApp"
+  },
+  "contact": {
+    "eyebrow": "Contáctanos directamente",
+    "headingMain1": "Reserva por",
+    "headingByEm": "teléfono",
+    "headingMain2": "correo o mensaje.",
+    "body": "Creemos que un gran safari es una mezcla perfecta de naturaleza salvaje y diseño meticuloso. Desde seguir la Gran Migración por la sabana hasta reservar el campamento escondido perfecto, nosotros gestionamos la logística para que tú te concentres en el momento. Cada itinerario es completamente a medida, creado por expertos que conocen el ritmo de la naturaleza salvaje y los matices del terreno, garantizando un viaje inolvidable al corazón de África.",
+    "details": {
+      "phoneLabel": "Teléfono",
+      "emailLabel": "Correo electrónico",
+      "officeLabel": "Oficina",
+      "officeValue": "Nairobi, Kenia",
+      "tripadvisorLabel": "TripAdvisor",
+      "tripadvisorValue": "Lee nuestras reseñas ↗",
+      "googleLabel": "Google",
+      "googleValue": "Reseñas de Google ↗"
+    }
+  },
+  "form": {
+    "headingMain": "Solicita una cotización",
+    "headingEm": "gratuita",
+    "headingSuffix": "personalizada",
+    "subtext": "Respuesta rápida garantizada"
+  },
+  "trust": {
+    "items": [
+      { "num": "500+", "lbl": "Safaris realizados" },
+      { "num": "4.9★", "lbl": "Calificación media de huéspedes" },
+      { "num": "24h", "lbl": "Tiempo de respuesta" },
+      { "num": "100%", "lbl": "Itinerarios personalizados" }
+    ]
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "title": "Términos y Condiciones | Divine Travel Nest Safaris",
+    "description": "Lea los Términos y Condiciones que rigen las reservas de safari con Divine Travel Nest Safaris Ltd — sobre pagos, cancelaciones, responsabilidad y sus derechos como cliente."
+  },
+  "breadcrumbHome": "Inicio",
+  "breadcrumbCurrent": "Términos y Condiciones",
+  "hero": {
+    "eyebrow": "Legal",
+    "titleBefore": "Términos y",
+    "titleEm": "Condiciones",
+    "description": "Lea atentamente estos términos antes de realizar una reserva. Constituyen el contrato entre usted y Divine Travel Nest Safaris Ltd."
+  },
+  "toc": {
+    "contentsLabel": "Contenido",
+    "lastUpdatedLabel": "Última actualización:",
+    "lastUpdatedValue": "Junio de 2026",
+    "questionsLabel": "¿Preguntas?",
+    "contactUsLink": "Contáctenos"
+  },
+  "preamble": {
+    "lead": "Estos Términos y Condiciones rigen todas las reservas realizadas con Divine Travel Nest Safaris Ltd (registrada en Kenia). Al realizar una reserva, usted acepta estos términos en su totalidad, en su nombre y en el de todos los pasajeros incluidos en la reserva.",
+    "note": "Le recomendamos conservar una copia de este documento como referencia durante todo su viaje."
+  },
+  "sections": {
+    "acceptance": {
+      "label": "Aceptación de los Términos",
+      "heading": "Aceptación de los Términos",
+      "p1": "Al enviar una consulta de reserva, pagar un depósito o confirmar de otro modo un safari con Divine Travel Nest Safaris Ltd, usted reconoce haber leído, entendido y aceptado incondicionalmente quedar vinculado por estos Términos y Condiciones. Si no está de acuerdo, no debe proceder con la reserva.",
+      "p2": "La persona que realiza la reserva acepta estos términos en nombre de todos los demás miembros del grupo de viaje, y asume la responsabilidad de asegurarse de que todos los miembros los conozcan y acepten."
+    },
+    "definitions": {
+      "label": "Definiciones",
+      "heading": "Definiciones",
+      "intro": "En estos Términos y Condiciones:",
+      "items": [
+        { "term": "«Empresa»", "desc": "se refiere a Divine Travel Nest Safaris Ltd, sus empleados, directores, agentes y representantes." },
+        { "term": "«Cliente» / «Usted»", "desc": "se refiere a la persona o personas que envían una consulta de reserva, pagan un depósito, o viajan en un safari organizado por la Empresa." },
+        { "term": "«Safari» / «Tour»", "desc": "se refiere a cualquier servicio de viaje, paquete, itinerario, alojamiento o actividad organizada o vendida por la Empresa." },
+        { "term": "«Reserva»", "desc": "se refiere a una reservación confirmada de un safari tras la recepción del depósito requerido y la confirmación escrita de la Empresa." },
+        { "term": "«Fecha de salida»", "desc": "se refiere al primer día del safari según se confirme en la documentación de la reserva." },
+        { "term": "«Notificación escrita»", "desc": "se refiere a la comunicación por correo electrónico a la dirección confirmada en los documentos de reserva." }
+      ]
+    },
+    "booking": {
+      "label": "Reservas",
+      "heading": "Reservas",
+      "p1": "Una reserva se considera confirmada únicamente al recibir el pago del depósito requerido y la emisión de una confirmación de reserva por escrito por parte de la Empresa. Los acuerdos verbales o las reservas provisionales no constituyen reservas confirmadas.",
+      "p2": "Todos los pasajeros deben estar nombrados en el momento de la reserva. El cliente principal es responsable de proporcionar información precisa de los pasajeros, incluidos los nombres legales completos tal como aparecen en los pasaportes, las nacionalidades y cualquier declaración médica relevante.",
+      "p3": "La Empresa se reserva el derecho de rechazar cualquier reserva a su discreción, en cuyo caso se reembolsará íntegramente cualquier cantidad pagada.",
+      "p4": "Las reservas realizadas a través de agentes o plataformas de terceros están sujetas a estos Términos y Condiciones, además de cualquier término específico de la plataforma."
+    },
+    "payment": {
+      "label": "Condiciones de pago",
+      "heading": "Condiciones de pago",
+      "p1": "Se requiere un depósito no reembolsable del <strong>30 % del costo total del safari</strong> para confirmar una reserva. El saldo restante debe pagarse a más tardar <strong>60 días antes de la fecha de salida</strong>.",
+      "p2": "Para reservas realizadas dentro de los 60 días previos a la fecha de salida, el costo total del safari debe pagarse en el momento de la reserva.",
+      "p3Label": "Los pagos pueden realizarse mediante:",
+      "bullets": [
+        "Transferencia bancaria (USD, EUR, GBP o KES)",
+        "M-Pesa (pagos domésticos en Kenia)",
+        "Tarjeta de crédito o débito (sujeta a una comisión de procesamiento del 3 %)",
+        "Otros métodos acordados por escrito con la Empresa"
+      ],
+      "p4": "Cuando el pago se realice en una moneda distinta a la cotizada, se aplicará el tipo de cambio vigente en la fecha en que se recibe el pago. Cualquier cargo bancario o comisión de transferencia es responsabilidad exclusiva del Cliente.",
+      "p5": "El incumplimiento del pago en la fecha límite puede dar lugar a la liberación de la reserva y la pérdida del depósito. La Empresa proporcionará un aviso por escrito antes de cancelar una reserva por falta de pago."
+    },
+    "cancellation-client": {
+      "label": "Cancelación por el Cliente",
+      "heading": "Cancelación por el Cliente",
+      "intro": "Todas las cancelaciones deben recibirse por escrito a través de correo electrónico. La fecha de cancelación es la fecha en que la Empresa recibe el aviso por escrito. Se aplican los siguientes cargos por cancelación:",
+      "table": {
+        "colDays": "Días antes de la salida",
+        "colCharge": "Cargo por cancelación",
+        "rows": [
+          { "period": "Más de 90 días", "charge": "Solo el depósito (30 %)" },
+          { "period": "61 – 90 días", "charge": "50 % del costo total" },
+          { "period": "31 – 60 días", "charge": "75 % del costo total" },
+          { "period": "30 días o menos", "charge": "100 % del costo total" },
+          { "period": "No presentación / salida anticipada", "charge": "100 % del costo total" }
+        ]
+      },
+      "p1": "No se otorgan reembolsos por las partes no utilizadas de un safari, incluidas comidas, actividades o alojamiento no utilizados debido a una salida anticipada voluntaria o una llegada tardía.",
+      "p2": "La Empresa recomienda encarecidamente a todos los clientes contratar un seguro de viaje completo, incluida cobertura de cancelación de viaje, para protegerse contra pérdidas imprevistas por cancelación."
+    },
+    "cancellation-company": {
+      "label": "Cancelación por la Empresa",
+      "heading": "Cancelación por la Empresa",
+      "p1": "La Empresa se reserva el derecho de cancelar un safari en las siguientes circunstancias:",
+      "bullets": [
+        "No se ha alcanzado el tamaño mínimo de grupo requerido para operar el recorrido, con un aviso de al menos 45 días al Cliente.",
+        "Las condiciones de seguridad, la inestabilidad política, los desastres naturales u otras circunstancias hacen que el safari sea inseguro o impracticable de operar.",
+        "Eventos de fuerza mayor según se describe en la Sección 12."
+      ],
+      "p2": "Cuando la Empresa cancele un safari por motivos distintos a la fuerza mayor, el Cliente recibirá un <strong>reembolso total</strong> de todos los importes pagados a la Empresa. La Empresa también hará esfuerzos razonables para ofrecer un safari alternativo de igual valor y calidad.",
+      "p3": "La responsabilidad de la Empresa se limita al reembolso de los importes pagados. No se pagará compensación por pérdidas consecuentes, como billetes de avión, visados u otros arreglos de viaje reservados de forma independiente por el Cliente."
+    },
+    "insurance": {
+      "label": "Seguro de viaje",
+      "heading": "Seguro de viaje",
+      "p1": "Se <strong>recomienda encarecidamente</strong> un seguro de viaje completo para todos los clientes y puede ser requerido como condición de participación en ciertas actividades, en particular el trekking de gorilas, el senderismo de montaña y las expediciones a zonas salvajes remotas.",
+      "p2Label": "Como mínimo, su seguro de viaje debería incluir cobertura para:",
+      "bullets": [
+        "Gastos médicos y hospitalización",
+        "Evacuación médica de emergencia (incluida evacuación en helicóptero)",
+        "Cancelación, interrupción y reducción de viaje",
+        "Pérdida, robo y retraso de equipaje",
+        "Responsabilidad civil personal"
+      ],
+      "p3": "La Empresa no será responsable de ninguna pérdida, costo o daño que hubiera estado cubierto por un seguro de viaje adecuado. Puede solicitarse comprobante de seguro antes de la salida."
+    },
+    "itinerary": {
+      "label": "Cambios de itinerario",
+      "heading": "Cambios de itinerario",
+      "p1": "Aunque la Empresa hace todo lo posible para operar los safaris según lo planeado, los itinerarios están sujetos a cambios debido a condiciones meteorológicas, cierres de carreteras, regulaciones de los parques, patrones de la fauna, disponibilidad de alojamiento o consideraciones de seguridad. Estas variaciones son una parte inherente de los viajes de fauna en África.",
+      "p2": "Cuando sea necesario un cambio significativo en un itinerario confirmado antes de la salida, la Empresa notificará al Cliente lo antes posible y ofrecerá:",
+      "bullets": [
+        "Una alternativa de estándar y valor equivalente o superior, o",
+        "Un reembolso parcial cuando se produzca una degradación significativa del alojamiento o las actividades."
+      ],
+      "p3": "Los cambios menores — incluida la sustitución de lodges por alternativas comparables, ajustes en las rutas de conducción, o modificaciones en los horarios de los game drives — no constituyen cambios significativos y no dan derecho al Cliente a un reembolso o compensación.",
+      "p4": "Las solicitudes del Cliente para modificar una reserva confirmada (fechas, destinos o número de pasajeros) se atenderán cuando sea posible, sujeto a disponibilidad y a cualquier cargo de modificación aplicable de los proveedores."
+    },
+    "health": {
+      "label": "Salud y condición física",
+      "heading": "Requisitos de salud y condición física",
+      "p1": "El Cliente es el único responsable de garantizar que todos los miembros del grupo de viaje se encuentren en un estado de salud y condición física adecuado para participar en las actividades de safari elegidas.",
+      "p2Label": "Ciertas actividades tienen requisitos específicos:",
+      "bullets": [
+        "Trekking de gorilas y chimpancés: edad mínima de 15 años; implica caminar de 2 a 8 km en terreno montañoso a altitud.",
+        "Safaris a pie: se requiere condición física moderada; no recomendado para personas con problemas de movilidad.",
+        "Safaris en globo aerostático: se aplican restricciones de peso según las especificaciones del operador del globo."
+      ],
+      "p3": "La Empresa debe ser informada por escrito, antes de la confirmación de la reserva, sobre cualquier condición médica preexistente, discapacidad, embarazo o requisito dietético que pueda afectar la participación. La Empresa puede requerir un certificado médico de aptitud para ciertas actividades.",
+      "p4": "Se requiere un certificado de vacunación contra la fiebre amarilla para entrar en Uganda, y puede ser exigido por Kenia y Tanzania según su país de origen o viajes anteriores. Es responsabilidad del Cliente obtener todas las vacunas y documentación sanitaria requeridas. La Empresa recomienda consultar una clínica de medicina del viajero al menos 6–8 semanas antes de la salida.",
+      "p5": "La Empresa se reserva el derecho de excluir a un participante de cualquier actividad cuando un guía o profesional médico considere razonablemente que la participación supone un riesgo para la salud de esa persona o de otros miembros del grupo. No se otorgará reembolso en tales circunstancias."
+    },
+    "wildlife": {
+      "label": "Fauna y seguridad",
+      "heading": "Fauna y seguridad",
+      "p1": "Los safaris de fauna se realizan en entornos naturales salvajes habitados por animales salvajes. Tales encuentros son inherentemente impredecibles y conllevan un elemento de riesgo que no puede eliminarse por completo. Al reservar un safari con la Empresa, usted reconoce y acepta estos riesgos.",
+      "p2Label": "Todos los Clientes deben:",
+      "bullets": [
+        "Seguir en todo momento las instrucciones de su guía, incluidas las instrucciones de permanecer en el vehículo, mantener silencio o abandonar una zona.",
+        "Abstenerse de alimentar, tocar o provocar a la fauna.",
+        "Cumplir todas las normas y reglamentos de los parques y reservas.",
+        "No consumir alcohol en exceso antes o durante cualquier actividad que pueda comprometer la seguridad."
+      ],
+      "p3": "La Empresa no será responsable de ninguna lesión, muerte, pérdida o daño resultante del incumplimiento por parte de un Cliente de las instrucciones del guía o de las regulaciones del parque. Cualquier Cliente que desatienda deliberadamente las instrucciones de seguridad lo hace bajo su propio riesgo.",
+      "p4": "Nuestros conductores-guías poseen licencias válidas emitidas por la Kenya Professional Safari Guides Association (KPSGA) y están capacitados en primeros auxilios en zonas salvajes. Sin embargo, las instalaciones médicas de emergencia en zonas remotas pueden ser limitadas, lo que subraya la importancia de un seguro de viaje completo que incluya cobertura de evacuación médica."
+    },
+    "liability": {
+      "label": "Responsabilidad",
+      "heading": "Responsabilidad",
+      "p1": "La Empresa actúa en parte como agente de proveedores de servicios externos, incluyendo, entre otros, aerolíneas, proveedores de alojamiento, autoridades de parques y operadores de actividades. La Empresa no es responsable de los actos, omisiones, incumplimientos, negligencia o insolvencia de dichos proveedores externos.",
+      "p2": "Cuando se determine que la Empresa es directamente responsable de una pérdida o daño sufrido por el Cliente, la responsabilidad total de la Empresa no excederá el costo total pagado por el Cliente por el safari que dio lugar a la reclamación.",
+      "p3Label": "La Empresa excluye expresamente su responsabilidad por:",
+      "bullets": [
+        "Pérdida de disfrute, angustia o decepción derivada de circunstancias fuera del control razonable de la Empresa.",
+        "Pérdidas consecuentes, indirectas o económicas, incluida la pérdida de ingresos o los costos de vuelos, visados o alojamiento reservados de forma independiente.",
+        "Pérdida o robo de bienes personales, dinero o equipo.",
+        "Lesiones, enfermedades o muerte causadas por proveedores de servicios externos.",
+        "Cualquier pérdida derivada de que el Cliente no haya obtenido un seguro de viaje adecuado."
+      ],
+      "p4": "Nada en estos Términos y Condiciones excluye la responsabilidad por muerte o lesiones personales causadas por negligencia probada de la Empresa, ni ninguna responsabilidad que no pueda excluirse por ley."
+    },
+    "force-majeure": {
+      "label": "Fuerza mayor",
+      "heading": "Fuerza mayor",
+      "p1": "Ni la Empresa ni el Cliente serán responsables de ningún incumplimiento o retraso en la ejecución que surja de eventos fuera de su control razonable, incluidos, entre otros:",
+      "bullets": [
+        "Actos de la naturaleza, desastres naturales o eventos meteorológicos extremos",
+        "Guerra, conflicto armado, disturbios civiles o actos de terrorismo",
+        "Restricciones gubernamentales, cierres de fronteras o advertencias de viaje",
+        "Epidemias, pandemias o emergencias de salud pública",
+        "Acciones laborales, huelgas o cierres de aeropuertos",
+        "Cierres de parques ordenados por las autoridades de parques nacionales"
+      ],
+      "p2": "En caso de fuerza mayor, la Empresa hará todo lo posible por ofrecer una fecha de viaje alternativa o un vale de valor equivalente. Cuando no sea posible ninguna alternativa, los reembolsos se considerarán caso por caso, tras deducir cualquier costo no recuperable ya incurrido con los proveedores."
+    },
+    "complaints": {
+      "label": "Reclamaciones",
+      "heading": "Reclamaciones",
+      "p1": "La Empresa se compromete a ofrecer un alto estándar de servicio. Si algún aspecto de su safari no cumple con sus expectativas, le pedimos que plantee la preocupación a su guía o representante de la Empresa de inmediato, para que tengamos la oportunidad de resolverlo durante el viaje.",
+      "p2Before": "Si el asunto no se resuelve a su satisfacción durante el safari, debe presentarse una reclamación formal por escrito por correo electrónico a",
+      "p2After": "dentro de los <strong>30 días posteriores al último día de su safari</strong>. Las reclamaciones recibidas después de este período podrían no ser consideradas.",
+      "p3": "La Empresa acusará recibo de una reclamación formal dentro de 5 días hábiles y proporcionará una respuesta sustantiva dentro de 28 días."
+    },
+    "privacy": {
+      "label": "Privacidad y datos",
+      "heading": "Privacidad y datos",
+      "p1": "La Empresa recopila información personal (incluidos nombres, datos de pasaporte, información de contacto y declaraciones médicas) con el único fin de gestionar su reserva y prestar los servicios de safari adquiridos.",
+      "p2": "Su información personal no será vendida ni compartida con terceros no afiliados, excepto cuando sea necesario para cumplir con los servicios reservados (por ejemplo, compartir los nombres de los pasajeros con lodges, autoridades de parques o proveedores de transporte).",
+      "p3": "Al realizar una reserva, usted consiente que la Empresa conserve su información de contacto para enviar comunicaciones ocasionales relacionadas con el servicio. Puede darse de baja de las comunicaciones de marketing en cualquier momento contactándonos por escrito.",
+      "p4": "La Empresa almacena los datos de forma segura y de conformidad con la legislación keniana aplicable en materia de protección de datos."
+    },
+    "photography": {
+      "label": "Fotografía y medios",
+      "heading": "Fotografía y medios",
+      "p1": "La Empresa puede fotografiar o filmar las actividades del safari con fines de marketing, formación o registro. Si prefiere no aparecer en dichos materiales, notifíquelo por escrito a la Empresa antes de su fecha de salida y respetaremos su preferencia.",
+      "p2": "Los clientes pueden fotografiar y filmar fauna y paisajes para uso personal. La fotografía de personas locales, comunidades o sitios culturales debe realizarse con sensibilidad y, cuando corresponda, con el permiso de las personas fotografiadas.",
+      "p3": "El uso comercial de drones y la producción de medios profesionales dentro de los parques nacionales requieren permisos previos de la autoridad del parque correspondiente y deben declararse a la Empresa en el momento de la reserva."
+    },
+    "governing-law": {
+      "label": "Ley aplicable",
+      "heading": "Ley aplicable",
+      "p1": "Estos Términos y Condiciones se rigen e interpretan de conformidad con las leyes de la República de Kenia. Cualquier disputa que surja de o en relación con estos términos estará sujeta a la jurisdicción exclusiva de los tribunales de Kenia.",
+      "p2": "En caso de disputa, ambas partes acuerdan intentar primero una resolución mediante negociación de buena fe. Si la negociación fracasa, cualquiera de las partes podrá remitir el asunto a mediación antes de iniciar procedimientos legales formales.",
+      "p3Before": "La Empresa se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento. La versión vigente en la fecha de confirmación de la reserva se aplicará a dicha reserva. Los términos actuales se publican siempre en nuestro sitio web en",
+      "p3After": ".",
+      "contactBox": {
+        "label": "¿Preguntas sobre estos términos?",
+        "body": "Nuestro equipo estará encantado de aclarar cualquier punto de estas condiciones antes de que reserve.",
+        "sendMessage": "Enviar un mensaje"
+      }
+    }
+  }
+}

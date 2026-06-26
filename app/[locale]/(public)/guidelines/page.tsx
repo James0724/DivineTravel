@@ -1,36 +1,47 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import Reveal from "@/components/ui/Reveal";
 import { BreadcrumbSchema } from "@/components/seo/StructuredData";
 import PageHero from "@/components/ui/PageHero";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
-export const metadata: Metadata = {
-  title: "Community Guidelines | Divine Travel Nest Safaris",
-  description:
-    "Our Community Guidelines for travelling with Divine Travel Nest Safaris — respecting wildlife, local communities, fellow travellers, and our Field Journal community.",
-  alternates: { canonical: "/guidelines" },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "guidelines" });
+  return {
+    title: t("meta.title"),
+    description: t("meta.description"),
+    alternates: buildAlternates(locale, "/guidelines"),
+  };
+}
 
-const sections = [
-  { id: "who", label: "Who This Applies To" },
-  { id: "wildlife", label: "Respecting Wildlife & Environment" },
-  { id: "communities", label: "Respecting Local Communities" },
-  { id: "group-etiquette", label: "Group Safari Etiquette" },
-  { id: "lodge-conduct", label: "Lodge & Camp Conduct" },
-  { id: "photography", label: "Photography & Sharing" },
-  { id: "comments", label: "Journal Comments & Reviews" },
-  { id: "safety", label: "Health, Safety & Guide Authority" },
-  { id: "reporting", label: "Reporting a Concern" },
-  { id: "updates", label: "Updates to These Guidelines" },
-];
+const sectionIds = [
+  "who",
+  "wildlife",
+  "communities",
+  "groupEtiquette",
+  "lodgeConduct",
+  "photography",
+  "comments",
+  "safety",
+  "reporting",
+  "updates",
+] as const;
 
-export default function GuidelinesPage() {
+export default async function GuidelinesPage() {
+  const t = await getTranslations("guidelines");
+
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: "Home", href: "/" },
-          { name: "Community Guidelines", href: "/guidelines" },
+          { name: t("breadcrumbHome"), href: "/" },
+          { name: t("breadcrumbCurrent"), href: "/guidelines" },
         ]}
       />
 
@@ -40,19 +51,19 @@ export default function GuidelinesPage() {
         minHeight="min-h-[44vh]"
         imageOpacity={0.28}
         breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Community Guidelines", href: "/guidelines" },
+          { label: t("breadcrumbHome"), href: "/" },
+          { label: t("breadcrumbCurrent"), href: "/guidelines" },
         ]}
-        eyebrow="Our Community"
+        eyebrow={t("hero.eyebrow")}
         title={
           <>
-            Community{" "}
+            {t("hero.titleMain")}{" "}
             <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>
-              Guidelines
+              {t("hero.titleEm")}
             </em>
           </>
         }
-        description="A short, plain-language guide to travelling responsibly with us — for the wildlife, the communities who host us, and everyone you'll share a safari with."
+        description={t("hero.description")}
       />
 
       <div className="bg-bone-bg py-20 lg:py-28">
@@ -69,22 +80,22 @@ export default function GuidelinesPage() {
                   style={{ borderColor: "rgba(31,29,24,0.1)" }}
                 >
                   <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-bone-muted">
-                    Contents
+                    {t("toc.contents")}
                   </span>
                 </div>
                 <nav className="px-6 py-4">
                   <ul className="space-y-0.5">
-                    {sections.map((s, i) => (
-                      <li key={s.id}>
+                    {sectionIds.map((id, i) => (
+                      <li key={id}>
                         <a
-                          href={`#${s.id}`}
+                          href={`#${id}`}
                           className="flex items-center gap-2.5 py-1.5 text-[13px] text-bone-muted hover:text-bone-ink transition-colors group"
                         >
                           <span className="font-mono text-[10px] text-bone-clay opacity-80 flex-shrink-0 w-5">
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <span className="group-hover:translate-x-0.5 transition-transform">
-                            {s.label}
+                            {t(`sections.${id}.label`)}
                           </span>
                         </a>
                       </li>
@@ -96,13 +107,13 @@ export default function GuidelinesPage() {
                   style={{ borderColor: "rgba(31,29,24,0.1)" }}
                 >
                   <p className="text-[12px] text-bone-muted leading-[1.6]">
-                    Last updated:{" "}
-                    <span className="text-bone-ink font-medium">June 2026</span>
+                    {t("toc.lastUpdated")}{" "}
+                    <span className="text-bone-ink font-medium">{t("toc.lastUpdatedDate")}</span>
                   </p>
                   <p className="text-[12px] text-bone-muted mt-1 leading-[1.6]">
-                    Questions?{" "}
+                    {t("toc.questions")}{" "}
                     <Link href="/contact" className="text-bone-clay hover:underline">
-                      Contact us
+                      {t("toc.contactUs")}
                     </Link>
                   </p>
                 </div>
@@ -121,182 +132,71 @@ export default function GuidelinesPage() {
                     style={{ border: "1px solid rgba(31,29,24,0.14)" }}
                   >
                     <p className="font-serif italic text-[19px] leading-[1.55] text-bone-ink">
-                      A safari is a privilege — for us, for you, and for the
-                      wildlife, parks and communities that make it possible.
-                      These guidelines set out what we expect of everyone who
-                      travels with Divine Travel Nest Safaris, and what you
-                      can expect from us in return.
+                      {t("intro")}
                     </p>
                   </div>
                 </div>
               </Reveal>
 
-              <GuideSection id="who" number="01" heading="Who This Applies To">
+              <GuideSection id="who" number="01" heading={t("sections.who.heading")}>
+                <p>{t("sections.who.body")}</p>
+              </GuideSection>
+
+              <GuideSection id="wildlife" number="02" heading={t("sections.wildlife.heading")}>
+                <p>{t("sections.wildlife.intro")}</p>
+                <GuideList items={t.raw("sections.wildlife.items") as string[]} />
+              </GuideSection>
+
+              <GuideSection id="communities" number="03" heading={t("sections.communities.heading")}>
+                <p>{t("sections.communities.intro")}</p>
+                <GuideList items={t.raw("sections.communities.items") as string[]} />
+              </GuideSection>
+
+              <GuideSection id="group-etiquette" number="04" heading={t("sections.groupEtiquette.heading")}>
+                <p>{t("sections.groupEtiquette.intro")}</p>
+                <GuideList items={t.raw("sections.groupEtiquette.items") as string[]} />
+              </GuideSection>
+
+              <GuideSection id="lodge-conduct" number="05" heading={t("sections.lodgeConduct.heading")}>
+                <p>{t("sections.lodgeConduct.body")}</p>
+              </GuideSection>
+
+              <GuideSection id="photography" number="06" heading={t("sections.photography.heading")}>
+                <p>{t("sections.photography.body")}</p>
+              </GuideSection>
+
+              <GuideSection id="comments" number="07" heading={t("sections.comments.heading")}>
                 <p>
-                  These Community Guidelines apply to every guest travelling
-                  on a Divine Travel Nest Safaris booking, to anyone
-                  commenting on or interacting with our Field Journal, and to
-                  our guides, drivers and partner lodges representing us in
-                  the field.
+                  {t.rich("sections.comments.intro", {
+                    link: (chunks) => (
+                      <Link href="/journal" className="text-bone-clay hover:underline">
+                        {chunks}
+                      </Link>
+                    ),
+                  })}
+                </p>
+                <GuideList items={t.raw("sections.comments.items") as string[]} />
+                <p>{t("sections.comments.outro")}</p>
+              </GuideSection>
+
+              <GuideSection id="safety" number="08" heading={t("sections.safety.heading")}>
+                <p>{t("sections.safety.body")}</p>
+              </GuideSection>
+
+              <GuideSection id="reporting" number="09" heading={t("sections.reporting.heading")}>
+                <p>
+                  {t.rich("sections.reporting.body", {
+                    link: (chunks) => (
+                      <Link href="/contact" className="text-bone-clay hover:underline">
+                        {chunks}
+                      </Link>
+                    ),
+                  })}
                 </p>
               </GuideSection>
 
-              <GuideSection
-                id="wildlife"
-                number="02"
-                heading="Respecting Wildlife & the Environment"
-              >
-                <p>We ask every guest to:</p>
-                <GuideList
-                  items={[
-                    "Stay inside the vehicle or on the marked trail unless your guide says otherwise.",
-                    "Never feed, touch or attempt to attract wildlife.",
-                    "Keep noise low and avoid sudden movement near animals.",
-                    "Carry out everything you carry in — no littering, ever.",
-                    "Avoid flash photography near animals, and follow your guide's instructions on drones (most parks restrict or ban them entirely).",
-                    "Stick to designated tracks — off-roading damages fragile habitats and is against park regulations.",
-                  ]}
-                />
-              </GuideSection>
-
-              <GuideSection
-                id="communities"
-                number="03"
-                heading="Respecting Local Communities & Culture"
-              >
-                <p>
-                  Many of our itineraries include visits to Maasai villages
-                  and other local communities who generously welcome
-                  travellers. Please:
-                </p>
-                <GuideList
-                  items={[
-                    "Always ask before photographing people, homes or ceremonies.",
-                    "Dress and behave respectfully, taking cues from your guide on local norms.",
-                    "Treat village visits as a cultural exchange, not a photo opportunity — ask questions, listen, and engage.",
-                    "Tip and purchase crafts directly where invited to do so — it supports the community hosting you.",
-                  ]}
-                />
-              </GuideSection>
-
-              <GuideSection
-                id="group-etiquette"
-                number="04"
-                heading="Group Safari Etiquette"
-              >
-                <p>
-                  If you're sharing a vehicle with other travellers on a
-                  group or joining safari:
-                </p>
-                <GuideList
-                  items={[
-                    "Be ready on time for game drives — a late start can cost the whole vehicle a sighting.",
-                    "Share window seats and viewing space fairly during sightings.",
-                    "Keep conversation at a respectful volume near wildlife.",
-                    "Follow your guide's instructions — they're balancing everyone's safety and experience.",
-                  ]}
-                />
-              </GuideSection>
-
-              <GuideSection
-                id="lodge-conduct"
-                number="05"
-                heading="Lodge & Camp Conduct"
-              >
-                <p>
-                  Our partner lodges and camps are shared spaces, often
-                  unfenced and close to wildlife. Please respect quiet hours
-                  after dark, follow staff instructions about walking between
-                  rooms at night, treat all staff with courtesy, and drink
-                  responsibly.
-                </p>
-              </GuideSection>
-
-              <GuideSection
-                id="photography"
-                number="06"
-                heading="Photography & Sharing on Social Media"
-              >
-                <p>
-                  We love seeing your safari photos. When sharing publicly,
-                  please avoid geotagging sensitive locations such as
-                  active anti-poaching zones or den sites, credit local
-                  guides and communities where you can, and avoid captions
-                  that misrepresent wild animals as tame or approachable —
-                  it can encourage unsafe behaviour in others.
-                </p>
-              </GuideSection>
-
-              <GuideSection
-                id="comments"
-                number="07"
-                heading="Journal Comments & Reviews"
-              >
-                <p>
-                  Our{" "}
-                  <Link href="/journal" className="text-bone-clay hover:underline">
-                    Field Journal
-                  </Link>{" "}
-                  is a space for genuine questions, stories and feedback.
-                  When commenting or leaving a review, please:
-                </p>
-                <GuideList
-                  items={[
-                    "Keep it respectful — no harassment, hate speech or personal attacks.",
-                    "Don't post spam, promotional links or unrelated content.",
-                    "Don't share other people's personal information without consent.",
-                    "Keep reviews honest and based on real experiences with us.",
-                  ]}
-                />
-                <p>
-                  Comments are moderated and we reserve the right to remove
-                  any that breach these guidelines.
-                </p>
-              </GuideSection>
-
-              <GuideSection
-                id="safety"
-                number="08"
-                heading="Health, Safety & Guide Authority"
-              >
-                <p>
-                  Your guide's instructions are given for your safety and the
-                  safety of the wildlife — please follow them at all times,
-                  even if a request seems overly cautious in the moment. Let
-                  your guide know about any medical conditions, allergies or
-                  mobility needs before the trip so we can plan around them.
-                </p>
-              </GuideSection>
-
-              <GuideSection
-                id="reporting"
-                number="09"
-                heading="Reporting a Concern"
-              >
-                <p>
-                  If you witness behaviour from another guest, staff member
-                  or guide that breaches these guidelines — or you simply
-                  have a concern during your trip — please tell your guide
-                  immediately or{" "}
-                  <Link href="/contact" className="text-bone-clay hover:underline">
-                    contact our team
-                  </Link>
-                  . We take every report seriously.
-                </p>
-              </GuideSection>
-
-              <GuideSection
-                id="updates"
-                number="10"
-                heading="Updates to These Guidelines"
-                isLast
-              >
-                <p>
-                  We may update these Community Guidelines from time to time
-                  to reflect new park regulations, community feedback or
-                  changes to our operations. The version published here is
-                  always the current one.
-                </p>
+              <GuideSection id="updates" number="10" heading={t("sections.updates.heading")} isLast>
+                <p>{t("sections.updates.body")}</p>
               </GuideSection>
             </div>
           </div>

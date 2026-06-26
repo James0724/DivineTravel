@@ -179,7 +179,7 @@
 
   .article-hero {
     position: relative;
-    min-height: 78vh;
+    min-height: 54vh;
     color: white;
     overflow: hidden;
     display: flex;

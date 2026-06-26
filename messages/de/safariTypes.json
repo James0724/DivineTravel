@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "title": "Safari-Typen — Aktivitäts- und Reisendenstile im Vergleich | Divine Travel Nest Safaris",
+    "description": "Jeder Stil von Ostafrika-Safaris im Vergleich — nach Aktivität (Wander-, Foto-, Wasser-, Nacht-, Vogelbeobachtungs-, Wellness- und Naturschutz-Safaris) und danach, mit wem Sie reisen (Familie, Solo, Kleingruppe, Paar, Hochzeitsreise, privat).",
+    "ogTitle": "Safari-Typen | Divine Travel Nest Safaris",
+    "ogDescription": "Jeder Stil von Ostafrika-Safaris im Vergleich — finden Sie den, der zu Ihnen passt.",
+    "collectionName": "Safari-Typen — Aktivitäts- und Reisendenstile im Vergleich",
+    "collectionDescription": "Jeder Stil von Ostafrika-Safaris im Vergleich — nach Aktivität und danach, mit wem Sie reisen."
+  },
+  "breadcrumbHome": "Start",
+  "breadcrumbCurrent": "Safari-Typen",
+  "hero": {
+    "eyebrow": "Finden Sie Ihren Stil",
+    "titleBefore": "Jede Art, eine",
+    "titleEm": "Safari zu erleben",
+    "description": "Es gibt zwei Fragen, die es sich lohnt, vor allem anderen zu beantworten: Welche Art von Safari-Erlebnis möchten Sie, und mit wem reisen Sie? Zusammen prägen sie fast jede weitere Entscheidung — Park, Tempo, Fahrzeug und Lodge."
+  },
+  "cta": {
+    "headingBefore": "Nicht sicher, welcher Stil",
+    "headingEm": "richtig",
+    "headingAfter": " ist?",
+    "description": "Erzählen Sie uns von Ihrer Gruppe, Ihrem Budget und Ihren Traum-Tierbeobachtungen — unser Team empfiehlt den passenden Aktivitäts- und Reisendenstil und plant die Reiseroute darum.",
+    "buttonText": "Experten fragen"
+  },
+  "intro": {
+    "eyebrow": "Zwei Fragen, eine Reiseroute",
+    "headingBefore": "Es gibt nicht nur einen ",
+    "headingHighlight": "Typ",
+    "headingAfter": " von Safari.",
+    "lead": "Wir sind seit über einem Jahrzehnt die Brücke zwischen Reisenden und der afrikanischen Wildnis. Das zeichnet Divine Travel Nest Safaris aus.",
+    "paragraph1": "Die meisten Safari-Unternehmen sprechen, als gäbe es nur ein Produkt — ein Fahrzeug, einen Guide, eine Checkliste von Tieren. In der Praxis wird eine Reise von zwei separaten, übereinander gestapelten Entscheidungen geprägt: der Art des Erlebnisses, das Sie im Busch wollen, und der Art der Gruppe, mit der Sie reisen.",
+    "paragraph2": "Die erste — der Aktivitätstyp — umfasst alles, von der Art, wie Sie sich physisch durch einen Park bewegen (zu Fuß, per 4x4, per Boot, in der Luft, nach Einbruch der Dunkelheit), bis hin zu dem, was Sie tatsächlich tagsüber tun, sei es die Jagd nach dem besten Licht für ein Foto, ein entspannter Wellness-Nachmittag oder die Begleitung eines Naturschutzteams. Die zweite — der Reisendentyp — betrifft, um wen die Reiseroute herum gebaut ist: solo, als Paar, mit Kindern oder als vollständig private Gruppe. Fast jedes unserer Pakete ist eine Kombination aus ein oder zwei Elementen jeder Liste, kein einzelnes angekreuztes Kästchen.",
+    "box1": {
+      "label": "01 — Safari-Aktivitätstypen",
+      "heading": "Safari nach Ihrem Geschmack",
+      "body": "Hierbei geht es darum, was Sie mit Ihrer Zeit anfangen — von der Art, wie Sie sich durch den Busch bewegen (zu Fuß, per 4x4, per Boot, in der Luft, nach Einbruch der Dunkelheit), bis hin zu zielgerichteteren Tagen rund um Fotografie, Vogelbeobachtung, Naturschutzarbeit oder einfach Entschleunigung. Die meisten Reisen kombinieren zwei oder drei Aktivitätstypen, statt sich auf einen einzigen zu beschränken."
+    },
+    "box2": {
+      "label": "02 — Safari-Typen nach Reisenden",
+      "heading": "Mit wem Sie reisen",
+      "body": "Hierbei geht es darum, um wen die Reise herum gebaut ist — solo, als Paar, mit den Kindern oder als private Gruppe. Das prägt das Tempo, die Fahrzeugexklusivität und die Lodges, die wir empfehlen."
+    }
+  },
+  "activityGroup": {
+    "eyebrow": "Safari-Aktivitätstypen",
+    "textBefore": "Safari nach Ihrem ",
+    "highlightedText": "Geschmack",
+    "description": "Was Sie mit Ihrer Zeit anfangen — von der Art, wie Sie sich durch den Busch bewegen (zu Fuß, per Fahrzeug, auf dem Wasser, in der Luft, nach Einbruch der Dunkelheit), bis hin zu zielgerichteteren Tagen rund um Fotografie, Vogelbeobachtung, Naturschutz oder einfach Entschleunigung. Vergleichen Sie sie unten und kombinieren Sie beliebig viele in einer Reise."
+  },
+  "travellerGroup": {
+    "eyebrow": "Safari-Typen nach Reisenden",
+    "textBefore": "Mit wem ",
+    "highlightedText": "reisen Sie",
+    "textAfter": "?",
+    "description": "Dieselben Parks und Lodges, abgestimmt auf Ihre Gruppe — solo, als Paar, mit der Familie oder vollständig privat."
+  },
+  "combine": {
+    "eyebrow": "Alles zusammenfügen",
+    "headingBefore": "Ein paar Arten, wie sich diese ",
+    "headingHighlight": "kombinieren",
+    "lead": "Wählen Sie einen Aktivitätstyp und einen Reisendentyp als Ausgangspunkt — wir bauen den Rest der Reiseroute, die Parkauswahl und die Unterkunft um diese Kombination herum.",
+    "items": [
+      "Sanfte Morgenspaziergänge gepaart mit familienfreundlichen Pirschfahrten — ideal für neugierige ältere Kinder.",
+      "Ein eigenes Fahrzeug, keine Eile, und ein Guide, der Licht, Winkel und Timing versteht.",
+      "Schließen Sie sich einer begrenzten Gruppe an, die ein Forschungs- oder Ranger-Team begleitet, und teilen Sie sich die Naturschutzgebühr.",
+      "Weniger Parks, längere Aufenthalte und ein Wellness-Nachmittag für zwei, eingebaut in den Zeitplan."
+    ]
+  },
+  "explore": "Entdecken"
+}

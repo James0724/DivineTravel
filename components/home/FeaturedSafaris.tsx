@@ -1,8 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useFeaturedSafaris } from "@/hooks/useSafaris";
+import { useCurrency } from "@/lib/currency/useCurrency";
 import { SafariCardSkeleton } from "@/components/ui/Skeleton";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import SiteLink from "@/components/ui/SiteLink";
@@ -14,6 +16,13 @@ interface FeaturedSafarisProps {
 }
 
 export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
+  const t = useTranslations("home.featuredSafaris");
+  const labels = {
+    featuredBadge: t("featuredBadge"),
+    fromLabel: t("fromLabel"),
+    quoteOnRequest: t("quoteOnRequest"),
+    daysLabel: t("daysLabel"),
+  };
   const { data, isLoading } = useFeaturedSafaris();
   const safaris = data?.data ?? initialData ?? [];
 
@@ -29,23 +38,22 @@ export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
-                Signature Packages
+                {t("eyebrow")}
               </div>
             </Reveal>
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
               as="h2"
-              textBefore="Popular safari "
-              highlightedText="Our best"
-              textAfter="journeys"
+              textBefore={t("headingBefore")}
+              highlightedText={t("headingHighlight")}
+              textAfter={t("headingAfter")}
             />
           </div>
           <Reveal variant="fadeUp">
             <div className="flex flex-col justify-between gap-4">
               <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-                Handpicked itineraries designed by our in-country team — each
-                one refined through years of guiding guests across East Africa.
+                {t("description")}
               </p>
               <SiteLink
                 href="/safaris"
@@ -53,7 +61,7 @@ export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
                 arrow
                 className="self-start"
               >
-                View all safaris
+                {t("viewAllSafaris")}
               </SiteLink>
             </div>
           </Reveal>
@@ -70,7 +78,7 @@ export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
             {safaris.map((safari) => (
               <RevealItem key={safari._id}>
-                <SafariPackageCard safari={safari} />
+                <SafariPackageCard safari={safari} labels={labels} />
               </RevealItem>
             ))}
           </Stagger>
@@ -80,11 +88,18 @@ export default function FeaturedSafaris({ initialData }: FeaturedSafarisProps) {
   );
 }
 
-function SafariPackageCard({ safari }: { safari: Safari }) {
+function SafariPackageCard({
+  safari,
+  labels,
+}: {
+  safari: Safari;
+  labels: { featuredBadge: string; fromLabel: string; quoteOnRequest: string; daysLabel: string };
+}) {
   const price =
     safari.pricing?.budget?.pricePerPerson ??
     safari.pricing?.midRange?.pricePerPerson ??
     safari.pricing?.luxury?.pricePerPerson;
+  const { displayPrice } = useCurrency();
 
   return (
     <Link
@@ -125,7 +140,7 @@ function SafariPackageCard({ safari }: { safari: Safari }) {
           </span>
           {safari.featured && (
             <span className="inline-block px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-[0.14em] text-bone-clay border border-bone-clay">
-              Featured
+              {labels.featuredBadge}
             </span>
           )}
         </div>
@@ -165,19 +180,19 @@ function SafariPackageCard({ safari }: { safari: Safari }) {
             {price ? (
               <>
                 <span className="font-mono text-[10px] text-bone-muted tracking-[0.12em] mr-1.5 align-middle">
-                  from
+                  {labels.fromLabel}
                 </span>
-                <em className="italic">${price.toLocaleString()}</em>
+                <em className="italic">{displayPrice(price)}</em>
               </>
             ) : (
               <span className="font-mono text-[11px] text-bone-muted tracking-[0.1em]">
-                Quote on request
+                {labels.quoteOnRequest}
               </span>
             )}
           </div>
           {safari.duration && (
             <span className="font-mono text-[11px] text-bone-muted uppercase tracking-[0.14em]">
-              {safari.duration} days
+              {safari.duration} {labels.daysLabel}
             </span>
           )}
         </div>

@@ -1,10 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
 import { getLowestPrice } from '@/lib/utils'
 import { SAFARI_TYPES } from '@/components/safaris/SafariFilterPanel'
+import { useCurrency } from '@/lib/currency/useCurrency'
 import type { Safari } from '@/types'
 
 interface PkgCardProps {
@@ -14,6 +15,7 @@ interface PkgCardProps {
 
 export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
   const lowestPrice = getLowestPrice(safari.pricing)
+  const { displayPrice } = useCurrency()
 
   const primaryCountry = safari.location.countries?.[0] ?? safari.location.country
   const categoryLabel = [primaryCountry, ...safari.category.slice(0, 1)].filter(Boolean).join(' · ')
@@ -98,7 +100,7 @@ export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
                 FROM
               </span>
               <strong className="font-serif text-[26px] sm:text-[28px] font-light text-bone-ink leading-none">
-                ${lowestPrice.toLocaleString()}
+                {displayPrice(lowestPrice)}
               </strong>
             </div>
             <div className="flex items-center gap-2">

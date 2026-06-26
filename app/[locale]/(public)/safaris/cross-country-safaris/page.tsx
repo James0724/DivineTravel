@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { BreadcrumbSchema, FaqSchema } from "@/components/seo/StructuredData";
 import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "Multi-country East Africa safari packages combining Kenya, Tanzania, Uganda and Rwanda in one seamless circuit. Great Wildebeest Migration, Big Five game drives, Bwindi gorilla trekking, Serengeti and Masai Mara — all tailor-made in one trip. 2026/2027.",
   keywords:
     "cross-country safari east africa, kenya tanzania safari circuit, multi-country safari packages, kenya tanzania uganda safari, great migration gorilla trekking, east africa safari itinerary, masai mara serengeti safari, kenya uganda gorilla circuit, multi-destination east africa tour, kenya rwanda safari, 10 day east africa safari, 14 day safari east africa",
-  alternates: { canonical: "/safaris/cross-country" },
+  alternates: { canonical: "/en/safaris/cross-country" },
   openGraph: {
     title: "Cross-Country Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
     description:

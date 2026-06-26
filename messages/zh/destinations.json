@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "title": "东非野生动物园目的地——肯尼亚、坦桑尼亚、乌干达与卢旺达",
+    "description": "探索东非四大野生动物园国家。从肯尼亚的马赛马拉、坦桑尼亚的塞伦盖蒂,到乌干达的大猩猩森林与卢旺达的火山——专家为您解读去哪儿、为什么去。",
+    "ogTitle": "东非野生动物园目的地 | Divine Travel Nest Safaris",
+    "ogDescription": "肯尼亚、坦桑尼亚、乌干达与卢旺达——专家为您解读东非四大野生动物园国家。",
+    "collectionName": "东非野生动物园目的地",
+    "collectionDescription": "肯尼亚、坦桑尼亚、乌干达与卢旺达——专家为您解读东非四大野生动物园国家。"
+  },
+  "breadcrumbHome": "首页",
+  "breadcrumbCurrent": "目的地",
+  "hero": {
+    "eyebrow": "东非 · 四个国家",
+    "titleBefore": "您想去",
+    "titleMid": "",
+    "titleEm": "哪里",
+    "titleSuffix": "?",
+    "description": "肯尼亚、坦桑尼亚、乌干达与卢旺达——四个国家,各具特色。我们帮助您选择、组合并体验每个国家的精华。",
+    "stats": [
+      { "num": "4", "sup": "", "lbl": "野生动物园国家" },
+      { "num": "50", "sup": "+", "lbl": "国家公园" },
+      { "num": "非洲五霸", "sup": "", "lbl": "遍布东非" }
+    ]
+  },
+  "countries": {
+    "eyebrow": "按国家探索",
+    "headingBefore": "四个国家,",
+    "headingHighlight": "每一种",
+    "headingAfter": "野生动物园体验",
+    "overline": "东非",
+    "exploreLabel": "探索",
+    "items": {
+      "kenya": {
+        "name": "肯尼亚",
+        "tagline": "非洲五霸与东非大迁徙的故乡",
+        "description": "肯尼亚是东非经典的野生动物园目的地——一望无际的金色草原、标志性的马赛文化,以及地球上最壮观的野生动物奇景。这里是“野生动物园”一词的发源地。",
+        "highlights": ["一国之内集齐非洲五霸", "东非大迁徙(7月-10月)", "全年皆可观赏野生动物", "12+座国家公园与保护区"],
+        "stat1Lbl": "公园与保护区",
+        "stat2Lbl": "全年皆宜"
+      },
+      "tanzania": {
+        "name": "坦桑尼亚",
+        "tagline": "塞伦盖蒂、恩戈罗恩戈罗与桑给巴尔",
+        "description": "坦桑尼亚拥有非洲最大的国家公园——塞伦盖蒂——以及世界闻名的恩戈罗恩戈罗火山口,这座完整的火山口常年栖息着非洲五霸,此外还有同样令人惊艳的白沙海岸线。",
+        "highlights": ["塞伦盖蒂角马迁徙路线", "恩戈罗恩戈罗火山口的狮群", "桑给巴尔海滩延伸行程", "乞力马扎罗山作为背景"],
+        "stat1Lbl": "保护区数量",
+        "stat2Lbl": "每年角马数量"
+      },
+      "uganda": {
+        "name": "乌干达",
+        "tagline": "“非洲珍珠”中的大猩猩徒步与黑猩猩追踪",
+        "description": "乌干达是非洲生物多样性最丰富的秘境——茂密的热带雨林庇护着山地大猩猩与黑猩猩,草原上生活着会爬树的狮子,还有轰鸣的默奇森瀑布。鲜有地方能如此触动人心。",
+        "highlights": ["山地大猩猩徒步", "黑猩猩追踪", "会爬树的狮子", "壮观的默奇森瀑布"],
+        "stat1Lbl": "国家公园",
+        "stat2Lbl": "全球大猩猩占比"
+      },
+      "rwanda": {
+        "name": "卢旺达",
+        "tagline": "火山、大猩猩与精致奢华",
+        "description": "国土虽小,却安全且生物多样性惊人——卢旺达将大猩猩徒步、草原游猎、金丝猴邂逅以及紐恩威黑猩猩森林浓缩在一个早晨即可穿越的国度之中。",
+        "highlights": ["山地大猩猩与金丝猴", "火山国家公园树冠徒步", "阿卡盖拉大型野生动物游猎", "紐恩威灵长类动物森林"],
+        "stat1Lbl": "主要公园",
+        "stat2Lbl": "现存山地大猩猩数量"
+      }
+    }
+  },
+  "compare": {
+    "eyebrow": "快速国家选择器",
+    "headingBefore": "为",
+    "headingEm": "您的",
+    "headingAfter": "野生动物园之旅找到合适的国家。",
+    "bestForLabel": "最适合",
+    "exploreLabel": "探索",
+    "items": {
+      "kenya": { "best": ["大型猫科动物", "大迁徙", "家庭出游"] },
+      "tanzania": { "best": ["壮观的角马迁徙路线", "蜜月旅行", "海滩组合行程"] },
+      "uganda": { "best": ["大猩猩徒步", "灵长类动物", "探险爱好者"] },
+      "rwanda": { "best": ["短途旅行", "大猩猩盛宴", "专注奢华体验"] }
+    }
+  },
+  "popular": {
+    "eyebrow": "各国热门推荐",
+    "headingBefore": "评分最高的",
+    "headingHighlight": "野生动物园",
+    "headingAfter": "套餐。",
+    "browseAllPackages": "浏览所有套餐",
+    "browseAllSafariPackages": "浏览所有野生动物园套餐",
+    "onRequest": "询价",
+    "fallback": [
+      { "name": "马赛马拉3日野生动物园之旅", "country": "肯尼亚", "days": "3天2晚" },
+      { "name": "坦桑尼亚7日精华之旅", "country": "坦桑尼亚", "days": "7天6晚" },
+      { "name": "乌干达5日大猩猩徒步之旅", "country": "乌干达", "days": "5天4晚" }
+    ]
+  }
+}

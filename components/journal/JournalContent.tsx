@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import { Link, useRouter, usePathname } from "@/i18n/navigation";
 import { usePosts, type PostFilters } from "@/hooks/usePosts";
 import Pagination from "@/components/ui/Pagination";
 import { Stagger, RevealItem } from "@/components/ui/Reveal";

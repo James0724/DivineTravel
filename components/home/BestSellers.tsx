@@ -1,46 +1,21 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { LettersPullUp } from "@/components/ui/LettersPullUp";
 import { AnimatedHeading } from "../ui/Heading";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const bestsellers = [
-  {
-    num: "01",
-    title: "7-Day Masai Mara & Amboseli",
-    route:
-      "Nairobi → Masai Mara → Amboseli → Nairobi. Big Five, wildebeest herds & Kilimanjaro views.",
-    href: "/safaris",
-  },
-  {
-    num: "02",
-    title: "10-Day Kenya–Tanzania Classic",
-    route:
-      "Masai Mara → Serengeti → Ngorongoro → Amboseli. The ultimate cross-border safari.",
-    href: "/safaris",
-  },
-  {
-    num: "03",
-    title: "5-Day Gorilla Trekking Uganda",
-    route:
-      "Entebbe → Bwindi Impenetrable Forest → Queen Elizabeth NP. Mountain gorillas & tree-climbing lions.",
-    href: "/safaris",
-  },
-  {
-    num: "04",
-    title: "14-Day East Africa Grand Tour",
-    route:
-      "Kenya + Tanzania + Uganda + Rwanda. Masai Mara, Serengeti, Bwindi & Volcanoes — the full East Africa experience.",
-    href: "/safaris",
-  },
-];
+const BESTSELLER_NUMS = ["01", "02", "03", "04"];
+const BESTSELLER_HREFS = ["/safaris", "/safaris", "/safaris", "/safaris"];
+
+type BestsellerCard = { num: string; title: string; route: string; href: string };
 
 /* ── Card with spring lift + clay border on hover ─────────────────────── */
-function SafariCard({ b }: { b: (typeof bestsellers)[0] }) {
+function SafariCard({ b, viewItinerary }: { b: BestsellerCard; viewItinerary: string }) {
   return (
     <motion.div
       className="h-full"
@@ -71,7 +46,7 @@ function SafariCard({ b }: { b: (typeof bestsellers)[0] }) {
         {/* Arrow row — arrow nudges forward on hover */}
         <div className="mt-auto flex items-center gap-1.5">
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-bone-forest group-hover:text-bone-clay transition-colors duration-200">
-            View itinerary
+            {viewItinerary}
           </span>
           <motion.span
             className="font-mono text-[11px] text-bone-forest group-hover:text-bone-clay transition-colors duration-200"
@@ -89,6 +64,15 @@ function SafariCard({ b }: { b: (typeof bestsellers)[0] }) {
 }
 
 export default function BestSellers() {
+  const t = useTranslations("home.bestSellers");
+  const itemsData = t.raw("items") as { title: string; route: string }[];
+  const bestsellers = BESTSELLER_NUMS.map((num, i) => ({
+    num,
+    title: itemsData[i].title,
+    route: itemsData[i].route,
+    href: BESTSELLER_HREFS[i],
+  }));
+
   return (
     <section
       className="py-[120px] bg-bone-paper border-y"
@@ -102,21 +86,20 @@ export default function BestSellers() {
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
-                Most Booked Tours
+                {t("eyebrow")}
               </div>
             </Reveal>
 
             {/* Heading — character pull-up */}
             <AnimatedHeading
               as="h2"
-              textBefore="Guest "
-              highlightedText="favourites"
+              textBefore={t("headingBefore")}
+              highlightedText={t("headingHighlight")}
             />
           </div>
           <Reveal variant="fadeUp">
             <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-              These are our most-requested itineraries — handpicked by our team
-              based on wildlife density, seasonal timing, and guest feedback.
+              {t("description")}
             </p>
           </Reveal>
         </header>
@@ -125,7 +108,7 @@ export default function BestSellers() {
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {bestsellers.map((b) => (
             <RevealItem key={b.num}>
-              <SafariCard b={b} />
+              <SafariCard b={b} viewItinerary={t("viewItinerary")} />
             </RevealItem>
           ))}
         </Stagger>

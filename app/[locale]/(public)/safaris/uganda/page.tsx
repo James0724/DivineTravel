@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import {
   BreadcrumbSchema,
   FaqSchema,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "Book Uganda gorilla trekking tours 2026/2027 in Bwindi Impenetrable Forest and Mgahinga. $800 permits secured, licensed guides, and wildlife safari extensions to Queen Elizabeth, Murchison Falls and Kidepo Valley — transfers from Entebbe or Kigali. Best value vs Rwanda's $1,500.",
   keywords:
     "uganda gorilla trekking 2026, bwindi gorilla tour, gorilla permit uganda, mgahinga gorilla trek, uganda wildlife safari, queen elizabeth national park, murchison falls safari, chimp trekking uganda, kidepo valley safari, uganda safari packages 2027, lake bunyonyi, entebbe safari, gorilla trekking africa",
-  alternates: { canonical: "/safaris/uganda" },
+  alternates: { canonical: "/en/safaris/uganda" },
   openGraph: {
     title: "Uganda Gorilla Trekking 2026/2027 — Bwindi, Queen Elizabeth & Murchison Falls",
     description:

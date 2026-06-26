@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     'Book the best Tanzania safari packages for 2026/2027. Serengeti Great Wildebeest Migration tours, Ngorongoro Crater game drives, Tarangire elephant safaris, Ruaha wilderness and optional Zanzibar beach extension — tailor-made by an in-country team. Budget to luxury.',
   keywords: 'tanzania safari packages 2026, serengeti safari tours, great migration safari tanzania, ngorongoro crater game drive, tarangire elephant safari, ruaha national park, zanzibar beach holiday, tanzania safari tours 2027, best tanzania safari, tanzania wildlife tour, serengeti wildebeest migration, kilimanjaro safari, fly-in safari tanzania, tanzania luxury safari',
-  alternates: { canonical: '/safaris/tanzania' },
+  alternates: { canonical: '/en/safaris/tanzania' },
   openGraph: {
     title: 'Tanzania Safari Packages 2026/2027 — Serengeti, Ngorongoro & Great Migration',
     description: 'Best Tanzania safari tours 2026/2027 — Serengeti Great Migration, Ngorongoro Crater, Tarangire & Zanzibar. Tailor-made by an in-country team.',

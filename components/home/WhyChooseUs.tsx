@@ -2,47 +2,19 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { LettersPullUp } from "@/components/ui/LettersPullUp";
 import { AnimatedHeading } from "../ui/Heading";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const cells = [
-  {
-    num: "i.",
-    title: "Expert Local\nGuides",
-    body: "Fluent naturalists with deep regional knowledge — turning every sighting into a story. Our guides hold professional safari guide certifications and have decades of field experience.",
-  },
-  {
-    num: "ii.",
-    title: "Tailor-Made\nItineraries",
-    body: "From solo travelers to family groups, we craft each journey around your pace and interests. No two Divine Travel Nest safaris are ever identical.",
-  },
-  {
-    num: "iii.",
-    title: "Budget to\nLuxury",
-    body: "Whether you choose a classic bush camp or an ultra-luxury tented lodge, you'll receive the same passionate service, wildlife access, and care.",
-  },
-  {
-    num: "iv.",
-    title: "No hidden\ncosts",
-    body: "Quotes include park fees, accommodation, every meal, your vehicle, your guide and airport transfers. The only things we leave out are international flights and visas.",
-  },
-  {
-    num: "v.",
-    title: "Eco-Conscious\nTravel",
-    body: "We partner with conservation projects and community wildlife programs. Every booking directly supports the landscapes that make your safari possible.",
-  },
-  {
-    num: "vi.",
-    title: "24/7\nSupport",
-    body: "Our operations team is reachable around the clock — from the moment you first enquire to the day you return home safely.",
-  },
-];
+const CELL_NUMS = ["i.", "ii.", "iii.", "iv.", "v.", "vi."];
+
+type Cell = { num: string; title: string; body: string };
 
 /* ── Individual cell — tracks its own hover state ───────────────────────── */
-function FeatureCell({ c }: { c: (typeof cells)[0] }) {
+function FeatureCell({ c }: { c: Cell }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -96,6 +68,14 @@ function FeatureCell({ c }: { c: (typeof cells)[0] }) {
    WHY CHOOSE US
 ═══════════════════════════════════════════════════════════════════════════ */
 export default function WhyChooseUs() {
+  const t = useTranslations("home.whyChooseUs");
+  const cellData = t.raw("cells") as { titleLine1: string; titleLine2: string; body: string }[];
+  const cells = CELL_NUMS.map((num, i) => ({
+    num,
+    title: `${cellData[i].titleLine1}\n${cellData[i].titleLine2}`,
+    body: cellData[i].body,
+  }));
+
   return (
     <section className="py-16 sm:py-24 lg:py-[140px] bg-bone-bg">
       <div className="container-site">
@@ -105,20 +85,18 @@ export default function WhyChooseUs() {
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
-                Why Choose Us
+                {t("eyebrow")}
               </div>
             </Reveal>
             <AnimatedHeading
               as="h2"
-              textBefore="Africa with "
-              highlightedText="confidence"
+              textBefore={t("headingBefore")}
+              highlightedText={t("headingHighlight")}
             />
           </div>
           <Reveal>
             <p className="text-sm leading-[1.65] text-bone-muted max-w-[56ch]">
-              We&apos;ve been the bridge between travellers and the African wild
-              for over a decade. Here&apos;s what sets Divine Travel Nest
-              Safaris apart.
+              {t("description")}
             </p>
           </Reveal>
         </header>

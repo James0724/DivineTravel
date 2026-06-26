@@ -1,0 +1,638 @@
+{
+  "meta": {
+    "title": "Divine Travel Nest Safaris — Forfaits safari Kenya, Tanzanie, Ouganda et Rwanda 2026/2027",
+    "description": "Circuits safari au Kenya guidés par des experts, game drives au Masai Mara, forfaits Serengeti en Tanzanie, trekking de gorilles en Ouganda à Bwindi et safaris aux Volcans du Rwanda — sur mesure par une équipe basée à Nairobi. Du budget au luxe, 2026/2027."
+  },
+  "faqSchema": [
+    {
+      "question": "Quelle est la meilleure période pour visiter le Kenya pour la Grande Migration ?",
+      "answer": "La partie la plus célèbre de la Grande Migration — les traversées de la rivière Mara — se produit de juillet à octobre, lorsque les troupeaux sont dans le Masai Mara. Janvier–février offre la saison de mise bas dans le sud du Serengeti, tandis que juin–juillet présente les spectaculaires traversées de la rivière Grumeti en Tanzanie."
+    },
+    {
+      "question": "Combien de temps à l'avance dois-je réserver un permis de trekking de gorilles ?",
+      "answer": "Les permis de trekking de gorilles en Ouganda (forêt impénétrable de Bwindi) s'épuisent des mois à l'avance, surtout en haute saison (juillet–septembre et décembre–janvier). Nous recommandons de réserver au moins 6 mois à l'avance, et jusqu'à 12 mois pour un voyage en haute saison. Nous gérons toutes les démarches de permis en votre nom."
+    },
+    {
+      "question": "Qu'est-ce qui est inclus dans un forfait safari typique ?",
+      "answer": "Un forfait standard de Divine Travel Nest Safaris comprend : les frais de parc et les redevances de conservation, tous les game drives et activités listés, l'hébergement (lodge ou camp de toile), la pension complète (petit-déjeuner, déjeuner et dîner), les transferts aéroport et inter-parcs, et un guide agréé parlant anglais. Les vols internationaux, l'assurance voyage et les pourboires personnels ne sont pas inclus."
+    },
+    {
+      "question": "Pouvez-vous personnaliser un safari pour des familles avec de jeunes enfants ?",
+      "answer": "Absolument — les safaris en famille sont l'une de nos spécialités. Nous sélectionnons des lodges adaptés aux familles avec des programmes dédiés aux enfants, des guides expérimentés et bienveillants envers les enfants, et des activités adaptées à leur âge. Des restrictions d'âge minimum s'appliquent pour certaines activités (le trekking de gorilles exige que les participants aient au moins 15 ans)."
+    },
+    {
+      "question": "Quelle est la différence entre un safari économique, intermédiaire et de luxe ?",
+      "answer": "Les safaris économiques utilisent des minibus partagés et des camps de toile ou des lodges basiques. Les safaris intermédiaires offrent des véhicules privés et des chambres de lodge confortables avec salle de bain privative. Les safaris de luxe proposent des véhicules à usage exclusif, des guides privés, et des camps de toile ou lodges de classe mondiale avec un service exceptionnel. Tous les niveaux incluent le même accès à la faune et un guidage expert."
+    },
+    {
+      "question": "Ai-je besoin d'un visa et de vaccins pour le Kenya et la Tanzanie ?",
+      "answer": "La plupart des nationalités ont besoin d'un visa pour le Kenya et la Tanzanie, tous deux disponibles en ligne via des portails e-visa. La vaccination contre la fièvre jaune est obligatoire si vous arrivez d'un pays endémique. Nous recommandons fortement de consulter votre clinique de médecine des voyages au moins 6 à 8 semaines avant le départ pour des conseils de vaccination actualisés, y compris la prophylaxie antipaludique."
+    }
+  ],
+  "hero": {
+    "eyebrow": "Experts du safari africain",
+    "line1": "Kenya, Tanzanie,",
+    "line2": "Ouganda & Rwanda —",
+    "line3Before": "forfaits ",
+    "line3Em": "safari",
+    "line4": "en Afrique de l'Est 2026.",
+    "description": "Game drives au Masai Mara au Kenya, circuits de migration au Serengeti en Tanzanie, trekking de gorilles à Bwindi en Ouganda et aux Volcans du Rwanda — tout sur mesure par une équipe basée à Nairobi. Du budget au luxe, 2026/2027.",
+    "planSafari": "Planifier mon safari",
+    "exploreJourneys": "Découvrir nos voyages",
+    "stats": [
+      {
+        "num": "10",
+        "sup": "+ans",
+        "label": "D'expérience de guidage"
+      },
+      {
+        "num": "3",
+        "sup": "×",
+        "label": "Pays"
+      },
+      {
+        "num": "24",
+        "sup": "/7",
+        "label": "Assistance"
+      }
+    ]
+  },
+  "intro": {
+    "eyebrow": "Divine Travel Nest Safaris",
+    "headingBefore": "Votre passerelle de confiance vers des safaris ",
+    "headingHighlight": "inoubliables",
+    "headingAfter": "en Afrique de l'Est.",
+    "contacts": [
+      {
+        "label": "Réservation par téléphone"
+      },
+      {
+        "label": "Réservation par email"
+      }
+    ],
+    "paragraph1Rest": "ienvenue chez Divine Travel Nest Safaris, la maison des expériences de safari immersives, authentiques et savamment conçues en Afrique de l'Est. Nous sommes spécialisés dans les safaris au Kenya, les safaris en Tanzanie, les circuits safari transfrontaliers Kenya–Tanzanie, le trekking de gorilles inoubliable en Ouganda et les safaris gorilles au Rwanda.",
+    "paragraph2": "Que vous rêviez d'assister à la Grande Migration des gnous dans le Masai Mara, de suivre les gorilles des montagnes au cœur de la forêt de Bwindi, ou d'explorer les vastes plaines du Serengeti, nous sommes votre partenaire de voyage dévoué — transformant les rêves de safari en souvenirs pour la vie.",
+    "paragraph3": "Chez Divine Travel Nest Safaris, chaque voyage est conçu avec passion, précision et une attention personnalisée.",
+    "missionLabel": "Notre mission",
+    "missionText": "Créer des safaris africains riches en expériences, sûrs et axés sur la valeur, qui vous rapprochent de la faune, de la culture et de la magie de l'Afrique de l'Est."
+  },
+  "destinations": {
+    "eyebrow": "Meilleures destinations de safari en Afrique de l'Est",
+    "headingBefore": "Quatre pays, un seul ",
+    "headingHighlight": "circuit",
+    "lead": "Le Mara et le Serengeti forment un seul écosystème divisé par une ligne sur une carte. Choisissez un pays pour commencer, ou laissez-nous les combiner en un seul itinéraire transfrontalier.",
+    "exploreCta": "Découvrir les safaris au {tab}",
+    "items": {
+      "ke": {
+        "tab": "Kenya",
+        "country": "Kenya · Afrique de l'Est",
+        "title": "Le Masai Mara et bien plus.",
+        "blurb": "Berceau de la Grande Migration des gnous et des Big Five, les parcs du Kenya offrent certaines des rencontres animalières les plus spectaculaires de la planète — des vastes plaines du Mara aux sommets enneigés du mont Kenya.",
+        "parks": [
+          {
+            "name": "Réserve nationale du Masai Mara",
+            "note": "Migration juillet–oct."
+          },
+          {
+            "name": "Parc national d'Amboseli",
+            "note": "Toile de fond du Kilimandjaro"
+          },
+          {
+            "name": "Tsavo Est & Ouest",
+            "note": "Éléphants rouges"
+          },
+          {
+            "name": "Parc national du lac Nakuru",
+            "note": "Volées de flamants roses"
+          },
+          {
+            "name": "Réserve nationale de Samburu",
+            "note": "Le « Special Five »"
+          },
+          {
+            "name": "Parc national du mont Kenya",
+            "note": "Trekking & faune"
+          },
+          {
+            "name": "Parc national d'Aberdare",
+            "note": "Éléphants de forêt"
+          }
+        ]
+      },
+      "tz": {
+        "tab": "Tanzanie",
+        "country": "Tanzanie · Afrique de l'Est",
+        "title": "Serengeti, Ngorongoro et Zanzibar.",
+        "blurb": "La vaste nature sauvage de la Tanzanie abrite le plus grand spectacle animalier du monde. Les plaines infinies du Serengeti, l'antique cratère du Ngorongoro et les plages parfumées d'épices de Zanzibar vous attendent.",
+        "parks": [
+          {
+            "name": "Parc national du Serengeti",
+            "note": "Migration toute l'année"
+          },
+          {
+            "name": "Aire de conservation du Ngorongoro",
+            "note": "Plus grande caldeira du monde"
+          },
+          {
+            "name": "Parc national de Tarangire",
+            "note": "Troupeaux d'éléphants"
+          },
+          {
+            "name": "Parc national du lac Manyara",
+            "note": "Lions grimpeurs d'arbres"
+          },
+          {
+            "name": "Parc national de Ruaha",
+            "note": "Sauvage et reculé"
+          },
+          {
+            "name": "Archipel de Zanzibar",
+            "note": "Extension plage"
+          }
+        ]
+      },
+      "ug": {
+        "tab": "Ouganda",
+        "country": "Ouganda · Afrique de l'Est",
+        "title": "Des gorilles au cœur de l'Afrique.",
+        "blurb": "L'Ouganda est la Perle de l'Afrique — partir trekker les gorilles des montagnes dans la forêt impénétrable de Bwindi est une rencontre unique dans une vie. Ajoutez le suivi des chimpanzés et de spectaculaires croisières sur le Nil.",
+        "parks": [
+          {
+            "name": "Forêt impénétrable de Bwindi",
+            "note": "Trekking de gorilles des montagnes"
+          },
+          {
+            "name": "Parc national Queen Elizabeth",
+            "note": "Lions grimpeurs d'arbres"
+          },
+          {
+            "name": "Parc national de la forêt de Kibale",
+            "note": "Suivi des chimpanzés"
+          }
+        ]
+      },
+      "rw": {
+        "tab": "Rwanda",
+        "country": "Rwanda · Afrique de l'Est",
+        "title": "Le pays des mille collines.",
+        "blurb": "Le Rwanda offre une approche intime et luxueuse de la faune est-africaine — trekking de gorilles dans les volcans brumeux des Virunga, chimpanzés sous la canopée de l'antique forêt de Nyungwe, et les Big Five dans la vaste savane d'Akagera.",
+        "parks": [
+          {
+            "name": "Parc national des Volcans",
+            "note": "Trekking de gorilles & singes dorés"
+          },
+          {
+            "name": "Parc national de la forêt de Nyungwe",
+            "note": "Chimpanzés & marche en canopée"
+          },
+          {
+            "name": "Parc national d'Akagera",
+            "note": "Safari savane Big Five"
+          },
+          {
+            "name": "Lac Kivu",
+            "note": "Extension plage pittoresque"
+          }
+        ]
+      },
+      "cb": {
+        "tab": "Multi-pays",
+        "country": "Afrique de l'Est · Multi-pays",
+        "title": "Un circuit, trois pays.",
+        "blurb": "Le Mara et le Serengeti forment un seul écosystème divisé par une ligne sur une carte. Combinez le Kenya, la Tanzanie et l'Ouganda en un seul itinéraire transfrontalier inoubliable.",
+        "parks": [
+          {
+            "name": "Masai Mara + Serengeti",
+            "note": "Circuit de la Grande Migration"
+          },
+          {
+            "name": "Kenya + Tanzanie + Ouganda",
+            "note": "Grand tour de 14 à 21 jours"
+          },
+          {
+            "name": "Vol Nairobi + Kilimandjaro",
+            "note": "Combinaison de luxe"
+          }
+        ]
+      }
+    }
+  },
+  "signaturePackages": {
+    "eyebrow": "Nos safaris signature",
+    "headingBefore": "Catégories de safari ",
+    "headingHighlight": "populaires",
+    "headingAfter": "",
+    "description": "Découvrez les merveilles de l'Afrique avec Divine Travel Nest Safaris. Nos circuits safari populaires offrent des rencontres animalières inoubliables, des paysages à couper le souffle et des expériences culturelles authentiques — que vous recherchiez l'aventure ou la détente.",
+    "signatureBadge": "Signature",
+    "fromLabel": "À PARTIR DE",
+    "onRequest": "Sur demande",
+    "daysLabel": "JOURS",
+    "ctaText": "Vous ne trouvez pas ce que vous cherchez ? Nous créons des itinéraires entièrement sur mesure autour de vos dates, votre budget et vos destinations de rêve.",
+    "ctaButton": "Voir tous les forfaits safari"
+  },
+  "featuredSafaris": {
+    "eyebrow": "Forfaits signature",
+    "headingBefore": "Nos ",
+    "headingHighlight": "meilleurs",
+    "headingAfter": "voyages",
+    "description": "Itinéraires soigneusement sélectionnés par notre équipe locale — chacun affiné au fil d'années d'accompagnement de voyageurs à travers l'Afrique de l'Est.",
+    "viewAllSafaris": "Voir tous les safaris",
+    "featuredBadge": "En vedette",
+    "fromLabel": "à partir de",
+    "quoteOnRequest": "Devis sur demande",
+    "daysLabel": "jours"
+  },
+  "bestSellers": {
+    "eyebrow": "Circuits les plus réservés",
+    "headingBefore": "Les ",
+    "headingHighlight": "favoris",
+    "description": "Voici nos itinéraires les plus demandés — sélectionnés par notre équipe en fonction de la densité de la faune, de la saisonnalité et des retours de nos voyageurs.",
+    "viewItinerary": "Voir l'itinéraire",
+    "items": [
+      {
+        "title": "7 jours Masai Mara & Amboseli",
+        "route": "Nairobi → Masai Mara → Amboseli → Nairobi. Big Five, troupeaux de gnous et vues sur le Kilimandjaro."
+      },
+      {
+        "title": "10 jours Classique Kenya–Tanzanie",
+        "route": "Masai Mara → Serengeti → Ngorongoro → Amboseli. Le safari transfrontalier ultime."
+      },
+      {
+        "title": "5 jours Trekking de gorilles en Ouganda",
+        "route": "Entebbe → Forêt impénétrable de Bwindi → Parc Queen Elizabeth. Gorilles des montagnes et lions grimpeurs d'arbres."
+      },
+      {
+        "title": "14 jours Grand Tour de l'Afrique de l'Est",
+        "route": "Kenya + Tanzanie + Ouganda + Rwanda. Masai Mara, Serengeti, Bwindi et Volcans — l'expérience complète de l'Afrique de l'Est."
+      }
+    ]
+  },
+  "migrationCalendar": {
+    "eyebrow": "Une année dans l'écosystème",
+    "headingBefore": "Un ",
+    "headingHighlight": "calendrier ",
+    "headingAfter": "de deux millions de sabots",
+    "lead": "La Grande Migration est une boucle annuelle, pas un instant unique. Sélectionnez un mois — ou utilisez les flèches du clavier — pour suivre le troupeau et les temps forts parallèles en Ouganda.",
+    "regionLabel": "Région",
+    "bestForLabel": "Idéal pour",
+    "crowdLabel": "Affluence",
+    "seasonLabel": "Saison",
+    "meanwhileUganda": "Pendant ce temps en Ouganda",
+    "months": [
+      {
+        "title": [
+          "Mise bas sur les",
+          "plaines à l'herbe courte."
+        ],
+        "body": "Environ 1,3 million de gnous sont répartis dans la région de Ndutu et le sud du Serengeti, broutant l'herbe courte riche en minéraux. Les premiers veaux naissent durant la dernière semaine de janvier.",
+        "region": "Ndutu · Serengeti S.",
+        "best": "Mise bas · prédateurs",
+        "crowd": "Moyenne",
+        "rain": "Sec · herbe courte",
+        "ugandaNote": "Saison sèche — pic du trekking de gorilles."
+      },
+      {
+        "title": [
+          "Pic de mise bas —",
+          "huit mille par jour."
+        ],
+        "body": "Environ 400 000 veaux naissent sur une période de trois semaines, presque tous en février. La synchronisation submerge les prédateurs, donc la plupart des veaux survivent. Les plaines du sud abritent la plus forte concentration de gibier sur Terre ce mois-ci.",
+        "region": "Ndutu · Serengeti S.",
+        "best": "Mise bas · grands félins",
+        "crowd": "Élevée",
+        "rain": "Sec · herbe courte",
+        "ugandaNote": "Sentiers forestiers dégagés, fenêtre sèche pour les permis."
+      },
+      {
+        "title": [
+          "Plaines asséchées —",
+          "les troupeaux commencent à dériver."
+        ],
+        "body": "Les plaines à l'herbe courte se dessèchent. Le troupeau commence une dérive lente et dispersée vers le nord-ouest, en direction de Moru et Seronera. Les veaux ont six semaines et peuvent suivre le rythme. Calme, tarifs de basse saison, lumière magnifique.",
+        "region": "Moru · Serengeti C.",
+        "best": "Photographie · solitude",
+        "crowd": "Faible",
+        "rain": "Fin des petites pluies",
+        "ugandaNote": "Suivi des chimpanzés · arrivées d'oiseaux paléarctiques."
+      },
+      {
+        "title": [
+          "Les grandes pluies",
+          "arrivent."
+        ],
+        "body": "Pluies abondantes quotidiennes. De nombreux camps mobiles ferment pour le mois. Le troupeau se trouve dans le Serengeti central autour de Seronera et Moru, difficile à suivre sur des pistes boueuses. Permis et hébergement sont à leurs prix les plus bas de l'année.",
+        "region": "Seronera · Serengeti C.",
+        "best": "Bon rapport qualité-prix · solitude",
+        "crowd": "Très faible",
+        "rain": "Grandes pluies",
+        "ugandaNote": "Forêt luxuriante · permis de gorilles à prix réduit."
+      },
+      {
+        "title": [
+          "Le rut en",
+          "mouvement."
+        ],
+        "body": "Les pluies s'atténuent. Le troupeau forme des colonnes en rubans à travers le Serengeti occidental — jusqu'à quarante kilomètres de long. L'accouplement se fait en marchant : 90 % des femelles sont fécondées sur une période de trois semaines. La procession se poursuit jour et nuit.",
+        "region": "Corridor O. · Serengeti",
+        "best": "Rut · colonnes",
+        "crowd": "Faible",
+        "rain": "Pluies en baisse",
+        "ugandaNote": "Lions grimpeurs d'arbres à Ishasha."
+      },
+      {
+        "title": [
+          "Les traversées",
+          "de la rivière Grumeti."
+        ],
+        "body": "Le premier grand test aquatique de l'année. Les crocodiles de la Grumeti sont parmi les plus grands du continent — six mètres, cinquante ans, attendant ce mois précis. Moins de voyageurs que dans le Mara, tout aussi spectaculaire.",
+        "region": "Grumeti · Serengeti O.",
+        "best": "Traversées de la Grumeti",
+        "crowd": "En hausse",
+        "rain": "Début de la saison sèche",
+        "ugandaNote": "Pic d'observation de la faune en saison sèche."
+      },
+      {
+        "title": [
+          "L'avant-garde du troupeau",
+          "atteint le Mara."
+        ],
+        "body": "Le front avance à travers le Lamai Wedge et atteint la rivière Mara. Les premières traversées hésitantes ont lieu en fin de mois. Le Masai Mara se remplit de véhicules — nous travaillons du côté plus calme du nord du Serengeti.",
+        "region": "Lamai · Rivière Mara",
+        "best": "Premières traversées",
+        "crowd": "Élevée",
+        "rain": "Sec",
+        "ugandaNote": "Croisières sur le Nil, grands troupeaux sur le delta."
+      },
+      {
+        "title": [
+          "La rivière Mara",
+          "en pleine traversée."
+        ],
+        "body": "Les troupeaux s'amassent sur la rive sud pendant des heures — parfois une semaine — avant qu'une seule file ne les fasse basculer. Des traversées de plus de 30 000 animaux ne sont pas inhabituelles. Nous vous positionnons sur la rive nord au lever du jour ; la plupart des séjours voient au moins une traversée.",
+        "region": "Rivière Mara",
+        "best": "Traversées",
+        "crowd": "Maximale",
+        "rain": "Sec · nuits fraîches",
+        "ugandaNote": "Pic de suivi en saison sèche."
+      },
+      {
+        "title": [
+          "Pic des traversées —",
+          "le mois classique."
+        ],
+        "body": "Septembre est le mois du photographe : traversées tous les deux ou trois jours, herbe dorée, lumière douce, poussière. Nous vous déplaçons entre le Triangle de Mara et les traversées de la rivière Sand côté tanzanien pour éviter les sites les plus fréquentés.",
+        "region": "Triangle de Mara",
+        "best": "Traversées · photographie",
+        "crowd": "Maximale",
+        "rain": "Sec",
+        "ugandaNote": "Seconde fenêtre sèche pour les gorilles."
+      },
+      {
+        "title": [
+          "Installé dans",
+          "le Mara."
+        ],
+        "body": "Le troupeau pâture dans le Mara tout au long d'octobre. L'activité des grands félins est à son maximum annuel — chaque clan chasse les veaux et les jeunes. Quelques traversées de retour à mesure que de petits groupes filent vers le sud par la rivière Sand.",
+        "region": "Masai Mara",
+        "best": "Félins · paysages",
+        "crowd": "Élevée",
+        "rain": "Fin de saison sèche",
+        "ugandaNote": "Matins frais, vues forestières dégagées."
+      },
+      {
+        "title": [
+          "Petites pluies —",
+          "virage vers le sud."
+        ],
+        "body": "Des orages sur les plaines de Loita attirent le troupeau vers le sud. Il retraverse la rivière Mara dans le mauvais sens et avance par Lobo et Loliondo pour revenir dans le Serengeti central. Les camps se rénovent, les prix baissent, les félins chassent toujours.",
+        "region": "Loliondo · Serengeti N.",
+        "best": "Bon rapport qualité-prix · félins",
+        "crowd": "Moyenne",
+        "rain": "Petites pluies",
+        "ugandaNote": "Pic des oiseaux migrateurs à travers le rift."
+      },
+      {
+        "title": [
+          "Retour vers",
+          "les terrains de mise bas."
+        ],
+        "body": "La majorité du troupeau est de retour dans le Serengeti central et sud à la mi-décembre. Les plaines à l'herbe courte sont à nouveau vertes grâce aux pluies de novembre. Noël dans le Serengeti central a sa propre magie particulière.",
+        "region": "Seronera → Ndutu",
+        "best": "Voyages en famille",
+        "crowd": "Moyenne",
+        "rain": "Fin des petites pluies",
+        "ugandaNote": "Trekking festif — sec et frais à nouveau."
+      }
+    ],
+    "calendarNavAria": "Calendrier de la migration — sélectionner un mois",
+    "monthsAria": "Mois",
+    "prevPrefix": "Précédent : ",
+    "nextPrefix": "Suivant : ",
+    "pauseAria": "Mettre en pause la lecture automatique",
+    "playAria": "Lire l'année automatiquement",
+    "mapAria": "Carte de l'écosystème de l'Afrique de l'Est"
+  },
+  "photoMarquee": {
+    "items": [
+      {
+        "caption": "La Marsh Pride à l'aube"
+      },
+      {
+        "caption": "Flamants roses sur la crête"
+      },
+      {
+        "caption": "Suivi d'une petite famille"
+      },
+      {
+        "caption": "Corridor occidental"
+      },
+      {
+        "caption": "Un lodge anonyme, le soir"
+      },
+      {
+        "caption": "Sous les baobabs"
+      }
+    ]
+  },
+  "whyChooseUs": {
+    "eyebrow": "Pourquoi nous choisir",
+    "headingBefore": "L'Afrique en toute ",
+    "headingHighlight": "confiance",
+    "description": "Nous sommes le pont entre les voyageurs et la nature sauvage africaine depuis plus d'une décennie. Voici ce qui distingue Divine Travel Nest Safaris.",
+    "cells": [
+      {
+        "titleLine1": "Guides locaux",
+        "titleLine2": "experts",
+        "body": "Des naturalistes accomplis avec une connaissance régionale approfondie — transformant chaque observation en récit. Nos guides détiennent des certifications professionnelles de guide safari et possèdent des décennies d'expérience de terrain."
+      },
+      {
+        "titleLine1": "Itinéraires",
+        "titleLine2": "sur mesure",
+        "body": "Des voyageurs solos aux groupes familiaux, nous concevons chaque voyage autour de votre rythme et de vos centres d'intérêt. Aucun safari Divine Travel Nest n'est jamais identique à un autre."
+      },
+      {
+        "titleLine1": "Du budget",
+        "titleLine2": "au luxe",
+        "body": "Que vous choisissiez un camp de brousse classique ou un lodge de toile ultra-luxueux, vous recevrez le même service passionné, le même accès à la faune et la même attention."
+      },
+      {
+        "titleLine1": "Aucun frais",
+        "titleLine2": "caché",
+        "body": "Les devis incluent les frais de parc, l'hébergement, chaque repas, votre véhicule, votre guide et les transferts aéroport. Les seules choses non incluses sont les vols internationaux et les visas."
+      },
+      {
+        "titleLine1": "Voyage éco-",
+        "titleLine2": "responsable",
+        "body": "Nous sommes partenaires de projets de conservation et de programmes communautaires liés à la faune. Chaque réservation soutient directement les paysages qui rendent votre safari possible."
+      },
+      {
+        "titleLine1": "Assistance",
+        "titleLine2": "24h/24, 7j/7",
+        "body": "Notre équipe opérationnelle est joignable à toute heure — depuis votre première demande jusqu'au jour de votre retour en toute sécurité."
+      }
+    ]
+  },
+  "standOut": {
+    "eyebrow": "Ce qui nous distingue",
+    "headingBefore": "Le safari fait ",
+    "headingHighlight": "correctement",
+    "description": "Dans un marché saturé de moteurs de réservation en ligne, nous restons une équipe locale et impliquée, dédiée à concevoir des safaris qui dépassent toutes les attentes.",
+    "features": [
+      {
+        "title": "Une véritable équipe locale",
+        "body": "Nous sommes basés à Nairobi — pas un moteur de réservation. Quand vous appelez, vous parlez directement à votre conseiller safari qui connaît personnellement chaque parc."
+      },
+      {
+        "title": "Disponibilité en temps réel",
+        "body": "Nous détenons des allocations directes auprès des lodges, vous donnant accès aux meilleurs camps même en haute saison. Pas de majorations tierces, pas de surprises."
+      },
+      {
+        "title": "Itinéraires centrés sur la faune",
+        "body": "Nos itinéraires suivent les animaux, pas le calendrier. Nous suivons la migration en temps réel et pouvons ajuster votre itinéraire en plein safari."
+      },
+      {
+        "title": "Tarification transparente et tout compris",
+        "body": "Aucun supplément caché. Frais de parc, activités, repas, transferts — tout est inclus dans votre devis pour que vous puissiez planifier en toute confiance."
+      }
+    ]
+  },
+  "tailorMade": {
+    "eyebrow": "Conception de safari sur mesure",
+    "headingBefore": "Votre safari, ",
+    "headingHighlight": "à votre façon",
+    "description": "Aucun safari n'est identique chez Divine Travel Nest. Nous partons de vos souhaits, construisons autour de votre budget, et affinons jusqu'à ce que chaque détail soit exactement comme il faut.",
+    "cta": "Commencer à planifier mon safari",
+    "points": [
+      {
+        "title": "Du budget au luxe",
+        "desc": "Camping, lodges intermédiaires ou camps de toile ultra-luxueux — nous couvrons tous les niveaux."
+      },
+      {
+        "title": "Solo, en couple ou en groupe",
+        "desc": "Voyageurs individuels, couples en lune de miel, familles et expéditions de groupe."
+      },
+      {
+        "title": "Toute durée",
+        "desc": "D'une escapade de 3 jours à une grande expédition de 21 jours en Afrique de l'Est."
+      },
+      {
+        "title": "Itinéraires flexibles",
+        "desc": "Safaris en vol intérieur, autotour, circuit terrestre guidé — ou toute combinaison."
+      },
+      {
+        "title": "Intérêts spécifiques",
+        "desc": "Observation des oiseaux, photographie, immersion culturelle, trekking de gorilles ou circuits axés sur la migration."
+      },
+      {
+        "title": "Proposition gratuite en 24h",
+        "desc": "Confiez-nous votre rêve. Nous répondons avec un itinéraire complet dans les 24 heures, sans aucun frais."
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Témoignages de voyageurs",
+    "heading": "Racontés par nos voyageurs",
+    "prevAria": "Témoignage précédent",
+    "nextAria": "Témoignage suivant",
+    "verified": "Vérifié",
+    "readMore": "Lire l'avis complet"
+  },
+  "journalSection": {
+    "eyebrow": "Journal de safari",
+    "headingBefore": "Récits ",
+    "headingHighlight": "du terrain",
+    "description": "Guides, conseils et coulisses racontés par notre équipe locale et la faune qu'elle suit à travers l'Afrique de l'Est.",
+    "viewAll": "Voir tous les articles"
+  },
+  "faqSection": {
+    "eyebrow": "FAQ Safari Kenya, Tanzanie, Ouganda & Rwanda",
+    "headingMain": "FAQ safari ",
+    "headingEm": "Afrique de l'Est",
+    "description": "Questions courantes sur les safaris au Kenya, en Tanzanie, en Ouganda, au Rwanda et le trekking de gorilles. Vous ne trouvez pas votre réponse ? Appelez-nous ou écrivez-nous à tout moment.",
+    "items": [
+      {
+        "q": "Quelle est la meilleure période pour visiter le Kenya pour la Grande Migration ?",
+        "a": "La partie la plus célèbre de la Grande Migration — les traversées de la rivière Mara — se produit de juillet à octobre, lorsque les troupeaux sont dans le Masai Mara. Cependant, la migration est un événement qui se déroule toute l'année. Janvier–février offre la saison de mise bas dans le sud du Serengeti, tandis que juin–juillet présente les spectaculaires traversées de la rivière Grumeti en Tanzanie."
+      },
+      {
+        "q": "Combien de temps à l'avance dois-je réserver un permis de trekking de gorilles ?",
+        "a": "Les permis de trekking de gorilles en Ouganda (forêt impénétrable de Bwindi) et au Rwanda (parc des Volcans) s'épuisent des mois à l'avance, surtout en haute saison (juillet–septembre et décembre–janvier). Nous recommandons de réserver au moins 6 mois à l'avance, et jusqu'à 12 mois pour un voyage en haute saison. Nous gérons toutes les démarches de permis en votre nom."
+      },
+      {
+        "q": "Qu'est-ce qui est inclus dans un forfait safari typique ?",
+        "a": ""
+      },
+      {
+        "q": "Pouvez-vous personnaliser un safari pour des familles avec de jeunes enfants ?",
+        "a": "Absolument — les safaris en famille sont l'une de nos spécialités. Nous sélectionnons des lodges adaptés aux familles avec des programmes dédiés aux enfants, des guides expérimentés et bienveillants envers les enfants, et des activités adaptées à leur âge. Nous planifions également les horaires d'activités en fonction du niveau d'énergie des plus jeunes enfants. Des restrictions d'âge minimum s'appliquent pour certaines activités (le trekking de gorilles exige que les participants aient au moins 15 ans)."
+      },
+      {
+        "q": "Quelle est la différence entre un safari économique, intermédiaire et de luxe ?",
+        "a": "La principale différence réside dans la qualité de l'hébergement et des véhicules. Les safaris économiques utilisent des minibus partagés et des camps de toile ou des lodges basiques. Les safaris intermédiaires offrent des véhicules privés et des chambres de lodge confortables avec salle de bain privative. Les safaris de luxe proposent des véhicules à usage exclusif, des guides privés, et des camps de toile ou lodges de classe mondiale avec un service exceptionnel. Tous les niveaux incluent le même accès à la faune et un guidage expert."
+      },
+      {
+        "q": "Ai-je besoin d'un visa et de vaccins pour le Kenya et la Tanzanie ?",
+        "a": "La plupart des nationalités ont besoin d'un visa pour le Kenya et la Tanzanie, tous deux disponibles en ligne via des portails e-visa. En matière de santé, la vaccination contre la fièvre jaune est obligatoire si vous arrivez d'un pays endémique. Nous recommandons fortement de consulter votre clinique de médecine des voyages au moins 6 à 8 semaines avant le départ pour des conseils de vaccination actualisés, y compris la prophylaxie antipaludique."
+      }
+    ],
+    "tableIntro": "Un forfait standard de Divine Travel Nest Safaris comprend :",
+    "tableRows": [
+      {
+        "item": "Frais de parc et redevances de conservation",
+        "included": true
+      },
+      {
+        "item": "Tous les game drives et activités listés",
+        "included": true
+      },
+      {
+        "item": "Hébergement (lodge ou camp de toile)",
+        "included": true
+      },
+      {
+        "item": "Pension complète (petit-déjeuner, déjeuner, dîner)",
+        "included": true
+      },
+      {
+        "item": "Transferts aéroport et inter-parcs",
+        "included": true
+      },
+      {
+        "item": "Guide parlant anglais",
+        "included": true
+      },
+      {
+        "item": "Vols internationaux",
+        "included": false
+      },
+      {
+        "item": "Assurance voyage",
+        "included": false
+      },
+      {
+        "item": "Pourboires personnels",
+        "included": false
+      }
+    ]
+  }
+}

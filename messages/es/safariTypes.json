@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "title": "Tipos de safari — Estilos de actividad y de viajero comparados | Divine Travel Nest Safaris",
+    "description": "Cada estilo de safari en África Oriental, comparado — por actividad (a pie, fotográfico, acuático, nocturno, observación de aves, bienestar, conservación) y según con quién viaja (familia, solo, grupo pequeño, pareja, luna de miel, privado).",
+    "ogTitle": "Tipos de safari | Divine Travel Nest Safaris",
+    "ogDescription": "Cada estilo de safari en África Oriental, comparado — encuentre el que más le convenga.",
+    "collectionName": "Tipos de safari — Estilos de actividad y de viajero comparados",
+    "collectionDescription": "Cada estilo de safari en África Oriental, comparado — por actividad y según con quién viaja."
+  },
+  "breadcrumbHome": "Inicio",
+  "breadcrumbCurrent": "Tipos de safari",
+  "hero": {
+    "eyebrow": "Encuentre su estilo",
+    "titleBefore": "Cada forma de hacer un",
+    "titleEm": "safari",
+    "description": "Hay dos preguntas que merece la pena responder antes que nada: ¿qué tipo de experiencia de safari desea y con quién viaja? Juntas determinan casi todas las demás decisiones: parque, ritmo, vehículo y lodge."
+  },
+  "cta": {
+    "headingBefore": "¿No está seguro de qué estilo es el",
+    "headingEm": "adecuado",
+    "headingAfter": "?",
+    "description": "Cuéntenos sobre su grupo, presupuesto y los avistamientos de fauna que sueña con ver — nuestro equipo recomendará el estilo de actividad y de viajero adecuado, y construirá el itinerario en torno a él.",
+    "buttonText": "Preguntar a un experto"
+  },
+  "intro": {
+    "eyebrow": "Dos preguntas, un itinerario",
+    "headingBefore": "No existe un único ",
+    "headingHighlight": "tipo",
+    "headingAfter": " de safari.",
+    "lead": "Hemos sido el puente entre los viajeros y la naturaleza salvaje africana durante más de una década. Esto es lo que distingue a Divine Travel Nest Safaris.",
+    "paragraph1": "La mayoría de las empresas de safari hablan como si hubiera un único producto — un vehículo, un guía, una lista de animales que marcar. En la práctica, lo que realmente moldea un viaje son dos decisiones distintas superpuestas: el tipo de experiencia que desea vivir en la sabana, y el tipo de grupo con el que viaja.",
+    "paragraph2": "La primera — el tipo de actividad — abarca todo, desde cómo se desplaza físicamente por un parque (a pie, en 4x4, en bote, en el aire, después del anochecer) hasta lo que realmente hace durante el día, ya sea perseguir la mejor luz para una fotografía, relajarse con una tarde de spa, o acompañar a un equipo de conservación. La segunda — el tipo de viajero — tiene que ver con en torno a quién se construye el itinerario: solo, en pareja, con niños, o como grupo totalmente privado. Casi todos nuestros paquetes combinan uno o dos elementos de cada lista, no una sola casilla marcada.",
+    "box1": {
+      "label": "01 — Tipos de safari por actividad",
+      "heading": "Safari a su manera",
+      "body": "Se trata de lo que hace con su tiempo — desde cómo se mueve por la sabana (a pie, en 4x4, en bote, en el aire, después del anochecer) hasta días más orientados a la fotografía, la observación de aves, el trabajo de conservación o simplemente desacelerar. La mayoría de los viajes combinan dos o tres tipos de actividad en lugar de limitarse a uno solo."
+    },
+    "box2": {
+      "label": "02 — Tipos de safari por viajero",
+      "heading": "Con quién viaja",
+      "body": "Se trata de en torno a quién se construye el viaje — solo, en pareja, con los niños, o como grupo privado. Esto determina el ritmo, la exclusividad del vehículo y los lodges que recomendamos."
+    }
+  },
+  "activityGroup": {
+    "eyebrow": "Tipos de safari por actividad",
+    "textBefore": "Safari a su ",
+    "highlightedText": "manera",
+    "description": "Lo que hace con su tiempo — desde cómo se mueve por la sabana (a pie, en vehículo, por agua, en el aire, después del anochecer) hasta días más orientados a la fotografía, la observación de aves, la conservación o simplemente desacelerar. Compárelos a continuación y combine tantos como desee en un mismo viaje."
+  },
+  "travellerGroup": {
+    "eyebrow": "Tipos de safari por viajero",
+    "textBefore": "¿Con quién ",
+    "highlightedText": "viaja",
+    "textAfter": "?",
+    "description": "Los mismos parques y lodges, adaptados a su grupo — solo, en pareja, en familia, o totalmente en privado."
+  },
+  "combine": {
+    "eyebrow": "Cómo se combinan",
+    "headingBefore": "Algunas formas en que estos se ",
+    "headingHighlight": "combinan",
+    "lead": "Elija un tipo de actividad y un tipo de viajero como punto de partida — construiremos el resto del itinerario, la selección de parques y el alojamiento en torno a esa combinación.",
+    "items": [
+      "Suaves caminatas matutinas combinadas con game drives a ritmo familiar — ideal para niños mayores curiosos.",
+      "Un vehículo exclusivo, sin prisas, y un guía que entiende la luz, los ángulos y el momento adecuado.",
+      "Únase a un grupo limitado que acompaña a un equipo de investigación o guardabosques, compartiendo la tarifa de conservación.",
+      "Menos parques, estancias más largas, y una tarde de spa incluida en el programa para dos."
+    ]
+  },
+  "explore": "Explorar"
+}

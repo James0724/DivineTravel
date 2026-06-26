@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import {
   BreadcrumbSchema,
   FaqSchema,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "Book Rwanda gorilla trekking tours 2026/2027 in Volcanoes National Park — 12 habituated families, $1,500 permits. Chimpanzee trekking in Nyungwe Forest, Big Five safaris in Akagera and canopy walkway. Expert-guided, luxury-focused Rwanda safari packages from Kigali.",
   keywords:
     "rwanda gorilla trekking 2026, volcanoes national park gorillas, nyungwe forest chimpanzee, akagera big five safari, rwanda safari packages 2027, rwanda wildlife tour, kigali safari, virunga volcanoes gorillas, rwanda luxury safari lodge, gorilla trekking africa, rwanda akagera game drive, nyungwe canopy walkway, rwanda gorilla permit",
-  alternates: { canonical: "/safaris/rwanda" },
+  alternates: { canonical: "/en/safaris/rwanda" },
   openGraph: {
     title: "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
     description:

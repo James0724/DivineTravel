@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "title": "Safari Types — Activity & Traveller Styles Compared | Divine Travel Nest Safaris",
+    "description": "Every style of East Africa safari, compared — by activity (walking, photographic, water-based, night, birding, wellness, conservation safaris) and by who you're travelling with (family, solo, small group, couple's, honeymoon, private).",
+    "ogTitle": "Safari Types | Divine Travel Nest Safaris",
+    "ogDescription": "Every style of East Africa safari, compared — find the one that fits you.",
+    "collectionName": "Safari Types — Activity & Traveller Styles Compared",
+    "collectionDescription": "Every style of East Africa safari, compared — by activity and by who you're travelling with."
+  },
+  "breadcrumbHome": "Home",
+  "breadcrumbCurrent": "Safari Types",
+  "hero": {
+    "eyebrow": "Find your style",
+    "titleBefore": "Every way to",
+    "titleEm": "safari",
+    "description": "There are two questions worth answering before anything else: what kind of safari experience do you want, and who are you travelling with? Together they shape almost every other decision — park, pace, vehicle and lodge."
+  },
+  "cta": {
+    "headingBefore": "Not sure which style is",
+    "headingEm": "right",
+    "headingAfter": "?",
+    "description": "Tell us about your group, budget and dream wildlife sightings — our team will recommend the activity and traveller style that fits, then build the itinerary around it.",
+    "buttonText": "Ask an expert"
+  },
+  "intro": {
+    "eyebrow": "Two questions, one itinerary",
+    "headingBefore": "There's no single ",
+    "headingHighlight": "type",
+    "headingAfter": " of safari.",
+    "lead": "We've been the bridge between travellers and the African wild for over a decade. Here's what sets Divine Travel Nest Safaris apart.",
+    "paragraph1": "Most safari companies talk as if there's one product — a vehicle, a guide, a checklist of animals. In practice, what actually shapes a trip is two separate decisions stacked on top of each other: the kind of experience you want inside the bush, and the kind of group you're travelling as.",
+    "paragraph2": "The first — activity type — covers everything from how you physically move through a park (on foot, by 4x4, by boat, in the air, after dark) to what you actually spend the day doing, whether that's chasing the best light for a photograph, slowing down for a spa afternoon, or riding along with a conservation team. The second — traveller type — is about who the itinerary is built around: solo, as a couple, with children, or as a fully private group. Almost every package we run is a combination of one or two from each list, not a single box ticked.",
+    "box1": {
+      "label": "01 — Safari activity types",
+      "heading": "Safari your way",
+      "body": "This is about what you spend your time doing — from how you move through the bush (on foot, by 4x4, by boat, in the air, after dark) to more purpose-driven days built around photography, birding, conservation work or simply slowing down. Most trips combine two or three activity types rather than sticking to just one."
+    },
+    "box2": {
+      "label": "02 — Safari types by traveller",
+      "heading": "Who you're travelling with",
+      "body": "This is about who the trip is built around — solo, as a couple, with the kids, or as a private group. It shapes pacing, vehicle exclusivity and the lodges we recommend."
+    }
+  },
+  "activityGroup": {
+    "eyebrow": "Safari activity types",
+    "textBefore": "Safari your ",
+    "highlightedText": "way",
+    "description": "What you spend your time doing — from how you move through the bush (on foot, by vehicle, on water, in the air, after dark) to more purpose-driven days built around photography, birding, conservation or simply slowing down. Compare them below and combine as many as you like in one trip."
+  },
+  "travellerGroup": {
+    "eyebrow": "Safari types by traveller",
+    "textBefore": "Who are you ",
+    "highlightedText": "travelling",
+    "textAfter": " with?",
+    "description": "The same parks and lodges, shaped around your group — solo, as a couple, with family, or fully private."
+  },
+  "combine": {
+    "eyebrow": "Putting it together",
+    "headingBefore": "A few ways these ",
+    "headingHighlight": "combine",
+    "lead": "Pick one activity type and one traveller type as a starting point — we'll build the rest of the itinerary, park selection and accommodation around that combination.",
+    "items": [
+      "Gentle morning walks paired with family-paced game drives — ideal for curious older kids.",
+      "A dedicated vehicle, no rush, and a guide who understands light, angles and timing.",
+      "Join a capped group ride-along with a research or ranger team, splitting the conservancy fee.",
+      "Fewer parks, longer stays, and a spa afternoon built into the schedule for two."
+    ]
+  },
+  "explore": "Explore"
+}
