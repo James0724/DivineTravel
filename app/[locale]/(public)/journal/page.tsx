@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { Suspense } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -212,7 +212,7 @@ export default async function JournalPage({ searchParams }: Props) {
                   className="relative overflow-hidden bg-bone-paper"
                   style={{ aspectRatio: "5/4" }}
                 >
-                  <Image
+                  <OptimizedImage
                     src={featured.coverImage}
                     alt={featured.title}
                     fill
@@ -257,11 +257,12 @@ export default async function JournalPage({ searchParams }: Props) {
                       return a.name ? (
                         <div className="flex items-center gap-3 mb-8">
                           {a.avatar && (
-                            <Image
+                            <OptimizedImage
                               src={a.avatar}
                               alt={a.name}
                               width={42}
                               height={42}
+                              thumbSize={84}
                               className="rounded-full object-cover"
                             />
                           )}

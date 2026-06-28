@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ChevronLeft, MapPin, Clock } from "lucide-react";
 import { useSafaris, useSafari } from "@/hooks/useSafaris";
@@ -59,7 +59,7 @@ function SafariPickCard({
         className="relative overflow-hidden flex-shrink-0"
         style={{ aspectRatio: "3 / 2" }}
       >
-        <Image
+        <OptimizedImage
           src={
             safari.coverImage ||
             safari.images?.[0]?.url ||

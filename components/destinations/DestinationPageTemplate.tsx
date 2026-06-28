@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { X, AlignJustify } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -273,7 +273,7 @@ export default function DestinationPageTemplate({
                 {/* Staggered image pair */}
                 <Reveal variant="fadeUp">
                   <div className="relative aspect-[4/5] rounded-sm overflow-hidden">
-                    <Image
+                    <OptimizedImage
                       src={data.why.images[1].src}
                       alt={data.why.images[1].alt}
                       fill
@@ -366,7 +366,7 @@ export default function DestinationPageTemplate({
                       <div className={flip ? "md:order-last" : undefined}>
                         <Reveal variant="fadeUp">
                           <div className="relative aspect-[4/5] overflow-hidden group bg-[var(--bg-deep)]">
-                            <Image
+                            <OptimizedImage
                               src={park.image}
                               alt={park.name}
                               fill
@@ -455,7 +455,7 @@ export default function DestinationPageTemplate({
                         className="group flex scroll-mt-[90px] flex-col border border-[var(--line)] bg-[var(--bg)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--clay)]"
                       >
                         <div className="relative aspect-[16/11] overflow-hidden">
-                          <Image
+                          <OptimizedImage
                             src={park.image}
                             alt={park.name}
                             fill
@@ -640,7 +640,7 @@ export default function DestinationPageTemplate({
                       className="group flex flex-col bg-bone-paper border border-[rgba(23,22,18,0.09)] rounded-sm overflow-hidden hover:shadow-md transition-shadow h-full"
                     >
                       <div className="relative aspect-[16/10] overflow-hidden">
-                        <Image
+                        <OptimizedImage
                           src={pkg.img}
                           alt={pkg.name}
                           fill

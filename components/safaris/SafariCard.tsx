@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import OptimizedImage from '@/components/ui/OptimizedImage'
 import { Link } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
 import { Clock, Users, MapPin, Star } from 'lucide-react'
@@ -37,7 +37,7 @@ export default function SafariCard({ safari, index = 0, compact = false }: Safar
       >
         {/* Image */}
         <div className={`relative overflow-hidden ${compact ? 'h-44' : 'h-56 sm:h-60'}`}>
-          <Image
+          <OptimizedImage
             src={safari.coverImage || safari.images?.[0]?.url || '/images/placeholder.jpg'}
             alt={safari.images?.[0]?.alt || safari.name}
             fill

@@ -1,41 +1,88 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Plus, Search, Edit, Trash2, Eye } from 'lucide-react'
+import Image from 'next/image'
+import {
+  Plus, Search, Edit, Trash2, Eye, Star, RefreshCw, Filter, ChevronDown,
+  ChevronUp, ChevronsUpDown, X,
+} from 'lucide-react'
+import {
+  useReactTable, getCoreRowModel, getSortedRowModel, getFilteredRowModel,
+  getPaginationRowModel, createColumnHelper, flexRender,
+  type SortingState, type ColumnFiltersState, type RowSelectionState,
+  type VisibilityState, type FilterFn, type Column, type PaginationState,
+} from '@tanstack/react-table'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import Switch from '@/components/ui/Switch'
+import DropdownMenu from '@/components/ui/DropdownMenu'
 import { ConfirmDialog } from '@/components/ui/Modal'
 import { TableSkeleton } from '@/components/ui/Skeleton'
-import type { JournalPost, PostCategory } from '@/types'
+import { cloudinaryThumb } from '@/lib/utils'
+import type { JournalPost, PostCategory, PaginatedResponse } from '@/types'
 
-const CATEGORY_LABELS: Record<PostCategory, string> = {
-  migration: 'Migration',
-  destinations: 'Destinations',
-  planning: 'Planning',
-  wildlife: 'Wildlife',
-  culture: 'Culture',
-  conservation: 'Conservation',
-  photography: 'Photography',
-  tips: 'Tips',
+const CATEGORIES: { value: PostCategory; label: string }[] = [
+  { value: 'migration', label: 'Migration' },
+  { value: 'destinations', label: 'Destinations' },
+  { value: 'planning', label: 'Planning' },
+  { value: 'wildlife', label: 'Wildlife' },
+  { value: 'culture', label: 'Culture' },
+  { value: 'conservation', label: 'Conservation' },
+  { value: 'photography', label: 'Photography' },
+  { value: 'tips', label: 'Tips' },
+]
+const CATEGORY_LABELS: Record<PostCategory, string> = CATEGORIES.reduce(
+  (acc, c) => ({ ...acc, [c.value]: c.label }),
+  {} as Record<PostCategory, string>
+)
+
+function authorName(author: JournalPost['author']): string {
+  return typeof author === 'object' && author ? author.name : (author as string) || '—'
 }
 
-interface PostsResponse {
-  success: boolean
-  data: JournalPost[]
-  pagination: {
-    total: number
-    page: number
-    totalPages: number
-  }
+// ─── Column filter functions ───────────────────────────────────────────────
+
+const statusFilterFn: FilterFn<JournalPost> = (row, columnId, value: 'published' | 'draft') => {
+  if (!value) return true
+  return (row.getValue(columnId) as boolean) === (value === 'published')
 }
 
-async function fetchPosts(params: URLSearchParams): Promise<PostsResponse> {
-  const res = await fetch(`/api/posts?${params}&published=all`)
+const featuredFilterFn: FilterFn<JournalPost> = (row, columnId, value: 'yes' | 'no') => {
+  if (!value) return true
+  return (row.getValue(columnId) as boolean) === (value === 'yes')
+}
+
+const categoryFilterFn: FilterFn<JournalPost> = (row, columnId, value: string) => {
+  if (!value) return true
+  return (row.getValue(columnId) as string) === value
+}
+
+const authorFilterFn: FilterFn<JournalPost> = (row, _columnId, value: string) => {
+  if (!value) return true
+  return authorName(row.original.author) === value
+}
+
+const globalFilterFn: FilterFn<JournalPost> = (row, _columnId, value: string) => {
+  const search = value.trim().toLowerCase()
+  if (!search) return true
+  const p = row.original
+  return (
+    p.title.toLowerCase().includes(search) ||
+    p.slug.toLowerCase().includes(search) ||
+    p.excerpt.toLowerCase().includes(search) ||
+    authorName(p.author).toLowerCase().includes(search)
+  )
+}
+
+async function fetchAllPosts(): Promise<JournalPost[]> {
+  const res = await fetch('/api/posts?published=all&limit=1000')
   if (!res.ok) throw new Error('Failed to fetch posts')
-  return res.json()
+  const body: PaginatedResponse<JournalPost> = await res.json()
+  return body.data
 }
 
 function formatDate(dateStr?: string) {
@@ -43,183 +90,661 @@ function formatDate(dateStr?: string) {
   return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
+// ─── Small shared bits ──────────────────────────────────────────────────────
+
+function SortableHeader({ column, children }: { column: Column<JournalPost, unknown>; children: React.ReactNode }) {
+  const sorted = column.getIsSorted()
+  return (
+    <button
+      type="button"
+      onClick={column.getToggleSortingHandler()}
+      className="flex items-center gap-1 font-sans text-xs font-semibold uppercase tracking-wide text-bone-ink/60 hover:text-bone-ink transition-colors"
+    >
+      {children}
+      {sorted === 'asc' ? (
+        <ChevronUp size={12} />
+      ) : sorted === 'desc' ? (
+        <ChevronDown size={12} />
+      ) : (
+        <ChevronsUpDown size={12} className="opacity-30" />
+      )}
+    </button>
+  )
+}
+
+function FilterSection({ label, last, children }: { label: string; last?: boolean; children: React.ReactNode }) {
+  return (
+    <div className={`px-4 py-3 ${last ? '' : 'border-b border-[rgba(23,22,18,0.08)]'}`}>
+      <p className="font-sans text-[11px] font-medium uppercase tracking-wide text-bone-ink/40 mb-2">{label}</p>
+      <div className="flex flex-wrap gap-1.5">{children}</div>
+    </div>
+  )
+}
+
+function FilterPill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`px-2.5 py-1 rounded-full border font-sans text-xs whitespace-nowrap transition-colors ${
+        active
+          ? 'border-bone-forest bg-bone-forest text-white'
+          : 'border-[rgba(23,22,18,0.18)] text-bone-ink/65 hover:border-bone-ink/40 hover:text-bone-ink'
+      }`}
+    >
+      {children}
+    </button>
+  )
+}
+
+const VISIBLE_COL_COUNT = 7
+const columnHelper = createColumnHelper<JournalPost>()
+
+// Persist table view state (filters, sort, search, pagination) across
+// navigation to the edit/view page so "back" lands exactly where the
+// admin left off instead of resetting to an empty table.
+const VIEW_STATE_KEY = 'admin-journal-view-state'
+
+interface StoredViewState {
+  globalFilter: string
+  sorting: SortingState
+  columnFilters: ColumnFiltersState
+  pagination: PaginationState
+}
+
+function loadViewState(): StoredViewState | null {
+  if (typeof window === 'undefined') return null
+  try {
+    const raw = sessionStorage.getItem(VIEW_STATE_KEY)
+    return raw ? (JSON.parse(raw) as StoredViewState) : null
+  } catch {
+    return null
+  }
+}
+
 export default function AdminJournalPage() {
-  const [search, setSearch] = useState('')
-  const [page, setPage] = useState(1)
-  const [deleteTarget, setDeleteTarget] = useState<{ slug: string; title: string } | null>(null)
+  const router = useRouter()
   const qc = useQueryClient()
+  const initialView = useRef(loadViewState()).current
 
-  const params = new URLSearchParams({
-    page: String(page),
-    limit: '20',
-    ...(search && { search }),
+  const [globalFilter, setGlobalFilter] = useState(initialView?.globalFilter ?? '')
+  const [sorting, setSorting] = useState<SortingState>(initialView?.sorting ?? [])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(initialView?.columnFilters ?? [])
+  const [pagination, setPagination] = useState<PaginationState>(
+    initialView?.pagination ?? { pageIndex: 0, pageSize: 15 }
+  )
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [columnVisibility] = useState<VisibilityState>({
+    category: false,
+    featured: false,
+    author: false,
+  })
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState<{ slug: string; title: string } | null>(null)
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false)
+  const filterRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!filterOpen) return
+    const onClickOutside = (e: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
+        setFilterOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', onClickOutside)
+    return () => document.removeEventListener('mousedown', onClickOutside)
+  }, [filterOpen])
+
+  useEffect(() => {
+    const state: StoredViewState = { globalFilter, sorting, columnFilters, pagination }
+    sessionStorage.setItem(VIEW_STATE_KEY, JSON.stringify(state))
+  }, [globalFilter, sorting, columnFilters, pagination])
+
+  const { data: posts, isLoading, isFetching, refetch } = useQuery({
+    queryKey: ['admin-journal-all'],
+    queryFn: fetchAllPosts,
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   })
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['admin-journal', page, search],
-    queryFn: () => fetchPosts(params),
-  })
+  const invalidate = () => qc.invalidateQueries({ queryKey: ['admin-journal-all'] })
 
   const deleteMutation = useMutation({
     mutationFn: async (slug: string) => {
       const res = await fetch(`/api/posts/${slug}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Delete failed')
+      const body = await res.json().catch(() => null)
+      if (!res.ok) throw new Error(body?.error || `Delete failed (${res.status})`)
+      return body as { message?: string }
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['admin-journal'] })
-      toast.success('Post deleted')
+    onSuccess: (body) => {
+      invalidate()
+      toast.success(body?.message || 'Post deleted')
       setDeleteTarget(null)
     },
-    onError: () => toast.error('Failed to delete post'),
+    onError: (error: Error) => toast.error(error.message || 'Failed to delete post'),
   })
 
-  const posts = data?.data ?? []
-  const pagination = data?.pagination
+  const bulkMutation = useMutation({
+    mutationFn: async ({ slugs, action }: { slugs: string[]; action: 'publish' | 'unpublish' | 'delete' }) => {
+      if (action === 'delete') {
+        await Promise.all(slugs.map((slug) => fetch(`/api/posts/${slug}`, { method: 'DELETE' })))
+      } else {
+        await Promise.all(
+          slugs.map((slug) =>
+            fetch(`/api/posts/${slug}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ published: action === 'publish' }),
+            })
+          )
+        )
+      }
+      return { slugs, action }
+    },
+    onSuccess: ({ slugs, action }) => {
+      invalidate()
+      setRowSelection({})
+      setBulkDeleteOpen(false)
+      const verb = action === 'publish' ? 'Published' : action === 'unpublish' ? 'Unpublished' : 'Deleted'
+      toast.success(`${verb} ${slugs.length} post${slugs.length === 1 ? '' : 's'}`)
+    },
+    onError: () => toast.error('Bulk action failed — please try again'),
+  })
+
+  const toggleFeatured = async (slug: string, current: boolean) => {
+    const res = await fetch(`/api/posts/${slug}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ featured: !current }),
+    })
+    if (res.ok) {
+      invalidate()
+      toast.success(`Post ${current ? 'unfeatured' : 'featured'}`)
+    } else {
+      const body = await res.json().catch(() => null)
+      toast.error(body?.error || 'Failed to update featured status')
+    }
+  }
+
+  // Quick publish/unpublish — sends only `published` so it can never be
+  // blocked by validation errors on unrelated fields the way a full form save can.
+  const togglePublished = async (slug: string, current: boolean) => {
+    const res = await fetch(`/api/posts/${slug}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ published: !current }),
+    })
+    if (res.ok) {
+      invalidate()
+      toast.success(`Post ${current ? 'unpublished' : 'published'}`)
+    } else {
+      const body = await res.json().catch(() => null)
+      toast.error(body?.error || 'Failed to update published status')
+    }
+  }
+
+  const columns = useMemo(() => [
+    columnHelper.display({
+      id: 'select',
+      header: ({ table }) => (
+        <input
+          type="checkbox"
+          checked={table.getIsAllRowsSelected()}
+          ref={(el) => {
+            if (el) el.indeterminate = table.getIsSomeRowsSelected()
+          }}
+          onChange={table.getToggleAllRowsSelectedHandler()}
+          aria-label="Select all rows"
+          className="h-4 w-4 rounded border-[rgba(23,22,18,0.3)] text-bone-forest focus:ring-bone-clay"
+        />
+      ),
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          checked={row.getIsSelected()}
+          onChange={row.getToggleSelectedHandler()}
+          aria-label={`Select ${row.original.title}`}
+          className="h-4 w-4 rounded border-[rgba(23,22,18,0.3)] text-bone-forest focus:ring-bone-clay"
+        />
+      ),
+      enableSorting: false,
+    }),
+    columnHelper.accessor('title', {
+      id: 'title',
+      header: ({ column }) => <SortableHeader column={column}>Title</SortableHeader>,
+      cell: ({ row }) => {
+        const post = row.original
+        return (
+          <div className="flex items-center gap-3">
+            {post.coverImage && (
+              <div className="w-10 h-10 rounded overflow-hidden flex-shrink-0">
+                <Image src={cloudinaryThumb(post.coverImage, 80)} alt={post.title} width={40} height={40} className="w-full h-full object-cover" unoptimized />
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="font-sans font-medium text-bone-ink text-sm leading-snug max-w-xs">{post.title}</p>
+              <p className="text-xs text-bone-ink/40 mt-0.5 font-mono">{post.slug}</p>
+            </div>
+          </div>
+        )
+      },
+    }),
+    columnHelper.accessor('category', {
+      id: 'category',
+      header: 'Category',
+      filterFn: categoryFilterFn,
+      enableSorting: false,
+      cell: ({ getValue }) => <Badge variant="neutral">{CATEGORY_LABELS[getValue()] ?? getValue()}</Badge>,
+    }),
+    columnHelper.accessor((row) => authorName(row.author), {
+      id: 'author',
+      header: 'Author',
+      filterFn: authorFilterFn,
+      enableSorting: false,
+      cell: ({ getValue }) => <span className="text-bone-ink/60 whitespace-nowrap">{getValue()}</span>,
+    }),
+    columnHelper.accessor('published', {
+      id: 'published',
+      header: ({ column }) => <SortableHeader column={column}>Status</SortableHeader>,
+      filterFn: statusFilterFn,
+      cell: ({ row }) => (
+        <div className="flex gap-1.5 flex-wrap">
+          <Badge variant={row.original.published ? 'success' : 'warning'} dot>
+            {row.original.published ? 'Published' : 'Draft'}
+          </Badge>
+          {row.original.featured && <Badge variant="clay">Featured</Badge>}
+        </div>
+      ),
+    }),
+    columnHelper.accessor('featured', {
+      id: 'featured',
+      header: 'Featured',
+      filterFn: featuredFilterFn,
+      enableSorting: false,
+    }),
+    columnHelper.accessor('publishedAt', {
+      id: 'publishedAt',
+      header: ({ column }) => <SortableHeader column={column}>Date</SortableHeader>,
+      cell: ({ getValue }) => <span className="text-bone-ink/55 text-xs whitespace-nowrap">{formatDate(getValue())}</span>,
+    }),
+    columnHelper.accessor((row) => row.faqs?.length ?? 0, {
+      id: 'faqs',
+      header: 'FAQs',
+      enableSorting: false,
+      cell: ({ getValue }) => {
+        const count = getValue()
+        return count > 0 ? (
+          <span className="text-xs font-sans text-bone-ink/55">{count} FAQ{count > 1 ? 's' : ''}</span>
+        ) : (
+          <span className="text-bone-ink/30 text-sm">—</span>
+        )
+      },
+    }),
+    columnHelper.display({
+      id: 'actions',
+      header: () => <span className="sr-only">Actions</span>,
+      cell: ({ row }) => {
+        const post = row.original
+        return (
+          <div className="flex items-center justify-end gap-2">
+            <Switch
+              checked={post.published}
+              onChange={() => togglePublished(post.slug, post.published)}
+              label={post.published ? 'Unpublish post' : 'Publish post'}
+              size="sm"
+            />
+            <DropdownMenu
+              items={[
+                {
+                  label: post.featured ? 'Unfeature' : 'Feature',
+                  icon: <Star size={14} className={post.featured ? 'fill-bone-clay text-bone-clay' : ''} />,
+                  onClick: () => toggleFeatured(post.slug, post.featured),
+                },
+                {
+                  label: 'View live',
+                  icon: <Eye size={14} />,
+                  onClick: () => window.open(`/journal/${post.slug}`, '_blank', 'noopener,noreferrer'),
+                },
+                {
+                  label: 'Edit',
+                  icon: <Edit size={14} />,
+                  onClick: () => router.push(`/admin/journal/${post.slug}/edit`),
+                },
+                {
+                  label: 'Delete',
+                  icon: <Trash2 size={14} />,
+                  onClick: () => setDeleteTarget({ slug: post.slug, title: post.title }),
+                  variant: 'danger',
+                },
+              ]}
+            />
+          </div>
+        )
+      },
+      enableSorting: false,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- toggleFeatured/togglePublished take their args as params and don't capture render-specific state
+  ], [router])
+
+  const table = useReactTable({
+    data: posts ?? [],
+    columns,
+    state: { sorting, columnFilters, rowSelection, columnVisibility, globalFilter, pagination },
+    getRowId: (row) => row._id,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    globalFilterFn,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  })
+
+  const authors = useMemo(
+    () => Array.from(new Set((posts ?? []).map((p) => authorName(p.author)))).sort(),
+    [posts]
+  )
+
+  const statusFilterValue = table.getColumn('published')?.getFilterValue() as string | undefined
+  const featuredFilterValue = table.getColumn('featured')?.getFilterValue() as string | undefined
+  const activeFilterCount = columnFilters.length
+  const selectedRows = table.getSelectedRowModel().rows
+  const selectedSlugs = selectedRows.map((r) => r.original.slug)
+  const filteredRows = table.getFilteredRowModel().rows
+  const pageRows = table.getRowModel().rows
+  const sort = sorting[0]
+  const sortLabel = sort ? (sort.id === 'title' ? 'Title' : sort.id === 'publishedAt' ? 'Date' : sort.id) : null
+
+  const clearFilters = () => setColumnFilters([])
+
+  const toggleFilterValue = (columnId: 'published' | 'featured', value: string) => {
+    const col = table.getColumn(columnId)
+    col?.setFilterValue((prev: unknown) => (prev === value ? undefined : value))
+  }
 
   return (
-    <div className="p-6 sm:p-8">
+    <div className="p-6 sm:p-8 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-serif text-2xl font-semibold text-bone-ink">Journal</h1>
-          <p className="text-sm text-bone-ink/50 mt-0.5 font-sans">
-            {pagination ? `${pagination.total} posts total` : ''}
+          <p className="text-sm text-bone-ink/50 font-sans mt-1 flex items-center gap-2">
+            {posts?.length ?? 0} total posts
+            {isFetching && <span className="text-bone-ink/30">· refreshing…</span>}
           </p>
         </div>
-        <Link href="/admin/journal/new">
-          <Button>
-            <Plus size={16} className="mr-1.5" />
-            New post
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => refetch()}
+            disabled={isFetching}
+            title="Refresh list"
+            className="h-9 w-9 flex items-center justify-center rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/50 hover:text-bone-ink hover:border-bone-ink/40 disabled:opacity-40 transition-colors"
+          >
+            <RefreshCw size={14} className={isFetching ? 'animate-spin' : ''} />
+          </button>
+          <Link href="/admin/journal/new">
+            <Button variant="primary" leftIcon={<Plus size={16} />}>
+              New post
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      {/* Search */}
-      <div className="relative mb-5 max-w-sm">
-        <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-bone-ink/35" />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(1) }}
-          placeholder="Search posts…"
-          className="w-full pl-9 pr-4 h-10 text-sm font-sans bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 text-bone-ink placeholder:text-bone-ink/35"
-        />
-      </div>
+      {/* Search + filter */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative max-w-sm flex-1 min-w-[220px]">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-bone-ink/35" />
+          <input
+            type="search"
+            placeholder="Search posts…"
+            value={globalFilter}
+            onChange={(e) => {
+              setGlobalFilter(e.target.value)
+              table.setPageIndex(0)
+            }}
+            className="w-full h-10 pl-9 pr-3 font-sans text-sm bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest transition-colors"
+          />
+        </div>
 
-      {/* Table */}
-      <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden">
-        {isLoading ? (
-          <TableSkeleton rows={8} />
-        ) : posts.length === 0 ? (
-          <div className="py-16 text-center text-bone-ink/40 font-sans text-sm">
-            No posts found. <Link href="/admin/journal/new" className="text-bone-forest hover:underline">Create one →</Link>
-          </div>
-        ) : (
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>FAQs</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {posts.map((post) => (
-                <tr key={post._id}>
-                  <td>
-                    <div className="font-medium text-bone-ink font-sans text-sm leading-snug max-w-xs">
-                      {post.title}
-                    </div>
-                    <div className="text-xs text-bone-ink/40 mt-0.5 font-mono">{post.slug}</div>
-                  </td>
-                  <td>
-                    <Badge variant="default">
-                      {CATEGORY_LABELS[post.category] ?? post.category}
-                    </Badge>
-                  </td>
-                  <td>
-                    <div className="flex flex-col gap-1">
-                      <Badge variant={post.published ? 'success' : 'warning'}>
-                        {post.published ? 'Published' : 'Draft'}
-                      </Badge>
-                      {post.featured && <Badge variant="forest">Featured</Badge>}
-                    </div>
-                  </td>
-                  <td className="text-bone-ink/55 text-xs">{formatDate(post.publishedAt)}</td>
-                  <td className="text-bone-ink/55 text-xs">
-                    {post.faqs?.length ? `${post.faqs.length} FAQ${post.faqs.length > 1 ? 's' : ''}` : '—'}
-                  </td>
-                  <td>
-                    <div className="flex items-center gap-1 justify-end">
-                      <Link
-                        href={`/journal/${post.slug}`}
-                        target="_blank"
-                        className="p-1.5 rounded hover:bg-bone-bg text-bone-ink/40 hover:text-bone-ink transition-colors"
-                        title="View post"
-                      >
-                        <Eye size={15} />
-                      </Link>
-                      <Link
-                        href={`/admin/journal/${post.slug}/edit`}
-                        className="p-1.5 rounded hover:bg-bone-bg text-bone-ink/40 hover:text-bone-ink transition-colors"
-                        title="Edit post"
-                      >
-                        <Edit size={15} />
-                      </Link>
-                      <button
-                        onClick={() => setDeleteTarget({ slug: post.slug, title: post.title })}
-                        className="p-1.5 rounded hover:bg-red-50 text-bone-ink/40 hover:text-red-500 transition-colors"
-                        title="Delete post"
-                      >
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="relative" ref={filterRef}>
+          <button
+            onClick={() => setFilterOpen((v) => !v)}
+            className={`h-10 px-3.5 flex items-center gap-2 font-sans text-sm rounded border transition-colors ${
+              activeFilterCount > 0
+                ? 'border-bone-forest text-bone-forest bg-bone-forest/5'
+                : 'border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-ink hover:border-bone-ink/40'
+            }`}
+          >
+            <Filter size={14} />
+            Filters
+            {activeFilterCount > 0 && (
+              <span className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full text-[10px] bg-bone-clay text-white">
+                {activeFilterCount}
+              </span>
+            )}
+            <ChevronDown size={14} className={`transition-transform ${filterOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {filterOpen && (
+            <div className="absolute z-20 top-full mt-1.5 right-0 w-[320px] max-h-[70vh] overflow-y-auto bg-bone-paper border border-[rgba(23,22,18,0.15)] rounded-md shadow-lg">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-[rgba(23,22,18,0.1)]">
+                <span className="font-sans text-xs font-semibold uppercase tracking-wide text-bone-ink/60">
+                  Filter posts
+                </span>
+                {activeFilterCount > 0 && (
+                  <button
+                    onClick={clearFilters}
+                    className="flex items-center gap-1 font-sans text-xs text-bone-clay hover:opacity-70 transition-opacity"
+                  >
+                    <X size={11} /> Clear all
+                  </button>
+                )}
+              </div>
+
+              <FilterSection label="Status">
+                {(['', 'published', 'draft'] as const).map((v) => (
+                  <FilterPill
+                    key={v || 'all'}
+                    active={(statusFilterValue ?? '') === v}
+                    onClick={() => toggleFilterValue('published', v)}
+                  >
+                    {v === '' ? 'All' : v === 'published' ? 'Published' : 'Draft'}
+                  </FilterPill>
+                ))}
+              </FilterSection>
+
+              <FilterSection label="Featured">
+                {(['', 'yes', 'no'] as const).map((v) => (
+                  <FilterPill
+                    key={v || 'all'}
+                    active={(featuredFilterValue ?? '') === v}
+                    onClick={() => toggleFilterValue('featured', v)}
+                  >
+                    {v === '' ? 'All' : v === 'yes' ? 'Featured' : 'Not featured'}
+                  </FilterPill>
+                ))}
+              </FilterSection>
+
+              <FilterSection label="Category">
+                {CATEGORIES.map((c) => (
+                  <FilterPill
+                    key={c.value}
+                    active={(table.getColumn('category')?.getFilterValue() as string | undefined) === c.value}
+                    onClick={() => table.getColumn('category')?.setFilterValue((prev: unknown) => (prev === c.value ? undefined : c.value))}
+                  >
+                    {c.label}
+                  </FilterPill>
+                ))}
+              </FilterSection>
+
+              <FilterSection label="Author" last>
+                {authors.length === 0 ? (
+                  <span className="text-xs text-bone-ink/40 font-sans">No authors yet</span>
+                ) : (
+                  authors.map((name) => (
+                    <FilterPill
+                      key={name}
+                      active={(table.getColumn('author')?.getFilterValue() as string | undefined) === name}
+                      onClick={() => table.getColumn('author')?.setFilterValue((prev: unknown) => (prev === name ? undefined : name))}
+                    >
+                      {name}
+                    </FilterPill>
+                  ))
+                )}
+              </FilterSection>
+            </div>
+          )}
+        </div>
+
+        {activeFilterCount > 0 && (
+          <button
+            onClick={clearFilters}
+            className="flex items-center gap-1 font-sans text-xs text-bone-ink/45 hover:text-bone-clay transition-colors"
+          >
+            <X size={12} /> Clear filters
+          </button>
         )}
       </div>
 
+      {/* Summary line / bulk actions */}
+      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-sans text-bone-ink/50">
+        <div className="flex flex-wrap items-center gap-4">
+          <span>{filteredRows.length} of {posts?.length ?? 0} posts</span>
+          {sortLabel && (
+            <span>Sorted by {sortLabel} {sort?.desc ? '↓' : '↑'}</span>
+          )}
+        </div>
+
+        {selectedSlugs.length > 0 && (
+          <div className="flex items-center gap-2">
+            <span className="text-bone-forest font-medium">{selectedSlugs.length} selected</span>
+            <button
+              onClick={() => bulkMutation.mutate({ slugs: selectedSlugs, action: 'publish' })}
+              disabled={bulkMutation.isPending}
+              className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/70 hover:text-bone-forest hover:border-bone-forest transition-colors disabled:opacity-50"
+            >
+              Publish
+            </button>
+            <button
+              onClick={() => bulkMutation.mutate({ slugs: selectedSlugs, action: 'unpublish' })}
+              disabled={bulkMutation.isPending}
+              className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/70 hover:text-bone-ink hover:border-bone-ink/40 transition-colors disabled:opacity-50"
+            >
+              Unpublish
+            </button>
+            <button
+              onClick={() => setBulkDeleteOpen(true)}
+              disabled={bulkMutation.isPending}
+              className="h-8 px-3 rounded border border-red-200 text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => setRowSelection({})}
+              className="h-8 px-2 text-bone-ink/40 hover:text-bone-ink transition-colors"
+            >
+              Clear
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Table — natural column widths, horizontal scroll on narrow screens
+          instead of truncating content */}
+      <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md overflow-x-auto">
+        <table className="admin-table w-full">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className={header.column.id === 'actions' ? 'text-right whitespace-nowrap' : 'whitespace-nowrap'}
+                  >
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <TableSkeleton rows={8} cols={VISIBLE_COL_COUNT} />
+            ) : pageRows.length === 0 ? (
+              <tr>
+                <td colSpan={VISIBLE_COL_COUNT} className="text-center py-12 text-bone-ink/40 font-sans">
+                  No posts found. <Link href="/admin/journal/new" className="text-bone-forest hover:underline">Create one →</Link>
+                </td>
+              </tr>
+            ) : (
+              pageRows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                  ))}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
       {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 mt-6">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={page === 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
-            Previous
-          </Button>
-          <span className="text-sm text-bone-ink/55 font-sans">
-            Page {page} of {pagination.totalPages}
+      {filteredRows.length > 0 && (
+        <div className="flex items-center justify-between text-sm font-sans">
+          <span className="text-bone-ink/45">
+            Showing {pagination.pageIndex * pagination.pageSize + 1}–{Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredRows.length)} of {filteredRows.length}
           </span>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={page === pagination.totalPages}
-            onClick={() => setPage((p) => p + 1)}
-          >
-            Next
-          </Button>
+          <div className="flex items-center gap-3">
+            <span className="text-bone-ink/45">
+              Page {pagination.pageIndex + 1} / {Math.max(table.getPageCount(), 1)}
+            </span>
+            <div className="flex gap-2">
+              <button
+                disabled={!table.getCanPreviousPage()}
+                onClick={() => table.previousPage()}
+                className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-ink disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                Prev
+              </button>
+              <button
+                disabled={!table.getCanNextPage()}
+                onClick={() => table.nextPage()}
+                className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-ink disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
       {/* Delete confirm */}
       <ConfirmDialog
         open={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={() => deleteTarget && deleteMutation.mutate(deleteTarget.slug)}
+        loading={deleteMutation.isPending}
         title="Delete post"
         description={`Are you sure you want to delete "${deleteTarget?.title}"? This cannot be undone.`}
         confirmLabel="Delete"
         variant="danger"
-        loading={deleteMutation.isPending}
-        onConfirm={() => deleteTarget && deleteMutation.mutate(deleteTarget.slug)}
-        onClose={() => setDeleteTarget(null)}
+      />
+
+      {/* Bulk delete confirm */}
+      <ConfirmDialog
+        open={bulkDeleteOpen}
+        onClose={() => setBulkDeleteOpen(false)}
+        onConfirm={() => bulkMutation.mutate({ slugs: selectedSlugs, action: 'delete' })}
+        loading={bulkMutation.isPending}
+        title={`Delete ${selectedSlugs.length} Post${selectedSlugs.length === 1 ? '' : 's'}`}
+        description="This will permanently delete the selected posts. This action cannot be undone."
+        confirmLabel="Delete"
+        variant="danger"
       />
     </div>
   )

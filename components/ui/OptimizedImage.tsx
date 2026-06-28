@@ -1,20 +1,26 @@
-import Image, { type ImageProps } from 'next/image'
+'use client'
 
-type OmittedProps = 'src' | 'placeholder' | 'blurDataURL'
+import { useState } from 'react'
+import Image, { type ImageProps } from 'next/image'
+import { ImageOff } from 'lucide-react'
+import { cn, cloudinaryUrl } from '@/lib/utils'
+
+type OmittedProps = 'src' | 'placeholder' | 'blurDataURL' | 'onError' | 'unoptimized' | 'quality'
 
 interface OptimizedImageProps extends Omit<ImageProps, OmittedProps> {
   src: string
-  /** Show a blur-up shimmer while loading (default true) */
+  /**
+   * Pixel size for a square, CDN-side crop — use for predictable card/grid/avatar thumbnails
+   * so the browser downloads a right-sized image instead of the full-size original.
+   * Omit for hero/full-bleed images where the crop isn't a fixed size.
+   */
+  thumbSize?: number
+  /** Show a blur-up placeholder while loading (default true) */
   shimmer?: boolean
 }
 
-/**
- * Generates a tiny Cloudinary placeholder URL for the blur-up effect.
- * Returns undefined for non-Cloudinary sources (falls back to shimmer).
- */
-function cloudinaryBlurUrl(src: string): string | undefined {
-  if (!src.includes('res.cloudinary.com')) return undefined
-  return src.replace('/upload/', '/upload/w_20,q_10,e_blur:500,f_auto/')
+function isCloudinary(src: string): boolean {
+  return src.includes('res.cloudinary.com') && src.includes('/upload/')
 }
 
 // Neutral warm-grey fill — matches the site's --bg-soft tone
@@ -22,17 +28,27 @@ const SHIMMER_DATA_URL =
   "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23e8e2d9'/%3E%3C/svg%3E"
 
 /**
- * Drop-in replacement for next/image with:
- * - automatic blur-up placeholder (Cloudinary LQIP or warm-grey shimmer)
- * - sensible default quality (80) and sizes for fill images
- * - zero-config for the most common usage patterns
+ * Drop-in replacement for next/image for ANY image in this app, Cloudinary or not.
+ *
+ * - Cloudinary sources are delivered straight from Cloudinary's CDN with `q_auto,f_auto`
+ *   (and an optional `thumbSize` crop) instead of being routed through Next's image
+ *   optimizer, which is slow for on-demand resizing and unnecessary since Cloudinary
+ *   already negotiates format/quality. Transformations are always applied to the
+ *   *existing* delivery URL (which carries the `/v<digits>/` version segment) via
+ *   `cloudinaryUrl()` — never rebuilt from a bare public ID — so a folder name that
+ *   happens to look like transform shorthand (e.g. `web_images/...`) can't get
+ *   misparsed into a 400.
+ * - Non-Cloudinary sources (Unsplash, Pexels, local) fall through to Next's normal
+ *   optimization pipeline unchanged.
+ * - If the image fails to load for any reason, it degrades to a neutral placeholder
+ *   instead of the browser's broken-image icon.
  *
  * @example
- * // fill layout (inside a positioned container)
- * <OptimizedImage src={url} alt="..." fill className="object-cover" />
+ * // grid/card thumbnail — request a right-sized crop from Cloudinary
+ * <OptimizedImage src={url} alt="..." fill thumbSize={400} className="object-cover" />
  *
- * // fixed dimensions
- * <OptimizedImage src={url} alt="..." width={800} height={600} />
+ * // hero / full-bleed — no fixed crop, just format/quality negotiation
+ * <OptimizedImage src={url} alt="..." fill priority className="object-cover" />
  */
 export default function OptimizedImage({
   src,
@@ -43,38 +59,62 @@ export default function OptimizedImage({
   width,
   height,
   priority,
-  quality,
+  thumbSize,
   className,
   style,
   ...rest
 }: OptimizedImageProps) {
-  const blurSrc = cloudinaryBlurUrl(src)
+  const [errored, setErrored] = useState(false)
+  const cloudinary = isCloudinary(src)
 
-  const placeholderProps =
-    shimmer
-      ? ({
-          placeholder: 'blur',
-          blurDataURL: blurSrc ?? SHIMMER_DATA_URL,
-        } as Partial<ImageProps>)
-      : {}
+  const resolvedSrc = cloudinary
+    ? cloudinaryUrl(
+        src,
+        thumbSize
+          ? `w_${thumbSize},h_${thumbSize},c_fill,g_auto,q_auto,f_auto`
+          : 'q_auto,f_auto'
+      )
+    : src
+
+  const blurSrc = cloudinary ? cloudinaryUrl(src, 'w_16,q_1,e_blur:1000,f_auto') : undefined
 
   const defaultSizes =
     sizes ??
     (fill ? '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw' : undefined)
 
+  if (errored) {
+    return (
+      <div
+        className={cn(
+          'flex items-center justify-center bg-bone-bg text-bone-ink/25',
+          fill && 'absolute inset-0',
+          className
+        )}
+        style={fill ? style : { width, height, ...style }}
+      >
+        <ImageOff size={fill ? 22 : Math.min(Number(width) || 24, 24)} strokeWidth={1.3} />
+      </div>
+    )
+  }
+
   return (
     <Image
-      src={src}
+      src={resolvedSrc}
       alt={alt}
       fill={fill}
       width={!fill ? width : undefined}
       height={!fill ? height : undefined}
       priority={priority}
-      quality={quality ?? 80}
+      loading={priority ? undefined : 'lazy'}
+      quality={cloudinary ? undefined : 80}
+      unoptimized={cloudinary}
       sizes={defaultSizes}
       className={className}
       style={style}
-      {...placeholderProps}
+      onError={() => setErrored(true)}
+      {...(shimmer
+        ? ({ placeholder: 'blur', blurDataURL: blurSrc ?? SHIMMER_DATA_URL } as Partial<ImageProps>)
+        : {})}
       {...rest}
     />
   )

@@ -1,7 +1,7 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
@@ -13,11 +13,78 @@ import {
 import BookingButton from "@/components/ui/BookingButton";
 import Price from "@/components/ui/Price";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
+import { buildAlternates } from "@/lib/seo/hreflang";
+import ComingSoonPage from "@/components/ui/ComingSoonPage";
+import { SAFARI_COMING_SOON_SLUGS } from "@/lib/data/sitemapDirectory";
+
+// Day-by-day itinerary entries share one Stagger viewport observer instead
+// of mounting a separate Reveal (and IntersectionObserver) per day — keeps
+// long, multi-day itineraries (7+ days) from adding observer/JS overhead
+// that hurts INP.
+function ItineraryDayBlock({ day }: { day: Safari["itinerary"][number] }) {
+  return (
+    <div className="py-9 border-t border-[var(--line)] [&:last-child]:border-b grid grid-cols-1 xs:grid-cols-[56px_1fr] md:grid-cols-[120px_1fr] gap-2 xs:gap-[18px] md:gap-9">
+      {/* Day number */}
+      <div>
+        <div className="font-serif italic text-[40px] leading-none text-[var(--clay)]">
+          {String(day.day).padStart(2, "0")}
+        </div>
+        <span className="block font-mono text-[10px] text-[var(--muted)] tracking-[0.16em] uppercase mt-2">
+          Day
+        </span>
+      </div>
+
+      {/* Day content */}
+      <div>
+        <h3 className="font-serif font-normal text-[26px] sm:text-[28px] tracking-[-0.01em] mb-3">
+          {day.title}
+        </h3>
+
+        {day.meals?.length > 0 && (
+          <div className="flex flex-wrap gap-[18px] mb-3.5 font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)]">
+            <span>
+              <strong className="text-[var(--forest)] font-medium">
+                Meals
+              </strong>{" "}
+              {day.meals.join(" · ")}
+            </span>
+          </div>
+        )}
+
+        <p className="text-sm leading-[1.65] text-[var(--muted)] mb-3.5">
+          {day.description}
+        </p>
+
+        {day.activities?.length > 0 && (
+          <ul className="list-none p-0 mb-3.5">
+            {day.activities.map((act, i) => (
+              <li
+                key={i}
+                className="relative pl-[18px] py-1 text-[14px] text-[var(--ink)]"
+              >
+                <span className="absolute left-1 text-[var(--clay)] font-bold">
+                  ·
+                </span>
+                {act}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {day.accommodation && (
+          <span className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.14em] uppercase text-[var(--forest)] py-2 px-3 bg-[var(--paper)] border border-[var(--line)] rounded mt-1">
+            ⌂ {day.accommodation}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export const revalidate = 3600;
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 // ─── Data fetching ────────────────────────────────────────────────────────────
@@ -42,7 +109,7 @@ const getRelatedSafaris = cache(
         slug: { $ne: slug },
         "location.country": { $regex: country, $options: "i" },
       })
-        .sort({ rating: -1 })
+        .sort({ duration: 1, rating: -1 })
         .limit(3)
         .select(
           "name slug tagline location duration pricing coverImage images category featured rating",
@@ -58,9 +125,18 @@ const getRelatedSafaris = cache(
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const safari = await getSafari(slug);
-  if (!safari) return { title: "Safari Not Found" };
+  if (!safari) {
+    const comingSoonTitle = SAFARI_COMING_SOON_SLUGS.get(slug);
+    if (comingSoonTitle) {
+      return {
+        title: `${comingSoonTitle} | Divine Travel Nest Safaris`,
+        alternates: buildAlternates(locale, `/safaris/${slug}`),
+      };
+    }
+    return { title: "Safari Not Found" };
+  }
 
   const title =
     safari.seo?.metaTitle ?? `${safari.name} | Divine Travel Nest Safaris`;
@@ -70,7 +146,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     keywords: safari.seo?.keywords?.join(", "),
-    alternates: { canonical: `/en/safaris/${safari.slug}` },
+    alternates: buildAlternates(locale, `/safaris/${safari.slug}`),
     openGraph: {
       title,
       description,
@@ -177,9 +253,24 @@ function PriceTiersBox({ safari }: { safari: Safari }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function SafariDetailPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const safari = await getSafari(slug);
-  if (!safari) notFound();
+  if (!safari) {
+    const comingSoonTitle = SAFARI_COMING_SOON_SLUGS.get(slug);
+    if (comingSoonTitle) {
+      return (
+        <ComingSoonPage
+          title={comingSoonTitle}
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Tours & Safaris", href: "/safaris" },
+            { label: comingSoonTitle },
+          ]}
+        />
+      );
+    }
+    notFound();
+  }
 
   const nights = Math.max(safari.duration - 1, 0);
   const parks = safari.location.parks?.length
@@ -227,13 +318,13 @@ export default async function SafariDetailPage({ params }: Props) {
           { name: safari.name, href: `/safaris/${safari.slug}` },
         ]}
       />
-      <SafariSchema safari={safari} />
+      <SafariSchema safari={safari} locale={locale} />
 
       {/* ════════════════════════════════════════════════════════════════════
           HERO — image fills section; price box moves below on mobile
       ════════════════════════════════════════════════════════════════════ */}
       <section className="relative h-[42vh] sm:h-[48vh] md:h-[52vh] min-h-[320px] sm:min-h-[400px] md:min-h-[460px] overflow-hidden text-white">
-        <Image
+        <OptimizedImage
           src={heroImage}
           alt={safari.name}
           fill
@@ -299,65 +390,13 @@ export default async function SafariDetailPage({ params }: Props) {
 
               {/* Day-by-day */}
               {safari.itinerary?.length > 0 ? (
-                safari.itinerary.map((day) => (
-                  <Reveal key={day.day}>
-                    <div className="py-9 border-t border-[var(--line)] [&:last-child]:border-b grid grid-cols-1 xs:grid-cols-[56px_1fr] md:grid-cols-[120px_1fr] gap-2 xs:gap-[18px] md:gap-9">
-                      {/* Day number */}
-                      <div>
-                        <div className="font-serif italic text-[40px] leading-none text-[var(--clay)]">
-                          {String(day.day).padStart(2, "0")}
-                        </div>
-                        <span className="block font-mono text-[10px] text-[var(--muted)] tracking-[0.16em] uppercase mt-2">
-                          Day
-                        </span>
-                      </div>
-
-                      {/* Day content */}
-                      <div>
-                        <h3 className="font-serif font-normal text-[26px] sm:text-[28px] tracking-[-0.01em] mb-3">
-                          {day.title}
-                        </h3>
-
-                        {day.meals?.length > 0 && (
-                          <div className="flex flex-wrap gap-[18px] mb-3.5 font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)]">
-                            <span>
-                              <strong className="text-[var(--forest)] font-medium">
-                                Meals
-                              </strong>{" "}
-                              {day.meals.join(" · ")}
-                            </span>
-                          </div>
-                        )}
-
-                        <p className="text-sm leading-[1.65] text-[var(--muted)] mb-3.5">
-                          {day.description}
-                        </p>
-
-                        {day.activities?.length > 0 && (
-                          <ul className="list-none p-0 mb-3.5">
-                            {day.activities.map((act, i) => (
-                              <li
-                                key={i}
-                                className="relative pl-[18px] py-1 text-[14px] text-[var(--ink)]"
-                              >
-                                <span className="absolute left-1 text-[var(--clay)] font-bold">
-                                  ·
-                                </span>
-                                {act}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-
-                        {day.accommodation && (
-                          <span className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.14em] uppercase text-[var(--forest)] py-2 px-3 bg-[var(--paper)] border border-[var(--line)] rounded mt-1">
-                            ⌂ {day.accommodation}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </Reveal>
-                ))
+                <Stagger stagger={0.08}>
+                  {safari.itinerary.map((day) => (
+                    <RevealItem key={day.day}>
+                      <ItineraryDayBlock day={day} />
+                    </RevealItem>
+                  ))}
+                </Stagger>
               ) : (
                 <p className="text-sm text-[var(--muted)] pt-5">
                   Detailed itinerary available on request — contact us to get
@@ -615,7 +654,7 @@ export default async function SafariDetailPage({ params }: Props) {
                     >
                       {/* Image */}
                       <div className="aspect-[4/3.4] overflow-hidden bg-[var(--bg-deep)] mb-5 relative">
-                        <Image
+                        <OptimizedImage
                           src={
                             r.coverImage ||
                             r.images?.[0]?.url ||

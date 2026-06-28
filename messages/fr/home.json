@@ -36,7 +36,7 @@
     "line3Before": "forfaits ",
     "line3Em": "safari",
     "line4": "en Afrique de l'Est 2026.",
-    "description": "Game drives au Masai Mara au Kenya, circuits de migration au Serengeti en Tanzanie, trekking de gorilles à Bwindi en Ouganda et aux Volcans du Rwanda — tout sur mesure par une équipe basée à Nairobi. Du budget au luxe, 2026/2027.",
+    "description": "Vivez des game drives légendaires au Masai Mara au Kenya, assistez à la Grande Migration au Serengeti en Tanzanie et partez en trekking avec les gorilles de montagne à Bwindi en Ouganda et aux Volcans du Rwanda. Sur mesure, du budget au luxe, par notre équipe d'experts.",
     "planSafari": "Planifier mon safari",
     "exploreJourneys": "Découvrir nos voyages",
     "stats": [
@@ -451,6 +451,9 @@
       },
       {
         "caption": "Sous les baobabs"
+      },
+      {
+        "caption": "Coucher de soleil sur Amboseli"
       }
     ]
   },

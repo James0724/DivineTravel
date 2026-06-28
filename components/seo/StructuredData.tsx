@@ -264,15 +264,34 @@ export function CollectionPageSchema({
 
 // ─── Tour / Safari (TouristTrip) ──────────────────────────────────────────────
 
-export function SafariSchema({ safari }: { safari: Safari }) {
+export function SafariSchema({
+  safari,
+  locale = "en",
+}: {
+  safari: Safari;
+  locale?: string;
+}) {
+  const lowestPrice = Math.min(
+    ...[
+      safari.pricing.budget?.pricePerPerson,
+      safari.pricing.midRange?.pricePerPerson,
+      safari.pricing.luxury?.pricePerPerson,
+    ].filter((p): p is number => typeof p === "number" && p > 0),
+  );
+  const currency = safari.pricing.budget?.currency ?? "USD";
+
   const schema = {
     "@context": "https://schema.org",
-    "@type": "TouristTrip",
+    // "Product" is the type Google actually renders price rich snippets
+    // for; "TouristTrip" is kept alongside for schema.org semantic accuracy.
+    "@type": ["TouristTrip", "Product"],
     "@id": buildAbsoluteUrl(`/safaris/${safari.slug}#trip`),
     name: safari.name,
     description: safari.description,
     url: buildAbsoluteUrl(`/safaris/${safari.slug}`),
     image: safari.images?.map((img) => img.url) ?? [],
+    inLanguage: locale,
+    brand: { "@type": "Brand", name: "Divine Travel Nest Safaris" },
     touristType: safari.category,
     itinerary: safari.location.park
       ? {
@@ -296,35 +315,43 @@ export function SafariSchema({ safari }: { safari: Safari }) {
         addressCountry: safari.location.country,
       },
     },
-    offers: [
-      {
-        "@type": "Offer",
-        name: "Budget Package",
-        price: safari.pricing.budget.pricePerPerson,
-        priceCurrency: safari.pricing.budget.currency,
-        description: safari.pricing.budget.description,
-        availability: "https://schema.org/InStock",
-        url: buildAbsoluteUrl(`/contact`),
-      },
-      {
-        "@type": "Offer",
-        name: "Mid-Range Package",
-        price: safari.pricing.midRange.pricePerPerson,
-        priceCurrency: safari.pricing.midRange.currency,
-        description: safari.pricing.midRange.description,
-        availability: "https://schema.org/InStock",
-        url: buildAbsoluteUrl(`/contact`),
-      },
-      {
-        "@type": "Offer",
-        name: "Luxury Package",
-        price: safari.pricing.luxury.pricePerPerson,
-        priceCurrency: safari.pricing.luxury.currency,
-        description: safari.pricing.luxury.description,
-        availability: "https://schema.org/InStock",
-        url: buildAbsoluteUrl(`/contact`),
-      },
-    ],
+    offers: {
+      "@type": "AggregateOffer",
+      lowPrice: Number.isFinite(lowestPrice) ? lowestPrice : undefined,
+      priceCurrency: currency,
+      offerCount: 3,
+      availability: "https://schema.org/InStock",
+      url: buildAbsoluteUrl(`/safaris/${safari.slug}`),
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Budget Package",
+          price: safari.pricing.budget.pricePerPerson,
+          priceCurrency: safari.pricing.budget.currency,
+          description: safari.pricing.budget.description,
+          availability: "https://schema.org/InStock",
+          url: buildAbsoluteUrl(`/contact`),
+        },
+        {
+          "@type": "Offer",
+          name: "Mid-Range Package",
+          price: safari.pricing.midRange.pricePerPerson,
+          priceCurrency: safari.pricing.midRange.currency,
+          description: safari.pricing.midRange.description,
+          availability: "https://schema.org/InStock",
+          url: buildAbsoluteUrl(`/contact`),
+        },
+        {
+          "@type": "Offer",
+          name: "Luxury Package",
+          price: safari.pricing.luxury.pricePerPerson,
+          priceCurrency: safari.pricing.luxury.currency,
+          description: safari.pricing.luxury.description,
+          availability: "https://schema.org/InStock",
+          url: buildAbsoluteUrl(`/contact`),
+        },
+      ],
+    },
     ...(safari.rating > 0 && {
       aggregateRating: {
         "@type": "AggregateRating",

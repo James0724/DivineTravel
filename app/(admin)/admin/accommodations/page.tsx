@@ -12,6 +12,7 @@ import EmptyState from '@/components/ui/EmptyState'
 import Input, { Select } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import type { Accommodation, AccommodationPriceTier, PaginatedResponse } from '@/types'
+import { cloudinaryThumb } from '@/lib/utils'
 
 const TYPE_LABEL: Record<string, string> = {
   'luxury-lodge': 'Luxury Lodge',
@@ -56,14 +57,16 @@ export default function AdminAccommodationsPage() {
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       const res = await fetch(`/api/accommodations/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete')
+      const body = await res.json().catch(() => null)
+      if (!res.ok) throw new Error(body?.error || `Delete failed (${res.status})`)
+      return body as { message?: string }
     },
-    onSuccess: () => {
+    onSuccess: (body) => {
       qc.invalidateQueries({ queryKey: ['admin-accommodations'] })
-      toast.success('Accommodation deleted')
+      toast.success(body?.message || 'Accommodation deleted')
       setDeleteTarget(null)
     },
-    onError: () => toast.error('Failed to delete'),
+    onError: (error: Error) => toast.error(error.message || 'Failed to delete'),
   })
 
   const toggleField = async (id: string, field: 'featured' | 'active', current: boolean) => {
@@ -175,7 +178,7 @@ export default function AdminAccommodationsPage() {
                       <div className="flex items-center gap-3">
                         <div className="relative w-12 h-9 rounded overflow-hidden bg-bone-bg flex-shrink-0">
                           {a.coverImage && (
-                            <Image src={a.coverImage} alt={a.name} fill className="object-cover" sizes="48px" unoptimized />
+                            <Image src={cloudinaryThumb(a.coverImage, 96)} alt={a.name} fill className="object-cover" sizes="48px" unoptimized />
                           )}
                         </div>
                         <p className="font-medium text-sm text-bone-ink">{a.name}</p>

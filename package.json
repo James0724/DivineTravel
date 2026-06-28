@@ -19,12 +19,18 @@
     "patch:safari-types": "tsx scripts/patch-safari-types.ts",
     "patch:duration": "tsx scripts/patch-safari-duration.ts",
     "patch:amina-to-janet": "tsx scripts/patch-amina-to-janet.ts",
+    "patch:acacia-to-divine": "tsx scripts/patch-acacia-to-divine.ts",
+    "migrate:wp-cover-images": "tsx scripts/migrate-wp-cover-images.ts",
+    "patch:broken-cover-images": "tsx scripts/patch-broken-cover-images.ts",
+    "patch:broken-journal-images": "tsx scripts/patch-broken-journal-images.ts",
+    "patch:cover-image-variety": "tsx scripts/patch-cover-image-variety.ts",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@tanstack/react-query": "^5.65.1",
     "@tanstack/react-query-devtools": "^5.65.1",
+    "@tanstack/react-table": "^8.21.3",
     "@tiptap/extension-link": "^3.24.0",
     "@tiptap/extension-placeholder": "^3.24.0",
     "@tiptap/react": "^3.24.0",

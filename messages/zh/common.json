@@ -164,6 +164,21 @@
     "googleLink": "Google 评价 ↗",
     "copyright": "© {year} Divine Travel Nest Safaris · 肯尼亚内罗毕",
     "guidelines": "社区准则",
-    "terms": "条款与条件"
+    "terms": "条款与条件",
+    "sitemap": "网站地图"
+  },
+  "comingSoon": {
+    "eyebrow": "即将上线",
+    "description": "我们正在为此页面做最后的完善。",
+    "heading": "此页面即将上线",
+    "body": "我们的团队正在建设网站的这一部分。在此之前,请联系我们的safari顾问,我们将直接为您提供帮助。",
+    "cta": "联系safari顾问"
+  },
+  "sitemapPage": {
+    "eyebrow": "网站目录",
+    "title": "网站地图",
+    "description": "Divine Travel Nest Safaris 的所有页面,按类别整理。",
+    "breadcrumbHome": "首页",
+    "breadcrumbCurrent": "网站地图"
   }
 }

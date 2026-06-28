@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { ChevronRight } from "lucide-react";
 
@@ -49,7 +49,7 @@ export default function PageHero({
     <section
       className={`relative ${minHeight} flex items-end bg-bone-forest overflow-hidden`}
     >
-      <Image
+      <OptimizedImage
         src={image}
         alt={imageAlt}
         fill

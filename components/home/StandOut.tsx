@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useTranslations } from "next-intl";
@@ -42,7 +42,7 @@ export default function StandOut() {
               animate={photoInView ? { clipPath: "inset(0% 0% 0% 0%)" } : {}}
               transition={{ duration: 1.15, delay: 0.1, ease: EASE }}
             >
-              <Image
+              <OptimizedImage
                 src="https://res.cloudinary.com/dk2j3k15k/image/upload/v1780809294/Gallarey/our_team_me0ns8.jpg"
                 alt="Safari vehicle on a game drive through the African bush"
                 fill

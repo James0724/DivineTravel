@@ -36,7 +36,7 @@
     "line3Before": "paquetes de ",
     "line3Em": "safari",
     "line4": "en África Oriental 2026.",
-    "description": "Game drives en el Masai Mara en Kenia, tours de migración en el Serengeti en Tanzania, trekking de gorilas en Bwindi en Uganda y en los Volcanes de Ruanda — todo a medida por un equipo con base en Nairobi. Desde económico hasta lujo, 2026/2027.",
+    "description": "Vive legendarios game drives en el Masai Mara de Kenia, sé testigo de la Gran Migración en el Serengeti de Tanzania y haz trekking con gorilas de montaña en Bwindi, Uganda, y en los Volcanes de Ruanda. Todo a medida, de económico a lujo, por nuestro equipo de expertos.",
     "planSafari": "Planificar mi safari",
     "exploreJourneys": "Explorar nuestros viajes",
     "stats": [
@@ -451,6 +451,9 @@
       },
       {
         "caption": "Bajo los baobabs"
+      },
+      {
+        "caption": "Atardecer sobre Amboseli"
       }
     ]
   },

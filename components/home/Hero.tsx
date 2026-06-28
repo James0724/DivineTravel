@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import SiteLink from "@/components/ui/SiteLink";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -12,16 +12,25 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const slides = [
   {
-    src: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1920&q=80",
-    alt: "African savanna sunset with acacia trees",
+    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782656201/Gallarey/pexels-luya-29415794_cso8gm.jpg",
+    alt: "A Leopard roaming in the African savanna",
+  },
+
+  {
+    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782655866/Gallarey/pexels-g-n-403098-13098956_hq5wof.jpg",
+    alt: "Zebra grazing",
   },
   {
-    src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1920&q=80",
-    alt: "Luxury safari lodge with mountain backdrop",
+    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782554014/Gallarey/IMG_2874.jpg_mnp4vn.jpg",
+    alt: "Our safari vehicles entering Nairobi national Park main gate",
   },
   {
     src: "https://images.unsplash.com/photo-1521651201144-634f700b36ef?auto=format&fit=crop&w=1920&q=80",
     alt: "African elephant herd at a waterhole in the savanna",
+  },
+  {
+    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782655855/Gallarey/pexels-gsn-travel-28708345_rfgkdr.jpg",
+    alt: "African zebra and wilbest herd grazing in the savanna",
   },
 ];
 
@@ -66,7 +75,7 @@ export default function Hero() {
           transition={{ duration: 0.9, ease: "easeInOut" }}
           className="absolute inset-0"
         >
-          <Image
+          <OptimizedImage
             src={slides[current].src}
             alt={slides[current].alt}
             fill
@@ -274,7 +283,9 @@ export default function Hero() {
             </div>
 
             <div className="flex items-end justify-end gap-6 lg:gap-9 flex-wrap">
-              {(t.raw("stats") as { num: string; sup: string; label: string }[]).map((s, i) => (
+              {(
+                t.raw("stats") as { num: string; sup: string; label: string }[]
+              ).map((s, i) => (
                 <motion.div
                   key={s.label}
                   initial={{ opacity: 0, y: 10 }}
@@ -287,7 +298,10 @@ export default function Hero() {
                 >
                   <div
                     className="font-serif leading-none"
-                    style={{ fontSize: "clamp(20px, 2.4vw, 28px)" }}
+                    style={{
+                      fontStyle: "italic",
+                      fontSize: "clamp(20px, 2.4vw, 28px)",
+                    }}
                   >
                     {s.num}
                     <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>

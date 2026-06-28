@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
@@ -18,7 +18,7 @@ export default function TwoQuestionsImage() {
         animate={inView ? { clipPath: "inset(0% 0% 0% 0%)" } : {}}
         transition={{ duration: 1.15, delay: 0.1, ease: EASE }}
       >
-        <Image
+        <OptimizedImage
           src="https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80"
           alt="Safari guide planning a route through the bush"
           fill

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCountryOrderedSafaris } from "@/lib/data/safaris";
@@ -213,7 +213,7 @@ export default async function DestinationsPage() {
                     style={{ aspectRatio: "16 / 9" }}
                     aria-label={`${t("countries.exploreLabel")} ${country.name}`}
                   >
-                    <Image
+                    <OptimizedImage
                       src={country.image}
                       alt={country.imageAlt}
                       fill
@@ -440,7 +440,7 @@ export default async function DestinationsPage() {
                       className="relative overflow-hidden"
                       style={{ aspectRatio: "3/2" }}
                     >
-                      <Image
+                      <OptimizedImage
                         src={fallbackImages[i]}
                         alt={pkg.name}
                         fill

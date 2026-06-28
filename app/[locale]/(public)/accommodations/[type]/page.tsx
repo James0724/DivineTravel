@@ -16,6 +16,8 @@ import {
 } from "@/components/seo/StructuredData";
 import type { Accommodation } from "@/types";
 import { routing } from "@/i18n/routing";
+import ComingSoonPage from "@/components/ui/ComingSoonPage";
+import { ACCOMMODATION_COMING_SOON_SLUGS } from "@/lib/data/sitemapDirectory";
 
 export const revalidate = 300;
 
@@ -32,7 +34,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, type } = await params;
   const entry = getAccommodationType(type);
-  if (!entry) return {};
+  if (!entry) {
+    const comingSoonTitle = ACCOMMODATION_COMING_SOON_SLUGS.get(type);
+    if (comingSoonTitle) {
+      return { title: `${comingSoonTitle} | Divine Travel Nest Safaris` };
+    }
+    return {};
+  }
 
   const t = await getTranslations({ locale, namespace: "accommodations" });
   const content = t.raw(`types.${type}`) as AccommodationTypeContent;
@@ -59,7 +67,22 @@ export default async function AccommodationTypeDetailPage({
 }) {
   const { locale, type } = await params;
   const entry = getAccommodationType(type);
-  if (!entry) notFound();
+  if (!entry) {
+    const comingSoonTitle = ACCOMMODATION_COMING_SOON_SLUGS.get(type);
+    if (comingSoonTitle) {
+      return (
+        <ComingSoonPage
+          title={comingSoonTitle}
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Accommodations", href: "/accommodations" },
+            { label: comingSoonTitle },
+          ]}
+        />
+      );
+    }
+    notFound();
+  }
 
   const t = await getTranslations({ locale, namespace: "accommodations" });
   const content = t.raw(`types.${type}`) as AccommodationTypeContent;

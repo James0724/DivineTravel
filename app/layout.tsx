@@ -122,6 +122,15 @@ export const metadata: Metadata = {
   verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
   category: "travel",
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Divine Safaris",
+    statusBarStyle: "black-translucent",
+  },
 };
 
 export const viewport: Viewport = {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import {
@@ -246,13 +246,12 @@ export default async function AboutPage() {
             className="relative overflow-hidden aspect-[4/3] md:aspect-[16/6.6]"
             style={{ background: "#e4dbd0" }}
           >
-            <Image
+            <OptimizedImage
               src="https://res.cloudinary.com/dk2j3k15k/image/upload/v1780301052/Gallarey/WhatsApp-Image-2026-03-30-at-13.52.07_oeexgx.jpg"
               alt="Janet Wanjiru — Divine Travel Nest Safaris"
               fill
               sizes="100vw"
               className="object-cover"
-              loading="lazy"
             />
           </div>
           <div className="flex flex-wrap justify-between gap-2 pt-4 font-mono text-[10px] tracking-[0.14em] uppercase text-bone-muted">
@@ -402,13 +401,12 @@ export default async function AboutPage() {
                 className="relative overflow-hidden"
                 style={{ aspectRatio: "4 / 5" }}
               >
-                <Image
+                <OptimizedImage
                   src="https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1000&q=70"
                   alt="Open-roof safari Land Cruiser — Divine Travel Nest Safaris"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
-                  loading="lazy"
                 />
               </div>
             </Reveal>
@@ -551,11 +549,12 @@ export default async function AboutPage() {
                     minWidth: "160px",
                   }}
                 >
-                  <Image
+                  <OptimizedImage
                     src={CERT_LOGOS[i]}
                     alt={cert.label}
                     width={120}
                     height={48}
+                    shimmer={false}
                     className="h-10 w-auto max-w-[120px] object-contain"
                   />
                   <span className="font-mono text-[11px] tracking-[0.07em] uppercase text-bone-forest-soft text-center">

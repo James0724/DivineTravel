@@ -7,6 +7,12 @@ import { deleteImage, renameImage } from '@/lib/cloudinary'
 
 type RouteCtx = { params: Promise<{ id: string }> }
 
+// Safari images are referenced by publicId/url from the Safari document itself
+// (cover + gallery). Renaming or deleting them here, outside the Safari edit
+// form, would silently break that reference or orphan the safari with no
+// image — those changes must go through the safari edit/create flow instead.
+const SAFARI_PROTECTED_USAGE = new Set(['safari-cover', 'safari-gallery'])
+
 export async function PATCH(req: NextRequest, { params }: RouteCtx) {
   try {
     const session = await getServerSession(authOptions)
@@ -20,6 +26,12 @@ export async function PATCH(req: NextRequest, { params }: RouteCtx) {
       // Rename flow — updates Cloudinary public ID + URL + name in DB
       const existing = await ImageModel.findById(id)
       if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+      if (SAFARI_PROTECTED_USAGE.has(existing.usage)) {
+        return NextResponse.json(
+          { error: 'Safari images can only be renamed from the safari edit page' },
+          { status: 403 }
+        )
+      }
 
       const { publicId, url } = await renameImage(existing.publicId, body.newName)
       const safeName = body.newName.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '')
@@ -57,6 +69,12 @@ export async function DELETE(_req: NextRequest, { params }: RouteCtx) {
     await connectDB()
     const image = await ImageModel.findById(id)
     if (!image) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    if (SAFARI_PROTECTED_USAGE.has(image.usage)) {
+      return NextResponse.json(
+        { error: 'Safari images can only be removed from the safari edit page' },
+        { status: 403 }
+      )
+    }
 
     await deleteImage(image.publicId)
     await ImageModel.findByIdAndDelete(id)

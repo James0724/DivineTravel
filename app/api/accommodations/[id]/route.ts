@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import connectDB from '@/lib/db/mongoose'
 import AccommodationModel from '@/lib/db/models/Accommodation'
+import ImageModel from '@/lib/db/models/Image'
+import { deleteImage } from '@/lib/cloudinary'
 
 // Support both slug (public) and ObjectId (admin)
 async function findAccommodation(id: string) {
@@ -78,21 +80,63 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    if ((session.user as { role?: string }).role !== 'admin') {
+    const role = (session.user as { role?: string }).role
+    if (role !== 'admin' && role !== 'super_admin') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
     const { id } = await params
+    if (!/^[0-9a-fA-F]{24}$/.test(id)) {
+      return NextResponse.json({ error: 'Invalid accommodation id' }, { status: 400 })
+    }
+
     await connectDB()
     const accommodation = await AccommodationModel.findById(id)
     if (!accommodation) {
       return NextResponse.json({ error: 'Accommodation not found' }, { status: 404 })
     }
 
+    const publicIds = [
+      accommodation.coverImagePublicId,
+      ...(accommodation.images ?? []).map((img) => img.publicId),
+    ].filter((publicId): publicId is string => !!publicId)
+
+    const cloudinaryFailures: string[] = []
+    await Promise.all(
+      publicIds.map(async (publicId) => {
+        try {
+          await deleteImage(publicId)
+        } catch (err) {
+          cloudinaryFailures.push(publicId)
+          console.error(`[DELETE /api/accommodations/[id]] Cloudinary delete failed for ${publicId}`, err)
+        }
+      })
+    )
+
+    if (publicIds.length) {
+      try {
+        await ImageModel.deleteMany({
+          publicId: { $in: publicIds.filter((id) => !cloudinaryFailures.includes(id)) },
+        })
+      } catch (err) {
+        console.error('[DELETE /api/accommodations/[id]] Failed to clean up Image library records', err)
+      }
+    }
+
     await AccommodationModel.findByIdAndDelete(id)
+
+    if (cloudinaryFailures.length) {
+      return NextResponse.json({
+        success: true,
+        message: `Accommodation deleted, but ${cloudinaryFailures.length} image(s) could not be removed from Cloudinary`,
+        cloudinaryFailures,
+      })
+    }
+
     return NextResponse.json({ success: true, message: 'Accommodation deleted' })
   } catch (error) {
     console.error('[DELETE /api/accommodations/[id]]', error)
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    const message = error instanceof Error ? error.message : 'Server error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

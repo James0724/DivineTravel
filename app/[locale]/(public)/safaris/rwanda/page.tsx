@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import {
   BreadcrumbSchema,
@@ -289,7 +289,7 @@ export default async function RwandaSafarisPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-16 lg:gap-24 items-center">
             <div className="grid grid-cols-2 gap-4" style={{ aspectRatio: "1/1.1" }}>
               <div className="overflow-hidden" style={{ aspectRatio: "3/4" }}>
-                <Image
+                <OptimizedImage
                   src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=600&q=80"
                   alt="Silverback gorilla in Volcanoes National Park, Rwanda"
                   width={400}
@@ -298,7 +298,7 @@ export default async function RwandaSafarisPage() {
                 />
               </div>
               <div className="overflow-hidden mt-10" style={{ aspectRatio: "3/4" }}>
-                <Image
+                <OptimizedImage
                   src="https://images.pexels.com/photos/39857/leopard-leopard-spots-animal-wild-39857.jpeg?auto=compress&cs=tinysrgb&w=600&q=80"
                   alt="Wildlife in Akagera National Park, Rwanda"
                   width={400}
@@ -424,7 +424,7 @@ export default async function RwandaSafarisPage() {
                   className="relative overflow-hidden"
                   style={{ aspectRatio: "5/4", minHeight: "340px" }}
                 >
-                  <Image
+                  <OptimizedImage
                     src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
                     alt="Mountain gorilla in Volcanoes National Park, Rwanda"
                     fill
@@ -561,7 +561,7 @@ export default async function RwandaSafarisPage() {
                   className="relative overflow-hidden order-1 lg:order-2"
                   style={{ aspectRatio: "5/4", minHeight: "340px" }}
                 >
-                  <Image
+                  <OptimizedImage
                     src="https://images.pexels.com/photos/12635318/pexels-photo-12635318.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
                     alt="Chimpanzee in Nyungwe Forest National Park, Rwanda"
                     fill
@@ -587,7 +587,7 @@ export default async function RwandaSafarisPage() {
                   className="relative overflow-hidden"
                   style={{ aspectRatio: "5/4", minHeight: "340px" }}
                 >
-                  <Image
+                  <OptimizedImage
                     src="https://images.pexels.com/photos/3384447/pexels-photo-3384447.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
                     alt="Elephant at Akagera National Park, Rwanda"
                     fill
@@ -802,7 +802,7 @@ export default async function RwandaSafarisPage() {
               </div>
             </div>
             <div className="relative overflow-hidden" style={{ aspectRatio: "4/5" }}>
-              <Image
+              <OptimizedImage
                 src="https://images.pexels.com/photos/36478037/pexels-photo-36478037.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
                 alt="Silverback gorilla in the Virunga mountains, Rwanda"
                 fill

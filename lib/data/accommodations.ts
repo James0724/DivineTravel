@@ -10,7 +10,10 @@ const SELECT_FIELDS =
  * public list) and directly by server components.
  */
 export async function getAccommodationsList(
-  filters: AccommodationFilters & { activeOnly?: boolean } = {},
+  // `null` means "show both active and inactive" (admin, explicit) — distinct
+  // from `undefined`, which falls back to the active-only default below, since
+  // a destructured default only triggers on `undefined`, not on `null`.
+  filters: AccommodationFilters & { activeOnly?: boolean | null } = {},
 ): Promise<PaginatedResponse<Accommodation>> {
   await connectDB();
 
@@ -25,7 +28,7 @@ export async function getAccommodationsList(
   } = filters;
 
   const query: Record<string, unknown> = {};
-  if (activeOnly !== undefined) query.active = activeOnly;
+  if (activeOnly !== undefined && activeOnly !== null) query.active = activeOnly;
   if (type) query.type = type;
   if (featured !== undefined) query.featured = featured;
   if (country) query["location.country"] = { $regex: country, $options: "i" };

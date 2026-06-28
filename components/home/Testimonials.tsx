@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useCallback, useState } from 'react'
-import Image from 'next/image'
+import OptimizedImage from '@/components/ui/OptimizedImage'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
@@ -145,11 +145,12 @@ export default function Testimonials({ initialData }: TestimonialsProps) {
                   {/* Author */}
                   <div className="flex items-center gap-3">
                     {item.avatar ? (
-                      <Image
+                      <OptimizedImage
                         src={item.avatar}
                         alt={item.name}
                         width={40}
                         height={40}
+                        thumbSize={80}
                         className="w-10 h-10 rounded-full object-cover"
                       />
                     ) : (
@@ -231,11 +232,12 @@ export default function Testimonials({ initialData }: TestimonialsProps) {
                 </p>
                 <div className="flex items-center gap-3 pt-4 border-t border-[rgba(23,22,18,0.08)]">
                   {active.avatar ? (
-                    <Image
+                    <OptimizedImage
                       src={active.avatar}
                       alt={active.name}
                       width={40}
                       height={40}
+                      thumbSize={80}
                       className="w-10 h-10 rounded-full object-cover"
                     />
                   ) : (

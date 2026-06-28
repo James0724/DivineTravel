@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { useTranslations } from "next-intl";
 import { useFeaturedSafaris } from "@/hooks/useSafaris";
 import { useCurrency } from "@/lib/currency/useCurrency";
@@ -112,7 +112,7 @@ function SafariPackageCard({
         style={{ aspectRatio: "4/3.4", background: "#e4dac3" }}
       >
         {safari.coverImage ? (
-          <Image
+          <OptimizedImage
             src={safari.coverImage}
             alt={safari.name}
             fill

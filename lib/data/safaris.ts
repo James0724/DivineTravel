@@ -7,11 +7,15 @@ const SELECT_FIELDS =
 
 type SortQuery = { [key: string]: 1 | -1 };
 
+// `duration: 1` trails every mode as a tie-breaker so that whenever two
+// safaris are otherwise equal, the shorter trip lists first and the longer
+// one lists last. The "Featured" / default listings go further and make
+// duration the dominant key outright — see COUNTRY_RANK_FIELD usages below.
 const SORT_MAP: Record<string, SortQuery> = {
-  rating: { rating: -1, reviewCount: -1 },
-  newest: { createdAt: -1 },
-  price_asc: { "pricing.budget.pricePerPerson": 1 },
-  price_desc: { "pricing.luxury.pricePerPerson": -1 },
+  rating: { duration: 1, rating: -1, reviewCount: -1 },
+  newest: { createdAt: -1, duration: 1 },
+  price_asc: { "pricing.budget.pricePerPerson": 1, duration: 1 },
+  price_desc: { "pricing.luxury.pricePerPerson": -1, duration: 1 },
   duration_asc: { duration: 1 },
 };
 
@@ -86,7 +90,7 @@ export async function getCountryOrderedSafaris(
   options: { limit: number; select: string; secondarySort?: SortQuery },
 ): Promise<Safari[]> {
   await connectDB();
-  const { limit, select, secondarySort = { rating: -1, reviewCount: -1 } } = options;
+  const { limit, select, secondarySort = { duration: 1, rating: -1, reviewCount: -1 } } = options;
 
   const safaris = await SafariModel.find(match)
     .sort(secondarySort)
@@ -122,13 +126,13 @@ export async function getSignaturePackages(
     SafariModel.aggregate([
       { $match: { active: true, featured: true } },
       { $addFields: { __countryRank: COUNTRY_RANK_FIELD } },
-      { $sort: { __countryRank: 1, rating: -1, reviewCount: -1 } },
+      { $sort: { __countryRank: 1, duration: 1, rating: -1, reviewCount: -1 } },
       { $project: project },
     ]),
     SafariModel.aggregate([
       { $match: { active: true, featured: { $ne: true } } },
       { $addFields: { __countryRank: COUNTRY_RANK_FIELD } },
-      { $sort: { __countryRank: 1, rating: -1, reviewCount: -1 } },
+      { $sort: { __countryRank: 1, duration: 1, rating: -1, reviewCount: -1 } },
       { $project: project },
     ]),
   ]);
@@ -147,7 +151,10 @@ export async function getSignaturePackages(
  * and by /api/safaris (for client-side filtering) so both stay in sync.
  */
 export async function getSafarisList(
-  filters: SafariFilters & { activeOnly?: boolean } = {},
+  // `null` means "show both active and inactive" (admin, explicit) — distinct
+  // from `undefined`, which falls back to the active-only default below, since
+  // a destructured default only triggers on `undefined`, not on `null`.
+  filters: SafariFilters & { activeOnly?: boolean | null } = {},
 ): Promise<PaginatedResponse<Safari>> {
   await connectDB();
 
@@ -168,7 +175,7 @@ export async function getSafarisList(
   } = filters;
 
   const query: Record<string, unknown> = {};
-  if (activeOnly !== undefined) query.active = activeOnly;
+  if (activeOnly !== undefined && activeOnly !== null) query.active = activeOnly;
   if (featured !== undefined) query.featured = featured;
   if (category) query.category = category;
   if (safariType) query.safariType = safariType;
@@ -203,7 +210,7 @@ export async function getSafarisList(
     const candidates = await SafariModel.aggregate([
       { $match: query },
       { $addFields: { __countryRank: COUNTRY_RANK_FIELD } },
-      { $sort: { __countryRank: 1, rating: -1, reviewCount: -1 } },
+      { $sort: { __countryRank: 1, duration: 1, rating: -1, reviewCount: -1 } },
       {
         $project: {
           ...Object.fromEntries(SELECT_FIELDS.split(" ").map((f) => [f, 1])),
@@ -217,7 +224,7 @@ export async function getSafarisList(
     safaris = await SafariModel.aggregate([
       { $match: query },
       { $addFields: { __countryRank: COUNTRY_RANK_FIELD } },
-      { $sort: { __countryRank: 1, rating: -1, reviewCount: -1 } },
+      { $sort: { __countryRank: 1, duration: 1, rating: -1, reviewCount: -1 } },
       { $skip: (page - 1) * limit },
       { $limit: limit },
       { $project: Object.fromEntries(SELECT_FIELDS.split(" ").map((f) => [f, 1])) },

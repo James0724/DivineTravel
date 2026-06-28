@@ -15,10 +15,10 @@ export async function GET(req: NextRequest) {
     // active + inactive, 'false' shows inactive only, anything else (or
     // omitted, as on every public page) keeps the default active-only view.
     const activeParam = searchParams.get('active')
-    const activeOnly = activeParam === 'all' ? undefined : activeParam !== 'false'
+    const activeOnly = activeParam === 'all' ? null : activeParam !== 'false'
     const featuredParam = searchParams.get('featured')
 
-    const filters: AccommodationFilters & { activeOnly?: boolean } = {
+    const filters: AccommodationFilters & { activeOnly?: boolean | null } = {
       search: searchParams.get('search') ?? undefined,
       type: (searchParams.get('type') as AccommodationType) ?? undefined,
       country: searchParams.get('country') ?? undefined,

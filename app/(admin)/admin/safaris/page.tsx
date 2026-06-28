@@ -1,60 +1,105 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Plus, Search, Edit, Trash2, Eye, Star, RefreshCw, Filter, ChevronDown, X } from 'lucide-react'
+import {
+  Plus, Search, Edit, Trash2, Eye, Star, RefreshCw, Filter, ChevronDown,
+  ChevronUp, ChevronsUpDown, X,
+} from 'lucide-react'
+import {
+  useReactTable, getCoreRowModel, getSortedRowModel, getFilteredRowModel,
+  getPaginationRowModel, createColumnHelper, flexRender,
+  type SortingState, type ColumnFiltersState, type RowSelectionState,
+  type VisibilityState, type FilterFn, type Column, type PaginationState,
+} from '@tanstack/react-table'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import Switch from '@/components/ui/Switch'
+import DropdownMenu from '@/components/ui/DropdownMenu'
 import { ConfirmDialog } from '@/components/ui/Modal'
 import { TableSkeleton } from '@/components/ui/Skeleton'
 import { COUNTRIES, CATEGORIES, SAFARI_TYPES, DIFFICULTIES } from '@/components/safaris/SafariFilterPanel'
 import { DURATIONS } from '@/lib/data/safariFilterOptions'
-import { formatPrice, formatDuration, getLowestPrice } from '@/lib/utils'
-import type { Safari, SafariCategory, SafariStyle, SafariDifficulty, PaginatedResponse } from '@/types'
+import { formatPrice, formatDuration, getLowestPrice, cloudinaryThumb } from '@/lib/utils'
+import type { Safari, PaginatedResponse } from '@/types'
 
-interface AdminSafariFilters {
-  status: '' | 'active' | 'inactive'
-  featured: '' | 'yes' | 'no'
-  country: string
-  category: SafariCategory | ''
-  safariType: SafariStyle | ''
-  difficulty: SafariDifficulty | ''
-  duration: string
+// ─── Column filter functions ───────────────────────────────────────────────
+
+const countryFilterFn: FilterFn<Safari> = (row, _columnId, value: string) => {
+  if (!value) return true
+  const loc = row.original.location
+  if (value === 'cross') return (loc.countries?.length ?? 0) > 1
+  const haystack = [loc.country, ...(loc.countries ?? [])].join(' ').toLowerCase()
+  return haystack.includes(value.toLowerCase())
 }
 
-const EMPTY_FILTERS: AdminSafariFilters = {
-  status: '',
-  featured: '',
-  country: '',
-  category: '',
-  safariType: '',
-  difficulty: '',
-  duration: '',
+const arrayIncludesFilterFn: FilterFn<Safari> = (row, columnId, value: string) => {
+  if (!value) return true
+  const arr = (row.getValue(columnId) as string[]) ?? []
+  return arr.includes(value)
 }
 
-const STATUS_OPTIONS: { label: string; value: AdminSafariFilters['status'] }[] = [
-  { label: 'All', value: '' },
-  { label: 'Active', value: 'active' },
-  { label: 'Inactive', value: 'inactive' },
-]
-
-const FEATURED_OPTIONS: { label: string; value: AdminSafariFilters['featured'] }[] = [
-  { label: 'All', value: '' },
-  { label: 'Featured', value: 'yes' },
-  { label: 'Not featured', value: 'no' },
-]
-
-function countActive(f: AdminSafariFilters) {
-  return Object.values(f).filter(Boolean).length
+const durationFilterFn: FilterFn<Safari> = (row, _columnId, value: { min?: number; max?: number }) => {
+  if (!value) return true
+  const d = row.original.duration
+  if (value.min !== undefined && d < value.min) return false
+  if (value.max !== undefined && d > value.max) return false
+  return true
 }
 
-async function fetchAdminSafaris(params: URLSearchParams): Promise<PaginatedResponse<Safari>> {
-  const res = await fetch(`/api/safaris?${params}`)
-  if (!res.ok) throw new Error('Failed to fetch')
-  return res.json()
+const statusFilterFn: FilterFn<Safari> = (row, columnId, value: 'active' | 'inactive') => {
+  if (!value) return true
+  return (row.getValue(columnId) as boolean) === (value === 'active')
+}
+
+const featuredFilterFn: FilterFn<Safari> = (row, columnId, value: 'yes' | 'no') => {
+  if (!value) return true
+  return (row.getValue(columnId) as boolean) === (value === 'yes')
+}
+
+const globalFilterFn: FilterFn<Safari> = (row, _columnId, value: string) => {
+  const search = value.trim().toLowerCase()
+  if (!search) return true
+  const s = row.original
+  return (
+    s.name.toLowerCase().includes(search) ||
+    s.slug.toLowerCase().includes(search) ||
+    s.location.park?.toLowerCase().includes(search) ||
+    s.location.country?.toLowerCase().includes(search)
+  )
+}
+
+async function fetchAllSafaris(): Promise<Safari[]> {
+  const res = await fetch('/api/safaris?active=all&limit=1000')
+  if (!res.ok) throw new Error('Failed to fetch safaris')
+  const body: PaginatedResponse<Safari> = await res.json()
+  return body.data
+}
+
+// ─── Small shared bits ──────────────────────────────────────────────────────
+
+function SortableHeader({ column, children }: { column: Column<Safari, unknown>; children: React.ReactNode }) {
+  const sorted = column.getIsSorted()
+  return (
+    <button
+      type="button"
+      onClick={column.getToggleSortingHandler()}
+      className="flex items-center gap-1 font-sans text-xs font-semibold uppercase tracking-wide text-bone-ink/60 hover:text-bone-ink transition-colors"
+    >
+      {children}
+      {sorted === 'asc' ? (
+        <ChevronUp size={12} />
+      ) : sorted === 'desc' ? (
+        <ChevronDown size={12} />
+      ) : (
+        <ChevronsUpDown size={12} className="opacity-30" />
+      )}
+    </button>
+  )
 }
 
 function FilterSection({ label, last, children }: { label: string; last?: boolean; children: React.ReactNode }) {
@@ -82,13 +127,51 @@ function FilterPill({ active, onClick, children }: { active: boolean; onClick: (
   )
 }
 
+const VISIBLE_COL_COUNT = 9
+const columnHelper = createColumnHelper<Safari>()
+
+// Persist table view state (filters, sort, search, pagination) across
+// navigation to the edit/view page so "back" lands exactly where the
+// admin left off instead of resetting to an empty table.
+const VIEW_STATE_KEY = 'admin-safaris-view-state'
+
+interface StoredViewState {
+  globalFilter: string
+  sorting: SortingState
+  columnFilters: ColumnFiltersState
+  pagination: PaginationState
+}
+
+function loadViewState(): StoredViewState | null {
+  if (typeof window === 'undefined') return null
+  try {
+    const raw = sessionStorage.getItem(VIEW_STATE_KEY)
+    return raw ? (JSON.parse(raw) as StoredViewState) : null
+  } catch {
+    return null
+  }
+}
+
 export default function AdminSafarisPage() {
-  const [search, setSearch] = useState('')
-  const [filters, setFilters] = useState<AdminSafariFilters>(EMPTY_FILTERS)
-  const [filterOpen, setFilterOpen] = useState(false)
-  const [page, setPage] = useState(1)
-  const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
+  const router = useRouter()
   const qc = useQueryClient()
+  const initialView = useRef(loadViewState()).current
+
+  const [globalFilter, setGlobalFilter] = useState(initialView?.globalFilter ?? '')
+  const [sorting, setSorting] = useState<SortingState>(initialView?.sorting ?? [])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(initialView?.columnFilters ?? [])
+  const [pagination, setPagination] = useState<PaginationState>(
+    initialView?.pagination ?? { pageIndex: 0, pageSize: 15 }
+  )
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [columnVisibility] = useState<VisibilityState>({
+    safariType: false,
+    difficulty: false,
+    featured: false,
+  })
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false)
   const filterRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -102,50 +185,61 @@ export default function AdminSafarisPage() {
     return () => document.removeEventListener('mousedown', onClickOutside)
   }, [filterOpen])
 
-  const dur = DURATIONS.find((d) => d.value === filters.duration)
-  const activeCount = countActive(filters)
+  useEffect(() => {
+    const state: StoredViewState = { globalFilter, sorting, columnFilters, pagination }
+    sessionStorage.setItem(VIEW_STATE_KEY, JSON.stringify(state))
+  }, [globalFilter, sorting, columnFilters, pagination])
 
-  const updateFilter = <K extends keyof AdminSafariFilters>(key: K, value: AdminSafariFilters[K]) => {
-    setFilters((prev) => ({ ...prev, [key]: prev[key] === value ? '' : value }))
-    setPage(1)
-  }
-
-  const params = new URLSearchParams({
-    page: String(page),
-    limit: '15',
-    // No status filter selected -> show both active and inactive (the
-    // admin table's default view, unlike the public site which is active-only).
-    active: filters.status === 'active' ? 'true' : filters.status === 'inactive' ? 'false' : 'all',
-    ...(search && { search }),
-    ...(filters.featured === 'yes' && { featured: 'true' }),
-    ...(filters.featured === 'no' && { featured: 'false' }),
-    ...(filters.country && { country: filters.country }),
-    ...(filters.category && { category: filters.category }),
-    ...(filters.safariType && { safariType: filters.safariType }),
-    ...(filters.difficulty && { difficulty: filters.difficulty }),
-    ...(dur?.min !== undefined && { minDays: String(dur.min) }),
-    ...(dur?.max !== undefined && { maxDays: String(dur.max) }),
-  })
-
-  const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: ['admin-safaris', page, search, filters],
-    queryFn: () => fetchAdminSafaris(params),
+  const { data: safaris, isLoading, isFetching, refetch } = useQuery({
+    queryKey: ['admin-safaris-all'],
+    queryFn: fetchAllSafaris,
     staleTime: 0,
     refetchOnMount: true,
     refetchOnWindowFocus: true,
   })
 
+  const invalidate = () => qc.invalidateQueries({ queryKey: ['admin-safaris-all'] })
+
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       const res = await fetch(`/api/safaris/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Delete failed')
+      const body = await res.json().catch(() => null)
+      if (!res.ok) throw new Error(body?.error || `Delete failed (${res.status})`)
+      return body as { message?: string }
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['admin-safaris'] })
-      toast.success('Safari deleted')
+    onSuccess: (body) => {
+      invalidate()
+      toast.success(body?.message || 'Safari deleted')
       setDeleteTarget(null)
     },
-    onError: () => toast.error('Failed to delete safari'),
+    onError: (error: Error) => toast.error(error.message || 'Failed to delete safari'),
+  })
+
+  const bulkMutation = useMutation({
+    mutationFn: async ({ ids, action }: { ids: string[]; action: 'publish' | 'unpublish' | 'delete' }) => {
+      if (action === 'delete') {
+        await Promise.all(ids.map((id) => fetch(`/api/safaris/${id}`, { method: 'DELETE' })))
+      } else {
+        await Promise.all(
+          ids.map((id) =>
+            fetch(`/api/safaris/${id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ active: action === 'publish' }),
+            })
+          )
+        )
+      }
+      return { ids, action }
+    },
+    onSuccess: ({ ids, action }) => {
+      invalidate()
+      setRowSelection({})
+      setBulkDeleteOpen(false)
+      const verb = action === 'publish' ? 'Published' : action === 'unpublish' ? 'Unpublished' : 'Deleted'
+      toast.success(`${verb} ${ids.length} safari${ids.length === 1 ? '' : 's'}`)
+    },
+    onError: () => toast.error('Bulk action failed — please try again'),
   })
 
   const toggleFeatured = async (id: string, current: boolean) => {
@@ -155,13 +249,237 @@ export default function AdminSafarisPage() {
       body: JSON.stringify({ featured: !current }),
     })
     if (res.ok) {
-      qc.invalidateQueries({ queryKey: ['admin-safaris'] })
+      invalidate()
       toast.success(`Safari ${current ? 'unfeatured' : 'featured'}`)
+    } else {
+      const body = await res.json().catch(() => null)
+      toast.error(body?.error || 'Failed to update featured status')
     }
   }
 
-  const safaris = data?.data ?? []
-  const pagination = data?.pagination
+  // Quick publish/unpublish — sends only `active` so it can never be blocked
+  // by validation errors on unrelated fields the way a full form save can.
+  const toggleActive = async (id: string, current: boolean) => {
+    const res = await fetch(`/api/safaris/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ active: !current }),
+    })
+    if (res.ok) {
+      invalidate()
+      toast.success(`Safari ${current ? 'unpublished' : 'published'}`)
+    } else {
+      const body = await res.json().catch(() => null)
+      toast.error(body?.error || 'Failed to update published status')
+    }
+  }
+
+  const columns = useMemo(() => [
+    columnHelper.display({
+      id: 'select',
+      header: ({ table }) => (
+        <input
+          type="checkbox"
+          checked={table.getIsAllRowsSelected()}
+          ref={(el) => {
+            if (el) el.indeterminate = table.getIsSomeRowsSelected()
+          }}
+          onChange={table.getToggleAllRowsSelectedHandler()}
+          aria-label="Select all rows"
+          className="h-4 w-4 rounded border-[rgba(23,22,18,0.3)] text-bone-forest focus:ring-bone-clay"
+        />
+      ),
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          checked={row.getIsSelected()}
+          onChange={row.getToggleSelectedHandler()}
+          aria-label={`Select ${row.original.name}`}
+          className="h-4 w-4 rounded border-[rgba(23,22,18,0.3)] text-bone-forest focus:ring-bone-clay"
+        />
+      ),
+      enableSorting: false,
+    }),
+    columnHelper.accessor('name', {
+      id: 'safari',
+      header: ({ column }) => <SortableHeader column={column}>Safari</SortableHeader>,
+      cell: ({ row }) => {
+        const safari = row.original
+        return (
+          <div className="flex items-center gap-3">
+            {safari.coverImage && (
+              <div className="w-10 h-10 rounded overflow-hidden flex-shrink-0">
+                <Image src={cloudinaryThumb(safari.coverImage, 80)} alt={safari.name} width={40} height={40} className="w-full h-full object-cover" unoptimized />
+              </div>
+            )}
+            <p className="font-sans font-medium text-bone-ink text-sm whitespace-nowrap">{safari.name}</p>
+          </div>
+        )
+      },
+    }),
+    columnHelper.accessor((row) => `${row.location.park}, ${row.location.country}`, {
+      id: 'location',
+      header: ({ column }) => <SortableHeader column={column}>Location</SortableHeader>,
+      filterFn: countryFilterFn,
+      cell: ({ getValue }) => <span className="text-bone-ink/60 whitespace-nowrap">{getValue()}</span>,
+    }),
+    columnHelper.accessor('category', {
+      id: 'category',
+      header: 'Category',
+      filterFn: arrayIncludesFilterFn,
+      enableSorting: false,
+      cell: ({ getValue }) => {
+        const cats = getValue()
+        return (
+          <div className="flex gap-1 flex-wrap max-w-[180px]">
+            {cats.length === 0 ? (
+              <span className="text-bone-ink/30 text-sm">—</span>
+            ) : (
+              cats.map((cat) => (
+                <Badge key={cat} variant="neutral">
+                  {CATEGORIES.find((c) => c.value === cat)?.label ?? cat}
+                </Badge>
+              ))
+            )}
+          </div>
+        )
+      },
+    }),
+    columnHelper.accessor('safariType', {
+      id: 'safariType',
+      header: 'Style',
+      filterFn: arrayIncludesFilterFn,
+      enableSorting: false,
+    }),
+    columnHelper.accessor('difficulty', {
+      id: 'difficulty',
+      header: 'Difficulty',
+      enableSorting: false,
+    }),
+    columnHelper.accessor('duration', {
+      id: 'duration',
+      header: ({ column }) => <SortableHeader column={column}>Duration</SortableHeader>,
+      filterFn: durationFilterFn,
+      cell: ({ getValue }) => formatDuration(getValue()),
+    }),
+    columnHelper.accessor((row) => getLowestPrice(row.pricing), {
+      id: 'price',
+      header: ({ column }) => <SortableHeader column={column}>From</SortableHeader>,
+      cell: ({ getValue }) => <span className="font-medium">{formatPrice(getValue())}</span>,
+    }),
+    columnHelper.accessor('active', {
+      id: 'active',
+      header: ({ column }) => <SortableHeader column={column}>Status</SortableHeader>,
+      filterFn: statusFilterFn,
+      cell: ({ row }) => (
+        <div className="flex gap-1.5 flex-wrap">
+          <Badge variant={row.original.active ? 'success' : 'danger'} dot>
+            {row.original.active ? 'Published' : 'Unpublished'}
+          </Badge>
+          {row.original.featured && <Badge variant="clay">Featured</Badge>}
+        </div>
+      ),
+    }),
+    columnHelper.accessor('featured', {
+      id: 'featured',
+      header: 'Featured',
+      filterFn: featuredFilterFn,
+      enableSorting: false,
+    }),
+    columnHelper.accessor('rating', {
+      id: 'rating',
+      header: ({ column }) => <SortableHeader column={column}>Rating</SortableHeader>,
+      cell: ({ getValue }) => {
+        const rating = getValue()
+        return rating > 0 ? (
+          <span className="text-sm font-sans font-medium flex items-center gap-1">
+            <Star size={12} className="fill-bone-clay text-bone-clay" />
+            {rating.toFixed(1)}
+          </span>
+        ) : (
+          <span className="text-bone-ink/30 text-sm">—</span>
+        )
+      },
+    }),
+    columnHelper.display({
+      id: 'actions',
+      header: () => <span className="sr-only">Actions</span>,
+      cell: ({ row }) => {
+        const safari = row.original
+        return (
+          <div className="flex items-center justify-end gap-2">
+            <Switch
+              checked={safari.active}
+              onChange={() => toggleActive(safari._id, safari.active)}
+              label={safari.active ? 'Unpublish safari' : 'Publish safari'}
+              size="sm"
+            />
+            <DropdownMenu
+              items={[
+                {
+                  label: safari.featured ? 'Unfeature' : 'Feature',
+                  icon: <Star size={14} className={safari.featured ? 'fill-bone-clay text-bone-clay' : ''} />,
+                  onClick: () => toggleFeatured(safari._id, safari.featured),
+                },
+                {
+                  label: 'View live',
+                  icon: <Eye size={14} />,
+                  onClick: () => window.open(`/safaris/${safari.slug}`, '_blank', 'noopener,noreferrer'),
+                },
+                {
+                  label: 'Edit',
+                  icon: <Edit size={14} />,
+                  onClick: () => router.push(`/admin/safaris/${safari._id}`),
+                },
+                {
+                  label: 'Delete',
+                  icon: <Trash2 size={14} />,
+                  onClick: () => setDeleteTarget(safari._id),
+                  variant: 'danger',
+                },
+              ]}
+            />
+          </div>
+        )
+      },
+      enableSorting: false,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- toggleFeatured/toggleActive take their args as params and don't capture render-specific state
+  ], [router])
+
+  const table = useReactTable({
+    data: safaris ?? [],
+    columns,
+    state: { sorting, columnFilters, rowSelection, columnVisibility, globalFilter, pagination },
+    getRowId: (row) => row._id,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    globalFilterFn,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  })
+
+  const activeFilterValue = table.getColumn('active')?.getFilterValue() as string | undefined
+  const featuredFilterValue = table.getColumn('featured')?.getFilterValue() as string | undefined
+  const activeFilterCount = columnFilters.length
+  const selectedRows = table.getSelectedRowModel().rows
+  const selectedIds = selectedRows.map((r) => r.original._id)
+  const filteredRows = table.getFilteredRowModel().rows
+  const pageRows = table.getRowModel().rows
+  const sort = sorting[0]
+  const sortLabel = sort ? (table.getColumn(sort.id)?.columnDef.id === 'safari' ? 'Safari' : sort.id) : null
+
+  const clearFilters = () => setColumnFilters([])
+
+  const toggleFilterValue = (columnId: 'active' | 'featured', value: string) => {
+    const col = table.getColumn(columnId)
+    col?.setFilterValue((prev: unknown) => (prev === value ? undefined : value))
+  }
 
   return (
     <div className="p-6 sm:p-8 space-y-6">
@@ -170,7 +488,7 @@ export default function AdminSafarisPage() {
         <div>
           <h1 className="font-serif text-2xl font-semibold text-bone-ink">Safaris</h1>
           <p className="text-sm text-bone-ink/50 font-sans mt-1 flex items-center gap-2">
-            {pagination?.total ?? 0} total safaris
+            {safaris?.length ?? 0} total safaris
             {isFetching && <span className="text-bone-ink/30">· refreshing…</span>}
           </p>
         </div>
@@ -198,8 +516,11 @@ export default function AdminSafarisPage() {
           <input
             type="search"
             placeholder="Search safaris…"
-            value={search}
-            onChange={(e) => { setSearch(e.target.value); setPage(1) }}
+            value={globalFilter}
+            onChange={(e) => {
+              setGlobalFilter(e.target.value)
+              table.setPageIndex(0)
+            }}
             className="w-full h-10 pl-9 pr-3 font-sans text-sm bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest transition-colors"
           />
         </div>
@@ -208,30 +529,30 @@ export default function AdminSafarisPage() {
           <button
             onClick={() => setFilterOpen((v) => !v)}
             className={`h-10 px-3.5 flex items-center gap-2 font-sans text-sm rounded border transition-colors ${
-              activeCount > 0
+              activeFilterCount > 0
                 ? 'border-bone-forest text-bone-forest bg-bone-forest/5'
                 : 'border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-ink hover:border-bone-ink/40'
             }`}
           >
             <Filter size={14} />
             Filters
-            {activeCount > 0 && (
+            {activeFilterCount > 0 && (
               <span className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full text-[10px] bg-bone-clay text-white">
-                {activeCount}
+                {activeFilterCount}
               </span>
             )}
             <ChevronDown size={14} className={`transition-transform ${filterOpen ? 'rotate-180' : ''}`} />
           </button>
 
           {filterOpen && (
-            <div className="absolute z-20 top-full mt-1.5 left-0 w-[320px] max-h-[70vh] overflow-y-auto bg-bone-paper border border-[rgba(23,22,18,0.15)] rounded-md shadow-lg">
+            <div className="absolute z-20 top-full mt-1.5 right-0 w-[320px] max-h-[70vh] overflow-y-auto bg-bone-paper border border-[rgba(23,22,18,0.15)] rounded-md shadow-lg">
               <div className="flex items-center justify-between px-4 py-3 border-b border-[rgba(23,22,18,0.1)]">
                 <span className="font-sans text-xs font-semibold uppercase tracking-wide text-bone-ink/60">
                   Filter safaris
                 </span>
-                {activeCount > 0 && (
+                {activeFilterCount > 0 && (
                   <button
-                    onClick={() => { setFilters(EMPTY_FILTERS); setPage(1) }}
+                    onClick={clearFilters}
                     className="flex items-center gap-1 font-sans text-xs text-bone-clay hover:opacity-70 transition-opacity"
                   >
                     <X size={11} /> Clear all
@@ -240,25 +561,25 @@ export default function AdminSafarisPage() {
               </div>
 
               <FilterSection label="Status">
-                {STATUS_OPTIONS.map((s) => (
+                {(['', 'active', 'inactive'] as const).map((v) => (
                   <FilterPill
-                    key={s.value || 'all'}
-                    active={filters.status === s.value}
-                    onClick={() => updateFilter('status', s.value)}
+                    key={v || 'all'}
+                    active={(activeFilterValue ?? '') === v}
+                    onClick={() => toggleFilterValue('active', v)}
                   >
-                    {s.label}
+                    {v === '' ? 'All' : v === 'active' ? 'Published' : 'Unpublished'}
                   </FilterPill>
                 ))}
               </FilterSection>
 
               <FilterSection label="Featured">
-                {FEATURED_OPTIONS.map((f) => (
+                {(['', 'yes', 'no'] as const).map((v) => (
                   <FilterPill
-                    key={f.value || 'all'}
-                    active={filters.featured === f.value}
-                    onClick={() => updateFilter('featured', f.value)}
+                    key={v || 'all'}
+                    active={(featuredFilterValue ?? '') === v}
+                    onClick={() => toggleFilterValue('featured', v)}
                   >
-                    {f.label}
+                    {v === '' ? 'All' : v === 'yes' ? 'Featured' : 'Not featured'}
                   </FilterPill>
                 ))}
               </FilterSection>
@@ -267,8 +588,8 @@ export default function AdminSafarisPage() {
                 {COUNTRIES.map((c) => (
                   <FilterPill
                     key={c.value || 'all'}
-                    active={filters.country === c.value}
-                    onClick={() => updateFilter('country', c.value)}
+                    active={(table.getColumn('location')?.getFilterValue() as string | undefined) === c.value}
+                    onClick={() => table.getColumn('location')?.setFilterValue(c.value || undefined)}
                   >
                     {c.label}
                   </FilterPill>
@@ -279,8 +600,8 @@ export default function AdminSafarisPage() {
                 {CATEGORIES.map((c) => (
                   <FilterPill
                     key={c.value || 'all'}
-                    active={filters.category === c.value}
-                    onClick={() => updateFilter('category', c.value as SafariCategory | '')}
+                    active={(table.getColumn('category')?.getFilterValue() as string | undefined) === c.value}
+                    onClick={() => table.getColumn('category')?.setFilterValue(c.value || undefined)}
                   >
                     {c.label}
                   </FilterPill>
@@ -291,8 +612,8 @@ export default function AdminSafarisPage() {
                 {SAFARI_TYPES.map((t) => (
                   <FilterPill
                     key={t.value || 'all'}
-                    active={filters.safariType === t.value}
-                    onClick={() => updateFilter('safariType', t.value as SafariStyle | '')}
+                    active={(table.getColumn('safariType')?.getFilterValue() as string | undefined) === t.value}
+                    onClick={() => table.getColumn('safariType')?.setFilterValue(t.value || undefined)}
                   >
                     {t.label}
                   </FilterPill>
@@ -303,8 +624,8 @@ export default function AdminSafarisPage() {
                 {DIFFICULTIES.map((d) => (
                   <FilterPill
                     key={d.value || 'all'}
-                    active={filters.difficulty === d.value}
-                    onClick={() => updateFilter('difficulty', d.value as SafariDifficulty | '')}
+                    active={(table.getColumn('difficulty')?.getFilterValue() as string | undefined) === d.value}
+                    onClick={() => table.getColumn('difficulty')?.setFilterValue(d.value || undefined)}
                   >
                     {d.label}
                   </FilterPill>
@@ -315,8 +636,8 @@ export default function AdminSafarisPage() {
                 {DURATIONS.map((d) => (
                   <FilterPill
                     key={d.value || 'all'}
-                    active={filters.duration === d.value}
-                    onClick={() => updateFilter('duration', d.value)}
+                    active={table.getColumn('duration')?.getFilterValue() === d}
+                    onClick={() => table.getColumn('duration')?.setFilterValue(d.value ? d : undefined)}
                   >
                     {d.label}
                   </FilterPill>
@@ -326,9 +647,9 @@ export default function AdminSafarisPage() {
           )}
         </div>
 
-        {activeCount > 0 && (
+        {activeFilterCount > 0 && (
           <button
-            onClick={() => { setFilters(EMPTY_FILTERS); setPage(1) }}
+            onClick={clearFilters}
             className="flex items-center gap-1 font-sans text-xs text-bone-ink/45 hover:text-bone-clay transition-colors"
           >
             <X size={12} /> Clear filters
@@ -336,119 +657,82 @@ export default function AdminSafarisPage() {
         )}
       </div>
 
-      {/* Table */}
-      <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden overflow-x-auto">
-        <table className="admin-table min-w-[820px]">
+      {/* Summary line / bulk actions */}
+      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-sans text-bone-ink/50">
+        <div className="flex flex-wrap items-center gap-4">
+          <span>{filteredRows.length} of {safaris?.length ?? 0} safaris</span>
+          {sortLabel && (
+            <span>Sorted by {sortLabel} {sort?.desc ? '↓' : '↑'}</span>
+          )}
+        </div>
+
+        {selectedIds.length > 0 && (
+          <div className="flex items-center gap-2">
+            <span className="text-bone-forest font-medium">{selectedIds.length} selected</span>
+            <button
+              onClick={() => bulkMutation.mutate({ ids: selectedIds, action: 'publish' })}
+              disabled={bulkMutation.isPending}
+              className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/70 hover:text-bone-forest hover:border-bone-forest transition-colors disabled:opacity-50"
+            >
+              Publish
+            </button>
+            <button
+              onClick={() => bulkMutation.mutate({ ids: selectedIds, action: 'unpublish' })}
+              disabled={bulkMutation.isPending}
+              className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/70 hover:text-bone-ink hover:border-bone-ink/40 transition-colors disabled:opacity-50"
+            >
+              Unpublish
+            </button>
+            <button
+              onClick={() => setBulkDeleteOpen(true)}
+              disabled={bulkMutation.isPending}
+              className="h-8 px-3 rounded border border-red-200 text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => setRowSelection({})}
+              className="h-8 px-2 text-bone-ink/40 hover:text-bone-ink transition-colors"
+            >
+              Clear
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Table — natural column widths, horizontal scroll on narrow screens
+          instead of truncating content */}
+      <div className="bg-bone-paper border border-[rgba(23,22,18,0.12)] rounded-md overflow-x-auto">
+        <table className="admin-table w-full">
           <thead>
-            <tr>
-              <th>Safari</th>
-              <th>Location</th>
-              <th>Type</th>
-              <th>Duration</th>
-              <th>From</th>
-              <th>Status</th>
-              <th>Rating</th>
-              <th className="text-right">Actions</th>
-            </tr>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className={header.column.id === 'actions' ? 'text-right whitespace-nowrap' : 'whitespace-nowrap'}
+                  >
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  </th>
+                ))}
+              </tr>
+            ))}
           </thead>
           <tbody>
             {isLoading ? (
-              <TableSkeleton rows={8} cols={8} />
-            ) : safaris.length === 0 ? (
+              <TableSkeleton rows={8} cols={VISIBLE_COL_COUNT} />
+            ) : pageRows.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-12 text-bone-ink/40 font-sans">
+                <td colSpan={VISIBLE_COL_COUNT} className="text-center py-12 text-bone-ink/40 font-sans">
                   No safaris found
                 </td>
               </tr>
             ) : (
-              safaris.map((safari) => (
-                <tr key={safari._id}>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      {safari.coverImage && (
-                        <div className="w-10 h-10 rounded overflow-hidden flex-shrink-0">
-                          <Image
-                            src={safari.coverImage}
-                            alt={safari.name}
-                            width={40}
-                            height={40}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      )}
-                      <div>
-                        <p className="font-sans font-medium text-bone-ink text-sm">{safari.name}</p>
-                        <p className="text-xs text-bone-ink/40 font-mono">{safari.slug}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="text-bone-ink/60">
-                    {safari.location.park}, {safari.location.country}
-                  </td>
-                  <td>
-                    <div className="flex gap-1 flex-wrap max-w-[140px]">
-                      {safari.category.length === 0 ? (
-                        <span className="text-bone-ink/30 text-sm">—</span>
-                      ) : (
-                        safari.category.map((cat) => (
-                          <Badge key={cat} variant="neutral">
-                            {CATEGORIES.find((c) => c.value === cat)?.label ?? cat}
-                          </Badge>
-                        ))
-                      )}
-                    </div>
-                  </td>
-                  <td>{formatDuration(safari.duration)}</td>
-                  <td className="font-medium">{formatPrice(getLowestPrice(safari.pricing))}</td>
-                  <td>
-                    <div className="flex gap-1.5 flex-wrap">
-                      <Badge variant={safari.active ? 'success' : 'danger'} dot>
-                        {safari.active ? 'Active' : 'Inactive'}
-                      </Badge>
-                      {safari.featured && <Badge variant="clay">Featured</Badge>}
-                    </div>
-                  </td>
-                  <td>
-                    {safari.rating > 0 ? (
-                      <span className="text-sm font-sans font-medium flex items-center gap-1">
-                        <Star size={12} className="fill-bone-clay text-bone-clay" />
-                        {safari.rating.toFixed(1)}
-                      </span>
-                    ) : (
-                      <span className="text-bone-ink/30 text-sm">—</span>
-                    )}
-                  </td>
-                  <td>
-                    <div className="flex items-center justify-end gap-1.5">
-                      <button
-                        onClick={() => toggleFeatured(safari._id, safari.featured)}
-                        title={safari.featured ? 'Unfeature' : 'Feature'}
-                        className={`p-1.5 rounded transition-colors ${safari.featured ? 'text-bone-clay hover:bg-bone-clay/10' : 'text-bone-ink/30 hover:text-bone-clay hover:bg-bone-clay/10'}`}
-                      >
-                        <Star size={14} className={safari.featured ? 'fill-bone-clay' : ''} />
-                      </button>
-                      <a
-                        href={`/safaris/${safari.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded text-bone-ink/40 hover:text-bone-ink hover:bg-bone-bg transition-colors"
-                      >
-                        <Eye size={14} />
-                      </a>
-                      <Link
-                        href={`/admin/safaris/${safari._id}`}
-                        className="p-1.5 rounded text-bone-ink/40 hover:text-bone-ink hover:bg-bone-bg transition-colors"
-                      >
-                        <Edit size={14} />
-                      </Link>
-                      <button
-                        onClick={() => setDeleteTarget(safari._id)}
-                        className="p-1.5 rounded text-bone-ink/40 hover:text-red-600 hover:bg-red-50 transition-colors"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </td>
+              pageRows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                  ))}
                 </tr>
               ))
             )}
@@ -457,26 +741,31 @@ export default function AdminSafarisPage() {
       </div>
 
       {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
+      {filteredRows.length > 0 && (
         <div className="flex items-center justify-between text-sm font-sans">
           <span className="text-bone-ink/45">
-            Showing {(page - 1) * 15 + 1}–{Math.min(page * 15, pagination.total)} of {pagination.total}
+            Showing {pagination.pageIndex * pagination.pageSize + 1}–{Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredRows.length)} of {filteredRows.length}
           </span>
-          <div className="flex gap-2">
-            <button
-              disabled={!pagination.hasPrev}
-              onClick={() => setPage((p) => p - 1)}
-              className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-ink disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-            >
-              Prev
-            </button>
-            <button
-              disabled={!pagination.hasNext}
-              onClick={() => setPage((p) => p + 1)}
-              className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-ink disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-            >
-              Next
-            </button>
+          <div className="flex items-center gap-3">
+            <span className="text-bone-ink/45">
+              Page {pagination.pageIndex + 1} / {Math.max(table.getPageCount(), 1)}
+            </span>
+            <div className="flex gap-2">
+              <button
+                disabled={!table.getCanPreviousPage()}
+                onClick={() => table.previousPage()}
+                className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-ink disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                Prev
+              </button>
+              <button
+                disabled={!table.getCanNextPage()}
+                onClick={() => table.nextPage()}
+                className="h-8 px-3 rounded border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-ink disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -489,6 +778,18 @@ export default function AdminSafarisPage() {
         loading={deleteMutation.isPending}
         title="Delete Safari"
         description="This will permanently delete the safari and all associated images from Cloudinary. This action cannot be undone."
+        confirmLabel="Delete"
+        variant="danger"
+      />
+
+      {/* Bulk delete confirm */}
+      <ConfirmDialog
+        open={bulkDeleteOpen}
+        onClose={() => setBulkDeleteOpen(false)}
+        onConfirm={() => bulkMutation.mutate({ ids: selectedIds, action: 'delete' })}
+        loading={bulkMutation.isPending}
+        title={`Delete ${selectedIds.length} Safari${selectedIds.length === 1 ? '' : 's'}`}
+        description="This will permanently delete the selected safaris and all associated images from Cloudinary. This action cannot be undone."
         confirmLabel="Delete"
         variant="danger"
       />

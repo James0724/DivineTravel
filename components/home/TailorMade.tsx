@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useTranslations } from "next-intl";
@@ -118,7 +118,7 @@ export default function TailorMade() {
               animate={photoInView ? { clipPath: "inset(0% 0% 0% 0%)" } : {}}
               transition={{ duration: 1.1, delay: 0.15, ease: EASE }}
             >
-              <Image
+              <OptimizedImage
                 src="https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=900&q=80"
                 alt="Wildebeest and zebras grazing in the Masai Mara, Kenya"
                 fill

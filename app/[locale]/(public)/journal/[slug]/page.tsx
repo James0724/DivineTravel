@@ -1,7 +1,7 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import connectDB from "@/lib/db/mongoose";
 import PostModel from "@/lib/db/models/Post";
@@ -187,7 +187,7 @@ export default async function JournalDetailPage({ params }: Props) {
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section className="article-hero">
-        <Image
+        <OptimizedImage
           src={post.coverImage}
           alt={post.title}
           fill
@@ -208,11 +208,12 @@ export default async function JournalDetailPage({ params }: Props) {
           {author.name && (
             <div className="byline">
               {author.avatar ? (
-                <Image
+                <OptimizedImage
                   src={author.avatar}
                   alt={author.name}
                   width={46}
                   height={46}
+                  thumbSize={92}
                   className="av"
                 />
               ) : (
@@ -310,11 +311,12 @@ export default async function JournalDetailPage({ params }: Props) {
         {/* Author card */}
         <div className="author-card-article">
           {author.avatar ? (
-            <Image
+            <OptimizedImage
               src={author.avatar}
               alt={author.name}
               width={76}
               height={76}
+              thumbSize={152}
               className="av"
             />
           ) : (
@@ -385,7 +387,7 @@ export default async function JournalDetailPage({ params }: Props) {
                       className="overflow-hidden"
                       style={{ aspectRatio: "3/2" }}
                     >
-                      <Image
+                      <OptimizedImage
                         src={rp.coverImage}
                         alt={rp.title}
                         width={600}

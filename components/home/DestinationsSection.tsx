@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import SiteLink from "@/components/ui/SiteLink";
@@ -147,7 +147,7 @@ export default function DestinationsSection() {
             >
               {/* Mobile gets 16:10, desktop stretches to fill grid height */}
               <div className="absolute inset-0 lg:relative lg:h-full lg:w-full">
-                <Image
+                <OptimizedImage
                   src={dest.image}
                   alt={dest.tab}
                   fill

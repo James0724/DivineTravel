@@ -1,39 +1,32 @@
 "use client";
 
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import SimpleMarquee from "@/components/ui/SimpleMarquee";
 
 const logos = [
   {
-    src: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/KWS.png",
+    src: "/logos/kenya-wildlife-service.png",
     alt: "KWS — Kenya Wildlife Service",
   },
   {
-    src: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/Eco-tourism_Kenya.png",
+    src: "/logos/eco-tourism-kenya.png",
     alt: "Eco-tourism Kenya",
   },
+
   {
-    src: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/beyond.png",
-    alt: "&Beyond",
-  },
-  {
-    src: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/asilia.png",
-    alt: "Asilia Africa",
-  },
-  {
-    src: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/trustpilot.png",
+    src: "/logos/trustpilot.png",
     alt: "Trustpilot",
   },
   {
-    src: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/tra-300x70.png",
+    src: "/logos/tra.png",
     alt: "TRA",
   },
   {
-    src: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/tripadvisor.png",
+    src: "/logos/tripadvisor.png",
     alt: "TripAdvisor",
   },
   {
-    src: "https://divinetravelnestsafaris.com/wp-content/uploads/2025/07/safari-bookings.png",
+    src: "/logos/SB.png",
     alt: "SafariBookings",
   },
 ];
@@ -84,13 +77,14 @@ export default function TrustStrip() {
           <div className="flex items-center gap-0 px-6 select-none">
             {logos.map((logo, i) => (
               <div key={logo.alt} className="flex items-center">
-                <div className="group flex items-center justify-center px-5">
-                  <Image
+                <div className="group flex items-center justify-center px-6">
+                  <OptimizedImage
                     src={logo.src}
                     alt={logo.alt}
-                    width={96}
-                    height={40}
-                    className="h-[34px] w-auto max-w-[96px] object-contain opacity-80 transition-all duration-300 ease-out group-hover:opacity-95 "
+                    width={300}
+                    height={64}
+                    shimmer={false}
+                    className="h-[34px] w-auto object-contain opacity-80 transition-all duration-300 ease-out group-hover:opacity-95 "
                   />
                 </div>
                 {/* Separator dot — skip after last */}

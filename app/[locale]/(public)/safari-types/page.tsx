@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import PageHero from "@/components/ui/PageHero";
@@ -61,7 +61,7 @@ function TypeCard({
           className="relative overflow-hidden flex-shrink-0"
           style={{ aspectRatio: "3/2" }}
         >
-          <Image
+          <OptimizedImage
             src={t.heroImage}
             alt={t.heroImageAlt}
             fill

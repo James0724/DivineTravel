@@ -1,4 +1,4 @@
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import connectDB from "@/lib/db/mongoose";
@@ -91,7 +91,7 @@ export default async function JournalSection() {
                     className="relative overflow-hidden flex-shrink-0"
                     style={{ aspectRatio: isFeat ? "16/11" : "4/3" }}
                   >
-                    <Image
+                    <OptimizedImage
                       src={post.coverImage || FALLBACK_IMAGE}
                       alt={post.title}
                       fill

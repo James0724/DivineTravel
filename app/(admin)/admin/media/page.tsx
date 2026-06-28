@@ -21,9 +21,11 @@ import {
   Save,
   AlertTriangle,
   RotateCcw,
+  Upload,
+  Lock,
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import { cn, formatDate } from '@/lib/utils'
+import { cn, formatDate, cloudinaryUrl } from '@/lib/utils'
 
 /* ── Types ─────────────────────────────────────────────────────────── */
 
@@ -58,8 +60,6 @@ type Counts = Record<string, number>
 
 /* ── Constants ─────────────────────────────────────────────────────── */
 
-const CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? ''
-
 const TABS: { value: UsageFilter; label: string }[] = [
   { value: 'all',            label: 'All'       },
   { value: 'safari-gallery', label: 'Safaris'   },
@@ -68,6 +68,20 @@ const TABS: { value: UsageFilter; label: string }[] = [
   { value: 'portfolio',      label: 'Portfolio' },
   { value: 'misc',           label: 'Misc'      },
 ]
+
+/** Safari images are owned by their safari document (cover + gallery carry the
+ *  publicId the doc references). Adding one here would never get attached to a
+ *  safari, and deleting one would leave a safari pointing at a dead asset — both
+ *  changes have to go through the safari edit/create form instead. */
+const PROTECTED_USAGE = new Set(['safari-gallery', 'safari-cover'])
+
+/** Which `usage` tag a new upload gets, based on the folder tab it's added into. */
+const UPLOAD_USAGE: Partial<Record<UsageFilter, string>> = {
+  'blog-cover': 'blog-cover',
+  team:         'team',
+  portfolio:    'portfolio',
+  misc:         'misc',
+}
 
 const USAGE_LABELS: Record<string, string> = {
   'safari-gallery': 'Safari',
@@ -95,15 +109,24 @@ function fmt(n: number): string {
   return `${(n / 1048576).toFixed(1)} MB`
 }
 
-/** Build a Cloudinary thumbnail URL — bypasses Next.js image optimisation for CDN-native delivery. */
-function thumbUrl(publicId: string, size = 400): string {
-  if (!CLOUD || !publicId) return ''
-  return `https://res.cloudinary.com/${CLOUD}/image/upload/w_${size},h_${size},c_fill,q_auto,f_auto/${publicId}`
+/** Build a Cloudinary thumbnail URL — bypasses Next.js image optimisation for CDN-native delivery.
+ *  Transforms the *existing* delivery URL (which already carries the version segment) rather than
+ *  rebuilding from the bare public ID — without the version marker, Cloudinary's URL parser can
+ *  mistake an underscored folder name (e.g. `web_images/...`) for a chained transformation step
+ *  and 400. `q_auto:eco` trades a little quality for a noticeably smaller payload, which is the
+ *  right call for small grid thumbnails (vs. the higher-fidelity `q_auto` used for full previews). */
+function thumbUrl(url: string, size = 320): string {
+  return cloudinaryUrl(url, `w_${size},h_${size},c_fill,g_auto,q_auto:eco,f_auto,dpr_auto`)
 }
 
 /** Extract the bare filename from a Cloudinary public ID. */
 function publicIdFilename(publicId: string): string {
   return publicId.split('/').pop() ?? publicId
+}
+
+/** Capped, format/quality-optimised preview for the detail modal — avoids pulling the raw original. */
+function previewUrl(url: string, maxWidth = 1400): string {
+  return cloudinaryUrl(url, `w_${maxWidth},c_limit,q_auto,f_auto`)
 }
 
 /* ── Skeleton card ─────────────────────────────────────────────────── */
@@ -126,19 +149,22 @@ function SkeletonCard() {
 
 function ImageCard({
   image,
+  priority,
   onView,
   onCopy,
   onDelete,
   onEdit,
 }: {
   image: MediaImage
+  priority: boolean
   onView: (img: MediaImage) => void
   onCopy: (url: string) => void
   onDelete: (img: MediaImage) => void
   onEdit: (img: MediaImage) => void
 }) {
   const [imgLoaded, setImgLoaded] = useState(false)
-  const src = thumbUrl(image.publicId) || image.url
+  const src = thumbUrl(image.url)
+  const isProtected = PROTECTED_USAGE.has(image.usage)
 
   return (
     <div className="group relative flex flex-col bg-bone-paper border border-[rgba(23,22,18,0.1)] rounded-md overflow-hidden transition-shadow hover:shadow-card-hover">
@@ -163,6 +189,8 @@ function ImageCard({
           )}
           onLoad={() => setImgLoaded(true)}
           unoptimized
+          priority={priority}
+          loading={priority ? undefined : 'lazy'}
         />
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-200 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
@@ -234,14 +262,23 @@ function ImageCard({
           <ExternalLink size={13} />
         </a>
         <span className="w-px bg-[rgba(23,22,18,0.07)]" />
-        <button
-          type="button"
-          onClick={() => onDelete(image)}
-          title="Delete"
-          className="flex-1 flex items-center justify-center py-2 text-bone-ink/40 hover:text-red-600 hover:bg-red-50 transition-colors"
-        >
-          <Trash2 size={13} />
-        </button>
+        {isProtected ? (
+          <span
+            title="Managed from the safari edit page"
+            className="flex-1 flex items-center justify-center py-2 text-bone-ink/15 cursor-not-allowed"
+          >
+            <Lock size={13} />
+          </span>
+        ) : (
+          <button
+            type="button"
+            onClick={() => onDelete(image)}
+            title="Delete"
+            className="flex-1 flex items-center justify-center py-2 text-bone-ink/40 hover:text-red-600 hover:bg-red-50 transition-colors"
+          >
+            <Trash2 size={13} />
+          </button>
+        )}
       </div>
     </div>
   )
@@ -262,6 +299,8 @@ function DetailModal({
   onCopy: (url: string) => void
   onEdit: (img: MediaImage) => void
 }) {
+  const isProtected = PROTECTED_USAGE.has(image.usage)
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 p-0 sm:p-4"
@@ -291,11 +330,12 @@ function DetailModal({
             <div className="sm:w-1/2 bg-bone-bg flex items-center justify-center p-4 sm:p-6 min-h-[200px]">
               <div className="relative w-full" style={{ paddingBottom: `${Math.min(75, ((image.height || 1) / (image.width || 1)) * 100)}%` }}>
                 <Image
-                  src={image.url}
+                  src={previewUrl(image.url)}
                   alt={image.alt || image.originalName}
                   fill
                   className="object-contain rounded"
                   unoptimized
+                  priority
                 />
               </div>
             </div>
@@ -353,14 +393,20 @@ function DetailModal({
 
         {/* Footer */}
         <div className="flex items-center justify-between px-5 py-4 border-t border-[rgba(23,22,18,0.1)] flex-shrink-0">
-          <Button
-            variant="danger"
-            size="sm"
-            leftIcon={<Trash2 size={13} />}
-            onClick={() => onDelete(image)}
-          >
-            Delete
-          </Button>
+          {isProtected ? (
+            <span className="flex items-center gap-1.5 text-xs font-sans text-bone-ink/40">
+              <Lock size={12} /> Managed from the safari edit page
+            </span>
+          ) : (
+            <Button
+              variant="danger"
+              size="sm"
+              leftIcon={<Trash2 size={13} />}
+              onClick={() => onDelete(image)}
+            >
+              Delete
+            </Button>
+          )}
           <div className="flex gap-2">
             <Button
               variant="secondary"
@@ -400,13 +446,14 @@ function EditModal({
   onSave: (id: string, data: { alt?: string; title?: string; newName?: string }) => Promise<MediaImage>
 }) {
   const currentFilename = publicIdFilename(image.publicId)
+  const isProtected = PROTECTED_USAGE.has(image.usage)
 
   const [alt,      setAlt]      = useState(image.alt ?? '')
   const [title,    setTitle]    = useState(image.title ?? '')
   const [filename, setFilename] = useState(currentFilename)
   const [saving,   setSaving]   = useState(false)
 
-  const nameChanged = filename.trim() !== '' && filename.trim() !== currentFilename
+  const nameChanged = !isProtected && filename.trim() !== '' && filename.trim() !== currentFilename
 
   const safe = filename.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '')
   const previewId = image.publicId.includes('/')
@@ -455,7 +502,7 @@ function EditModal({
           {/* Preview strip */}
           <div className="flex items-center gap-3 p-3 bg-bone-bg rounded-md">
             <div className="w-12 h-12 rounded overflow-hidden flex-shrink-0 relative bg-bone-paper">
-              <Image src={thumbUrl(image.publicId, 96) || image.url} alt="" fill className="object-cover" unoptimized />
+              <Image src={thumbUrl(image.url, 96)} alt="" fill className="object-cover" unoptimized />
             </div>
             <div className="min-w-0">
               <p className="text-xs font-sans font-medium text-bone-ink truncate">{image.originalName}</p>
@@ -491,49 +538,62 @@ function EditModal({
             />
           </div>
 
-          {/* Rename */}
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-sans font-semibold text-bone-ink/50 uppercase tracking-wide">
-                Filename in Cloudinary
-              </label>
-              {filename !== currentFilename && (
-                <button
-                  type="button"
-                  onClick={() => setFilename(currentFilename)}
-                  className="text-[10px] font-sans text-bone-ink/40 hover:text-bone-ink flex items-center gap-1 transition-colors"
-                >
-                  <RotateCcw size={10} /> Reset
-                </button>
-              )}
+          {/* Rename — locked for safari images, since the safari document
+              references this exact public ID; renaming here would leave it
+              pointing at a dead asset. */}
+          {isProtected ? (
+            <div className="flex items-center gap-2 p-3 bg-blue-50 border border-blue-200 rounded-md text-blue-700">
+              <Lock size={13} className="flex-shrink-0" />
+              <span className="text-xs font-sans">
+                This image is locked to its safari. Replace or remove it from the safari&apos;s edit page.
+              </span>
             </div>
-            <input
-              type="text"
-              value={filename}
-              onChange={(e) => setFilename(e.target.value)}
-              placeholder={currentFilename}
-              className="w-full h-9 px-3 text-sm font-sans text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded placeholder:text-bone-ink/35 focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 transition-colors font-mono"
-            />
-            <p className="text-[10px] font-sans text-bone-ink/40">
-              Allowed: letters, numbers, hyphens, underscores. Spaces become hyphens.
-            </p>
-          </div>
-
-          {/* Rename warning */}
-          {nameChanged && safe && (
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-md space-y-2">
-              <div className="flex items-center gap-2 text-amber-700">
-                <AlertTriangle size={13} />
-                <span className="text-xs font-sans font-semibold">This will rename the asset in Cloudinary</span>
-              </div>
-              <div className="text-[11px] font-sans text-amber-700/80 space-y-1">
-                <p>The public ID and URL will change. Any pages or posts already referencing the old URL will need to be updated.</p>
-                <div className="mt-2 space-y-0.5">
-                  <p className="font-mono text-[10px] line-through opacity-60 truncate">{image.publicId}</p>
-                  <p className="font-mono text-[10px] font-medium truncate">→ {previewId}</p>
+          ) : (
+            <>
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-sans font-semibold text-bone-ink/50 uppercase tracking-wide">
+                    Filename in Cloudinary
+                  </label>
+                  {filename !== currentFilename && (
+                    <button
+                      type="button"
+                      onClick={() => setFilename(currentFilename)}
+                      className="text-[10px] font-sans text-bone-ink/40 hover:text-bone-ink flex items-center gap-1 transition-colors"
+                    >
+                      <RotateCcw size={10} /> Reset
+                    </button>
+                  )}
                 </div>
+                <input
+                  type="text"
+                  value={filename}
+                  onChange={(e) => setFilename(e.target.value)}
+                  placeholder={currentFilename}
+                  className="w-full h-9 px-3 text-sm font-sans text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded placeholder:text-bone-ink/35 focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 transition-colors font-mono"
+                />
+                <p className="text-[10px] font-sans text-bone-ink/40">
+                  Allowed: letters, numbers, hyphens, underscores. Spaces become hyphens.
+                </p>
               </div>
-            </div>
+
+              {/* Rename warning */}
+              {nameChanged && safe && (
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-md space-y-2">
+                  <div className="flex items-center gap-2 text-amber-700">
+                    <AlertTriangle size={13} />
+                    <span className="text-xs font-sans font-semibold">This will rename the asset in Cloudinary</span>
+                  </div>
+                  <div className="text-[11px] font-sans text-amber-700/80 space-y-1">
+                    <p>The public ID and URL will change. Any pages or posts already referencing the old URL will need to be updated.</p>
+                    <div className="mt-2 space-y-0.5">
+                      <p className="font-mono text-[10px] line-through opacity-60 truncate">{image.publicId}</p>
+                      <p className="font-mono text-[10px] font-medium truncate">→ {previewId}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -715,8 +775,10 @@ export default function AdminMediaPage() {
   const [deleting, setDeleting] = useState(false)
   const [copied,   setCopied]   = useState<string | null>(null)
   const [syncKey,  setSyncKey]  = useState(0)
+  const [uploading,setUploading]= useState(false)
 
   const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const addImageInput  = useRef<HTMLInputElement>(null)
 
   /* ── Debounce search ─────────────────────────────────────────── */
   useEffect(() => {
@@ -774,6 +836,38 @@ export default function AdminMediaPage() {
       toast.error(err instanceof Error ? err.message : 'Sync failed', { id: t })
     } finally {
       setSyncing(false)
+    }
+  }
+
+  /* ── Add image to the selected folder ──────────────────────────
+     Only enabled for tabs that map to a single, non-protected usage —
+     "All" is ambiguous (no single folder to drop into) and "Safaris" is
+     locked, since those images must stay attached to a safari document. */
+  const uploadUsage = UPLOAD_USAGE[tab]
+
+  const handleAddImage = async (file: File) => {
+    if (!uploadUsage) return
+    setUploading(true)
+    const t = toast.loading('Uploading…')
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('usage', uploadUsage)
+      fd.append('alt',   file.name.replace(/\.[^/.]+$/, ''))
+      fd.append('title', file.name.replace(/\.[^/.]+$/, ''))
+
+      const res  = await fetch('/api/upload', { method: 'POST', body: fd })
+      const body = await res.json()
+      if (!res.ok) throw new Error(body.error ?? 'Upload failed')
+
+      toast.success('Image uploaded', { id: t })
+      setSyncKey((k) => k + 1)
+      setPage(1)
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Upload failed', { id: t })
+    } finally {
+      setUploading(false)
+      if (addImageInput.current) addImageInput.current.value = ''
     }
   }
 
@@ -873,33 +967,79 @@ export default function AdminMediaPage() {
           />
         </div>
 
-        <div className="flex items-center gap-0.5 overflow-x-auto pb-0.5 scrollbar-none">
-          {TABS.map(({ value, label }) => {
-            const count = value === 'all' ? counts.all : counts[value]
-            return (
-              <button
-                key={value}
-                type="button"
-                onClick={() => changeTab(value)}
-                className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-sans font-medium whitespace-nowrap transition-colors',
-                  tab === value
-                    ? 'bg-bone-forest text-bone-paper'
-                    : 'text-bone-ink/55 hover:bg-bone-paper hover:text-bone-ink'
-                )}
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-0.5 overflow-x-auto pb-0.5 scrollbar-none">
+            {TABS.map(({ value, label }) => {
+              const count = value === 'all' ? counts.all : counts[value]
+              return (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => changeTab(value)}
+                  className={cn(
+                    'flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-sans font-medium whitespace-nowrap transition-colors',
+                    tab === value
+                      ? 'bg-bone-forest text-bone-paper'
+                      : 'text-bone-ink/55 hover:bg-bone-paper hover:text-bone-ink'
+                  )}
+                >
+                  {label}
+                  {count != null && (
+                    <span className={cn(
+                      'min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold flex items-center justify-center leading-none',
+                      tab === value ? 'bg-bone-paper/20 text-bone-paper' : 'bg-bone-bg text-bone-ink/50'
+                    )}>
+                      {count > 999 ? '999+' : count}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Add image — only live for tabs that map to a single, unlocked
+              folder. "All" is ambiguous and "Safaris" is locked because those
+              images must stay attached to a safari document. */}
+          <div className="flex-shrink-0">
+            {uploadUsage ? (
+              <>
+                <input
+                  ref={addImageInput}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/avif"
+                  className="hidden"
+                  disabled={uploading}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) handleAddImage(file)
+                  }}
+                />
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  loading={uploading}
+                  leftIcon={<Upload size={13} />}
+                  onClick={() => addImageInput.current?.click()}
+                >
+                  Add Image
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled
+                leftIcon={<Lock size={13} />}
+                title={
+                  tab === 'safari-gallery'
+                    ? "Safari images are managed from each safari's edit page to avoid orphaned files"
+                    : 'Select a folder tab to upload into'
+                }
               >
-                {label}
-                {count != null && (
-                  <span className={cn(
-                    'min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold flex items-center justify-center leading-none',
-                    tab === value ? 'bg-bone-paper/20 text-bone-paper' : 'bg-bone-bg text-bone-ink/50'
-                  )}>
-                    {count > 999 ? '999+' : count}
-                  </span>
-                )}
-              </button>
-            )
-          })}
+                Add Image
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -912,10 +1052,11 @@ export default function AdminMediaPage() {
         <EmptyState onSync={handleSync} syncing={syncing} />
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-          {images.map((img) => (
+          {images.map((img, i) => (
             <ImageCard
               key={img._id}
               image={img}
+              priority={i < 6}
               onView={setSelected}
               onCopy={handleCopy}
               onDelete={setToDelete}

@@ -70,7 +70,7 @@ async function getTanzaniaPackages(): Promise<SafariPkg[]> {
       ],
       active: true,
     })
-      .sort({ featured: -1, rating: -1 })
+      .sort({ featured: -1, duration: 1, rating: -1 })
       .limit(3)
       .select(
         "name slug tagline location duration pricing coverImage category featured active rating",

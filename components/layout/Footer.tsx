@@ -587,6 +587,13 @@ export default function Footer({ settings }: { settings: ContactSettings }) {
             >
               {t("footer.guidelines")}
             </Link>
+            <span className="text-bone-paper/20">·</span>
+            <Link
+              href="/sitemap"
+              className="transition-colors hover:text-[#e8c080]"
+            >
+              {t("footer.sitemap")}
+            </Link>
           </div>
 
           <motion.button

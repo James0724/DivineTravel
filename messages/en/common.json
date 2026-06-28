@@ -202,6 +202,21 @@
     "copyright": "© {year} Divine Travel Nest Safaris · Nairobi, Kenya",
     "guidelines": "Community Guidelines",
     "terms": "Terms & Conditions",
+    "sitemap": "Sitemap",
     "backToTop": "Back to top"
+  },
+  "comingSoon": {
+    "eyebrow": "Coming soon",
+    "description": "We're putting the finishing touches on this page.",
+    "heading": "This page is on its way",
+    "body": "Our team is building out this part of the site. In the meantime, reach out to a safari planner and we'll help you directly.",
+    "cta": "Contact a safari planner"
+  },
+  "sitemapPage": {
+    "eyebrow": "Site directory",
+    "title": "Sitemap",
+    "description": "Every page on Divine Travel Nest Safaris, organized by category.",
+    "breadcrumbHome": "Home",
+    "breadcrumbCurrent": "Sitemap"
   }
 }

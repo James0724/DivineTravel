@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -58,7 +58,7 @@ function PackageCard({
           style={{ aspectRatio: large ? "16/10" : "3/2" }}
         >
           {safari.coverImage ? (
-            <Image
+            <OptimizedImage
               src={safari.coverImage}
               alt={safari.name}
               fill

@@ -15,12 +15,12 @@ export async function GET(req: NextRequest) {
     // active + inactive, 'false' shows inactive only, anything else (or
     // omitted, as on every public page) keeps the default active-only view.
     const activeParam = searchParams.get('active')
-    const activeOnly = activeParam === 'all' ? undefined : activeParam !== 'false'
+    const activeOnly = activeParam === 'all' ? null : activeParam !== 'false'
     const featuredParam = searchParams.get('featured')
     const minDays = searchParams.get('minDays')
     const maxDays = searchParams.get('maxDays')
 
-    const filters: SafariFilters & { activeOnly?: boolean } = {
+    const filters: SafariFilters & { activeOnly?: boolean | null } = {
       search: searchParams.get('search') ?? undefined,
       category: (searchParams.get('category') as SafariCategory) ?? undefined,
       safariType: (searchParams.get('safariType') as SafariStyle) ?? undefined,
@@ -30,7 +30,10 @@ export async function GET(req: NextRequest) {
       minDays: minDays ? parseInt(minDays, 10) : undefined,
       maxDays: maxDays ? parseInt(maxDays, 10) : undefined,
       page: parseInt(searchParams.get('page') ?? '1', 10),
-      limit: Math.min(parseInt(searchParams.get('limit') ?? '12', 10), 50),
+      // Admin dashboard (the only caller that sends `active`) loads the
+      // full set for its client-side TanStack table — public callers stay
+      // capped at 50 per page.
+      limit: Math.min(parseInt(searchParams.get('limit') ?? '12', 10), activeParam !== null ? 1000 : 50),
       sort: (searchParams.get('sort') as SafariFilters['sort']) ?? 'rating',
       balanced: searchParams.get('balanced') === 'true' ? true : undefined,
       activeOnly,

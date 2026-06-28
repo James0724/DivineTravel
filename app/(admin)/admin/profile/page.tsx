@@ -25,7 +25,7 @@ import {
 } from 'lucide-react'
 import Input, { Textarea } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
-import { cn, formatDate } from '@/lib/utils'
+import { cn, formatDate, cloudinaryThumb } from '@/lib/utils'
 
 /* ── Types ─────────────────────────────────────────────────────────── */
 
@@ -224,7 +224,7 @@ function GalleryModal({
                     )}
                   >
                     <Image
-                      src={img.url}
+                      src={cloudinaryThumb(img.url, 200)}
                       alt=""
                       fill
                       sizes="(max-width:640px) 33vw, (max-width:768px) 25vw, 20vw"

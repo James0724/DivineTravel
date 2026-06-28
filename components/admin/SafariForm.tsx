@@ -756,7 +756,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
               className="w-4 h-4 accent-bone-forest rounded"
             />
             <span className="text-sm font-sans text-bone-ink/75">
-              Active <span className="text-bone-ink/40">(visible on site)</span>
+              Published <span className="text-bone-ink/40">(visible on site)</span>
             </span>
           </label>
           <label className="flex items-center gap-2.5 cursor-pointer">

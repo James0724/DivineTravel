@@ -149,6 +149,19 @@ export function pick<T extends Record<string, unknown>, K extends keyof T>(
   )
 }
 
+// ─── Cloudinary helpers ───────────────────────────────────────────────────────
+
+/** Insert a Cloudinary transformation into a delivery URL. Leaves non-Cloudinary URLs untouched. */
+export function cloudinaryUrl(url: string, transform: string): string {
+  if (!url || !url.includes('res.cloudinary.com') || !url.includes('/upload/')) return url
+  return url.replace('/upload/', `/upload/${transform}/`)
+}
+
+/** Square, CDN-resized thumbnail for list/grid rows — avoids downloading the full-size original. */
+export function cloudinaryThumb(url: string, size = 96): string {
+  return cloudinaryUrl(url, `w_${size},h_${size},c_fill,q_auto,f_auto`)
+}
+
 // ─── URL / SEO helpers ────────────────────────────────────────────────────────
 
 export function buildAbsoluteUrl(path: string): string {

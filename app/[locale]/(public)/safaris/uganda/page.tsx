@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import {
   BreadcrumbSchema,
@@ -295,7 +295,7 @@ export default async function UgandaSafarisPage() {
               style={{ aspectRatio: "1/1.1" }}
             >
               <div className="overflow-hidden" style={{ aspectRatio: "3/4" }}>
-                <Image
+                <OptimizedImage
                   src="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=600&q=80"
                   alt="Mountain gorilla in Bwindi forest, Uganda"
                   width={400}
@@ -307,7 +307,7 @@ export default async function UgandaSafarisPage() {
                 className="overflow-hidden mt-10"
                 style={{ aspectRatio: "3/4" }}
               >
-                <Image
+                <OptimizedImage
                   src="https://images.pexels.com/photos/12635318/pexels-photo-12635318.jpeg?auto=compress&cs=tinysrgb&w=600&q=80"
                   alt="Chimpanzee in the wild forest, Uganda"
                   width={400}
@@ -434,7 +434,7 @@ export default async function UgandaSafarisPage() {
                   className="relative overflow-hidden"
                   style={{ aspectRatio: "5/4", minHeight: "340px" }}
                 >
-                  <Image
+                  <OptimizedImage
                     src="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
                     alt="Mountain gorilla in Bwindi Impenetrable National Park"
                     fill
@@ -571,7 +571,7 @@ export default async function UgandaSafarisPage() {
                   className="relative overflow-hidden order-1 lg:order-2"
                   style={{ aspectRatio: "5/4", minHeight: "340px" }}
                 >
-                  <Image
+                  <OptimizedImage
                     src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
                     alt="Silverback gorilla in the Virunga mountains, Mgahinga"
                     fill
@@ -740,7 +740,7 @@ export default async function UgandaSafarisPage() {
               className="relative overflow-hidden"
               style={{ aspectRatio: "4/5" }}
             >
-              <Image
+              <OptimizedImage
                 src="https://images.pexels.com/photos/36478037/pexels-photo-36478037.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
                 alt="Silverback gorilla in the forest"
                 fill

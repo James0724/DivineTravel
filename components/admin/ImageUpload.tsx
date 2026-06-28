@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react'
 import Image from 'next/image'
-import { Upload, X, FolderOpen, RefreshCw } from 'lucide-react'
+import { Upload, X, FolderOpen, RefreshCw, Loader2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import type { ImageUsage } from '@/lib/cloudinary'
 
@@ -44,7 +44,20 @@ export default function ImageUpload({
 
   const doUpload = async (file: File) => {
     setUploading(true)
-    setProgress(20)
+    setProgress(8)
+
+    // Fake progress that races ahead early (so the bar feels instant) then
+    // eases off and parks just under 100 — it never finishes on its own,
+    // it just waits there until the real upload resolves and we snap to 100
+    // together, instead of sitting frozen at one number the whole time.
+    const progressTimer = setInterval(() => {
+      setProgress((p) => {
+        if (p >= 90) return p
+        const step = p < 50 ? 14 : p < 75 ? 7 : 2
+        return Math.min(90, p + step)
+      })
+    }, 120)
+
     try {
       const fd = new FormData()
       fd.append('file', file)
@@ -53,7 +66,7 @@ export default function ImageUpload({
       fd.append('title', file.name.replace(/\.[^/.]+$/, ''))
 
       const res = await fetch('/api/upload', { method: 'POST', body: fd })
-      setProgress(85)
+      clearInterval(progressTimer)
 
       if (!res.ok) {
         const err = await res.json()
@@ -67,6 +80,7 @@ export default function ImageUpload({
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'Upload failed')
     } finally {
+      clearInterval(progressTimer)
       setUploading(false)
       setProgress(0)
       if (inputRef.current) inputRef.current.value = ''
@@ -74,7 +88,7 @@ export default function ImageUpload({
   }
 
   const handleFiles = (files: FileList | null) => {
-    if (!files || files.length === 0) return
+    if (!files || files.length === 0 || uploading) return
     doUpload(files[0])
   }
 
@@ -115,35 +129,50 @@ export default function ImageUpload({
             />
           </div>
 
-          {/* Hover overlay */}
-          <div className="absolute inset-0 rounded-md bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-            <button
-              type="button"
-              title="Replace image"
-              onClick={() => inputRef.current?.click()}
-              className="flex items-center gap-1.5 bg-white/90 text-bone-ink text-xs px-3 py-1.5 rounded font-sans hover:bg-white transition-colors"
-            >
-              <RefreshCw size={12} /> Replace
-            </button>
-            <button
-              type="button"
-              title="Pick from gallery"
-              onClick={() => setPickerOpen(true)}
-              className="flex items-center gap-1.5 bg-white/90 text-bone-ink text-xs px-3 py-1.5 rounded font-sans hover:bg-white transition-colors"
-            >
-              <FolderOpen size={12} /> Gallery
-            </button>
-            {onClear && (
+          {/* Uploading overlay — replaces the hover overlay so the user can't
+              think the page froze or re-trigger another upload mid-flight */}
+          {uploading ? (
+            <div className="absolute inset-0 rounded-md bg-black/60 flex flex-col items-center justify-center gap-2">
+              <Loader2 size={22} className="text-white animate-spin" />
+              <span className="text-xs text-white/90 font-sans">Uploading… {progress}%</span>
+              <div className="w-28 h-1 bg-white/20 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-white rounded-full transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          ) : (
+            /* Hover overlay */
+            <div className="absolute inset-0 rounded-md bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
               <button
                 type="button"
-                title="Remove image"
-                onClick={onClear}
-                className="bg-red-500/90 text-white text-xs p-1.5 rounded hover:bg-red-600 transition-colors"
+                title="Replace image"
+                onClick={() => inputRef.current?.click()}
+                className="flex items-center gap-1.5 bg-white/90 text-bone-ink text-xs px-3 py-1.5 rounded font-sans hover:bg-white transition-colors"
               >
-                <X size={13} />
+                <RefreshCw size={12} /> Replace
               </button>
-            )}
-          </div>
+              <button
+                type="button"
+                title="Pick from gallery"
+                onClick={() => setPickerOpen(true)}
+                className="flex items-center gap-1.5 bg-white/90 text-bone-ink text-xs px-3 py-1.5 rounded font-sans hover:bg-white transition-colors"
+              >
+                <FolderOpen size={12} /> Gallery
+              </button>
+              {onClear && (
+                <button
+                  type="button"
+                  title="Remove image"
+                  onClick={onClear}
+                  className="bg-red-500/90 text-white text-xs p-1.5 rounded hover:bg-red-600 transition-colors"
+                >
+                  <X size={13} />
+                </button>
+              )}
+            </div>
+          )}
 
           {/* Hidden replace input */}
           <input
@@ -151,6 +180,7 @@ export default function ImageUpload({
             type="file"
             accept="image/jpeg,image/png,image/webp,image/avif"
             className="hidden"
+            disabled={uploading}
             onChange={(e) => handleFiles(e.target.files)}
           />
         </div>

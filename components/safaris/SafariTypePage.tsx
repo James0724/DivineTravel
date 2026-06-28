@@ -1,4 +1,4 @@
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import PageHero from "@/components/ui/PageHero";
 import WhyGrid from "@/components/ui/WhyGrid";
@@ -200,7 +200,7 @@ export default function SafariTypePage({ config, safaris }: Props) {
                       className="group flex flex-col h-full bg-bone-bg border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
                     >
                       <div className="relative overflow-hidden flex-shrink-0" style={{ aspectRatio: "3/2" }}>
-                        <Image
+                        <OptimizedImage
                           src={t.heroImage}
                           alt={t.heroImageAlt}
                           fill

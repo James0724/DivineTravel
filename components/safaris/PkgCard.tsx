@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import OptimizedImage from '@/components/ui/OptimizedImage'
 import { Link } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
 import { getLowestPrice } from '@/lib/utils'
@@ -39,7 +39,7 @@ export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
       >
         {/* Image */}
         <div className="relative overflow-hidden flex-shrink-0" style={{ aspectRatio: '3 / 2' }}>
-          <Image
+          <OptimizedImage
             src={safari.coverImage || safari.images?.[0]?.url || '/images/placeholder.jpg'}
             alt={safari.name}
             fill

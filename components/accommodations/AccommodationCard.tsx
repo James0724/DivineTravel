@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { motion } from "framer-motion";
 import type { Accommodation, AccommodationPriceTier } from "@/types";
 
@@ -30,7 +30,7 @@ export default function AccommodationCard({ property, index = 0 }: Accommodation
       <div className="group flex flex-col w-full h-full bg-bone-paper border border-[rgba(23,22,18,0.22)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover">
         {/* Image */}
         <div className="relative overflow-hidden flex-shrink-0" style={{ aspectRatio: "3 / 2" }}>
-          <Image
+          <OptimizedImage
             src={coverImage}
             alt={property.name}
             fill

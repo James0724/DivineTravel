@@ -13,13 +13,20 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const CONTACT_META = [
   { href: "tel:+254722595916", value: "+254 722-595-916", isEmail: false },
-  { href: "mailto:info@divinetravelnestsafaris.com", value: "info@divinetravelnestsafaris.com", isEmail: true },
+  {
+    href: "mailto:info@divinetravelnestsafaris.com",
+    value: "info@divinetravelnestsafaris.com",
+    isEmail: true,
+  },
 ];
 
 export default function IntroSection() {
   const t = useTranslations("home.intro");
   const contactLabels = t.raw("contacts") as { label: string }[];
-  const contacts = CONTACT_META.map((c, i) => ({ ...c, label: contactLabels[i].label }));
+  const contacts = CONTACT_META.map((c, i) => ({
+    ...c,
+    label: contactLabels[i].label,
+  }));
   const leftRef = useRef<HTMLDivElement>(null);
   const leftInView = useInView(leftRef, { once: true, margin: "-80px" });
 
@@ -46,7 +53,7 @@ export default function IntroSection() {
             />
 
             {/* Contact blocks — staggered slide-up */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+            <div className="grid sm:grid-cols-1 2xl:grid-cols-2 gap-4 mt-8">
               {contacts.map((c, i) => (
                 <motion.div
                   key={c.label}

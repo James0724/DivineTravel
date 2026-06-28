@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { X, AlignJustify } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -554,7 +554,7 @@ export default function CountrySafariPage({
                       className="overflow-hidden"
                       style={{ aspectRatio: "5/6" }}
                     >
-                      <Image
+                      <OptimizedImage
                         src={tailor.image}
                         alt={tailor.imageAlt}
                         width={900}
