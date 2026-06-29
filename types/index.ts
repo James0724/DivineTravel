@@ -11,7 +11,8 @@ export type SafariCategory =
 export type SafariDifficulty = 'easy' | 'moderate' | 'challenging'
 
 // Style of safari experience — distinct from `SafariCategory` (theme).
-// Two dimensions stored in one array: activity (how) and traveller (who).
+// Three dimensions stored in one array: activity (how), traveller (who),
+// and theme (which Safari Collection it belongs to).
 export type SafariStyle =
   // Activity types
   | 'walking'
@@ -34,6 +35,12 @@ export type SafariStyle =
   | 'small-group'
   | 'couples'
   | 'private'
+  // Theme types (Safari Collections)
+  | 'gorilla-trekking'
+  | 'big-five'
+  | 'great-migration'
+  | 'luxury'
+  | 'beach-and-bush'
 
 export type PriceTier = 'budget' | 'midRange' | 'luxury'
 

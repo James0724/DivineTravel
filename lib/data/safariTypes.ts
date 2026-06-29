@@ -1,11 +1,13 @@
 // Content map for the /safari-types index + /safari-types/[type] pages.
-// Two dimensions of "safari type" — distinct from the thematic `category`
+// Three dimensions of "safari type" — distinct from the thematic `category`
 // field (wildlife, beach, cultural, etc):
 //   - "activity": the format/style of the experience (how it's run)
 //   - "traveller": who the trip is designed around (who you travel with)
-// A safari package can carry any mix of values from either group.
+//   - "theme": the curated collection it belongs to (synced with
+//     SAFARI_COLLECTIONS in lib/data/sitemapDirectory.ts)
+// A safari package can carry any mix of values from any group.
 
-export type SafariTypeGroup = "activity" | "traveller";
+export type SafariTypeGroup = "activity" | "traveller" | "theme";
 
 export interface SafariTypeConfig {
   slug: string;
@@ -777,6 +779,203 @@ export const SAFARI_TYPES: SafariTypeConfig[] = [
       { q: "How much more does a private safari cost?", a: "Private safaris cost more per person than small-group departures since you are not sharing vehicle and guide costs — we will quote both so you can compare." },
       { q: "Can we change the itinerary once we arrive?", a: "Yes — that flexibility is the main advantage of a private safari. Your guide can adjust the plan day to day." },
       { q: "Is this good for multi-generational families?", a: "Yes — a private vehicle lets you set a pace that suits the whole group, from young children to grandparents." },
+    ],
+  },
+
+  // ── Theme types: Our Safari Collections ─────────────────────────────────
+  {
+    slug: "gorilla-trekking",
+    group: "theme",
+    label: "Gorilla Trekking Safari",
+    shortLabel: "Gorilla Trekking",
+    heroImage: STOCK_IMAGES.journal,
+    heroImageAlt: "Trekkers following a guide through Bwindi forest in search of mountain gorillas",
+    heroDescription:
+      "Hike through Bwindi Impenetrable Forest or Volcanoes National Park to spend a profound hour face-to-face with a wild mountain gorilla family — one of the rarest wildlife encounters left on Earth.",
+    cardDescription: "A guided forest hike in Uganda or Rwanda, ending with an hour beside a wild mountain gorilla family.",
+    intro: {
+      heading: "The rarest hour on safari",
+      body:
+        "Fewer than 1,100 mountain gorillas remain in the wild, found only in the forests of Uganda, Rwanda and the DR Congo. A gorilla trekking permit buys you a single, tightly regulated hour with a habituated family — tracked on foot by rangers through dense, often steep rainforest. It is physically demanding, strictly limited in numbers each day, and unlike anything else on an East Africa itinerary.",
+    },
+    bestFor: [
+      "Travellers chasing a true bucket-list wildlife encounter",
+      "Bwindi Impenetrable Forest (Uganda) and Volcanoes National Park (Rwanda)",
+      "Reasonably fit hikers comfortable with steep, muddy terrain",
+      "Pairing with a Big Five safari in Kenya or Tanzania",
+    ],
+    whatToExpect: [
+      { n: "01", title: "A limited daily permit", body: "Only a set number of permits are issued per gorilla family per day — we book yours months ahead." },
+      { n: "02", title: "A guided forest hike", body: "Rangers track the family's overnight movements; the hike can run from 1 to 6 hours depending on where they've moved." },
+      { n: "03", title: "One hour with the family", body: "Once located, you get a strictly enforced hour at a safe, respectful distance." },
+      { n: "04", title: "Porters available", body: "Local porters can carry your daypack and help on steeper sections — hiring one also supports the local community." },
+    ],
+    goodToKnow: [
+      "Permits are limited and sell out months in advance — we recommend booking at least 4-6 months ahead in high season",
+      "A minimum fitness level is expected; walking poles and gardening gloves make the climb easier",
+      "Habituated families can also be tracked for chimpanzee trekking in the same regions, if you'd like to add it",
+    ],
+    pairsWith: ["walking", "big-five", "honeymoon"],
+    faqs: [
+      { q: "How fit do I need to be for gorilla trekking?", a: "Moderate fitness is enough for most treks, but trails can be steep, muddy and at altitude. Porters are available to carry bags, and we can match the difficulty to your fitness level where families are accessible." },
+      { q: "How much does a gorilla trekking permit cost?", a: "Permits are set by the Uganda Wildlife Authority and Rwanda Development Board and change periodically — we'll quote the current rate and book it directly for you." },
+      { q: "Can I combine gorilla trekking with a Big Five safari?", a: "Yes — many of our guests fly between Uganda or Rwanda and Kenya or Tanzania to combine gorilla trekking with a classic game-drive safari in one trip." },
+    ],
+  },
+  {
+    slug: "big-five",
+    group: "theme",
+    label: "Big Five Safari",
+    shortLabel: "Big Five",
+    heroImage: STOCK_IMAGES.mara,
+    heroImageAlt: "Lion resting in the grass of the Masai Mara at golden hour",
+    heroDescription:
+      "Lion, leopard, elephant, buffalo and rhino — the five animals that defined the term 'safari'. A Big Five safari is routed through the parks and conservancies that give you the best realistic chance of all five.",
+    cardDescription: "Lion, leopard, elephant, buffalo and rhino — routed through the parks that give you the best chance at all five.",
+    intro: {
+      heading: "The original safari checklist",
+      body:
+        "The Big Five term dates back to big-game hunting, when these were considered the five most dangerous animals to track on foot. Today it's the benchmark wildlife checklist for first-time safari-goers — and while sightings are never guaranteed, parks like the Masai Mara, Serengeti, Ngorongoro Crater and private Kenyan conservancies (good for rhino) stack the odds firmly in your favour.",
+    },
+    bestFor: [
+      "First-time safari-goers wanting the classic checklist",
+      "Multi-park itineraries that stack rhino, lion and leopard odds",
+      "Combining with a Great Migration or photographic safari",
+      "Private conservancies for the best rhino sightings",
+    ],
+    whatToExpect: [
+      { n: "01", title: "Multi-park routing", body: "We combine parks and conservancies known for each species, since no single park guarantees all five." },
+      { n: "02", title: "Rhino-focused add-ons", body: "Conservancies like Ol Pejeta and Lake Nakuru are added specifically to lift your rhino odds." },
+      { n: "03", title: "Expert spotting", body: "Guides use radio networks and tracking experience to find harder species like leopard." },
+      { n: "04", title: "Realistic expectations, set upfront", body: "We'll tell you honestly which species are likely versus possible on your chosen route and season." },
+    ],
+    goodToKnow: [
+      "No park or operator can guarantee all five — we route for the best realistic odds, not promises",
+      "Leopard is consistently the hardest of the five to find; allow extra days and a private vehicle for the best chance",
+      "Rhino sightings are strongest in protected conservancies such as Ol Pejeta and Lake Nakuru National Park",
+    ],
+    pairsWith: ["game-drive", "great-migration", "photographic"],
+    faqs: [
+      { q: "Can you guarantee we'll see all of the Big Five?", a: "No reputable operator can guarantee wild sightings, but a well-routed multi-park trip of 7+ days gives a strong realistic chance at all five. We'll be upfront about which species are likely on your specific route." },
+      { q: "Which park is best for the Big Five?", a: "No single park has it all — the Masai Mara and Serengeti are strong for lion, leopard, elephant and buffalo, while conservancies like Ol Pejeta add reliable rhino sightings." },
+      { q: "How many days do I need for a Big Five safari?", a: "7-10 days across two or three parks gives the best balance of time and realistic odds, especially for the harder species like leopard and rhino." },
+    ],
+  },
+  {
+    slug: "great-migration",
+    group: "theme",
+    label: "Great Migration Safari",
+    shortLabel: "Great Migration",
+    heroImage: STOCK_IMAGES.serengeti,
+    heroImageAlt: "Wildebeest herds crossing a river during the Great Migration",
+    heroDescription:
+      "Over two million wildebeest and zebra follow the rains in a constant clockwise loop between the Serengeti and the Masai Mara — and a Great Migration safari is timed and routed to put you where the herds are.",
+    cardDescription: "Timed and routed to the herds — river crossings, calving season or the southern plains, wherever they are.",
+    intro: {
+      heading: "Timed to the herds, not the calendar",
+      body:
+        "The migration doesn't follow a fixed date — it follows the rain. Our job is tracking where the herds actually are each month and routing your trip there, whether that's the dramatic Mara River crossings of July-October, the predator-rich calving season on the southern Serengeti plains around January-March, or the quieter in-between months when the herds are on the move.",
+    },
+    bestFor: [
+      "Travellers chasing river crossings (July-October)",
+      "Calving season visitors wanting predator action (January-March)",
+      "Mobile camping itineraries that move with the herds",
+      "First-time Tanzania or Kenya safari-goers",
+    ],
+    whatToExpect: [
+      { n: "01", title: "Season-matched routing", body: "We place you in the part of the Serengeti-Mara ecosystem where the herds actually are that month." },
+      { n: "02", title: "River crossing positioning", body: "During crossing season, guides position at known crossing points and wait, sometimes for hours, for the herds to commit." },
+      { n: "03", title: "Predator activity", body: "Lion, hyena and crocodile sightings spike wherever the herds concentrate." },
+      { n: "04", title: "Mobile camp options", body: "Camps that physically relocate with the migration for the most immersive version of this trip." },
+    ],
+    goodToKnow: [
+      "The migration moves on its own schedule — we track current herd positions before finalising your route, not just the calendar month",
+      "River crossings are dramatic but unpredictable in timing; multi-day stays near a crossing point improve your odds",
+      "January-March (calving season) on the southern Serengeti plains is less crowded than peak crossing season and excellent for predator sightings",
+    ],
+    pairsWith: ["mobile-camping", "fly-in", "big-five"],
+    faqs: [
+      { q: "When is the best time to see the Great Migration?", a: "For river crossings, July to October in the northern Serengeti and Masai Mara. For calving season and predator action, January to March on the southern Serengeti plains." },
+      { q: "Will I definitely see a river crossing?", a: "Crossings happen on the herds' own schedule, not a fixed timetable — staying multiple days near an active crossing point gives the best realistic chance, and our guides track herd movements daily." },
+      { q: "Kenya or Tanzania for the migration?", a: "It depends on the month — the herds spend roughly July to October in the Masai Mara (Kenya) and the rest of the year in the Serengeti (Tanzania). We'll route you to wherever they are when you travel." },
+    ],
+  },
+  {
+    slug: "luxury",
+    group: "theme",
+    label: "Luxury Safari",
+    shortLabel: "Luxury",
+    heroImage: STOCK_IMAGES.vehicle,
+    heroImageAlt: "Elegant tented suite interior at a luxury safari camp",
+    heroDescription:
+      "Private plunge pools, fine dining under the stars and a private vehicle throughout — a luxury safari trades nothing for comfort, from the moment you land to the moment you leave.",
+    cardDescription: "Private vehicles, fine dining and the most exclusive camps and lodges East Africa has to offer.",
+    intro: {
+      heading: "Safari, without compromise",
+      body:
+        "A luxury safari starts with the camps and lodges — award-winning properties with private plunge pools and personal chefs — and builds outward from there: fly-in transfers instead of long road days, a private vehicle and guide as standard, and the flexibility to adjust the day's plan on a whim. It's the most comfortable, most flexible way to experience East Africa.",
+    },
+    bestFor: [
+      "Travellers who want the very best camps and lodges",
+      "Honeymoons, anniversaries and milestone celebrations",
+      "Fly-in itineraries that minimise road transfer time",
+      "Multi-generational trips wanting full flexibility and comfort",
+    ],
+    whatToExpect: [
+      { n: "01", title: "Award-winning camps and lodges", body: "Private plunge pools and personal chefs at a curated shortlist of top-tier properties." },
+      { n: "02", title: "A private vehicle and guide", body: "Standard on every luxury itinerary — no sharing, no fixed group schedule." },
+      { n: "03", title: "Fly-in transfers", body: "Light aircraft between parks instead of long road days, maximising time in the bush." },
+      { n: "04", title: "Fully tailored itinerary", body: "Built around your interests, pace and special occasions, down to the smallest detail." },
+    ],
+    goodToKnow: [
+      "Book well ahead — the top luxury camps have limited rooms and fill up fastest in peak season",
+      "Fly-in transfers between camps are standard on a luxury itinerary, not an optional upgrade",
+      "Tell us the occasion in advance so we can arrange celebration touches with the lodge",
+    ],
+    pairsWith: ["honeymoon", "fly-in", "private"],
+    faqs: [
+      { q: "What makes a safari 'luxury' rather than mid-range?", a: "The camps and lodges themselves — private plunge pools, fine dining — plus a private vehicle and guide and fly-in transfers as standard, rather than optional extras." },
+      { q: "Do I need to book a luxury safari far in advance?", a: "Yes — the top camps have very few rooms and sell out months ahead in peak season (July-October and December-February)." },
+      { q: "Can a luxury safari be combined with a beach extension?", a: "Absolutely — Zanzibar, the Kenyan coast and Lamu pair naturally with a luxury safari for a complete trip." },
+    ],
+  },
+  {
+    slug: "beach-and-bush",
+    group: "theme",
+    label: "Beach & Bush Safari",
+    shortLabel: "Beach & Bush",
+    heroImage: STOCK_IMAGES.savannah,
+    heroImageAlt: "Tropical beach at sunset, paired with a safari extension inland",
+    heroDescription:
+      "Game drives by day, white sand by the next flight — a Beach & Bush safari closes out the wildlife with a few unhurried days on the Zanzibar, Kenyan or Tanzanian coast.",
+    cardDescription: "Game drives first, white sand after — close out the wildlife with a few days on the coast.",
+    intro: {
+      heading: "The classic two-part trip",
+      body:
+        "Beach & Bush is the most popular way to end an East Africa safari — a few days on the Zanzibar archipelago, Diani Beach or Tanzania's Pemba/Mafia islands after the parks, giving you a complete change of pace before flying home. A short hop by light aircraft usually connects the two halves of the trip.",
+    },
+    bestFor: [
+      "First trips combining wildlife and a beach holiday in one",
+      "Honeymoons and anniversary trips",
+      "Travellers wanting downtime after an active safari",
+      "Zanzibar, Diani Beach, Lamu and Pemba extensions",
+    ],
+    whatToExpect: [
+      { n: "01", title: "Safari first, beach second", body: "The standard order — game drives and parks, then a short flight to the coast to unwind." },
+      { n: "02", title: "Light-aircraft connections", body: "Most safari-to-coast hops take under 90 minutes by light aircraft." },
+      { n: "03", title: "A genuine change of pace", body: "Snorkelling, diving, dhow cruises and simply doing nothing, after days of early starts." },
+      { n: "04", title: "Flexible split", body: "3-4 days at the coast is typical, but we'll tailor the split to your total trip length." },
+    ],
+    goodToKnow: [
+      "Zanzibar is the most popular pairing with a Kenya or Tanzania safari thanks to direct flight connections",
+      "Book coast flights as part of the same itinerary — connecting separately can add unnecessary transfer time",
+      "Coral reef season and visibility vary by month; we'll advise the best timing for snorkelling or diving",
+    ],
+    pairsWith: ["honeymoon", "wellness", "fly-in"],
+    faqs: [
+      { q: "How long should the beach part of the trip be?", a: "3-4 days is typical after a 7-10 day safari, though we can extend it for a longer coastal stay if relaxation is the priority." },
+      { q: "Which beach destinations pair best with a safari?", a: "Zanzibar pairs most easily with Kenya and Tanzania safaris thanks to direct flights; Diani Beach and Lamu are popular Kenya-specific options." },
+      { q: "Do you book the flights between safari and beach?", a: "Yes — we book the connecting flights as part of your overall itinerary so the transition is seamless." },
     ],
   },
 ];

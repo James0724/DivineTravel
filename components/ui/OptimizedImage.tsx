@@ -38,6 +38,8 @@ const SHIMMER_DATA_URL =
  *   `cloudinaryUrl()` — never rebuilt from a bare public ID — so a folder name that
  *   happens to look like transform shorthand (e.g. `web_images/...`) can't get
  *   misparsed into a 400.
+ *   Full-bleed (no `thumbSize`) Cloudinary images are still capped at `w_1920,c_limit`
+ *   so an original upload (often 4000px+) isn't served byte-for-byte.
  * - Non-Cloudinary sources (Unsplash, Pexels, local) fall through to Next's normal
  *   optimization pipeline unchanged.
  * - If the image fails to load for any reason, it degrades to a neutral placeholder
@@ -72,7 +74,10 @@ export default function OptimizedImage({
         src,
         thumbSize
           ? `w_${thumbSize},h_${thumbSize},c_fill,g_auto,q_auto,f_auto`
-          : 'q_auto,f_auto'
+          // Full-bleed images still need a width cap — without it Cloudinary serves the
+          // original upload (often 4000px+ from camera/stock sources) at multiple MB,
+          // which is what caused the hero carousel's visible loading gap between slides.
+          : 'w_1920,c_limit,q_auto,f_auto'
       )
     : src
 

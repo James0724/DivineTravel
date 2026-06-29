@@ -553,6 +553,71 @@
   }
 }
 
+/* ─── Hero ambient decoration (particles / glow orb / rotating rings) ──── */
+.hero-particle {
+  animation-name: hero-float-particle;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes hero-float-particle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0);
+  }
+  10% {
+    opacity: 0.6;
+    transform: translateY(-10px) scale(1);
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-200px) scale(0.5);
+  }
+}
+
+.hero-glow-orb {
+  animation: hero-pulse-glow 4s ease-in-out infinite alternate;
+}
+@keyframes hero-pulse-glow {
+  from {
+    opacity: 0.7;
+    transform: translate(-50%, -55%) scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -55%) scale(1.08);
+  }
+}
+
+.hero-ring-1 {
+  animation: hero-rotate-ring 30s linear infinite;
+}
+.hero-ring-2 {
+  animation: hero-rotate-ring 60s linear infinite reverse;
+}
+@keyframes hero-rotate-ring {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.hero-scroll-line {
+  animation: hero-scroll-fade 2s ease-in-out infinite;
+}
+@keyframes hero-scroll-fade {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(0.6);
+  }
+}
+
 @keyframes pulse {
   0% {
     r: 6;
@@ -572,4 +637,28 @@
     r: 18;
     opacity: 0;
   }
+}
+
+@keyframes float-dust {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    /* Slowly drifts up/down and slightly sideways */
+    transform: translateY(-60px) translateX(20px); 
+    opacity: 0;
+  }
+}
+
+.hero-particle {
+  animation-name: float-dust;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }

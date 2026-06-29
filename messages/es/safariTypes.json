@@ -54,6 +54,13 @@
     "textAfter": "?",
     "description": "Los mismos parques y lodges, adaptados a su grupo — solo, en pareja, en familia, o totalmente en privado."
   },
+  "themeGroup": {
+    "eyebrow": "Nuestras colecciones de safari",
+    "textBefore": "O empiece por una ",
+    "highlightedText": "colección",
+    "textAfter": "",
+    "description": "Trekking de gorilas, los Big Five, la Gran Migración, safaris de lujo y combinados de playa y sabana — nuestros temas de viaje más solicitados, listos para construir su itinerario alrededor."
+  },
   "combine": {
     "eyebrow": "Cómo se combinan",
     "headingBefore": "Algunas formas en que estos se ",

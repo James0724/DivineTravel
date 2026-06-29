@@ -90,6 +90,11 @@ export const SafariSchema = z.object({
           'small-group',
           'couples',
           'private',
+          'gorilla-trekking',
+          'big-five',
+          'great-migration',
+          'luxury',
+          'beach-and-bush',
         ],
         {
           errorMap: (issue, ctx) =>

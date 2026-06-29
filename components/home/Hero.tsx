@@ -6,7 +6,7 @@ import SiteLink from "@/components/ui/SiteLink";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { LettersPullUp } from "@/components/ui/LettersPullUp";
+import TitleHero from "@/components/ui/TitleHero";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -15,14 +15,9 @@ const slides = [
     src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782656201/Gallarey/pexels-luya-29415794_cso8gm.jpg",
     alt: "A Leopard roaming in the African savanna",
   },
-
   {
     src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782655866/Gallarey/pexels-g-n-403098-13098956_hq5wof.jpg",
     alt: "Zebra grazing",
-  },
-  {
-    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782554014/Gallarey/IMG_2874.jpg_mnp4vn.jpg",
-    alt: "Our safari vehicles entering Nairobi national Park main gate",
   },
   {
     src: "https://images.unsplash.com/photo-1521651201144-634f700b36ef?auto=format&fit=crop&w=1920&q=80",
@@ -35,6 +30,69 @@ const slides = [
 ];
 
 const INTERVAL = 5500;
+const PARTICLE_COUNT = 34;
+
+type Particle = {
+  left: number;
+  top: number;
+  duration: number;
+  delay: number;
+  size: number;
+  opacity: number;
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AMBIENT PARTICLES — generated client-side only to avoid hydration mismatch
+═══════════════════════════════════════════════════════════════════════════ */
+
+function HeroParticles() {
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: PARTICLE_COUNT }, () => {
+        // Random size between 1px and 4px
+        const size = 0.5 + Math.random() * 2;
+        // Larger particles are slightly more opaque, smaller ones are faint
+        const opacity = 0.2 + Math.random() * 0.6;
+
+        return {
+          left: Math.random() * 100,
+          top: 55 + Math.random() * 45,
+          // Dust moves slowly, so let's keep the durations longer (8s to 20s)
+          duration: 8 + Math.random() * 12,
+          delay: Math.random() * -20, // Negative delay forces animations to start mid-way immediately
+          size,
+          opacity,
+        };
+      }),
+    );
+  }, []);
+
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden pointer-events-none"
+      aria-hidden="true"
+    >
+      {particles.map((p, i) => (
+        <span
+          key={i}
+          className="hero-particle absolute block rounded-full"
+          style={{
+            left: `${p.left}%`,
+            top: `${p.top}%`,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            backgroundColor: `rgba(244, 212, 168, ${p.opacity})`,
+            animationDuration: `${p.duration}s`,
+            animationDelay: `${p.delay}s`,
+            filter: p.size > 2.5 ? "blur(0.5px)" : "none", // Subtle blur on larger dust flakes
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    HERO
@@ -42,7 +100,7 @@ const INTERVAL = 5500;
 export default function Hero() {
   const t = useTranslations("home.hero");
   const [current, setCurrent] = useState(0);
-  const heroHeight = "calc(100svh - var(--navbar-h, 90px))";
+  const nextIndex = (current + 1) % slides.length;
 
   const goTo = useCallback(
     (idx: number) =>
@@ -61,8 +119,12 @@ export default function Hero() {
 
   return (
     <section
-      className="relative text-white overflow-hidden"
-      style={{ height: heroHeight }}
+      className="relative text-white overflow-hidden
+                 h-[calc(90svh_-_var(--navbar-h,90px))]
+                 sm:h-[calc(92svh_-_var(--navbar-h,90px))]
+                 md:h-[calc(94svh_-_var(--navbar-h,90px))]
+                 lg:h-[calc(96svh_-_var(--navbar-h,90px))]
+                 xl:h-[calc(100svh_-_var(--navbar-h,90px))]"
       aria-label="Hero"
     >
       {/* ── Background carousel ───────────────────────────────────────── */}
@@ -86,156 +148,87 @@ export default function Hero() {
         </motion.div>
       </AnimatePresence>
 
+      {/* Preload the upcoming slide so it's already cached when its turn comes —
+          fixes the visible blank gap between crossfades. Kept in the layout (not
+          display:none) and 1x1px so next/image's "fill" sizing is satisfied. */}
+      <div
+        className="relative w-px h-px overflow-hidden opacity-0 pointer-events-none"
+        aria-hidden="true"
+      >
+        <OptimizedImage
+          src={slides[nextIndex].src}
+          alt=""
+          fill
+          sizes="100vw"
+          priority
+        />
+      </div>
+
       {/* ── Gradient overlay ─────────────────────────────────────────── */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           background:
-            "linear-gradient(180deg, rgba(20,16,10,0.48) 0%, rgba(20,16,10,0.12) 38%, rgba(20,16,10,0.72) 100%)",
+            "linear-gradient(180deg, rgba(14,11,7,0.45) 0%, rgba(14,11,7,0.25) 38%, rgba(14,11,7,0.55) 100%",
         }}
       />
+
+      {/* ── Ambient decoration — particles, glow orb, rotating rings ───── */}
+      <div className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+        <HeroParticles />
+
+        <div
+          className="hero-glow-orb absolute top-1/2 left-1/2 rounded-full
+                      w-[380px] h-[380px] sm:w-[560px] sm:h-[560px] lg:w-[700px] lg:h-[700px]"
+          style={{
+            transform: "translate(-50%, -55%)",
+            background:
+              "radial-gradient(ellipse at center, rgba(245,201,122,0.18) 0%, rgba(240,180,80,0.06) 35%, transparent 70%)",
+          }}
+        />
+        <div
+          className="hero-ring-1 absolute top-[60%] left-1/2 rounded-full
+                      w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] lg:w-[340px] lg:h-[340px]"
+          style={{
+            transform: "translate(-50%, -50%)",
+            border: "1px solid rgba(245,201,122,0.12)",
+          }}
+        />
+        <div
+          className="hero-ring-2 absolute top-[60%] left-1/2 rounded-full
+                      w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] lg:w-[520px] lg:h-[520px]"
+          style={{
+            transform: "translate(-50%, -50%)",
+            border: "1px dashed rgba(245,201,122,0.07)",
+          }}
+        />
+      </div>
 
       {/* ── Slide progress bar ───────────────────────────────────────── */}
       <motion.div
         key={`pb-${current}`}
-        className="absolute bottom-0 left-0 z-[4] h-[2px] w-full"
+        className="absolute bottom-0 left-0 z-[5] h-[2px] w-full"
         style={{ background: "rgba(244,212,168,0.65)", transformOrigin: "0 0" }}
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: INTERVAL / 1000, ease: "linear" }}
       />
 
-      {/* ── Main content ─────────────────────────────────────────────── */}
+      {/* ── Main content — centered ──────────────────────────────────── */}
       <div
-        className={[
-          "relative z-[3] flex flex-col",
-          "px-5 sm:px-8 lg:px-12",
-          "pt-6 pb-5 sm:pt-10 sm:pb-6 lg:pt-12 lg:pb-10",
-        ].join(" ")}
-        style={{ height: "100%" }}
+        className="relative z-[3] flex flex-col items-center justify-center
+                   text-center h-full px-5 sm:px-8 py-6 md:py-8 lg:py-10 xl:py-12 gap-4 sm:gap-5 xl:gap-10"
       >
-        {/* Eyebrow — slides in from left */}
+        <TitleHero
+          variant="transparent"
+          eyebrow={t("eyebrow")}
+          title="East Africa Safari"
+          accent={"(KE/TZ/UG/RW)"}
+          description={t("description")}
+        />
+
         <motion.div
-          className="eyebrow shrink-0"
-          style={{ color: "rgba(244,239,226,0.85)" }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.65, delay: 0.15, ease: EASE }}
-        >
-          <span className="dot" />
-          {t("eyebrow")}
-        </motion.div>
-
-        {/* Headline — each line pulls up character-by-character */}
-        <div className="flex-1 flex flex-col justify-center py-3 sm:py-6 lg:py-8 min-h-0 overflow-hidden">
-          <h1
-            className="font-serif font-light tracking-[-0.025em] max-w-[20ch]"
-            style={{ fontSize: "clamp(36px, 4vw, 68px)", lineHeight: "1.12" }}
-          >
-            {/* Line 1 */}
-            <LettersPullUp
-              text={t("line1")}
-              initialDelay={0.15}
-              charDelay={0.035}
-            />
-            {/* Line 2 */}
-            <LettersPullUp
-              text={t("line2")}
-              initialDelay={0.3}
-              charDelay={0.035}
-            />
-            {/* Line 3 — two inline segments to keep clay italic on "safari" */}
-            <span className="flex flex-wrap items-baseline">
-              <LettersPullUp
-                text={t("line3Before")}
-                initialDelay={0.45}
-                charDelay={0.035}
-              />
-              <LettersPullUp
-                text={t("line3Em")}
-                initialDelay={0.45 + 12 * 0.035}
-                charDelay={0.035}
-                charStyle={{ color: "#f4d4a8", fontStyle: "italic" }}
-              />
-            </span>
-            {/* Line 4 */}
-            <LettersPullUp
-              text={t("line4")}
-              initialDelay={0.7}
-              charDelay={0.035}
-            />
-          </h1>
-
-          <motion.p
-            className="hidden 2xl:block mt-4 sm:mt-7 max-w-[48ch] text-[13px] sm:text-[14px] leading-[1.6] opacity-90"
-            initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-            animate={{ opacity: 0.9, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.85, delay: 0.92, ease: EASE }}
-          >
-            {t("description")}
-          </motion.p>
-        </div>
-
-        {/* Controls */}
-        <motion.div
-          className="shrink-0 flex items-center gap-3 pb-4 sm:pb-6 lg:pb-7"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.82, ease: EASE }}
-        >
-          <button
-            onClick={prev}
-            aria-label="Previous slide"
-            className="w-9 h-9 rounded-full flex items-center justify-center
-                       bg-black/25 hover:bg-black/50 backdrop-blur-[3px]
-                       border border-white/25 hover:border-white/55
-                       text-white/80 hover:text-white
-                       transition-all duration-200 flex-shrink-0"
-          >
-            <ChevronLeft size={16} strokeWidth={2} />
-          </button>
-
-          <div
-            className="flex items-center gap-1.5"
-            role="tablist"
-            aria-label="Slide indicators"
-          >
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                role="tab"
-                aria-selected={i === current}
-                aria-label={`Slide ${i + 1} of ${slides.length}`}
-                onClick={() => goTo(i)}
-                className="rounded-full transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
-                style={{
-                  height: "3px",
-                  width: i === current ? "24px" : "10px",
-                  background:
-                    i === current
-                      ? "rgba(244,212,168,1)"
-                      : "rgba(244,239,226,0.35)",
-                }}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={next}
-            aria-label="Next slide"
-            className="w-9 h-9 rounded-full flex items-center justify-center
-                       bg-black/25 hover:bg-black/50 backdrop-blur-[3px]
-                       border border-white/25 hover:border-white/55
-                       text-white/80 hover:text-white
-                       transition-all duration-200 flex-shrink-0"
-          >
-            <ChevronRight size={16} strokeWidth={2} />
-          </button>
-        </motion.div>
-
-        {/* Footer row — staggered entrance */}
-        <motion.div
-          className="shrink-0 pt-4 sm:pt-7 lg:pt-8 border-t"
+          className="shrink-0 pt-4 sm:pt-7 lg:pt-8 border-t w-full"
           style={{ borderColor: "rgba(244,239,226,0.22)" }}
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -319,6 +312,73 @@ export default function Hero() {
             </div>
           </div>
         </motion.div>
+      </div>
+
+      {/* ── Slide arrows — fixed to the edges so the centered layout stays clear ── */}
+      <button
+        onClick={prev}
+        aria-label="Previous slide"
+        className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-[4]
+                   w-9 h-9 rounded-full flex items-center justify-center
+                   bg-black/25 hover:bg-black/50 backdrop-blur-[3px]
+                   border border-white/25 hover:border-white/55
+                   text-white/80 hover:text-white
+                   transition-all duration-200"
+      >
+        <ChevronLeft size={16} strokeWidth={2} />
+      </button>
+      <button
+        onClick={next}
+        aria-label="Next slide"
+        className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-[4]
+                   w-9 h-9 rounded-full flex items-center justify-center
+                   bg-black/25 hover:bg-black/50 backdrop-blur-[3px]
+                   border border-white/25 hover:border-white/55
+                   text-white/80 hover:text-white
+                   transition-all duration-200"
+      >
+        <ChevronRight size={16} strokeWidth={2} />
+      </button>
+
+      {/* ── Slide indicators + scroll hint ──────────────────────────────── */}
+      <div className="absolute bottom-7 sm:bottom-9 left-1/2 -translate-x-1/2 z-[4] flex flex-col items-center gap-4">
+        <div
+          className="flex items-center gap-1.5"
+          role="tablist"
+          aria-label="Slide indicators"
+        >
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              role="tab"
+              aria-selected={i === current}
+              aria-label={`Slide ${i + 1} of ${slides.length}`}
+              onClick={() => goTo(i)}
+              className="rounded-full transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+              style={{
+                height: "3px",
+                width: i === current ? "24px" : "10px",
+                background:
+                  i === current
+                    ? "rgba(244,212,168,1)"
+                    : "rgba(244,239,226,0.35)",
+              }}
+            />
+          ))}
+        </div>
+
+        <div
+          className="hidden sm:flex flex-col items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em]"
+          style={{ color: "rgba(244,239,226,0.55)" }}
+        >
+          <span
+            className="hero-scroll-line block w-px h-9"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(168,130,58,0.8), transparent)",
+            }}
+          />
+        </div>
       </div>
     </section>
   );

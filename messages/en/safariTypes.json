@@ -54,6 +54,13 @@
     "textAfter": " with?",
     "description": "The same parks and lodges, shaped around your group — solo, as a couple, with family, or fully private."
   },
+  "themeGroup": {
+    "eyebrow": "Our safari collections",
+    "textBefore": "Or start from a ",
+    "highlightedText": "collection",
+    "textAfter": "",
+    "description": "Gorilla trekking, the Big Five, the Great Migration, luxury and beach-and-bush trips — our most-requested itinerary themes, ready to build your trip around."
+  },
   "combine": {
     "eyebrow": "Putting it together",
     "headingBefore": "A few ways these ",

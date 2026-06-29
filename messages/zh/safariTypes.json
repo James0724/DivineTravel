@@ -54,6 +54,13 @@
     "textAfter": "?",
     "description": "同样的公园与住宿,根据您的团体量身定制——单人出行、情侣同行、family家庭出游,或完全私人定制。"
   },
+  "themeGroup": {
+    "eyebrow": "我们的safari精选系列",
+    "textBefore": "或从一个",
+    "highlightedText": "精选系列",
+    "textAfter": "开始",
+    "description": "大猩猩徒步、非洲五霸、动物大迁徙、奢华safari以及海滩与丛林组合——我们最受欢迎的行程主题,随时可作为您行程的起点。"
+  },
   "combine": {
     "eyebrow": "组合搭配",
     "headingBefore": "几种",

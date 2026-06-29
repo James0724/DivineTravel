@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Divine Travel Nest — Footer (Enhanced)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { corePlugins: { preflight: false } };
+</script>
+<style>
+  :root {
+    --bg: #f4ede0;
+    --bg-soft: #ede5d3;
+    --paper: #faf6ec;
+    --ink: #1f1d18;
+    --forest: #283729;
+    --forest-deep: #1f2c20;
+    --forest-line: rgba(244,212,168,0.14);
+    --clay: #b8542a;
+    --gold: #f0cf9c;
+    --gold-soft: #e6c489;
+    --muted: rgba(250,246,236,0.62);
+    --muted-dim: rgba(250,246,236,0.40);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  svg { display: block; }
+
+  /* preview spacer so the footer reads against the warm site bg */
+  .preview-top {
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 48px;
+    background:
+      radial-gradient(120% 80% at 50% 0%, var(--bg-soft), var(--bg) 70%);
+  }
+  .preview-top .lbl {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted-dim);
+    color: #a59a86;
+  }
+  .preview-top .lbl b { color: var(--clay); font-weight: 500; }
+
+  .eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gold-soft);
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--clay); }
+
+  /* ============================================================= FOOTER */
+  footer {
+    position: relative;
+    background: var(--forest);
+    color: var(--paper);
+    overflow: hidden;
+  }
+  footer::before {
+    content: "";
+    position: absolute; inset-inline: 0; top: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(244,212,168,0.45), transparent);
+  }
+  /* faint horizon wash */
+  footer::after {
+    content: "";
+    position: absolute; left: 50%; top: -12%;
+    width: 70vw; height: 60%;
+    transform: translateX(-50%);
+    background: radial-gradient(60% 100% at 50% 0%, rgba(184,84,42,0.14), transparent 70%);
+    pointer-events: none;
+  }
+  .f-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 84px 48px 36px;
+  }
+
+  /* ---------- CTA band ---------- */
+  .f-cta {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 72px;
+    align-items: end;
+    padding-bottom: 64px;
+    border-bottom: 1px solid var(--forest-line);
+  }
+  .f-cta h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 4.6vw, 76px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    margin-top: 22px;
+    max-width: 15ch;
+    text-wrap: balance;
+  }
+  .f-cta h2 em { font-style: italic; color: var(--gold); }
+  .f-cta .right p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 42ch;
+  }
+  .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 13px;
+    padding: 14px 22px 14px 24px;
+    border-radius: 999px;
+    font-size: 14px; font-weight: 500;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s;
+  }
+  .btn-primary { background: var(--paper); color: var(--ink); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -12px rgba(0,0,0,0.5); }
+  .btn-primary .arrow {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--clay); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform 0.22s;
+  }
+  .btn-primary:hover .arrow { transform: translateX(3px); }
+  .btn-ghost {
+    border: 1px solid var(--forest-line);
+    color: var(--paper);
+    background: rgba(250,246,236,0.04);
+  }
+  .btn-ghost:hover { transform: translateY(-2px); border-color: rgba(240,207,156,0.5); color: var(--gold); }
+  .btn-ghost svg { width: 16px; height: 16px; }
+
+  /* ---------- main grid: links + contact card ---------- */
+  .f-main {
+    display: grid;
+    grid-template-columns: 1.9fr 1fr;
+    gap: 56px;
+    padding-top: 56px;
+  }
+  .f-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 32px;
+  }
+  .f-col h4 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 18px;
+  }
+  .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .f-col a {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-size: 13.5px; color: var(--muted);
+    transition: color 0.2s;
+  }
+  .f-col a .tick {
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.22s ease;
+  }
+  .f-col a:hover { color: var(--gold); }
+  .f-col a:hover .tick { width: 12px; }
+
+  /* ---------- contact / reviews side ---------- */
+  .f-side { display: flex; flex-direction: column; gap: 16px; }
+  .card {
+    border: 1px solid var(--forest-line);
+    background: rgba(250,246,236,0.045);
+    border-radius: 16px;
+    padding: 22px 22px 20px;
+  }
+  .card h4 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 16px;
+  }
+  .contact-list { display: flex; flex-direction: column; gap: 11px; }
+  .contact-list a, .contact-list span {
+    display: inline-flex; align-items: center; gap: 11px;
+    font-size: 13.5px; color: var(--muted);
+    transition: color 0.2s;
+  }
+  .contact-list a:hover { color: var(--gold); }
+  .contact-list .ic {
+    width: 30px; height: 30px; flex: none;
+    border-radius: 9px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(240,207,156,0.10);
+    color: var(--gold);
+  }
+  .contact-list .ic svg { width: 15px; height: 15px; }
+
+  .review-row { display: flex; gap: 12px; margin-top: 2px; }
+  .review {
+    flex: 1;
+    background: var(--paper);
+    border-radius: 13px;
+    padding: 13px 14px;
+    color: var(--ink);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .review:hover { transform: translateY(-3px); box-shadow: 0 16px 30px -16px rgba(0,0,0,0.55); }
+  .review .top { display: flex; align-items: center; gap: 7px; }
+  .review .plat { font-family: 'Geist Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-ink, #8a8170); }
+  .review .score { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 500; line-height: 1; margin: 6px 0 4px; }
+  .review .stars { display: flex; gap: 2px; }
+  .review .stars svg { width: 12px; height: 12px; }
+  .review .count { font-size: 11px; color: #8a8170; margin-top: 3px; }
+  .g-dot { width: 16px; height: 16px; border-radius: 50%; flex:none; display:inline-flex; align-items:center; justify-content:center; font-family:'Geist'; font-weight:600; font-size:11px; }
+
+  /* ---------- accreditation logos ---------- */
+  .f-accred {
+    margin-top: 44px;
+    padding-top: 30px;
+    border-top: 1px solid var(--forest-line);
+  }
+  .f-accred .lead {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted-dim);
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .f-accred .lead svg { width: 14px; height: 14px; color: var(--gold); }
+  .plates { display: flex; flex-wrap: wrap; gap: 16px; }
+  .plate { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+  .slot-wrap {
+    width: 150px; height: 80px;
+    background: var(--paper);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px 16px;
+    box-shadow: 0 12px 28px -18px rgba(0,0,0,0.55);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .plate:hover .slot-wrap { transform: translateY(-3px); box-shadow: 0 18px 34px -18px rgba(0,0,0,0.6); }
+  .slot-wrap image-slot { width: 118px; height: 56px; }
+  .plate .cap {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted-dim);
+  }
+
+  /* ---------- trust + utility strip ---------- */
+  .pay { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .pay .lead {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted-dim);
+  }
+  .f-strip {
+    margin-top: 44px;
+    padding-top: 26px;
+    border-top: 1px solid var(--forest-line);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px 48px;
+    align-items: center;
+  }
+  .accred { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .accred .lead {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted-dim);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .accred .lead svg { width: 13px; height: 13px; color: var(--gold); }
+  .chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 13px;
+    border: 1px solid var(--forest-line);
+    border-radius: 999px;
+    font-size: 11px; letter-spacing: 0.02em;
+    color: rgba(250,246,236,0.78);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .chip:hover { border-color: rgba(240,207,156,0.5); color: var(--gold); }
+  .chip b { font-weight: 500; }
+
+  .socials { display: flex; align-items: center; gap: 8px; justify-self: end; }
+  .soc {
+    width: 38px; height: 38px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 11px;
+    border: 1px solid var(--forest-line);
+    color: rgba(250,246,236,0.72);
+    transition: transform 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .soc svg { width: 17px; height: 17px; }
+  .soc:hover { transform: translateY(-2px); color: var(--forest-deep); background: var(--gold); border-color: var(--gold); }
+
+  /* ---------- payments + bottom ---------- */
+  .f-pay {
+    margin-top: 22px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .f-pay .lead {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted-dim);
+  }
+  .pay-marks { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .pmark {
+    height: 30px; min-width: 46px; padding: 0 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--paper); border-radius: 6px;
+    font-family: 'Geist'; font-weight: 600; font-size: 11px; letter-spacing: 0.03em;
+    color: var(--ink);
+  }
+  .pmark.mpesa { color: #fff; background: #43a047; }
+  .pmark .mc { display: flex; }
+  .pmark .mc i { width: 14px; height: 14px; border-radius: 50%; display: block; }
+  .pmark .mc i:nth-child(1) { background: #eb001b; }
+  .pmark .mc i:nth-child(2) { background: #f79e1b; margin-left: -6px; mix-blend-mode: multiply; }
+
+  .f-bottom {
+    margin-top: 34px;
+    padding-top: 22px;
+    border-top: 1px solid var(--forest-line);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 18px; flex-wrap: wrap;
+  }
+  .f-bottom .selectors { display: flex; gap: 8px; }
+  .selector {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 12px;
+    border: 1px solid var(--forest-line);
+    border-radius: 999px;
+    font-size: 11px; color: rgba(250,246,236,0.78);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .selector:hover { border-color: rgba(240,207,156,0.5); color: var(--gold); }
+  .selector .flag { width: 15px; height: 11px; border-radius: 2px; overflow: hidden; flex:none; }
+  .selector svg.chev { width: 11px; height: 11px; opacity: 0.5; }
+
+  .copy {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    font-size: 11.5px; color: var(--muted-dim);
+  }
+  .copy a { transition: color 0.2s; }
+  .copy a:hover { color: var(--gold); }
+  .copy .sep { opacity: 0.4; }
+
+  .totop {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--forest-line);
+    border-radius: 999px;
+    font-size: 11px; color: rgba(250,246,236,0.7);
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .totop:hover { border-color: rgba(240,207,156,0.5); color: var(--gold); transform: translateY(-2px); }
+  .totop svg { width: 13px; height: 13px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1020px) {
+    .f-cta { grid-template-columns: 1fr; gap: 36px; }
+    .f-main { grid-template-columns: 1fr; gap: 44px; }
+    .f-links { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 680px) {
+    .f-inner { padding: 60px 24px 30px; }
+    .f-links { grid-template-columns: repeat(2, 1fr); gap: 30px 20px; }
+    .f-strip { grid-template-columns: 1fr; }
+    .socials { justify-self: start; }
+    .review-row { flex-direction: column; }
+    .f-bottom { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-top">
+  <p class="lbl">Divine Travel Nest &nbsp;·&nbsp; <b>footer, refined</b> &nbsp;·&nbsp; scroll is unnecessary — it's right below</p>
+</div>
+
+<!-- ================================================================ FOOTER -->
+<footer data-screen-label="Footer">
+  <!-- giraffe-print texture: spots only (--ink), layered over the forest-green bg -->
+  <div class="absolute inset-0 z-0 pointer-events-none bg-repeat bg-[length:680px_auto] bg-[url('giraffe-pattern.svg')] opacity-[0.07] mix-blend-multiply" aria-hidden="true"></div>
+  <div class="f-inner">
+
+    <!-- CTA band -->
+    <div class="f-cta">
+      <div class="left">
+        <span class="eyebrow"><span class="dot"></span> Start your journey</span>
+        <h2>Let us walk this journey with you — into the wild, into <em>wonder</em>.</h2>
+      </div>
+      <div class="right">
+        <p>Your safari isn't just a vacation — it's a life story waiting to be written. Request a free, tailor-made quote and hear back from a real safari planner within hours.</p>
+        <div class="cta-actions">
+          <a href="#" class="btn btn-primary">Request a free quote <span class="arrow">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </span></a>
+          <a href="https://wa.me/254722595916" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"></path></svg>
+            WhatsApp us
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- main grid -->
+    <div class="f-main">
+      <div class="f-links">
+        <div class="f-col">
+          <h4>Tours &amp; Safaris</h4>
+          <ul>
+            <li><a href="#"><span class="tick"></span>Kenya Safaris</a></li>
+            <li><a href="#"><span class="tick"></span>Tanzania Safaris</a></li>
+            <li><a href="#"><span class="tick"></span>Kenya &amp; Tanzania</a></li>
+            <li><a href="#"><span class="tick"></span>Uganda Gorilla Trekking</a></li>
+            <li><a href="#"><span class="tick"></span>Great Migration</a></li>
+            <li><a href="#"><span class="tick"></span>Nairobi Day Tours</a></li>
+            <li><a href="#"><span class="tick"></span>All Safari Packages</a></li>
+          </ul>
+        </div>
+        <div class="f-col">
+          <h4>Discover Africa</h4>
+          <ul>
+            <li><a href="#"><span class="tick"></span>Family Safaris</a></li>
+            <li><a href="#"><span class="tick"></span>Honeymoon Safaris</a></li>
+            <li><a href="#"><span class="tick"></span>Photography Safaris</a></li>
+            <li><a href="#"><span class="tick"></span>Luxury Lodges &amp; Camps</a></li>
+            <li><a href="#"><span class="tick"></span>Beach &amp; Bush</a></li>
+            <li><a href="#"><span class="tick"></span>Zanzibar Holidays</a></li>
+          </ul>
+        </div>
+        <div class="f-col">
+          <h4>Plan Your Trip</h4>
+          <ul>
+            <li><a href="#"><span class="tick"></span>Safari Cost Estimator</a></li>
+            <li><a href="#"><span class="tick"></span>Packing Checklist</a></li>
+            <li><a href="#"><span class="tick"></span>Best Time to Visit</a></li>
+            <li><a href="#"><span class="tick"></span>Travel &amp; Visa Guide</a></li>
+            <li><a href="#"><span class="tick"></span>Safari with Kids</a></li>
+            <li><a href="#"><span class="tick"></span>FAQ</a></li>
+          </ul>
+        </div>
+        <div class="f-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#"><span class="tick"></span>About Us</a></li>
+            <li><a href="#"><span class="tick"></span>Why Divine</a></li>
+            <li><a href="#"><span class="tick"></span>Traveller Reviews</a></li>
+            <li><a href="#"><span class="tick"></span>Responsible Travel</a></li>
+            <li><a href="#"><span class="tick"></span>Booking Terms</a></li>
+            <li><a href="#"><span class="tick"></span>Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- side: contact + reviews -->
+      <div class="f-side">
+        <div class="card">
+          <h4>Talk to a planner</h4>
+          <div class="contact-list">
+            <a href="tel:+254722595916">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg></span>
+              +254 722 595 916
+            </a>
+            <a href="/cdn-cgi/l/email-protection#137a7d757c53777a657a7d7667617265767f7d76606760727572617a603d707c7e">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg></span>
+              <span class="__cf_email__" data-cfemail="147d7a727b54707d627d7a716066756271787a71676067757275667d673a777b79">[email&#160;protected]</span>
+            </a>
+            <span>
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+              Nairobi, Kenya · Mon–Sat
+            </span>
+          </div>
+        </div>
+
+        <div class="review-row">
+          <a class="review" href="https://share.google/hr0uDk89EOkgVPDGh" target="_blank" rel="noopener">
+            <div class="top">
+              <span class="g-dot"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06L5.84 9.9C6.71 7.31 9.14 5.38 12 5.38z"/></svg></span>
+              <span class="plat">Google Reviews</span>
+            </div>
+            <div class="score">4.9</div>
+            <div class="stars">
+              <svg viewBox="0 0 24 24" fill="#e9a527"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg viewBox="0 0 24 24" fill="#e9a527"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg viewBox="0 0 24 24" fill="#e9a527"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg viewBox="0 0 24 24" fill="#e9a527"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg viewBox="0 0 24 24" fill="#e9a527"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            </div>
+            <div class="count">Verified · 60+ reviews</div>
+          </a>
+          <a class="review" href="https://www.tripadvisor.com/Attraction_Review-g294207-d26155748-Reviews-Divine_Travel_Nest_Safaris-Nairobi.html" target="_blank" rel="noopener">
+            <div class="top">
+              <span class="g-dot" style="background:#00aa6c;"><svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><circle cx="7" cy="13" r="3"/><circle cx="17" cy="13" r="3"/><path d="M12 8c2.5 0 4.5-1.2 4.5-1.2S14.5 5 12 5 7.5 6.8 7.5 6.8 9.5 8 12 8z"/></svg></span>
+              <span class="plat">Tripadvisor</span>
+            </div>
+            <div class="score">5.0</div>
+            <div class="stars">
+              <svg viewBox="0 0 24 24" fill="#00aa6c"><circle cx="12" cy="12" r="11"/></svg>
+              <svg viewBox="0 0 24 24" fill="#00aa6c"><circle cx="12" cy="12" r="11"/></svg>
+              <svg viewBox="0 0 24 24" fill="#00aa6c"><circle cx="12" cy="12" r="11"/></svg>
+              <svg viewBox="0 0 24 24" fill="#00aa6c"><circle cx="12" cy="12" r="11"/></svg>
+              <svg viewBox="0 0 24 24" fill="#00aa6c"><circle cx="12" cy="12" r="11"/></svg>
+            </div>
+            <div class="count">Excellent · Travellers' Choice</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- accreditation / licensing logos -->
+    <div class="f-accred">
+      <span class="lead">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+        Officially licensed, bonded &amp; accredited
+      </span>
+      <div class="plates">
+        <div class="plate">
+          <div class="slot-wrap"><image-slot id="acc-kato" fit="contain" radius="6" placeholder="Drop KATO logo"></image-slot></div>
+          <span class="cap">KATO Bonded</span>
+        </div>
+        <div class="plate">
+          <div class="slot-wrap"><image-slot id="acc-tra" fit="contain" radius="6" placeholder="Drop TRA logo"></image-slot></div>
+          <span class="cap">TRA Licensed</span>
+        </div>
+        <div class="plate">
+          <div class="slot-wrap"><image-slot id="acc-ectk" fit="contain" radius="6" placeholder="Drop logo"></image-slot></div>
+          <span class="cap">Ecotourism Kenya</span>
+        </div>
+        <div class="plate">
+          <div class="slot-wrap"><image-slot id="acc-kws" fit="contain" radius="6" placeholder="Drop KWS logo"></image-slot></div>
+          <span class="cap">Kenya Wildlife Service</span>
+        </div>
+        <div class="plate">
+          <div class="slot-wrap"><image-slot id="acc-magical" fit="contain" radius="6" placeholder="Drop logo"></image-slot></div>
+          <span class="cap">Magical Kenya</span>
+        </div>
+        <div class="plate">
+          <div class="slot-wrap"><image-slot id="acc-iata" fit="contain" radius="6" placeholder="Drop logo"></image-slot></div>
+          <span class="cap">IATA Accredited</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- payments + social strip -->
+    <div class="f-strip">
+      <div class="pay">
+        <span class="lead">We accept</span>
+        <div class="pay-marks">
+          <span class="pmark">VISA</span>
+          <span class="pmark"><span class="mc"><i></i><i></i></span></span>
+          <span class="pmark">AMEX</span>
+          <span class="pmark mpesa">M-PESA</span>
+          <span class="pmark">Bank</span>
+          <span class="pmark">PayPal</span>
+        </div>
+      </div>
+      <div class="socials">
+        <a class="soc" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.02 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.69.24 2.69.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8v8.44C19.61 23.09 24 18.1 24 12.07z"/></svg></a>
+        <a class="soc" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.43-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.12 1.38C1.36 2.67.95 3.34.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.12.66.66 1.33 1.07 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.86 5.86 0 0 0 2.12-1.38 5.86 5.86 0 0 0 1.38-2.12c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.86 5.86 0 0 0-1.38-2.12A5.86 5.86 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-10.41a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></a>
+        <a class="soc" href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.47l8.6-9.83L0 1.15h7.59l5.24 6.93zm-1.29 19.49h2.04L6.49 3.24H4.3z"/></svg></a>
+        <a class="soc" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12z"/></svg></a>
+        <a class="soc" href="#" aria-label="Tripadvisor"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.3c-2.67 0-5.34.78-7.65 2.35H0l1.96 2.14a6 6 0 1 0 8.12 8.83L12 19.7l1.93-2.09a6 6 0 1 0 8.11-8.83L24 6.65h-4.35A13.6 13.6 0 0 0 12 4.3zM6 17.21a3.998 3.998 0 1 1 0-7.997 3.998 3.998 0 0 1 0 7.997zm12 0a3.998 3.998 0 1 1 0-7.997 3.998 3.998 0 0 1 0 7.997zM6 11.2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg></a>
+      </div>
+    </div>
+
+    <!-- bottom bar -->
+    <div class="f-bottom">
+      <div class="selectors">
+        <button class="selector" type="button">
+          <span class="flag"><svg viewBox="0 0 640 480" width="15" height="11"><path fill="#bd3d44" d="M0 0h640v480H0z"/><path fill="#fff" d="M0 55h640v55H0zm0 110h640v55H0zm0 110h640v55H0zm0 110h640v55H0z"/><path fill="#192f5d" d="M0 0h365v258H0z"/></svg></span>
+          USD
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+        <button class="selector" type="button">
+          <span class="flag"><svg viewBox="0 0 640 480" width="15" height="11"><path fill="#012169" d="M0 0h640v480H0z"/><path fill="#fff" d="m75 0 245 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0z"/><path fill="#c8102e" d="M424 281 640 440v40L369 281zM240 301l6 35L54 480H0zM640 0v3L391 191l249-188zM0 0l239 176h-60L0 42z"/><path fill="#fff" d="M241 0v480h160V0zM0 160v160h640V160z"/><path fill="#c8102e" d="M0 193v96h640v-96zM273 0v480h96V0z"/></svg></span>
+          English
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+      </div>
+
+      <div class="copy">
+        <span>© 2026 Divine Travel Nest Safaris</span>
+        <span class="sep">·</span>
+        <a href="#">Terms</a>
+        <span class="sep">·</span>
+        <a href="#">Privacy</a>
+        <span class="sep">·</span>
+        <a href="#">Booking Terms</a>
+      </div>
+
+      <a href="#top" class="totop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"></path></svg>
+        Back to top
+      </a>
+    </div>
+
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="image-slot.js"></script>
+</body>
+</html>

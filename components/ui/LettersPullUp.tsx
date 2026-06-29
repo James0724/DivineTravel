@@ -72,7 +72,11 @@ export function LettersPullUp({
           className={cn(className)}
           style={charStyle}
         >
-          {char === " " ? <span>&nbsp;</span> : char}
+          {char === " " ? (
+            <span className="hidden md:block">&nbsp;</span>
+          ) : (
+            char
+          )}
         </motion.span>
       ))}
     </span>

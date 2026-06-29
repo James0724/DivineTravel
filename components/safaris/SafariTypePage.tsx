@@ -1,6 +1,6 @@
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
-import PageHero from "@/components/ui/PageHero";
+import TitleHero from "@/components/ui/TitleHero";
 import WhyGrid from "@/components/ui/WhyGrid";
 import SectionFaq from "@/components/ui/SectionFaq";
 import CtaBand from "@/components/ui/CtaBand";
@@ -17,23 +17,12 @@ interface Props {
 export default function SafariTypePage({ config, safaris }: Props) {
   return (
     <>
-      <PageHero
-        image={config.heroImage}
-        imageAlt={config.heroImageAlt}
-        minHeight="min-h-[48vh]"
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Safari Types", href: "/safari-types" },
-          { label: config.label },
-        ]}
+      <TitleHero
         eyebrow="Safari Type"
-        title={
-          <>
-            {config.shortLabel}{" "}
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>Safari</em>.
-          </>
-        }
+        title={config.shortLabel}
+        accent="Safari"
         description={config.heroDescription}
+        backgroundImage="/patterns/sunset.svg"
       />
 
       {/* ── Intro / what is it + best for ─────────────────────────────────── */}
@@ -67,7 +56,10 @@ export default function SafariTypePage({ config, safaris }: Props) {
                 border: "1px solid rgba(31,29,24,0.14)",
               }}
             >
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-5" style={{ color: "var(--muted)" }}>
+              <div
+                className="font-mono text-[10px] uppercase tracking-[0.18em] mb-5"
+                style={{ color: "var(--muted)" }}
+              >
                 Best for
               </div>
               <ul>
@@ -76,11 +68,15 @@ export default function SafariTypePage({ config, safaris }: Props) {
                     key={point}
                     className="py-3 pl-6 relative text-[14px] leading-[1.5]"
                     style={{
-                      borderTop: i === 0 ? "none" : "1px solid rgba(31,29,24,0.1)",
+                      borderTop:
+                        i === 0 ? "none" : "1px solid rgba(31,29,24,0.1)",
                       color: "var(--ink)",
                     }}
                   >
-                    <span className="absolute left-0 top-3" style={{ color: "var(--clay)" }}>
+                    <span
+                      className="absolute left-0 top-3"
+                      style={{ color: "var(--clay)" }}
+                    >
                       ›
                     </span>
                     {point}
@@ -100,12 +96,18 @@ export default function SafariTypePage({ config, safaris }: Props) {
                 border: "1px dashed rgba(31,29,24,0.22)",
               }}
             >
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: "var(--clay)" }}>
+              <div
+                className="font-mono text-[10px] uppercase tracking-[0.18em] mb-4"
+                style={{ color: "var(--clay)" }}
+              >
                 Good to know
               </div>
               <ul className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {config.goodToKnow.map((tip) => (
-                  <li key={tip} className="text-[13px] leading-[1.6] text-bone-muted">
+                  <li
+                    key={tip}
+                    className="text-[13px] leading-[1.6] text-bone-muted"
+                  >
                     {tip}
                   </li>
                 ))}
@@ -140,17 +142,23 @@ export default function SafariTypePage({ config, safaris }: Props) {
                 className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
                 style={{ fontSize: "clamp(36px, 4.8vw, 64px)" }}
               >
-                Packages built this <em className="italic text-bone-clay">way</em>.
+                Packages built this{" "}
+                <em className="italic text-bone-clay">way</em>.
               </h2>
             </div>
-            <p className="text-sm leading-[1.65] text-bone-muted" style={{ maxWidth: "56ch" }}>
-              A starting point — every trip is tailored to your dates, budget and party size.
+            <p
+              className="text-sm leading-[1.65] text-bone-muted"
+              style={{ maxWidth: "56ch" }}
+            >
+              A starting point — every trip is tailored to your dates, budget
+              and party size.
             </p>
           </div>
 
           {safaris.length === 0 ? (
             <p className="text-sm text-bone-muted py-8">
-              No {config.label.toLowerCase()} packages published yet — tell us what you have in mind and we&apos;ll build one.
+              No {config.label.toLowerCase()} packages published yet — tell us
+              what you have in mind and we&apos;ll build one.
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-7">
@@ -161,7 +169,10 @@ export default function SafariTypePage({ config, safaris }: Props) {
           )}
 
           <div className="mt-14 text-center">
-            <Link href={`/safaris?safariType=${config.slug}`} className="btn-forest">
+            <Link
+              href={`/safaris?safariType=${config.slug}`}
+              className="btn-forest"
+            >
               View all {config.label.toLowerCase()} packages →
             </Link>
           </div>
@@ -181,11 +192,16 @@ export default function SafariTypePage({ config, safaris }: Props) {
                 className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4 mb-4"
                 style={{ fontSize: "clamp(32px, 4.2vw, 52px)" }}
               >
-                {config.shortLabel} pairs well <em className="italic text-bone-clay">with</em>.
+                {config.shortLabel} pairs well{" "}
+                <em className="italic text-bone-clay">with</em>.
               </h2>
-              <p className="text-sm leading-[1.65] text-bone-muted mb-12" style={{ maxWidth: "56ch" }}>
-                Most itineraries blend more than one activity or traveller type. Here are a few that
-                combine naturally with {config.shortLabel.toLowerCase()}.
+              <p
+                className="text-sm leading-[1.65] text-bone-muted mb-12"
+                style={{ maxWidth: "56ch" }}
+              >
+                Most itineraries blend more than one activity or traveller type.
+                Here are a few that combine naturally with{" "}
+                {config.shortLabel.toLowerCase()}.
               </p>
             </Reveal>
 
@@ -199,7 +215,10 @@ export default function SafariTypePage({ config, safaris }: Props) {
                       href={`/safari-types/${t.slug}`}
                       className="group flex flex-col h-full bg-bone-bg border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
                     >
-                      <div className="relative overflow-hidden flex-shrink-0" style={{ aspectRatio: "3/2" }}>
+                      <div
+                        className="relative overflow-hidden flex-shrink-0"
+                        style={{ aspectRatio: "3/2" }}
+                      >
                         <OptimizedImage
                           src={t.heroImage}
                           alt={t.heroImageAlt}
@@ -209,7 +228,12 @@ export default function SafariTypePage({ config, safaris }: Props) {
                         />
                         <div
                           className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.14em] px-2.5 py-1 text-white"
-                          style={{ background: t.group === "activity" ? "var(--clay, #9d4519)" : "var(--forest, #2a3a2a)" }}
+                          style={{
+                            background:
+                              t.group === "activity"
+                                ? "var(--clay, #9d4519)"
+                                : "var(--forest, #2a3a2a)",
+                          }}
                         >
                           {t.group === "activity" ? "Activity" : "Traveller"}
                         </div>

@@ -4,6 +4,7 @@ import {
   Geist_Mono,
   Cormorant_Garamond,
   Nunito,
+  Cinzel,
 } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { getLocale } from "next-intl/server";
@@ -42,6 +43,13 @@ const nunito = Nunito({
   variable: "--font-nunito",
   weight: ["300", "400", "600", "700"],
   style: ["normal", "italic"],
+  display: "swap",
+});
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
@@ -151,7 +159,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${geist.variable} ${geistMono.variable} ${cormorant.variable} ${nunito.variable}`}
+      className={`${geist.variable} ${geistMono.variable} ${cormorant.variable} ${nunito.variable} ${cinzel.variable}`}
       suppressHydrationWarning
     >
       <SpeedInsights />

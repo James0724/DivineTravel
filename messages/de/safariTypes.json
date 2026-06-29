@@ -54,6 +54,13 @@
     "textAfter": "?",
     "description": "Dieselben Parks und Lodges, abgestimmt auf Ihre Gruppe — solo, als Paar, mit der Familie oder vollständig privat."
   },
+  "themeGroup": {
+    "eyebrow": "Unsere Safari-Kollektionen",
+    "textBefore": "Oder starten Sie mit einer ",
+    "highlightedText": "Kollektion",
+    "textAfter": "",
+    "description": "Gorilla-Trekking, die Big Five, die Große Migration, Luxus- und Strand-und-Busch-Reisen — unsere meistgefragten Reisethemen, bereit, Ihre Reise darum zu planen."
+  },
   "combine": {
     "eyebrow": "Alles zusammenfügen",
     "headingBefore": "Ein paar Arten, wie sich diese ",

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import PageHero from "@/components/ui/PageHero";
+import TitleHero from "@/components/ui/TitleHero";
 import CtaBand from "@/components/ui/CtaBand";
 import { Stagger, RevealItem } from "@/components/ui/Reveal";
 import Reveal from "@/components/ui/Reveal";
@@ -32,7 +32,7 @@ export async function generateMetadata({
     title: t("meta.title"),
     description: t("meta.description"),
     keywords:
-      "safari types, types of safari, photographic safari, walking safari, water based safari, night safari, birding safari, family safari, solo safari, small group safari, honeymoon safari, private safari east africa",
+      "safari types, types of safari, photographic safari, walking safari, water based safari, night safari, birding safari, family safari, solo safari, small group safari, honeymoon safari, private safari, gorilla trekking safari, big five safari, great migration safari, luxury safari, beach and bush safari east africa",
     alternates: buildAlternates(locale, "/safari-types"),
     openGraph: {
       title: t("meta.ogTitle"),
@@ -139,7 +139,12 @@ function GroupSection({
 
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-7">
           {types.map((t, i) => (
-            <TypeCard key={t.slug} t={t} priority={i < 3} exploreLabel={exploreLabel} />
+            <TypeCard
+              key={t.slug}
+              t={t}
+              priority={i < 3}
+              exploreLabel={exploreLabel}
+            />
           ))}
         </Stagger>
       </div>
@@ -158,6 +163,7 @@ export default async function SafariTypesIndexPage() {
   const t = await getTranslations("safariTypes");
   const activityTypes = getSafariTypesByGroup("activity");
   const travellerTypes = getSafariTypesByGroup("traveller");
+  const themeTypes = getSafariTypesByGroup("theme");
   const combineItems = t.raw("combine.items") as string[];
   const exploreLabel = t("explore");
 
@@ -180,21 +186,14 @@ export default async function SafariTypesIndexPage() {
         }))}
       />
 
-      <PageHero
-        image="https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
-        imageAlt="Different styles of East Africa safari"
-        minHeight="min-h-[48vh]"
-        breadcrumbs={[{ label: t("breadcrumbHome"), href: "/" }, { label: t("breadcrumbCurrent") }]}
+      <TitleHero
         eyebrow={t("hero.eyebrow")}
-        title={
-          <>
-            {t("hero.titleBefore")}{" "}
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>{t("hero.titleEm")}</em>.
-          </>
-        }
+        title={t("hero.titleBefore")}
+        accent={t("hero.titleEm")}
         description={t("hero.description")}
+        backgroundImage="/patterns/sunset.svg"
       />
-      <CtaBand
+      {/* <CtaBand
         variant="large"
         buttonHref="/contact"
         heading={
@@ -206,7 +205,7 @@ export default async function SafariTypesIndexPage() {
         }
         description={t("cta.description")}
         buttonText={t("cta.buttonText")}
-      />
+      /> */}
 
       {/* ── Understanding safari types ──────────────────────────────────── */}
       <section className="bg-bone-paper" style={{ padding: "96px 0" }}>
@@ -315,6 +314,16 @@ export default async function SafariTypesIndexPage() {
         description={t("travellerGroup.description")}
         types={travellerTypes}
         bg="bg-bone-paper"
+        exploreLabel={exploreLabel}
+      />
+
+      <GroupSection
+        eyebrow={t("themeGroup.eyebrow")}
+        textBefore={t("themeGroup.textBefore")}
+        highlightedText={t("themeGroup.highlightedText")}
+        textAfter={t("themeGroup.textAfter")}
+        description={t("themeGroup.description")}
+        types={themeTypes}
         exploreLabel={exploreLabel}
       />
 

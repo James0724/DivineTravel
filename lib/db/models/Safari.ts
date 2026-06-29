@@ -27,6 +27,12 @@ export const SAFARI_TYPE_VALUES = [
   'small-group',
   'couples',
   'private',
+  // Theme types (Safari Collections)
+  'gorilla-trekking',
+  'big-five',
+  'great-migration',
+  'luxury',
+  'beach-and-bush',
 ] as const
 
 // ─── Sub-schemas ────────────────────────────────────────────────────────────

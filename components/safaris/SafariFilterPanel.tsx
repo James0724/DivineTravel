@@ -63,11 +63,21 @@ export const TRAVELLER_TYPES: { label: string; value: SafariStyle | "" }[] = [
   { label: "Private", value: "private" },
 ];
 
+export const THEME_TYPES: { label: string; value: SafariStyle | "" }[] = [
+  { label: "All collections", value: "" },
+  { label: "Gorilla Trekking", value: "gorilla-trekking" },
+  { label: "Big Five", value: "big-five" },
+  { label: "Great Migration", value: "great-migration" },
+  { label: "Luxury Safaris", value: "luxury" },
+  { label: "Beach & Bush", value: "beach-and-bush" },
+];
+
 // Combined list — used for label lookups (e.g. PkgCard badges) where the
-// activity/traveller split doesn't matter, just the value → label mapping.
+// activity/traveller/theme split doesn't matter, just the value → label mapping.
 export const SAFARI_TYPES: { label: string; value: SafariStyle | "" }[] = [
   ...ACTIVITY_TYPES.filter((t) => t.value),
   ...TRAVELLER_TYPES.filter((t) => t.value),
+  ...THEME_TYPES.filter((t) => t.value),
 ];
 
 export const DIFFICULTIES: { label: string; value: SafariDifficulty | "" }[] = [
@@ -373,6 +383,22 @@ export default function SafariFilterPanel({
     </FilterGroup>
   );
 
+  const themeBlock = (
+    <FilterGroup label="Safari collection">
+      <div className="flex flex-wrap gap-1.5">
+        {THEME_TYPES.map((t) => (
+          <Pill
+            key={t.value}
+            active={values.safariType === t.value}
+            onClick={() => onSafariTypeChange(t.value)}
+          >
+            {t.label}
+          </Pill>
+        ))}
+      </div>
+    </FilterGroup>
+  );
+
   const lengthBlock = (
     <FilterGroup label="Length">
       <div className="flex flex-wrap gap-1.5">
@@ -539,6 +565,7 @@ export default function SafariFilterPanel({
           {typeBlock}
           {activityBlock}
           {travellerBlock}
+          {themeBlock}
           {lengthBlock}
           {sortBlock}
           {moreFiltersToggle}

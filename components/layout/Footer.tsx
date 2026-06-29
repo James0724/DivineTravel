@@ -284,6 +284,15 @@ export default function Footer({ settings }: { settings: ContactSettings }) {
 
   return (
     <footer className="relative overflow-hidden bg-bone-forest text-bone-paper">
+      <div
+        className="pointer-events-none absolute inset-0 z-0 bg-no-repeat opacity-20"
+        style={{
+          backgroundImage: "url('/patterns/giraffe-pattern.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        aria-hidden="true"
+      />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#f0cf9c]/45 to-transparent" />
       <div
         className="pointer-events-none absolute left-1/2 top-[-12%] h-[60%] w-[70vw] -translate-x-1/2"

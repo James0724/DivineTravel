@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import PageHero from "@/components/ui/PageHero";
+import TitleHero from "@/components/ui/TitleHero";
 import CtaBand from "@/components/ui/CtaBand";
 import { Stagger, RevealItem } from "@/components/ui/Reveal";
 import Reveal from "@/components/ui/Reveal";
@@ -98,7 +98,10 @@ export default async function AccommodationsIndexPage() {
 
   const faqs = t.raw("faqs.items") as { q: string; a: string }[];
   const includes = t.raw("intro.includes") as string[];
-  const typeContent = t.raw("types") as Record<string, AccommodationTypeContent>;
+  const typeContent = t.raw("types") as Record<
+    string,
+    AccommodationTypeContent
+  >;
 
   return (
     <>
@@ -120,27 +123,14 @@ export default async function AccommodationsIndexPage() {
       />
       <FaqSchema items={faqs.map((f) => ({ question: f.q, answer: f.a }))} />
 
-      <PageHero
-        image="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1800&q=80"
-        imageAlt="Luxury safari lodge suite overlooking the savannah"
-        minHeight="min-h-[48vh]"
-        breadcrumbs={[
-          { label: t("breadcrumbHome"), href: "/" },
-          { label: t("breadcrumbCurrent") },
-        ]}
+      <TitleHero
         eyebrow={t("hero.eyebrow")}
-        title={
-          <>
-            {t("hero.titleMain")}{" "}
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>
-              {t("hero.titleEm")}
-            </em>
-            .
-          </>
-        }
+        title={t("hero.titleMain")}
+        accent={t("hero.titleEm")}
         description={t("hero.description")}
+        backgroundImage="/patterns/sunset.svg"
       />
-      <CtaBand
+      {/* <CtaBand
         variant="large"
         buttonHref="/contact"
         heading={
@@ -154,7 +144,7 @@ export default async function AccommodationsIndexPage() {
         }
         description={t("cta.description")}
         buttonText={t("cta.buttonText")}
-      />
+      /> */}
 
       {/* ── Understanding accommodation & the partnership model ─────────── */}
       <section className="bg-bone-paper" style={{ padding: "96px 0" }}>

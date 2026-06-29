@@ -56,6 +56,14 @@ const TRAVELLER_SAFARI_TYPES = [
   { value: 'private',     label: 'Private Safari' },
 ]
 
+const THEME_SAFARI_TYPES = [
+  { value: 'gorilla-trekking', label: 'Gorilla Trekking' },
+  { value: 'big-five',         label: 'Big Five' },
+  { value: 'great-migration',  label: 'Great Migration' },
+  { value: 'luxury',           label: 'Luxury Safaris' },
+  { value: 'beach-and-bush',   label: 'Beach & Bush' },
+]
+
 const DIFFICULTIES = [
   { value: 'easy',        label: 'Easy' },
   { value: 'moderate',    label: 'Moderate' },
@@ -529,7 +537,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const unknownCategories = watchedCategory.filter(
     (c) => !CATEGORIES.some((opt) => opt.value === c)
   )
-  const knownSafariTypeValues = [...ACTIVITY_SAFARI_TYPES, ...TRAVELLER_SAFARI_TYPES].map((t) => t.value)
+  const knownSafariTypeValues = [...ACTIVITY_SAFARI_TYPES, ...TRAVELLER_SAFARI_TYPES, ...THEME_SAFARI_TYPES].map((t) => t.value)
   const unknownSafariTypes = watchedSafariType.filter(
     (t) => !knownSafariTypeValues.includes(t)
   )
@@ -930,7 +938,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         <div className="flex flex-col gap-3">
           <div>
             <label className="text-sm font-medium text-bone-ink/80 font-sans">Safari Type <span className="text-bone-clay">*</span></label>
-            <p className="text-xs text-bone-ink/45 font-sans mt-0.5">Style of experience — a package can have more than one, from either group</p>
+            <p className="text-xs text-bone-ink/45 font-sans mt-0.5">Style of experience — a package can have more than one, from any group</p>
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -970,6 +978,29 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
                       active
                         ? 'bg-bone-forest text-white border-bone-forest'
                         : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-forest hover:text-bone-forest'
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-sans font-medium text-bone-ink/55 uppercase tracking-wide">Theme / Collection</span>
+            <div className="flex flex-wrap gap-2">
+              {THEME_SAFARI_TYPES.map((t) => {
+                const active = watchedSafariType.includes(t.value as never)
+                return (
+                  <button
+                    key={t.value}
+                    type="button"
+                    onClick={() => toggleSafariType(t.value)}
+                    className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${
+                      active
+                        ? 'bg-bone-ink text-white border-bone-ink'
+                        : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-ink hover:text-bone-ink'
                     }`}
                   >
                     {t.label}

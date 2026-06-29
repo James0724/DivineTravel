@@ -5,6 +5,8 @@
 // collections, accommodations/[type] lodges) fall back to <ComingSoonPage>
 // until that content is built out.
 
+import { SAFARI_TYPES } from "@/lib/data/safariTypes";
+
 export interface SitemapLink {
   title: string;
   href: string;
@@ -16,18 +18,27 @@ export interface SitemapCategory {
   links: SitemapLink[];
 }
 
-/* ── Safari collections & tour itineraries — rendered via the existing
-   /safaris/[slug] route, which falls back to ComingSoon for these slugs
-   when no matching package exists in the database ───────────────────── */
+/* ── Safari collections — kept only to seed SAFARI_COMING_SOON_SLUGS below,
+   so old/cached links to /safaris/[slug] still resolve via ComingSoon
+   instead of 404ing. The /sitemap page itself now lists every safari type
+   (see SAFARI_TYPE_LINKS), not just these 6 ─────────────────────────────── */
 
 export const SAFARI_COLLECTIONS: SitemapLink[] = [
-  { title: "Gorilla Trekking", href: "/safaris/gorilla-trekking" },
-  { title: "Big Five", href: "/safaris/big-five" },
-  { title: "Great Migration", href: "/safaris/great-migration" },
-  { title: "Luxury Safaris", href: "/safaris/luxury" },
-  { title: "Honeymoon Safaris", href: "/safaris/honeymoon" },
-  { title: "Beach & Bush", href: "/safaris/beach-and-bush" },
+  { title: "Gorilla Trekking", href: "/safari-types/gorilla-trekking" },
+  { title: "Big Five", href: "/safari-types/big-five" },
+  { title: "Great Migration", href: "/safari-types/great-migration" },
+  { title: "Luxury Safaris", href: "/safari-types/luxury" },
+  { title: "Honeymoon Safaris", href: "/safari-types/honeymoon" },
+  { title: "Beach & Bush", href: "/safari-types/beach-and-bush" },
 ];
+
+/* ── Every safari type — activity, traveller and theme — rendered via the
+   /safari-types/[slug] route (see lib/data/safariTypes.ts) ─────────────── */
+
+export const SAFARI_TYPE_LINKS: SitemapLink[] = SAFARI_TYPES.map((t) => ({
+  title: t.label,
+  href: `/safari-types/${t.slug}`,
+}));
 
 export const SAFARI_TOURS: SitemapLink[] = [
   { title: "7 Days Lakes and Plains Safari: Amboseli, Naivasha, Nakuru & Mara", href: "/safaris/7-days-lakes-and-plains-safari" },
@@ -391,7 +402,7 @@ export const SITEMAP_CATEGORIES: SitemapCategory[] = [
       { title: "Compare Destinations", href: "/compare-safari-destinations" },
     ],
   },
-  { id: "collections", heading: "Safari Collections", links: SAFARI_COLLECTIONS },
+  { id: "types", heading: "Safari Types", links: SAFARI_TYPE_LINKS },
   {
     id: "tools",
     heading: "Planning Tools",

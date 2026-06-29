@@ -37,10 +37,11 @@ const config: Config = {
         muted:          "rgba(23, 22, 18, 0.55)",
       },
       fontFamily: {
-        serif: ["'Cormorant Garamond'", "Georgia", "serif"],
-        sans:  ["'Nunito'", "system-ui", "sans-serif"],
-        mono:  ["'Geist Mono'", "monospace"],
-        body:  ["'Nunito'", "system-ui", "sans-serif"],
+        serif:   ["'Cormorant Garamond'", "Georgia", "serif"],
+        sans:    ["'Nunito'", "system-ui", "sans-serif"],
+        mono:    ["'Geist Mono'", "monospace"],
+        body:    ["'Nunito'", "system-ui", "sans-serif"],
+        display: ["var(--font-cinzel)", "'Cinzel'", "serif"],
       },
       fontSize: {
         "display-2xl": ["4.5rem",   { lineHeight: "1.0",  letterSpacing: "-0.025em" }],

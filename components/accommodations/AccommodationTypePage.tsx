@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import PageHero from "@/components/ui/PageHero";
+import TitleHero from "@/components/ui/TitleHero";
 import WhyGrid from "@/components/ui/WhyGrid";
 import SectionFaq from "@/components/ui/SectionFaq";
 import CtaBand from "@/components/ui/CtaBand";
@@ -22,28 +22,14 @@ export default async function AccommodationTypePage({
 
   return (
     <>
-      <PageHero
-        image={config.heroImage}
-        imageAlt={config.heroImageAlt}
-        minHeight="min-h-[48vh]"
-        breadcrumbs={[
-          { label: t("breadcrumbHome"), href: "/" },
-          { label: t("breadcrumbCurrent"), href: "/accommodations" },
-          { label: config.label },
-        ]}
+      <TitleHero
         eyebrow={t("typePage.hero.eyebrow")}
-        title={
-          <>
-            {config.shortLabel}{" "}
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>
-              {t("typePage.hero.titleSuffix")}
-            </em>
-            .
-          </>
-        }
+        title={config.shortLabel}
+        accent={t("typePage.hero.titleSuffix")}
         description={config.heroDescription}
+        backgroundImage="/patterns/sunset.svg"
       />
-      <CtaBand
+      {/* <CtaBand
         variant="large"
         buttonHref="/contact"
         heading={
@@ -57,7 +43,7 @@ export default async function AccommodationTypePage({
         }
         description={t("typePage.cta.description")}
         buttonText={t("typePage.cta.buttonText")}
-      />
+      /> */}
 
       {/* ── Intro ───────────────────────────────────────────────────────── */}
       <section className="bg-bone-bg" style={{ padding: "96px 0" }}>
