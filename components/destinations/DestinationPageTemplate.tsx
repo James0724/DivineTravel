@@ -17,44 +17,16 @@ import Price from "@/components/ui/Price";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { NAV_H } from "@/components/safaris/CountrySafariPage";
 import { cn } from "@/lib/utils";
+import TitleHero from "../ui/TitleHero";
+import { destinationKeys } from "@/hooks/useDestinations";
+import PkgCard from "../safaris/PkgCard";
+import Pagination from "@/components/ui/Pagination";
+import FeatureParkCarousel from "./FeatureParkCarousel";
+import { Safari, FeaturePark, CompactPark } from "@/types";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
-export interface FeaturePark {
-  id: string;
-  num: string;
-  name: string;
-  subtitle: string;
-  tag: string;
-  image: string;
-  desc: string;
-  highlights: string[];
-  bestFor: string;
-  flip: boolean;
-}
-
-export interface CompactPark {
-  id: string;
-  name: string;
-  subtitle: string;
-  tag: string;
-  image: string;
-  desc: string;
-  highlights: string[];
-  bestFor: string;
-}
-
-export interface SafariPkg {
-  slug?: string;
-  img: string;
-  tag: string;
-  name: string;
-  desc: string;
-  parks: string[];
-  /** Lowest per-person price in USD, or null/undefined when unpriced ("On request"). */
-  from: number | null;
-  days: string;
-}
+export type { FeaturePark, CompactPark };
 
 export interface FaqItem {
   q: string;
@@ -77,7 +49,7 @@ export interface DestinationPageData {
     imageAlt: string;
     /** e.g. 'kenya' — used for breadcrumb href + last crumb label */
     slug: string;
-    title: React.ReactNode;
+    title: string;
     description: string;
     stats: HeroStat[];
   };
@@ -111,7 +83,7 @@ export interface DestinationPageData {
     seasons: Season[];
   };
 
-  packages: SafariPkg[];
+  packages: Safari[];
   packagesHref: string;
   packagesHeader: {
     eyebrow: string;
@@ -152,7 +124,9 @@ export default function DestinationPageTemplate({
   const jumpLinks = useMemo(
     () => [
       { label: `Why ${countryLabel}`, href: `#${slug}-why` },
-      ...data.featureParks.map((p) => ({ label: p.name, href: `#${p.id}` })),
+      ...(data.featureParks.length
+        ? [{ label: "Top parks", href: `#${slug}-featured-parks` }]
+        : []),
       ...data.moreParks.map((p) => ({ label: p.name, href: `#${p.id}` })),
       { label: "How to choose", href: `#${slug}-choose` },
       { label: "Best time", href: `#${slug}-besttime` },
@@ -164,6 +138,22 @@ export default function DestinationPageTemplate({
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
+
+  const MORE_PARKS_PAGE_SIZE = 10;
+  const [morePage, setMorePage] = useState(1);
+  const moreParksTotalPages = Math.ceil(
+    data.moreParks.length / MORE_PARKS_PAGE_SIZE,
+  );
+  const visibleMoreParks = data.moreParks.slice(
+    (morePage - 1) * MORE_PARKS_PAGE_SIZE,
+    morePage * MORE_PARKS_PAGE_SIZE,
+  );
+  const handleMorePageChange = (p: number) => {
+    setMorePage(p);
+    document
+      .getElementById(`${slug}-more-parks`)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -212,18 +202,12 @@ export default function DestinationPageTemplate({
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
-      <PageHero
-        image={data.hero.image}
-        imageAlt={data.hero.imageAlt}
-        minHeight="min-h-[75vh]"
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Destinations", href: `/destinations/${slug}` },
-          { label: `${countryLabel} · Wildlife Parks` },
-        ]}
+
+      <TitleHero
+        eyebrow={countryLabel}
         title={data.hero.title}
         description={data.hero.description}
-        stats={data.hero.stats}
+        backgroundImage={data.hero.image}
       />
 
       {/* Mobile: sticky trigger bar (< lg) */}
@@ -241,94 +225,59 @@ export default function DestinationPageTemplate({
         </button>
       </div>
 
+      <section id={`${slug}-why`} className="container-site ">
+        <div className="items-center">
+          {/* Staggered image pair */}
+
+          {/* Text */}
+          <Reveal variant="fadeUp" delay={0.1}>
+            <div className="eyebrow mb-5">
+              <span className="dot" />
+              {data.why.eyebrow}
+            </div>
+            <h2
+              className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-bone-ink mb-5"
+              style={{ fontSize: "clamp(32px, 3.8vw, 54px)" }}
+            >
+              {data.why.heading}
+            </h2>
+            <p className="text-bone-ink/65 text-base leading-relaxed mb-7">
+              {data.why.description}
+            </p>
+            <ul className="space-y-4">
+              {data.why.reasons.map((r) => (
+                <li
+                  key={r.n}
+                  className="flex items-start gap-4 border-b border-[var(--line-soft)] pb-2"
+                >
+                  <span className="w-7 h-7 italic text-bone-clay font-serif flex items-center justify-center flex-shrink-0 mt-0.5">
+                    {r.n}
+                  </span>
+                  <span className="text-sm text-bone-ink/70 leading-relaxed">
+                    <strong className="text-bone-ink">{r.title}</strong>{" "}
+                    {r.desc}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── Main layout: desktop sidebar + content column ─────────────── */}
       <div className="container-site">
         <div className="lg:flex lg:gap-12 xl:gap-16 lg:items-start">
           {/* Desktop: sticky sidebar panel (lg+) */}
-          <aside
-            className="hidden lg:block flex-shrink-0 sticky pm-20 sm:my-28"
-            style={{ top: "90px", width: "280px" }}
-          >
-            <div
-              className="flex flex-col border rounded-sm overflow-y-auto"
-              style={{
-                background: "var(--paper)",
-                borderColor: "var(--line)",
-                maxHeight: "calc(100vh - 110px)",
-                scrollbarWidth: "thin",
-                scrollbarColor: "rgba(42,58,42,0.25) transparent",
-              }}
-            >
-              <div className="px-4 py-4">
-                <JumpNav label="Page Sections" links={jumpLinks} vertical />
-              </div>
-            </div>
-          </aside>
 
           {/* Content column */}
           <main className="flex-1 min-w-0 py-20 sm:py-28">
             {/* ── Why [Country] ───────────────────────────────────────── */}
-            <section id={`${slug}-why`} className=" bg-bone-bg">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-10 items-center">
-                {/* Staggered image pair */}
-                <Reveal variant="fadeUp">
-                  <div className="relative aspect-[4/5] rounded-sm overflow-hidden">
-                    <OptimizedImage
-                      src={data.why.images[1].src}
-                      alt={data.why.images[1].alt}
-                      fill
-                      sizes="(max-width: 640px) 50vw, 25vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  {/* <div className="relative aspect-[4/5] rounded-sm overflow-hidden mt-8">
-                      <Image
-                        src={data.why.images[1].src}
-                        alt={data.why.images[1].alt}
-                        fill
-                        sizes="(max-width: 640px) 50vw, 25vw"
-                        className="object-cover"
-                      />
-                    </div> */}
-                </Reveal>
-
-                {/* Text */}
-                <Reveal variant="fadeUp" delay={0.1}>
-                  <div className="eyebrow mb-5">
-                    <span className="dot" />
-                    {data.why.eyebrow}
-                  </div>
-                  <h2
-                    className="font-serif font-normal leading-[1.05] tracking-[-0.02em] text-bone-ink mb-5"
-                    style={{ fontSize: "clamp(32px, 3.8vw, 54px)" }}
-                  >
-                    {data.why.heading}
-                  </h2>
-                  <p className="text-bone-ink/65 text-base leading-relaxed mb-7">
-                    {data.why.description}
-                  </p>
-                  <ul className="space-y-4">
-                    {data.why.reasons.map((r) => (
-                      <li
-                        key={r.n}
-                        className="flex items-start gap-4 border-b border-[var(--line-soft)] pb-2"
-                      >
-                        <span className="w-7 h-7 italic text-bone-clay font-serif flex items-center justify-center flex-shrink-0 mt-0.5">
-                          {r.n}
-                        </span>
-                        <span className="text-sm text-bone-ink/70 leading-relaxed">
-                          <strong className="text-bone-ink">{r.title}</strong>{" "}
-                          {r.desc}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </Reveal>
-              </div>
-            </section>
 
             {/* ── Feature parks ───────────────────────────────────────── */}
-            <section className="py-20 sm:py-28 bg-bone-bg">
+            <section
+              id={`${slug}-featured-parks`}
+              className="py-20 sm:py-28 bg-bone-bg scroll-mt-[90px]"
+            >
               <Reveal>
                 <div className="section-hd">
                   <div>
@@ -352,78 +301,16 @@ export default function DestinationPageTemplate({
                 </div>
               </Reveal>
 
-              <div className=" space-y-20">
-                {data.featureParks.map((park, i) => {
-                  const flip = i % 2 !== 0;
-                  return (
-                    <article
-                      key={park.id}
-                      id={park.id}
-                      className="scroll-mt-[90px] grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center"
-                    >
-                      {/* Image — always first in DOM (mobile stays image→content);
-                            on lg odd parks: pushed right via order-last */}
-                      <div className={flip ? "md:order-last" : undefined}>
-                        <Reveal variant="fadeUp">
-                          <div className="relative aspect-[4/5] overflow-hidden group bg-[var(--bg-deep)]">
-                            <OptimizedImage
-                              src={park.image}
-                              alt={park.name}
-                              fill
-                              sizes="(max-width: 1024px) 100vw, 50vw"
-                              className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.04]"
-                            />
-                            <div className="absolute left-[22px] top-[22px] bg-bone-paper px-[16px] py-[10px] font-mono text-[10px] uppercase tracking-[0.18em] border border-bone-clay-soft">
-                              {park.num} ·{" "}
-                              <b className="font-medium text-bone-clay">
-                                {park.name}
-                              </b>
-                            </div>
-                          </div>
-                        </Reveal>
-                      </div>
-
-                      {/* Content — always second in DOM; on lg odd parks: sits in left column */}
-                      <Reveal variant="fadeUp" delay={0.1}>
-                        <div>
-                          <div className="text-xs font-mono uppercase tracking-[0.14em] text-bone-clay mb-3">
-                            {park.tag}
-                          </div>
-                          <h3 className="font-serif text-3xl sm:text-4xl font-normal leading-[1.1] text-bone-ink mb-4">
-                            {park.name}{" "}
-                            <em className="italic">{park.subtitle}</em>
-                          </h3>
-                          <p className="text-bone-ink/65 text-sm leading-relaxed mb-5">
-                            {park.desc}
-                          </p>
-                          <ul className="list-none mb-[26px]">
-                            {park.highlights.map((h) => (
-                              <li
-                                key={h}
-                                className="relative border-b border-[var(--line-soft)] py-[9px] pl-[22px] text-sm text-bone-ink/70 before:absolute before:left-[2px] before:content-['›'] before:text-bone-clay"
-                              >
-                                {h}
-                              </li>
-                            ))}
-                          </ul>
-                          <div className="inline-flex items-center gap-[10px] rounded-full border border-[var(--line)] bg-bone-paper px-[16px] py-[9px] text-[13px]">
-                            <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">
-                              Best for
-                            </span>
-                            <b className="font-serif text-[16px] font-medium italic text-bone-clay">
-                              {park.bestFor}
-                            </b>
-                          </div>
-                        </div>
-                      </Reveal>
-                    </article>
-                  );
-                })}
-              </div>
+              <Reveal variant="fadeUp" delay={0.1}>
+                <FeatureParkCarousel parks={data.featureParks} />
+              </Reveal>
             </section>
 
             {/* ── More parks ──────────────────────────────────────────── */}
-            <section className="py-20 sm:py-28 bg-bone-paper">
+            <section
+              id={`${slug}-more-parks`}
+              className="py-20 sm:py-28 bg-bone-paper scroll-mt-[90px]"
+            >
               <div className="container-site">
                 <Reveal>
                   <div className="section-hd">
@@ -446,15 +333,15 @@ export default function DestinationPageTemplate({
                 </Reveal>
 
                 <Stagger
-                  className={`grid gap-[28px] ${data.moreParksGridCols ?? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"}`}
+                  className={`grid gap-5 ${data.moreParksGridCols ?? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"}`}
                 >
-                  {data.moreParks.map((park) => (
-                    <RevealItem key={park.id} variant="scaleUp">
+                  {visibleMoreParks.map((park) => (
+                    <RevealItem key={park.id} variant="scaleUp" className="h-full">
                       <article
                         id={park.id}
-                        className="group flex scroll-mt-[90px] flex-col border border-[var(--line)] bg-[var(--bg)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--clay)]"
+                        className="group flex h-full scroll-mt-[90px] flex-col border border-[var(--line)] bg-[var(--bg)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--clay)]"
                       >
-                        <div className="relative aspect-[16/11] overflow-hidden">
+                        <div className="relative aspect-[4/3] overflow-hidden">
                           <OptimizedImage
                             src={park.image}
                             alt={park.name}
@@ -462,40 +349,57 @@ export default function DestinationPageTemplate({
                             className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
                           />
                         </div>
-                        <div className="flex flex-1 flex-col px-[24px] pt-[24px] pb-[26px]">
-                          <div className="mb-[10px] font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--clay)]">
-                            {park.tag}
-                          </div>
-                          <h3 className="mb-[10px] font-serif text-[28px] font-normal leading-[1.05] tracking-[-0.01em]">
+                        <div className="flex flex-1 flex-col px-5 pt-4 pb-5">
+                          {park.tag && (
+                            <div className="mb-2 font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--clay)]">
+                              {park.tag}
+                            </div>
+                          )}
+                          <h3 className="mb-2 font-serif text-xl font-normal leading-[1.1] tracking-[-0.01em]">
                             {park.name}{" "}
-                            <em className="italic text-[var(--clay)]">
-                              {park.subtitle}
-                            </em>
+                            {park.subtitle && (
+                              <em className="italic text-[var(--clay)]">
+                                {park.subtitle}
+                              </em>
+                            )}
                           </h3>
-                          <p className="mb-[16px] text-[14px] leading-[1.55] text-[var(--muted)]">
+                          <p className="mb-3 text-[13px] leading-relaxed text-[var(--muted)] line-clamp-3">
                             {park.desc}
                           </p>
-                          <ul className="mb-[18px] list-none">
-                            {park.highlights.map((h) => (
-                              <li
-                                key={h}
-                                className="relative py-[5px] pl-[16px] text-[13px] text-[var(--ink)] before:absolute before:left-[3px] before:font-bold before:text-[var(--clay)] before:content-['·']"
-                              >
-                                {h}
-                              </li>
-                            ))}
-                          </ul>
-                          <div className="mt-auto border-t border-[var(--line)] pt-[14px] font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)]">
-                            Best for ·{" "}
-                            <b className="font-medium text-[var(--forest)]">
-                              {park.bestFor}
-                            </b>
-                          </div>
+                          {park.highlights.length > 0 && (
+                            <ul className="mb-3 list-none">
+                              {park.highlights.slice(0, 3).map((h) => (
+                                <li
+                                  key={h}
+                                  className="relative py-[4px] pl-[16px] text-[12px] leading-snug text-[var(--ink)] before:absolute before:left-[3px] before:font-bold before:text-[var(--clay)] before:content-['·']"
+                                >
+                                  {h}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                          {park.bestFor && (
+                            <div className="mt-auto border-t border-[var(--line)] pt-3 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">
+                              Best for ·{" "}
+                              <b className="font-medium text-[var(--forest)]">
+                                {park.bestFor}
+                              </b>
+                            </div>
+                          )}
                         </div>
                       </article>
                     </RevealItem>
                   ))}
                 </Stagger>
+
+                <Pagination
+                  page={morePage}
+                  totalPages={moreParksTotalPages}
+                  total={data.moreParks.length}
+                  limit={MORE_PARKS_PAGE_SIZE}
+                  onPageChange={handleMorePageChange}
+                  itemLabel="park"
+                />
               </div>
             </section>
 
@@ -632,71 +536,31 @@ export default function DestinationPageTemplate({
                 </div>
               </Reveal>
 
-              <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data.packages.map((pkg) => (
-                  <RevealItem key={pkg.name}>
-                    <Link
-                      href={pkg.slug ? `/safaris/${pkg.slug}` : data.packagesHref}
-                      className="group flex flex-col bg-bone-paper border border-[rgba(23,22,18,0.09)] rounded-sm overflow-hidden hover:shadow-md transition-shadow h-full"
-                    >
-                      <div className="relative aspect-[16/10] overflow-hidden">
-                        <OptimizedImage
-                          src={pkg.img}
-                          alt={pkg.name}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                        />
-                        <div className="absolute top-3 left-3">
-                          <span className="text-[10px] font-mono uppercase tracking-[0.12em] bg-bone-clay text-bone-paper px-2 py-1 rounded">
-                            {pkg.tag}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-5 flex flex-col flex-1">
-                        <h3 className="font-serif text-xl leading-tight text-bone-ink mb-2 group-hover:text-bone-clay transition-colors">
-                          {pkg.name}
-                        </h3>
-                        <p className="text-xs text-bone-ink/60 leading-relaxed mb-3 flex-1">
-                          {pkg.desc}
-                        </p>
-                        <div className="flex flex-wrap gap-1.5 mb-4">
-                          {pkg.parks.map((p) => (
-                            <span
-                              key={p}
-                              className="text-[10px] font-sans bg-bone-bg border border-[rgba(23,22,18,0.12)] text-bone-muted px-2 py-0.5 rounded"
-                            >
-                              {p}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="flex items-center justify-between pt-3 border-t border-[rgba(23,22,18,0.08)]">
-                          <div>
-                            <span className="text-[10px] font-mono uppercase tracking-[0.1em] text-bone-muted">
-                              From{" "}
-                            </span>
-                            <span className="font-serif text-xl text-bone-ink">
-                              {pkg.from != null ? <Price amountUsd={pkg.from} /> : "On request"}
-                            </span>
-                          </div>
-                          <span className="text-xs text-bone-muted font-mono">
-                            {pkg.days}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  </RevealItem>
-                ))}
-              </Stagger>
+              {data?.packages && data.packages.length > 0 ? (
+                <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {data.packages.map((pkg, i) => (
+                    <RevealItem key={pkg.name}>
+                      <PkgCard key={String(pkg._id)} safari={pkg} index={i} />
+                    </RevealItem>
+                  ))}
+                </Stagger>
+              ) : (
+                <p className="text-sm text-bone-muted py-4">
+                  No packages are tagged yet — contact us for a personalised
+                  itinerary.
+                </p>
+              )}
 
-              <div className="mt-10 text-center">
-                <Link
-                  href={data.packagesHref}
-                  className="inline-flex items-center gap-2 px-6 py-3 border border-bone-ink/20 text-bone-ink rounded-full text-sm font-sans hover:bg-bone-paper hover:border-bone-clay hover:text-bone-clay transition-colors"
-                >
-                  {data.packagesLinkText}
-                </Link>
-              </div>
+              {data.packages.length > 4 && (
+                <div className="mt-10 text-center">
+                  <Link
+                    href={data.packagesHref}
+                    className="inline-flex items-center gap-2 px-6 py-3 border border-bone-ink/20 text-bone-ink rounded-full text-sm font-sans hover:bg-bone-paper hover:border-bone-clay hover:text-bone-clay transition-colors"
+                  >
+                    {data.packagesLinkText}
+                  </Link>
+                </div>
+              )}
             </section>
 
             {/* ── FAQ ─────────────────────────────────────────────────── */}

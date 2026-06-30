@@ -1,9 +1,57 @@
 import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
-import type { Safari, SafariFilters, PaginatedResponse } from "@/types";
+import type { Destination, Safari, SafariFilters, PaginatedResponse } from "@/types";
 
 const SELECT_FIELDS =
   "name slug tagline location duration pricing images coverImage category safariType difficulty featured active rating reviewCount minGroupSize maxGroupSize bestSeason";
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Generic qualifier words that don't show up in the (often combined,
+// free-text) Safari location strings — e.g. a destination named "Nairobi
+// National Park" needs to match a safari whose park field just says
+// "Nairobi National Park", but a destination named "Nairobi City" or "Lake
+// Nakuru National Park" needs to match safaris whose park/region instead say
+// things like "Lake Nakuru & Lake Naivasha" or "Aberdare, Lake Nakuru, Masai
+// Mara". Stripping these qualifiers down to the shared place name ("Nairobi",
+// "Lake Nakuru") lets either side of that gap match.
+const PLACE_QUALIFIER_SUFFIXES = [
+  /\s+marine\s+national\s+park$/i,
+  /\s+national\s+park$/i,
+  /\s+national\s+reserve$/i,
+  /\s+game\s+reserve$/i,
+  /\s+wildlife\s+sanctuary$/i,
+  /\s+conservancy$/i,
+  /\s+city$/i,
+  /\s+town$/i,
+];
+
+function coreLocationName(name: string): string {
+  let core = name.trim();
+  for (const suffix of PLACE_QUALIFIER_SUFFIXES) {
+    core = core.replace(suffix, "");
+  }
+  return core.trim();
+}
+
+/**
+ * Builds the `$or` branch that matches a place name (destination or filter
+ * value) against every shape a Safari's location can take — the single
+ * park/region strings, their `parks`/`regions` arrays, or a combined
+ * multi-park blob ("Aberdare, Lake Nakuru, Masai Mara"). Word-bounded so
+ * "Mara" can't accidentally match inside an unrelated longer word.
+ */
+function locationMatchOr(name: string): Record<string, unknown>[] {
+  const pattern = new RegExp(`\\b${escapeRegExp(coreLocationName(name))}\\b`, "i");
+  return [
+    { "location.park": pattern },
+    { "location.parks": pattern },
+    { "location.region": pattern },
+    { "location.regions": pattern },
+  ];
+}
 
 type SortQuery = { [key: string]: 1 | -1 };
 
@@ -104,46 +152,24 @@ export async function getCountryOrderedSafaris(
 }
 
 /**
- * Backs /api/safaris/signature — the homepage "signature packages" section,
- * which always wants exactly `featuredCount` featured + the rest regular,
- * each half balanced across countries on its own. Kept separate from
- * `getSafarisList`'s `balanced` mode (which round-robins a single pool and
- * doesn't guarantee any featured/regular split) rather than overloading it.
+ * Real Safari packages that actually visit a given destination — matched
+ * against location.park/parks/region/regions via `locationMatchOr`. No
+ * country-wide fallback: a destination page should only ever list packages
+ * that genuinely stop there, not "every safari in the country," even if
+ * that means showing none yet for an untagged park. Used by
+ * DestinationDetailPage to replace the old freeform itinerary blurbs with
+ * real, bookable packages.
  */
-export async function getSignaturePackages(
-  options: { limit?: number; featuredCount?: number } = {},
+export async function getSafarisForDestination(
+  destination: Pick<Destination, "name" | "location">,
+  options: { limit?: number } = {},
 ): Promise<Safari[]> {
-  await connectDB();
-  const { limit = 6, featuredCount = 2 } = options;
-  const regularCount = Math.max(limit - featuredCount, 0);
+  const { limit = 6 } = options;
 
-  const project = {
-    ...Object.fromEntries(SELECT_FIELDS.split(" ").map((f) => [f, 1])),
-    __countryRank: 1,
-  };
-
-  const [featuredCandidates, regularCandidates] = await Promise.all([
-    SafariModel.aggregate([
-      { $match: { active: true, featured: true } },
-      { $addFields: { __countryRank: COUNTRY_RANK_FIELD } },
-      { $sort: { __countryRank: 1, duration: 1, rating: -1, reviewCount: -1 } },
-      { $project: project },
-    ]),
-    SafariModel.aggregate([
-      { $match: { active: true, featured: { $ne: true } } },
-      { $addFields: { __countryRank: COUNTRY_RANK_FIELD } },
-      { $sort: { __countryRank: 1, duration: 1, rating: -1, reviewCount: -1 } },
-      { $project: project },
-    ]),
-  ]);
-
-  const combined = [
-    ...selectCountryBalanced(featuredCandidates, featuredCount),
-    ...selectCountryBalanced(regularCandidates, regularCount),
-  ];
-  for (const doc of combined) delete (doc as Record<string, unknown>).__countryRank;
-
-  return JSON.parse(JSON.stringify(combined));
+  return getCountryOrderedSafaris(
+    { active: true, $or: locationMatchOr(destination.name) },
+    { limit, select: SELECT_FIELDS },
+  );
 }
 
 /**
@@ -165,6 +191,7 @@ export async function getSafarisList(
     difficulty,
     featured,
     country,
+    destination,
     minDays,
     maxDays,
     sort = "rating",
@@ -180,14 +207,26 @@ export async function getSafarisList(
   if (category) query.category = category;
   if (safariType) query.safariType = safariType;
   if (difficulty) query.difficulty = difficulty;
+
+  // Both `country` and `destination` need their own `$or` branch — pushed
+  // into `$and` instead of assigning `query.$or` directly so the two filters
+  // compose correctly when both are active at once.
+  const andConditions: Record<string, unknown>[] = [];
   if (country === "cross") {
     query.$expr = { $gt: [{ $size: { $ifNull: ["$location.countries", []] } }, 1] };
   } else if (country) {
-    query.$or = [
-      { "location.country": { $regex: country, $options: "i" } },
-      { "location.countries": { $regex: country, $options: "i" } },
-    ];
+    andConditions.push({
+      $or: [
+        { "location.country": { $regex: country, $options: "i" } },
+        { "location.countries": { $regex: country, $options: "i" } },
+      ],
+    });
   }
+  if (destination) {
+    andConditions.push({ $or: locationMatchOr(destination) });
+  }
+  if (andConditions.length > 0) query.$and = andConditions;
+
   if (minDays || maxDays) {
     query.duration = {};
     if (minDays) (query.duration as Record<string, number>).$gte = minDays;

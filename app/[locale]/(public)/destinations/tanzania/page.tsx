@@ -3,8 +3,8 @@ import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
 import DestinationPageTemplate, {
   type DestinationPageData,
-  type SafariPkg,
 } from "@/components/destinations/DestinationPageTemplate";
+import { getCountryParksForListing } from "@/lib/data/destinations";
 import type { Safari } from "@/types";
 
 export const revalidate = 300;
@@ -32,35 +32,7 @@ export const metadata: Metadata = {
   },
 };
 
-function mapToSafariPkg(safari: Safari): SafariPkg {
-  const price =
-    safari.pricing?.budget?.pricePerPerson ??
-    safari.pricing?.midRange?.pricePerPerson ??
-    safari.pricing?.luxury?.pricePerPerson;
-  const tier = safari.pricing?.luxury
-    ? "Luxury"
-    : safari.pricing?.midRange
-      ? "Mid-range"
-      : "Budget";
-  return {
-    slug: safari.slug,
-    img:
-      safari.coverImage ||
-      "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
-    tag: `Tanzania · ${tier}`,
-    name: safari.name,
-    desc: safari.tagline ?? "",
-    parks: [safari.location?.park, safari.location?.region].filter(
-      Boolean,
-    ) as string[],
-    from: price ?? null,
-    days: safari.duration
-      ? `${safari.duration}D · ${safari.duration - 1}N`
-      : "",
-  };
-}
-
-async function getTanzaniaPackages(): Promise<SafariPkg[]> {
+async function getTanzaniaPackages(): Promise<Safari[]> {
   try {
     await connectDB();
     const safaris = await SafariModel.find({
@@ -76,16 +48,17 @@ async function getTanzaniaPackages(): Promise<SafariPkg[]> {
         "name slug tagline location duration pricing coverImage category featured active rating",
       )
       .lean();
-    return (JSON.parse(JSON.stringify(safaris)) as Safari[]).map(
-      mapToSafariPkg,
-    );
+    return JSON.parse(JSON.stringify(safaris)) as Safari[];
   } catch {
     return [];
   }
 }
 
 export default async function TanzaniaDestinationPage() {
-  const packages = await getTanzaniaPackages();
+  const [packages, { featureParks, moreParks }] = await Promise.all([
+    getTanzaniaPackages(),
+    getCountryParksForListing("Tanzania"),
+  ]);
 
   const data: DestinationPageData = {
     breadcrumbs: [
@@ -99,14 +72,7 @@ export default async function TanzaniaDestinationPage() {
         "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80",
       imageAlt: "Wildebeest grazing across the vast Serengeti plains, Tanzania",
       slug: "tanzania",
-      title: (
-        <>
-          Tanzania&apos;s wildlife
-          <br />
-          parks &amp;{" "}
-          <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>reserves</em>.
-        </>
-      ),
+      title: " Tanzania's wildlife parks & reserves ",
       description:
         "From the endless Serengeti plains and the ancient caldera of Ngorongoro to the elephant kingdom of Tarangire and the untamed southern wilderness — the definitive guide to Tanzania's greatest wildlife destinations.",
       stats: [
@@ -168,103 +134,7 @@ export default async function TanzaniaDestinationPage() {
       ],
     },
 
-    featureParks: [
-      {
-        id: "park-serengeti",
-        num: "01",
-        name: "Serengeti",
-        subtitle: "National Park",
-        tag: "Migration · Big cats",
-        image:
-          "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        desc: "Africa's most iconic savannah — the Serengeti is the world's greatest wildlife spectacle. Over 1.5 million wildebeest, 250,000 zebra and 470,000 gazelle move across its plains in a continuous, year-round cycle.",
-        highlights: [
-          "The Great Migration — present 10 months of the year",
-          "Largest lion population in Africa",
-          "Year-round cheetah and leopard sightings",
-          "Wildebeest calving in the south (January–March)",
-          "River crossings in the north (July–October)",
-        ],
-        bestFor: "The Migration & big cats",
-        flip: false,
-      },
-      {
-        id: "park-ngorongoro",
-        num: "02",
-        name: "Ngorongoro",
-        subtitle: "Conservation Area",
-        tag: "Big Five · Crater",
-        image:
-          "https://images.pexels.com/photos/25950570/pexels-photo-25950570.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        desc: "The world's largest intact, unflooded volcanic caldera — 260 sq km of self-contained ecosystem where you can reliably see all of the Big Five in a single day. The resident black rhino population is one of Africa's best-protected.",
-        highlights: [
-          "All Big Five in a single day — most reliable in Africa",
-          "Resident black rhino population",
-          "Large lion prides on the crater floor",
-          "Thousands of seasonal flamingos on Lake Magadi",
-          "Dramatic crater-rim lodge views",
-        ],
-        bestFor: "Big Five in a day",
-        flip: true,
-      },
-      {
-        id: "park-tarangire",
-        num: "03",
-        name: "Tarangire",
-        subtitle: "National Park",
-        tag: "Elephants · Baobabs",
-        image:
-          "https://res.cloudinary.com/dk2j3k15k/image/upload/v1780428716/web_images/safaripackages/pierre-lemos-dzn_w0vb-Kw-unsplash_kc90bw.jpg",
-        desc: "Africa's best dry-season elephant park — thousands of elephants converge on the Tarangire River from July to October, creating scenes of extraordinary density. The baobab-studded landscape is unlike anywhere else in Tanzania.",
-        highlights: [
-          "Largest elephant concentration in northern Tanzania (dry season)",
-          "Iconic baobab landscape",
-          "Tree-climbing lions",
-          "Excellent birdlife — 550+ species",
-          "Fewer crowds than the Serengeti",
-        ],
-        bestFor: "Elephants & dry-season drama",
-        flip: false,
-      },
-      {
-        id: "park-ruaha",
-        num: "04",
-        name: "Ruaha",
-        subtitle: "National Park",
-        tag: "Wilderness · Seclusion",
-        image:
-          "https://images.pexels.com/photos/3384447/pexels-photo-3384447.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        desc: "Tanzania's largest national park and one of Africa's last true wilderness areas. Ruaha is raw, wild and virtually uncrowded — lion prides here are among the largest in Africa, and wild dog sightings are among the best on the continent.",
-        highlights: [
-          "Tanzania's largest national park — vast and wild",
-          "Among Africa's best wild dog sightings",
-          "Huge lion prides (groups of 20+)",
-          "Large herds of elephant and buffalo",
-          "Virtually no vehicle congestion",
-        ],
-        bestFor: "True wilderness & exclusivity",
-        flip: true,
-      },
-      {
-        id: "park-selous",
-        num: "05",
-        name: "Selous / Nyerere",
-        subtitle: "National Park",
-        tag: "Boat safari · Wild dogs",
-        image:
-          "https://images.pexels.com/photos/6056088/pexels-photo-6056088.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        desc: "One of Africa's largest protected areas and a UNESCO World Heritage Site. The Rufiji River system creates a unique aquatic safari environment — boat safaris and walking safaris complement the classic game drive in a way found nowhere else in Tanzania.",
-        highlights: [
-          "Boat safaris on the Rufiji River",
-          "Walking safaris through true wilderness",
-          "Africa's largest wild dog population",
-          "Hippo pools, crocodiles & waterbirds",
-          "Remote, exclusive fly-in camps",
-        ],
-        bestFor: "Boat safaris & wild dogs",
-        flip: false,
-      },
-    ],
+    featureParks,
 
     featureParksHeader: {
       eyebrow: "Tanzania's headline parks",
@@ -272,70 +142,7 @@ export default async function TanzaniaDestinationPage() {
         "Tanzania's parks span two distinct circuits — the busy, spectacular north and the remote, wild south. This guide covers both so you can decide what fits your trip.",
     },
 
-    moreParks: [
-      {
-        id: "park-manyara",
-        name: "Lake Manyara",
-        subtitle: "National Park",
-        tag: "Tree lions · Flamingos",
-        image:
-          "https://images.pexels.com/photos/32416153/pexels-photo-32416153.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
-        desc: "A compact, diverse park famous for tree-climbing lions, large elephant herds and seasonal flamingos along its alkaline lake shore.",
-        highlights: [
-          "Tree-climbing lions",
-          "Large elephant herds",
-          "Seasonal flamingo flocks",
-        ],
-        bestFor: "Half-day add-on",
-      },
-      {
-        id: "park-kilimanjaro",
-        name: "Kilimanjaro",
-        subtitle: "National Park",
-        tag: "Trekking · UNESCO",
-        image:
-          "https://res.cloudinary.com/dk2j3k15k/image/upload/v1780428721/web_images/safaripackages/catherine-merlin-53EnB1fhcgs-unsplash_lga8xd.jpg",
-        desc: "Africa's highest peak and a UNESCO World Heritage Site — five ecological zones from cultivation to arctic summit. Multiple routes, 5–9 day climbs.",
-        highlights: [
-          "Africa's highest point (5,895m)",
-          "Five ecological zones",
-          "Multiple summit routes",
-        ],
-        bestFor: "Trekking & achievement",
-      },
-      {
-        id: "park-mahale",
-        name: "Mahale Mountains",
-        subtitle: "National Park",
-        tag: "Chimpanzees · Remote",
-        image:
-          "https://images.pexels.com/photos/12635318/pexels-photo-12635318.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
-        desc: "On the shores of Lake Tanganyika, Mahale is home to over 1,000 wild chimpanzees — the most accessible chimp tracking experience in Tanzania.",
-        highlights: [
-          "Best chimpanzee trekking in Tanzania",
-          "Lake Tanganyika beach camps",
-          "Fly-in access only",
-        ],
-        bestFor: "Chimp trekking & seclusion",
-      },
-      {
-        id: "park-zanzibar",
-        name: "Zanzibar",
-        subtitle: "Archipelago",
-        tag: "Beach · Culture",
-        image:
-          "https://images.pexels.com/photos/31848298/pexels-photo-31848298.jpeg?auto=compress&cs=tinysrgb&w=800&q=80",
-        desc: "The spice island — UNESCO Stone Town, pristine white-sand beaches and snorkelling on coral reefs make Zanzibar the perfect safari-and-beach extension.",
-        highlights: [
-          "Stone Town (UNESCO World Heritage)",
-          "Pristine beaches & snorkelling",
-          "Perfect safari extension",
-        ],
-        bestFor: "Post-safari beach stay",
-      },
-    ],
-
-    moreParksGridCols: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2",
+    moreParks,
 
     moreParksHeader: {
       eyebrow: "More of Tanzania",
@@ -400,38 +207,7 @@ export default async function TanzaniaDestinationPage() {
       ],
     },
 
-    packages:
-      packages.length > 0
-        ? packages
-        : [
-            {
-              img: "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
-              tag: "Tanzania · Mid-range",
-              name: "6-Day Northern Circuit Safari",
-              desc: "The classic Tanzania loop — Tarangire, Ngorongoro Crater and the central Serengeti.",
-              parks: ["Tarangire", "Ngorongoro", "Serengeti"],
-              from: null,
-              days: "6D · 5N",
-            },
-            {
-              img: "https://images.pexels.com/photos/25950570/pexels-photo-25950570.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
-              tag: "Tanzania · Luxury",
-              name: "Great Migration Safari",
-              desc: "Witness river crossings in the northern Serengeti — the greatest show on Earth.",
-              parks: ["Serengeti (North)", "Ngorongoro"],
-              from: null,
-              days: "8D · 7N",
-            },
-            {
-              img: "https://images.pexels.com/photos/31848298/pexels-photo-31848298.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
-              tag: "Tanzania · Beach & Safari",
-              name: "Safari & Zanzibar Combo",
-              desc: "Classic northern Tanzania safari followed by 3 days on Zanzibar's white sands.",
-              parks: ["Serengeti", "Ngorongoro", "Zanzibar"],
-              from: null,
-              days: "10D · 9N",
-            },
-          ],
+    packages,
     packagesHref: "/safaris?country=Tanzania",
     packagesLinkText: "Browse all Tanzania safari packages →",
     packagesHeader: {

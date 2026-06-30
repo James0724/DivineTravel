@@ -219,10 +219,10 @@
   },
   "signaturePackages": {
     "eyebrow": "Our Signature Safari Experiences",
-    "headingBefore": "Popular safari ",
-    "headingHighlight": "categories",
-    "headingAfter": "tuned",
-    "description": "Discover the wonders of Africa with Divine Travel Nest Safaris. Our popular safari tours offer unforgettable wildlife encounters, stunning landscapes, and authentic cultural experiences — whether you're seeking adventure or relaxation.",
+    "headingBefore": "Featured safari ",
+    "headingHighlight": "experiences",
+    "headingAfter": "hand-picked for you",
+    "description": "Discover the wonders of Africa with Divine Travel Nest Safaris. These are our team's featured safari tours — unforgettable wildlife encounters, stunning landscapes, and authentic cultural experiences, whether you're seeking adventure or relaxation.",
     "signatureBadge": "Signature",
     "fromLabel": "FROM",
     "onRequest": "On request",
@@ -230,17 +230,14 @@
     "ctaText": "Can't find what you're looking for? We craft fully bespoke itineraries around your dates, budget and dream destinations.",
     "ctaButton": "View all safari packages"
   },
-  "featuredSafaris": {
-    "eyebrow": "Signature Packages",
-    "headingBefore": "Popular safari ",
-    "headingHighlight": "Our best",
-    "headingAfter": "journeys",
-    "description": "Handpicked itineraries designed by our in-country team — each one refined through years of guiding guests across East Africa.",
-    "viewAllSafaris": "View all safaris",
-    "featuredBadge": "Featured",
-    "fromLabel": "from",
-    "quoteOnRequest": "Quote on request",
-    "daysLabel": "days"
+  "safariTypes": {
+    "eyebrow": "Safari Types",
+    "headingBefore": "Choose your safari, ",
+    "headingHighlight": "your way",
+    "headingAfter": "",
+    "description": "From classic game drives to gorilla trekking and honeymoon-ready itineraries — explore the safari styles we tailor every trip around.",
+    "viewAllTypes": "View all safari types",
+    "exploreLabel": "Explore"
   },
   "bestSellers": {
     "eyebrow": "Most Booked Tours",

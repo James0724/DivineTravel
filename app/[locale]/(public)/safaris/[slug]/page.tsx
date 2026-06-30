@@ -81,6 +81,49 @@ function ItineraryDayBlock({ day }: { day: Safari["itinerary"][number] }) {
   );
 }
 
+// Sibling to ItineraryDayBlock for `tripLength: "short"` safaris — a stop
+// has no day number, just an order and a free-text duration label.
+function ItineraryStopBlock({ stop }: { stop: Safari["itineraryStops"][number] }) {
+  return (
+    <div className="py-9 border-t border-[var(--line)] [&:last-child]:border-b grid grid-cols-1 xs:grid-cols-[56px_1fr] md:grid-cols-[120px_1fr] gap-2 xs:gap-[18px] md:gap-9">
+      <div>
+        <div className="font-serif italic text-[40px] leading-none text-[var(--clay)]">
+          {String(stop.order).padStart(2, "0")}
+        </div>
+        <span className="block font-mono text-[10px] text-[var(--muted)] tracking-[0.16em] uppercase mt-2">
+          {stop.durationLabel}
+        </span>
+      </div>
+
+      <div>
+        <h3 className="font-serif font-normal text-[26px] sm:text-[28px] tracking-[-0.01em] mb-3">
+          {stop.title}
+        </h3>
+
+        <p className="text-sm leading-[1.65] text-[var(--muted)] mb-3.5">
+          {stop.description}
+        </p>
+
+        {stop.activities?.length > 0 && (
+          <ul className="list-none p-0 mb-3.5">
+            {stop.activities.map((act, i) => (
+              <li
+                key={i}
+                className="relative pl-[18px] py-1 text-[14px] text-[var(--ink)]"
+              >
+                <span className="absolute left-1 text-[var(--clay)] font-bold">
+                  ·
+                </span>
+                {act}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export const revalidate = 3600;
 
 interface Props {
@@ -243,7 +286,11 @@ function PriceTiersBox({ safari }: { safari: Safari }) {
       })}
       <BookingButton
         safari={safari}
-        label={`Book this ${safari.duration} day${safari.duration !== 1 ? "s" : ""} safari`}
+        label={
+          safari.tripLength === "short"
+            ? `Book this ${safari.durationLabel || "trip"}`
+            : `Book this ${safari.duration} day${safari.duration !== 1 ? "s" : ""} safari`
+        }
         className="block mt-3.5 py-3 w-full text-center bg-[var(--forest)] text-[var(--paper)] text-[13px] rounded transition-opacity hover:opacity-90"
       />
     </>
@@ -288,7 +335,13 @@ export default async function SafariDetailPage({ params }: Props) {
   const related = await getRelatedSafaris(safari.slug, safari.location.country);
 
   const tripFacts: { label: string; value: string }[] = [
-    { label: "Duration", value: `${safari.duration} Days · ${nights} Nights` },
+    {
+      label: "Duration",
+      value:
+        safari.tripLength === "short"
+          ? safari.durationLabel || `${safari.duration} Days`
+          : `${safari.duration} Days · ${nights} Nights`,
+    },
     { label: "Country", value: countries.join(", ") },
     {
       label: "Park / Reserve",
@@ -375,12 +428,20 @@ export default async function SafariDetailPage({ params }: Props) {
                 <div className="mb-12 sm:mb-14">
                   <Eyebrow>The Itinerary</Eyebrow>
                   <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5">
-                    <span className="italic mr-2"> {safari.duration}</span>
-                    day{safari.duration !== 1 ? "s" : ""}.{" "}
-                    <em className="italic text-[var(--clay)]">
-                      {nights} night{nights !== 1 ? "s" : ""}
-                    </em>
-                    .
+                    {safari.tripLength === "short" ? (
+                      <em className="italic text-[var(--clay)]">
+                        {safari.durationLabel || `${safari.duration} days`}
+                      </em>
+                    ) : (
+                      <>
+                        <span className="italic mr-2"> {safari.duration}</span>
+                        day{safari.duration !== 1 ? "s" : ""}.{" "}
+                        <em className="italic text-[var(--clay)]">
+                          {nights} night{nights !== 1 ? "s" : ""}
+                        </em>
+                        .
+                      </>
+                    )}
                   </h2>
                   <p className="text-sm leading-[1.65] text-[var(--muted)] mt-4">
                     {safari.description}
@@ -388,8 +449,23 @@ export default async function SafariDetailPage({ params }: Props) {
                 </div>
               </Reveal>
 
-              {/* Day-by-day */}
-              {safari.itinerary?.length > 0 ? (
+              {/* Day-by-day, or hour/segment stops for short (sub-day) safaris */}
+              {safari.tripLength === "short" ? (
+                safari.itineraryStops?.length > 0 ? (
+                  <Stagger stagger={0.08}>
+                    {safari.itineraryStops.map((stop) => (
+                      <RevealItem key={stop.order}>
+                        <ItineraryStopBlock stop={stop} />
+                      </RevealItem>
+                    ))}
+                  </Stagger>
+                ) : (
+                  <p className="text-sm text-[var(--muted)] pt-5">
+                    Detailed stop-by-stop plan available on request — contact
+                    us to get your personalised itinerary.
+                  </p>
+                )
+              ) : safari.itinerary?.length > 0 ? (
                 <Stagger stagger={0.08}>
                   {safari.itinerary.map((day) => (
                     <RevealItem key={day.day}>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import TitleHero from "@/components/ui/TitleHero";
@@ -17,8 +16,8 @@ import {
   type SafariTypeConfig,
 } from "@/lib/data/safariTypes";
 import TwoQuestionsImage from "@/components/safari-types/TwoQuestionsImage";
+import SafariTypeCard from "@/components/safaris/SafariTypeCard";
 import { AnimatedHeading } from "@/components/ui/Heading";
-import SiteLink from "@/components/ui/SiteLink";
 import { buildAlternates } from "@/lib/seo/hreflang";
 
 export async function generateMetadata({
@@ -42,55 +41,6 @@ export async function generateMetadata({
   };
 }
 
-function TypeCard({
-  t,
-  priority,
-  exploreLabel,
-}: {
-  t: SafariTypeConfig;
-  priority?: boolean;
-  exploreLabel: string;
-}) {
-  return (
-    <RevealItem>
-      <Link
-        href={`/safari-types/${t.slug}`}
-        className="group flex flex-col h-full bg-bone-paper border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
-      >
-        <div
-          className="relative overflow-hidden flex-shrink-0"
-          style={{ aspectRatio: "3/2" }}
-        >
-          <OptimizedImage
-            src={t.heroImage}
-            alt={t.heroImageAlt}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-            priority={priority}
-          />
-        </div>
-        <div className="flex flex-col flex-1 p-6">
-          <h3 className="font-serif text-[20px] font-normal leading-[1.2] text-bone-ink mb-3 tracking-[-0.01em]">
-            {t.label}
-          </h3>
-          <p className="text-[13px] leading-[1.6] text-bone-muted mb-5 line-clamp-3">
-            {t.cardDescription}
-          </p>
-          <SiteLink
-            variant="ghost-mono"
-            size="md"
-            arrow
-            className="flex-shrink-0"
-          >
-            {exploreLabel}
-          </SiteLink>
-        </div>
-      </Link>
-    </RevealItem>
-  );
-}
-
 function GroupSection({
   eyebrow,
   textBefore,
@@ -110,6 +60,8 @@ function GroupSection({
   bg?: string;
   exploreLabel: string;
 }) {
+  if (types.length === 0) return null;
+
   return (
     <section className={bg ?? "bg-bone-bg"} style={{ padding: "96px 0" }}>
       <div className="container-site">
@@ -139,12 +91,13 @@ function GroupSection({
 
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-7">
           {types.map((t, i) => (
-            <TypeCard
-              key={t.slug}
-              t={t}
-              priority={i < 3}
-              exploreLabel={exploreLabel}
-            />
+            <RevealItem key={t.slug}>
+              <SafariTypeCard
+                type={t}
+                priority={i < 3}
+                exploreLabel={exploreLabel}
+              />
+            </RevealItem>
           ))}
         </Stagger>
       </div>
@@ -154,9 +107,9 @@ function GroupSection({
 
 const COMBOS = [
   { activity: "walking", traveller: "family" },
-  { activity: "photographic", traveller: "private" },
-  { activity: "conservation", traveller: "small-group" },
-  { activity: "wellness", traveller: "honeymoon" },
+  { activity: "wildlife-game-viewing", traveller: "family" },
+  { activity: "adventure", traveller: "budget-group" },
+  { activity: "cultural", traveller: "budget-group" },
 ];
 
 export default async function SafariTypesIndexPage() {
@@ -166,6 +119,14 @@ export default async function SafariTypesIndexPage() {
   const themeTypes = getSafariTypesByGroup("theme");
   const combineItems = t.raw("combine.items") as string[];
   const exploreLabel = t("explore");
+  const validCombos = COMBOS.map((combo, idx) => ({
+    idx,
+    a: getSafariType(combo.activity),
+    tt: getSafariType(combo.traveller),
+  })).filter(
+    (c): c is { idx: number; a: SafariTypeConfig; tt: SafariTypeConfig } =>
+      !!c.a && !!c.tt
+  );
 
   return (
     <>
@@ -328,6 +289,7 @@ export default async function SafariTypesIndexPage() {
       />
 
       {/* ── How they combine ────────────────────────────────────────────── */}
+      {validCombos.length > 0 && (
       <section className="bg-bone-bg" style={{ padding: "96px 0" }}>
         <div className="container-site">
           <div className="section-hd">
@@ -354,10 +316,7 @@ export default async function SafariTypesIndexPage() {
           </div>
 
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {COMBOS.map((combo, idx) => {
-              const a = getSafariType(combo.activity);
-              const tt = getSafariType(combo.traveller);
-              if (!a || !tt) return null;
+            {validCombos.map(({ idx, a, tt }) => {
               return (
                 <RevealItem key={`${a.slug}-${tt.slug}`}>
                   <div
@@ -394,6 +353,7 @@ export default async function SafariTypesIndexPage() {
           </Stagger>
         </div>
       </section>
+      )}
     </>
   );
 }

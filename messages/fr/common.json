@@ -43,17 +43,17 @@
         "label": "Safaris photographiques",
         "description": "Temps prolongé aux observations, guides formés à la photo"
       },
-      "family": {
-        "label": "Safaris en famille",
-        "description": "Adapté à tous les âges, lodges accueillant les enfants"
+      "wildlifeGameViewing": {
+        "label": "Safaris faune & vision animalière",
+        "description": "Safaris Big Five au Kenya, en Tanzanie, en Ouganda et au Rwanda"
       },
-      "honeymoon": {
-        "label": "Safaris lune de miel",
-        "description": "Véhicules privés et camps intimes pour deux"
+      "cultural": {
+        "label": "Safaris culturels",
+        "description": "Visites authentiques de villages et échanges"
       },
-      "solo": {
-        "label": "Safaris solo",
-        "description": "Rejoignez un petit groupe, ou partez en privé"
+      "adventure": {
+        "label": "Safaris d'aventure",
+        "description": "Montgolfière, équitation et vélo"
       },
       "all": {
         "label": "Tous les types de safaris",

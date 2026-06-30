@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose'
+import mongoose, { Schema, Document, Model } from "mongoose";
 
 // ─── Safari type (style of experience — distinct from `category`/theme) ────
 // Two dimensions, stored in one array: "activity" (how the safari is run)
@@ -7,33 +7,33 @@ import mongoose, { Schema, Document, Model } from 'mongoose'
 
 export const SAFARI_TYPE_VALUES = [
   // Activity types
-  'walking',
-  'game-drive',
-  'fly-in',
-  'mobile-camping',
-  'water-based',
-  'horseback',
-  'balloon',
-  'self-drive',
-  'photographic',
-  'night',
-  'birding',
-  'wellness',
-  'conservation',
+  "walking",
+  "game-drive",
+  "fly-in",
+  "mobile-camping",
+  "water-based",
+  "horseback",
+  "balloon",
+  "self-drive",
+  "photographic",
+  "night",
+  "birding",
+  "wellness",
+  "conservation",
   // Traveller types
-  'family',
-  'honeymoon',
-  'solo',
-  'small-group',
-  'couples',
-  'private',
+  "family",
+  "honeymoon",
+  "solo",
+  "small-group",
+  "couples",
+  "private",
   // Theme types (Safari Collections)
-  'gorilla-trekking',
-  'big-five',
-  'great-migration',
-  'luxury',
-  'beach-and-bush',
-] as const
+  "gorilla-trekking",
+  "big-five",
+  "great-migration",
+  "luxury",
+  "beach-and-bush",
+] as const;
 
 // ─── Sub-schemas ────────────────────────────────────────────────────────────
 
@@ -41,44 +41,45 @@ const SafariImageSchema = new Schema(
   {
     url: { type: String, required: true },
     publicId: { type: String, required: true },
-    alt: { type: String, default: '' },
+    alt: { type: String, default: "" },
     width: Number,
     height: Number,
   },
-  { _id: false }
-)
+  { _id: false },
+);
 
 const LocationSchema = new Schema(
   {
-    country:  { type: String, default: '' },
+    country: { type: String, default: "" },
     countries: [{ type: String }],
-    region:   { type: String, default: '' },
-    regions:  [{ type: String }],
-    park:     { type: String, default: '' },
-    parks:    [{ type: String }],
+    region: { type: String, default: "" },
+    regions: [{ type: String }],
+    park: { type: String, default: "" },
+    parks: [{ type: String }],
   },
-  { _id: false }
-)
+  { _id: false },
+);
 
 const HotelSchema = new Schema(
   {
-    name:   { type: String, required: true },
+    name: { type: String, required: true },
     rating: { type: Number, required: true, min: 1, max: 5 },
+    location: { type: LocationSchema, required: true },
   },
-  { _id: false }
-)
+  { _id: false },
+);
 
 const PricingTierSchema = new Schema(
   {
-    pricePerPerson:    { type: Number, required: true, min: 0 },
-    currency:          { type: String, default: 'USD' },
-    description:       { type: String, required: true },
-    includes:          [{ type: String }],
+    pricePerPerson: { type: Number, required: true, min: 0 },
+    currency: { type: String, default: "USD" },
+    description: { type: String, required: true },
+    includes: [{ type: String }],
     accommodationType: { type: String, required: true },
-    hotels:            [HotelSchema],
+    hotels: [HotelSchema],
   },
-  { _id: false }
-)
+  { _id: false },
+);
 
 const ItineraryDaySchema = new Schema(
   {
@@ -86,11 +87,24 @@ const ItineraryDaySchema = new Schema(
     title: { type: String, required: true },
     description: { type: String, required: true },
     meals: [{ type: String }],
-    accommodation: { type: String, default: '' },
+    accommodation: { type: String, default: "" },
     activities: [{ type: String }],
   },
-  { _id: false }
-)
+  { _id: false },
+);
+
+// Sub-day itinerary entry for `tripLength: "short"` safaris — no day number,
+// just an order and a free-text duration label ("9:00 - 11:00", "2 hrs").
+const ItineraryStopSchema = new Schema(
+  {
+    order: { type: Number, required: true },
+    title: { type: String, required: true },
+    durationLabel: { type: String, required: true },
+    description: { type: String, required: true },
+    activities: [{ type: String }],
+  },
+  { _id: false },
+);
 
 const SeoSchema = new Schema(
   {
@@ -98,67 +112,76 @@ const SeoSchema = new Schema(
     metaDescription: String,
     keywords: [String],
   },
-  { _id: false }
-)
+  { _id: false },
+);
 
 // ─── Main Schema ─────────────────────────────────────────────────────────────
 
 export interface ISafari extends Document {
-  name: string
-  slug: string
-  tagline: string
-  description: string
+  name: string;
+  slug: string;
+  tagline: string;
+  description: string;
   location: {
-    country: string
-    countries: string[]
-    region: string
-    regions: string[]
-    park: string
-    parks: string[]
-  }
-  duration: number
-  highlights: string[]
-  included: string[]
-  excluded: string[]
+    country: string;
+    countries: string[];
+    region: string;
+    regions: string[];
+    park: string;
+    parks: string[];
+  };
+  duration: number;
+  durationLabel?: string;
+  tripLength: "multi-day" | "short";
+  highlights: string[];
+  included: string[];
+  excluded: string[];
   itinerary: {
-    day: number
-    title: string
-    description: string
-    meals: string[]
-    accommodation: string
-    activities: string[]
-  }[]
+    day: number;
+    title: string;
+    description: string;
+    meals: string[];
+    accommodation: string;
+    activities: string[];
+  }[];
+  itineraryStops: {
+    order: number;
+    title: string;
+    durationLabel: string;
+    description: string;
+    activities: string[];
+  }[];
   pricing: {
-    budget: typeof PricingTierSchema
-    midRange: typeof PricingTierSchema
-    luxury: typeof PricingTierSchema
-  }
-  images: { url: string; publicId: string; alt: string }[]
-  coverImage: string
-  coverImagePublicId?: string
-  category: string[]
-  safariType: string[]
-  difficulty: string
-  maxGroupSize: number
-  minGroupSize: number
-  minAge: number
-  bestSeason: string[]
-  featured: boolean
-  active: boolean
-  rating: number
-  reviewCount: number
-  seo: { metaTitle?: string; metaDescription?: string; keywords?: string[] }
-  createdAt: Date
-  updatedAt: Date
+    budget: typeof PricingTierSchema;
+    midRange: typeof PricingTierSchema;
+    luxury: typeof PricingTierSchema;
+  };
+  images: { url: string; publicId: string; alt: string }[];
+  coverImage: string;
+  coverImagePublicId?: string;
+  category: string[];
+  safariType: string[];
+  difficulty: string;
+  maxGroupSize: number;
+  minGroupSize: number;
+  minAge: number;
+  bestSeason: string[];
+  featured: boolean;
+  active: boolean;
+  rating: number;
+  reviewCount: number;
+  seo: { metaTitle?: string; metaDescription?: string; keywords?: string[] };
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const SafariSchema = new Schema<ISafari>(
   {
     name: {
       type: String,
-      required: [true, 'Safari name is required'],
+      required: [true, "Safari name is required"],
       trim: true,
-      maxlength: [120, 'Name cannot exceed 120 characters'],
+      maxlength: [120, "Name cannot exceed 120 characters"],
     },
     slug: {
       type: String,
@@ -170,35 +193,50 @@ const SafariSchema = new Schema<ISafari>(
     },
     tagline: {
       type: String,
-      required: [true, 'Tagline is required'],
-      maxlength: [200, 'Tagline cannot exceed 200 characters'],
+      required: [true, "Tagline is required"],
+      maxlength: [200, "Tagline cannot exceed 200 characters"],
     },
     description: {
       type: String,
-      required: [true, 'Description is required'],
+      required: [true, "Description is required"],
     },
     location: { type: LocationSchema, required: true },
     duration: {
       type: Number,
       required: true,
-      min: [1, 'Duration must be at least 1 day'],
+      // Fractional days allow "short" (sub-day) safaris — e.g. 0.25 for a 6-hour tour.
+      min: [0.1, "Duration must be at least 0.1 days"],
+    },
+    durationLabel: { type: String, default: "" },
+    tripLength: {
+      type: String,
+      enum: ["multi-day", "short"],
+      default: "multi-day",
     },
     highlights: [{ type: String }],
     included: [{ type: String }],
     excluded: [{ type: String }],
     itinerary: [ItineraryDaySchema],
+    itineraryStops: [ItineraryStopSchema],
     pricing: {
       budget: { type: PricingTierSchema, required: true },
       midRange: { type: PricingTierSchema, required: true },
       luxury: { type: PricingTierSchema, required: true },
     },
     images: [SafariImageSchema],
-    coverImage:          { type: String, default: '' },
-    coverImagePublicId:  { type: String, default: '' },
+    coverImage: { type: String, default: "" },
+    coverImagePublicId: { type: String, default: "" },
     category: [
       {
         type: String,
-        enum: ['wildlife', 'adventure', 'cultural', 'beach', 'mountain', 'gorilla'],
+        enum: [
+          "wildlife",
+          "adventure",
+          "cultural",
+          "beach",
+          "mountain",
+          "gorilla",
+        ],
       },
     ],
     safariType: [
@@ -209,8 +247,8 @@ const SafariSchema = new Schema<ISafari>(
     ],
     difficulty: {
       type: String,
-      enum: ['easy', 'moderate', 'challenging'],
-      default: 'moderate',
+      enum: ["easy", "moderate", "challenging"],
+      default: "moderate",
     },
     maxGroupSize: { type: Number, default: 12 },
     minGroupSize: { type: Number, default: 1 },
@@ -226,35 +264,43 @@ const SafariSchema = new Schema<ISafari>(
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
-)
+  },
+);
 
 // ─── Indexes for performance ──────────────────────────────────────────────
 
-SafariSchema.index({ active: 1, featured: -1, rating: -1 })
-SafariSchema.index({ 'location.country': 1 })
-SafariSchema.index({ 'location.countries': 1 })
-SafariSchema.index({ category: 1 })
-SafariSchema.index({ safariType: 1 })
-SafariSchema.index({ 'pricing.budget.pricePerPerson': 1 })
-SafariSchema.index({ createdAt: -1 })
+SafariSchema.index({ active: 1, featured: -1, rating: -1 });
+SafariSchema.index({ "location.country": 1 });
+SafariSchema.index({ "location.countries": 1 });
+SafariSchema.index({ category: 1 });
+SafariSchema.index({ safariType: 1 });
+SafariSchema.index({ "pricing.budget.pricePerPerson": 1 });
+SafariSchema.index({ createdAt: -1 });
 SafariSchema.index({
-  name: 'text',
-  description: 'text',
-  'location.park': 'text',
-  tagline: 'text',
-})
+  name: "text",
+  description: "text",
+  "location.park": "text",
+  tagline: "text",
+});
 
 // ─── Virtual ─────────────────────────────────────────────────────────────────
 
-SafariSchema.virtual('lowestPrice').get(function (this: ISafari) {
-  type P = { budget: { pricePerPerson: number }; midRange: { pricePerPerson: number }; luxury: { pricePerPerson: number } }
+SafariSchema.virtual("lowestPrice").get(function (this: ISafari) {
+  type P = {
+    budget: { pricePerPerson: number };
+    midRange: { pricePerPerson: number };
+    luxury: { pricePerPerson: number };
+  };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const p = (this.pricing as unknown) as P
-  return Math.min(p.budget.pricePerPerson, p.midRange.pricePerPerson, p.luxury.pricePerPerson)
-})
+  const p = this.pricing as unknown as P;
+  return Math.min(
+    p.budget.pricePerPerson,
+    p.midRange.pricePerPerson,
+    p.luxury.pricePerPerson,
+  );
+});
 
 const SafariModel: Model<ISafari> =
-  mongoose.models.Safari || mongoose.model<ISafari>('Safari', SafariSchema)
+  mongoose.models.Safari || mongoose.model<ISafari>("Safari", SafariSchema);
 
-export default SafariModel
+export default SafariModel;

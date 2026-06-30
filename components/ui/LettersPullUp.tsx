@@ -18,11 +18,6 @@ interface LettersPullUpProps {
   justify?: "center" | "start" | "end";
 }
 
-/**
- * Reveals text character-by-character with a pull-up (y: 10→0) animation.
- * Adapted from ui.indie-starter.dev — extended with initialDelay, charStyle,
- * and justify so it can be used for multi-line hero headings.
- */
 export function LettersPullUp({
   text,
   className = "",
@@ -31,7 +26,8 @@ export function LettersPullUp({
   charDelay = 0.04,
   justify = "start",
 }: LettersPullUpProps) {
-  const chars = text.split("");
+  // Split text into words first
+  const words = text.split(" ");
 
   const pullupVariant = {
     initial: { y: 12, opacity: 0 },
@@ -55,29 +51,41 @@ export function LettersPullUp({
     end: "justify-end",
   };
 
+  // Keep a global character index tracker to maintain proper staggered delay timing
+  let charIndexCounter = 0;
+
   return (
     <span
       ref={ref}
-      className={cn("flex flex-wrap items-baseline", justifyClass[justify])}
+      className={cn(
+        "flex flex-wrap items-baseline gap-x-[0.25em]",
+        justifyClass[justify],
+      )}
       aria-label={text}
     >
-      {chars.map((char, i) => (
-        <motion.span
-          key={i}
-          aria-hidden="true"
-          variants={pullupVariant}
-          initial="initial"
-          animate={isInView ? "animate" : "initial"}
-          custom={i}
-          className={cn(className)}
-          style={charStyle}
-        >
-          {char === " " ? (
-            <span className="hidden md:block">&nbsp;</span>
-          ) : (
-            char
-          )}
-        </motion.span>
+      {words.map((word, wordIndex) => (
+        /* The inline-block and whitespace-nowrap wrappers keep words whole */
+        <span key={wordIndex} className="inline-block whitespace-nowrap">
+          {word.split("").map((char) => {
+            const currentIdx = charIndexCounter;
+            charIndexCounter++; // increment for the next letter
+
+            return (
+              <motion.span
+                key={currentIdx}
+                aria-hidden="true"
+                variants={pullupVariant}
+                initial="initial"
+                animate={isInView ? "animate" : "initial"}
+                custom={currentIdx}
+                className={cn("inline-block", className)}
+                style={charStyle}
+              >
+                {char}
+              </motion.span>
+            );
+          })}
+        </span>
       ))}
     </span>
   );

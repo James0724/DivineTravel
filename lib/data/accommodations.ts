@@ -5,6 +5,10 @@ import type { Accommodation, AccommodationFilters, AccommodationType, PaginatedR
 const SELECT_FIELDS =
   "name slug type location description highlights amenities coverImage images websiteUrl priceTier featured active createdAt";
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 /**
  * Shared accommodation-listing query, used by /api/accommodations (admin +
  * public list) and directly by server components.
@@ -60,6 +64,52 @@ export async function getAccommodationsList(
       hasPrev: page > 1,
     },
   };
+}
+
+/**
+ * Active properties in the same area as a destination — tried in order of
+ * precision: park match (e.g. "Maasai Mara National Reserve") first, then
+ * region match (e.g. "Rift Valley"), falling back to a country-wide match
+ * if nothing more specific is tagged yet. `park` is optional on the
+ * accommodation record, so it's skipped automatically when unset rather
+ * than excluding the property. Used for the accommodation carousel on the
+ * destination detail page.
+ */
+export async function getAccommodationsByLocation(
+  country: string,
+  region?: string,
+  opts: { limit?: number; park?: string } = {},
+): Promise<Accommodation[]> {
+  await connectDB();
+  const { limit = 12, park } = opts;
+
+  const countryQuery = {
+    active: true,
+    "location.country": new RegExp(`^${escapeRegExp(country)}$`, "i"),
+  };
+
+  const run = (extra: Record<string, unknown>) =>
+    AccommodationModel.find({ ...countryQuery, ...extra })
+      .sort({ featured: -1, createdAt: -1 })
+      .limit(limit)
+      .select(SELECT_FIELDS)
+      .lean();
+
+  let properties: Awaited<ReturnType<typeof run>> = [];
+
+  if (park) {
+    properties = await run({ "location.park": new RegExp(escapeRegExp(park), "i") });
+  }
+
+  if (properties.length === 0 && region) {
+    properties = await run({ "location.region": new RegExp(escapeRegExp(region), "i") });
+  }
+
+  if (properties.length === 0) {
+    properties = await run({});
+  }
+
+  return JSON.parse(JSON.stringify(properties));
 }
 
 /**

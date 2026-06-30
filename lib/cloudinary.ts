@@ -17,12 +17,28 @@ export const CLOUDINARY_FOLDERS = {
   team:           'web_images/team',
   misc:           'web_images/misc',
   accommodations: 'web_images/accommodations',
+  destinations:   'web_images/destinations',
   // Legacy (kept for backward compatibility)
   safaris:     (slug: string) => `divine-travel-nest-safaris/safaris/${slug}`,
   testimonials:'divine-travel-nest-safaris/testimonials',
 } as const
 
-export type ImageUsage = 'safari-cover' | 'safari-gallery' | 'blog-cover' | 'portfolio' | 'team' | 'misc' | 'accommodation-cover' | 'accommodation-gallery'
+// Single source of truth for valid usage values — the Image model's Mongoose
+// enum imports this array directly so the two can't drift out of sync again.
+export const IMAGE_USAGES = [
+  'safari-cover',
+  'safari-gallery',
+  'blog-cover',
+  'portfolio',
+  'team',
+  'misc',
+  'accommodation-cover',
+  'accommodation-gallery',
+  'destination-cover',
+  'destination-gallery',
+] as const
+
+export type ImageUsage = (typeof IMAGE_USAGES)[number]
 
 export function usageToFolder(usage: ImageUsage): string {
   switch (usage) {
@@ -38,6 +54,9 @@ export function usageToFolder(usage: ImageUsage): string {
     case 'accommodation-cover':
     case 'accommodation-gallery':
       return CLOUDINARY_FOLDERS.accommodations
+    case 'destination-cover':
+    case 'destination-gallery':
+      return CLOUDINARY_FOLDERS.destinations
     default:
       return CLOUDINARY_FOLDERS.misc
   }

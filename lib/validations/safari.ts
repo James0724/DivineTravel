@@ -1,8 +1,21 @@
 import { z } from 'zod'
 
+// Lenient — a hotel sits at one place, so unlike the safari's own LocationSchema
+// below, none of these are required; they only matter once destination/hotel
+// matching is built, so an empty location must still pass validation.
+const HotelLocationSchema = z.object({
+  country: z.string().optional().default(''),
+  countries: z.array(z.string()).optional().default([]),
+  region: z.string().optional().default(''),
+  regions: z.array(z.string()).optional().default([]),
+  park: z.string().optional().default(''),
+  parks: z.array(z.string()).optional().default([]),
+})
+
 const HotelSchema = z.object({
   name:   z.string().min(2, 'Hotel name must be at least 2 characters'),
   rating: z.number().min(1, 'Star rating must be between 1 and 5').max(5, 'Star rating must be between 1 and 5'),
+  location: HotelLocationSchema,
 })
 
 const PricingTierSchema = z.object({
@@ -20,6 +33,16 @@ const ItineraryDaySchema = z.object({
   description: z.string().min(20, 'Day description must be at least 20 characters'),
   meals: z.array(z.string()),
   accommodation: z.string(),
+  activities: z.array(z.string()),
+})
+
+// Sub-day entry for `tripLength: "short"` safaris — no day number, just an
+// order and a free-text duration ("9:00 - 11:00", "2 hrs").
+const ItineraryStopSchema = z.object({
+  order: z.number().min(1),
+  title: z.string().min(3, 'Stop title must be at least 3 characters'),
+  durationLabel: z.string().min(1, 'Add a duration label, e.g. "2 hrs" or "9:00 - 11:00"'),
+  description: z.string().min(20, 'Stop description must be at least 20 characters'),
   activities: z.array(z.string()),
 })
 
@@ -43,15 +66,19 @@ export const SafariSchema = z.object({
     .max(200),
   description: z.string().min(50, 'Description must be at least 50 characters'),
   location: LocationSchema,
-  duration: z.number().min(1, 'Duration must be at least 1 day').max(60, 'Duration cannot exceed 60 days'),
+  // Fractional days allow "short" (sub-day) safaris — e.g. 0.25 for a 6-hour tour.
+  duration: z.number().min(0.1, 'Duration must be at least 0.1 days').max(60, 'Duration cannot exceed 60 days'),
+  durationLabel: z.string().optional().default(''),
+  tripLength: z.enum(['multi-day', 'short'], {
+    errorMap: () => ({ message: 'Select a trip length' }),
+  }).default('multi-day'),
   highlights: z
     .array(z.string())
     .min(3, 'Add at least 3 highlights'),
   included: z.array(z.string()).min(1, 'Add at least 1 inclusion'),
   excluded: z.array(z.string()),
-  itinerary: z
-    .array(ItineraryDaySchema)
-    .min(1, 'Add at least 1 itinerary day'),
+  itinerary: z.array(ItineraryDaySchema).default([]),
+  itineraryStops: z.array(ItineraryStopSchema).default([]),
   pricing: z.object({
     budget: PricingTierSchema,
     midRange: PricingTierSchema,
@@ -121,6 +148,21 @@ export const SafariSchema = z.object({
       keywords: z.array(z.string()).optional(),
     })
     .optional(),
+}).superRefine((data, ctx) => {
+  if (data.tripLength === 'multi-day' && data.itinerary.length < 1) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Add at least 1 itinerary day',
+      path: ['itinerary'],
+    })
+  }
+  if (data.tripLength === 'short' && data.itineraryStops.length < 1) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Add at least 1 itinerary stop',
+      path: ['itineraryStops'],
+    })
+  }
 })
 
 export type SafariFormValues = z.infer<typeof SafariSchema>

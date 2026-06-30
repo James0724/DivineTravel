@@ -4,7 +4,7 @@ import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useSignaturePackages } from "@/hooks/useSafaris";
+import { useFeaturedSafaris } from "@/hooks/useSafaris";
 import { useCurrency } from "@/lib/currency/useCurrency";
 import SiteLink from "@/components/ui/SiteLink";
 import type { Safari } from "@/types";
@@ -19,7 +19,7 @@ interface SignaturePackagesProps {
 
 /* ── Card ──────────────────────────────────────────────────────────────── */
 
-function PackageCard({
+export function PackageCard({
   safari,
   large,
   index,
@@ -28,7 +28,12 @@ function PackageCard({
   safari: Safari;
   large: boolean;
   index: number;
-  labels: { signatureBadge: string; fromLabel: string; onRequest: string; daysLabel: string };
+  labels: {
+    signatureBadge: string;
+    fromLabel: string;
+    onRequest: string;
+    daysLabel: string;
+  };
 }) {
   const price =
     safari.pricing?.budget?.pricePerPerson ??
@@ -170,14 +175,13 @@ export default function SignaturePackages({
     onRequest: t("onRequest"),
     daysLabel: t("daysLabel"),
   };
-  const { data, isLoading } = useSignaturePackages();
+  const { data, isLoading } = useFeaturedSafaris();
   const safaris = data?.data ?? initialData ?? [];
 
-  const featuredCards = safaris.filter((s) => s.featured).slice(0, 2);
-  const featuredIds = new Set(featuredCards.map((s) => s._id));
-  const regularCards = safaris
-    .filter((s) => !featuredIds.has(s._id))
-    .slice(0, 4);
+  // All safaris here are already featured — split purely for the layout
+  // rhythm (2 large cards up top, the rest in a standard grid below).
+  const featuredCards = safaris.slice(0, 2);
+  const regularCards = safaris.slice(2, 6);
 
   const showSkeleton = isLoading && safaris.length === 0;
 

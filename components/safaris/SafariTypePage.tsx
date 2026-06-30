@@ -41,11 +41,31 @@ export default function SafariTypePage({ config, safaris }: Props) {
                 {config.intro.heading}
               </h2>
               <p
-                className="text-[16px] leading-[1.7] text-bone-muted"
+                className="text-[16px] leading-[1.7] text-bone-muted mb-6"
                 style={{ maxWidth: "56ch" }}
               >
                 {config.intro.body}
               </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5" style={{ maxWidth: "56ch" }}>
+                <div>
+                  <div
+                    className="font-mono text-[10px] uppercase tracking-[0.18em] mb-2"
+                    style={{ color: "var(--clay)" }}
+                  >
+                    Focus
+                  </div>
+                  <p className="text-[13px] leading-[1.6] text-bone-muted">{config.focus}</p>
+                </div>
+                <div>
+                  <div
+                    className="font-mono text-[10px] uppercase tracking-[0.18em] mb-2"
+                    style={{ color: "var(--clay)" }}
+                  >
+                    Style
+                  </div>
+                  <p className="text-[13px] leading-[1.6] text-bone-muted">{config.style}</p>
+                </div>
+              </div>
             </div>
           </Reveal>
           <Reveal variant="fadeUp" delay={0.1}>
@@ -115,6 +135,36 @@ export default function SafariTypePage({ config, safaris }: Props) {
             </div>
           </Reveal>
         </div>
+
+        {config.topDestinations.length > 0 && (
+          <div className="container-site mt-10">
+            <Reveal variant="fadeUp" delay={0.2}>
+              <div
+                className="font-mono text-[10px] uppercase tracking-[0.18em] mb-5"
+                style={{ color: "var(--muted)" }}
+              >
+                Top destinations
+              </div>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {config.topDestinations.map((d, i) => (
+                  <li
+                    key={d}
+                    className="flex items-start gap-3 py-3 pr-4 text-[14px] leading-[1.5] text-bone-ink"
+                    style={{ borderTop: "1px solid rgba(31,29,24,0.1)" }}
+                  >
+                    <span
+                      className="font-mono text-[11px] flex-shrink-0 mt-0.5"
+                      style={{ color: "var(--clay)" }}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {d}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        )}
       </section>
 
       <WhyGrid

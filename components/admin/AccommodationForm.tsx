@@ -106,7 +106,7 @@ function ChipListField({
 const BLANK = {
   name: '',
   type: 'luxury-lodge',
-  location: { country: '', region: '' },
+  location: { country: '', region: '', park: '' },
   description: '',
   highlights: [] as string[],
   amenities: [] as string[],
@@ -131,7 +131,11 @@ export default function AccommodationForm({ existing }: { existing?: Accommodati
       ? {
           name: existing.name,
           type: existing.type,
-          location: { country: existing.location.country, region: existing.location.region },
+          location: {
+            country: existing.location.country,
+            region: existing.location.region,
+            park: existing.location.park ?? '',
+          },
           description: existing.description,
           highlights: existing.highlights ?? [],
           amenities: existing.amenities ?? [],
@@ -175,7 +179,11 @@ export default function AccommodationForm({ existing }: { existing?: Accommodati
 
     setSubmitting(true)
     try {
-      const body = { ...form, priceTier: form.priceTier || undefined }
+      const body = {
+        ...form,
+        location: { ...form.location, park: form.location.park || undefined },
+        priceTier: form.priceTier || undefined,
+      }
       const url = isEdit ? `/api/accommodations/${existing!._id}` : '/api/accommodations'
       const method = isEdit ? 'PATCH' : 'POST'
 
@@ -254,6 +262,14 @@ export default function AccommodationForm({ existing }: { existing?: Accommodati
             required
           />
         </div>
+
+        <Input
+          label="Park / Reserve"
+          value={form.location.park}
+          onChange={(e) => set('location', { ...form.location, park: e.target.value })}
+          placeholder="e.g. Maasai Mara National Reserve"
+          hint="Optional — match this to a destination's name for precise pairing on the destination page. Leave blank if not tied to a specific park."
+        />
 
         <Textarea
           label="Description"

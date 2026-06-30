@@ -34,7 +34,12 @@
         "name": "Kenya",
         "tagline": "Home of the Big Five & the Great Migration",
         "description": "Kenya is East Africa's classic safari destination — open golden savannahs, iconic Masai culture, and the greatest wildlife spectacle on Earth. The country that invented the word safari.",
-        "highlights": ["Big Five in a single country", "Great Migration (Jul – Oct)", "Year-round game viewing", "12+ national parks & reserves"],
+        "highlights": [
+          "Big Five in a single country",
+          "Great Migration (Jul – Oct)",
+          "Year-round game viewing",
+          "12+ national parks & reserves"
+        ],
         "stat1Lbl": "Parks & reserves",
         "stat2Lbl": "Year-round"
       },
@@ -42,7 +47,12 @@
         "name": "Tanzania",
         "tagline": "Serengeti, Ngorongoro & Zanzibar",
         "description": "Tanzania holds Africa's greatest national park — the Serengeti — plus the world-famous Ngorongoro Crater, an intact volcanic caldera with resident Big Five year-round and a white-sand coast to match.",
-        "highlights": ["Serengeti wildebeest circuit", "Ngorongoro Crater lions", "Zanzibar beach extension", "Kilimanjaro as a backdrop"],
+        "highlights": [
+          "Serengeti wildebeest circuit",
+          "Ngorongoro Crater lions",
+          "Zanzibar beach extension",
+          "Kilimanjaro as a backdrop"
+        ],
         "stat1Lbl": "Protected areas",
         "stat2Lbl": "Wildebeest annually"
       },
@@ -50,7 +60,12 @@
         "name": "Uganda",
         "tagline": "Gorilla trekking & chimp tracking in the Pearl of Africa",
         "description": "Uganda is Africa's most biodiverse secret — dense rainforests sheltering mountain gorillas and chimpanzees, savannah with tree-climbing lions, and the thundering Murchison Falls. Few places move you this way.",
-        "highlights": ["Mountain gorilla trekking", "Chimpanzee tracking", "Tree-climbing lions", "Murchison Falls spectacle"],
+        "highlights": [
+          "Mountain gorilla trekking",
+          "Chimpanzee tracking",
+          "Tree-climbing lions",
+          "Murchison Falls spectacle"
+        ],
         "stat1Lbl": "National parks",
         "stat2Lbl": "World's gorillas"
       },
@@ -58,7 +73,12 @@
         "name": "Rwanda",
         "tagline": "Volcanoes, gorillas & compact luxury",
         "description": "Small, safe, and remarkably biodiverse — Rwanda packs gorilla treks, savannah game drives, golden-monkey encounters and Nyungwe chimp forest into a country you can cross in a morning.",
-        "highlights": ["Mountain & golden gorillas", "Volcanoes canopy treks", "Akagera big-game drives", "Nyungwe primate forest"],
+        "highlights": [
+          "Mountain & golden gorillas",
+          "Volcanoes canopy treks",
+          "Akagera big-game drives",
+          "Nyungwe primate forest"
+        ],
         "stat1Lbl": "Major parks",
         "stat2Lbl": "Mountain gorillas left"
       }
@@ -73,23 +93,39 @@
     "exploreLabel": "Explore",
     "items": {
       "kenya": { "best": ["Big cats", "The Migration", "Families"] },
-      "tanzania": { "best": ["Great wildebeest circuit", "Honeymoons", "Beach combo"] },
-      "uganda": { "best": ["Gorilla trekking", "Primates", "Adventure seekers"] },
+      "tanzania": {
+        "best": ["Great wildebeest circuit", "Honeymoons", "Beach combo"]
+      },
+      "uganda": {
+        "best": ["Gorilla trekking", "Primates", "Adventure seekers"]
+      },
       "rwanda": { "best": ["Short trips", "Gorilla & gorilla", "Luxury focus"] }
     }
   },
   "popular": {
     "eyebrow": "Popular across all countries",
-    "headingBefore": "Top-rated ",
-    "headingHighlight": " packages.",
+    "headingBefore": "Top-rated",
+    "headingHighlight": " packages ",
     "headingAfter": "safari",
     "browseAllPackages": "Browse all packages",
     "browseAllSafariPackages": "Browse all safari packages",
     "onRequest": "On request",
     "fallback": [
-      { "name": "3 Days Masai Mara Safari", "country": "Kenya", "days": "3D · 2N" },
-      { "name": "7 Days Tanzania Highlights", "country": "Tanzania", "days": "7D · 6N" },
-      { "name": "5 Days Uganda Gorilla Trek", "country": "Uganda", "days": "5D · 4N" }
+      {
+        "name": "3 Days Masai Mara Safari",
+        "country": "Kenya",
+        "days": "3D · 2N"
+      },
+      {
+        "name": "7 Days Tanzania Highlights",
+        "country": "Tanzania",
+        "days": "7D · 6N"
+      },
+      {
+        "name": "5 Days Uganda Gorilla Trek",
+        "country": "Uganda",
+        "days": "5D · 4N"
+      }
     ]
   }
 }

@@ -1,7 +1,7 @@
 ﻿import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { uploadImage, usageToFolder } from '@/lib/cloudinary'
+import { uploadImage, usageToFolder, deleteImage, IMAGE_USAGES } from '@/lib/cloudinary'
 import connectDB from '@/lib/db/mongoose'
 import ImageModel from '@/lib/db/models/Image'
 import type { ImageUsage } from '@/lib/cloudinary'
@@ -21,6 +21,13 @@ export async function POST(req: NextRequest) {
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+    }
+
+    if (!IMAGE_USAGES.includes(usage)) {
+      return NextResponse.json(
+        { error: `"${usage}" is not a recognized image usage. Valid values: ${IMAGE_USAGES.join(', ')}` },
+        { status: 400 }
+      )
     }
 
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
@@ -45,22 +52,34 @@ export async function POST(req: NextRequest) {
       ],
     })
 
-    // Persist metadata in MongoDB
-    await connectDB()
-    const image = await ImageModel.create({
-      url:          result.url,
-      publicId:     result.publicId,
-      alt:          alt || title || file.name.replace(/\.[^/.]+$/, ''),
-      title:        title || file.name.replace(/\.[^/.]+$/, ''),
-      originalName: file.name,
-      fileSize:     file.size,
-      width:        result.width,
-      height:       result.height,
-      format:       result.format,
-      folder,
-      usage,
-      uploadedBy:   session.user.email ?? 'admin',
-    })
+    // Persist metadata in MongoDB — if this fails, the Cloudinary asset would
+    // otherwise be left orphaned (uploaded but untracked), so clean it up
+    // before surfacing the error.
+    let image
+    try {
+      await connectDB()
+      image = await ImageModel.create({
+        url:          result.url,
+        publicId:     result.publicId,
+        alt:          alt || title || file.name.replace(/\.[^/.]+$/, ''),
+        title:        title || file.name.replace(/\.[^/.]+$/, ''),
+        originalName: file.name,
+        fileSize:     file.size,
+        width:        result.width,
+        height:       result.height,
+        format:       result.format,
+        folder,
+        usage,
+        uploadedBy:   session.user.email ?? 'admin',
+      })
+    } catch (dbError) {
+      try {
+        await deleteImage(result.publicId)
+      } catch (cleanupError) {
+        console.error('[POST /api/upload] Failed to clean up orphaned Cloudinary asset', cleanupError)
+      }
+      throw dbError
+    }
 
     return NextResponse.json({
       success: true,
@@ -77,7 +96,10 @@ export async function POST(req: NextRequest) {
     })
   } catch (error) {
     console.error('[POST /api/upload]', error)
-    return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
+    // Return the actual validation/error message so the upload widget can
+    // surface exactly what went wrong, instead of a generic "Upload failed".
+    const message = error instanceof Error ? error.message : 'Upload failed'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
 

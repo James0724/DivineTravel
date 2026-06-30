@@ -25,6 +25,10 @@ const LocationSchema = new Schema(
   {
     country: { type: String, required: [true, 'Country is required'] },
     region: { type: String, required: [true, 'Region/area is required'] },
+    // Optional — the specific park/reserve this property sits near (e.g.
+    // "Maasai Mara National Reserve"). Lets the destination-detail page match
+    // accommodations to a destination more precisely than region text alone.
+    park: { type: String },
   },
   { _id: false }
 )
@@ -47,6 +51,7 @@ export interface IAccommodation extends Document {
   location: {
     country: string
     region: string
+    park?: string
   }
   description: string
   highlights: string[]
@@ -115,6 +120,7 @@ const AccommodationSchema = new Schema<IAccommodation>(
 AccommodationSchema.index({ active: 1, featured: -1 })
 AccommodationSchema.index({ type: 1, active: 1 })
 AccommodationSchema.index({ 'location.country': 1 })
+AccommodationSchema.index({ 'location.park': 1 })
 AccommodationSchema.index({ createdAt: -1 })
 AccommodationSchema.index({
   name: 'text',

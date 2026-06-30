@@ -214,18 +214,20 @@ export default function Hero() {
         transition={{ duration: INTERVAL / 1000, ease: "linear" }}
       />
 
-      {/* ── Main content — centered ──────────────────────────────────── */}
+      {/* ── Main content — title centered, footer pinned to the bottom ── */}
       <div
-        className="relative z-[3] flex flex-col items-center justify-center
-                   text-center h-full px-5 sm:px-8 py-6 md:py-8 lg:py-10 xl:py-12 gap-4 sm:gap-5 xl:gap-10"
+        className="relative z-[3] flex flex-col items-center
+                   text-center h-full px-5 sm:px-8 pt-6 md:pt-8 lg:pt-10 xl:pt-12 pb-14 sm:pb-28"
       >
-        <TitleHero
-          variant="transparent"
-          eyebrow={t("eyebrow")}
-          title="East Africa Safari"
-          accent={"(KE/TZ/UG/RW)"}
-          description={t("description")}
-        />
+        <div className="flex-1 flex flex-col items-center justify-center w-full gap-4 sm:gap-5 xl:gap-10">
+          <TitleHero
+            variant="transparent"
+            eyebrow={t("eyebrow")}
+            title="East Africa Safari"
+            accent={"(KE/TZ/UG/RW)"}
+            description={t("description")}
+          />
+        </div>
 
         <motion.div
           className="shrink-0 pt-4 sm:pt-7 lg:pt-8 border-t w-full"

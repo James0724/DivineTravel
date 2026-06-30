@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import TitleHero from "@/components/ui/TitleHero";
 import WhyGrid from "@/components/ui/WhyGrid";
 import SectionFaq from "@/components/ui/SectionFaq";
-import CtaBand from "@/components/ui/CtaBand";
+//import CtaBand from "@/components/ui/CtaBand";
 import AccommodationCard from "@/components/accommodations/AccommodationCard";
 import Reveal from "@/components/ui/Reveal";
 import { AnimatedHeading } from "@/components/ui/Heading";

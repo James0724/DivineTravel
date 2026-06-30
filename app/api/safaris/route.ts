@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
       difficulty: (searchParams.get('difficulty') as SafariDifficulty) ?? undefined,
       featured: featuredParam === null ? undefined : featuredParam === 'true',
       country: searchParams.get('country') ?? undefined,
+      destination: searchParams.get('destination') ?? undefined,
       minDays: minDays ? parseInt(minDays, 10) : undefined,
       maxDays: maxDays ? parseInt(maxDays, 10) : undefined,
       page: parseInt(searchParams.get('page') ?? '1', 10),

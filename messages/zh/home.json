@@ -220,10 +220,10 @@
   },
   "signaturePackages": {
     "eyebrow": "我们的招牌野生动物园体验",
-    "headingBefore": "热门野生动物园",
-    "headingHighlight": "类别",
-    "headingAfter": "",
-    "description": "与 Divine Travel Nest Safaris 一起探索非洲的奇迹。我们热门的野生动物园之旅提供难忘的野生动物邂逅、壮丽的风景以及地道的文化体验——无论您追求冒险还是放松。",
+    "headingBefore": "精选野生动物园",
+    "headingHighlight": "体验",
+    "headingAfter": ",为您甄选",
+    "description": "与 Divine Travel Nest Safaris 一起探索非洲的奇迹。这些是我们团队精选的野生动物园之旅——难忘的野生动物邂逅、壮丽的风景以及地道的文化体验,无论您追求冒险还是放松。",
     "signatureBadge": "招牌推荐",
     "fromLabel": "起价",
     "onRequest": "询价",
@@ -231,17 +231,14 @@
     "ctaText": "没有找到您想要的吗?我们可以根据您的日期、预算和梦想目的地,为您打造完全定制的行程。",
     "ctaButton": "浏览所有野生动物园套餐"
   },
-  "featuredSafaris": {
-    "eyebrow": "招牌套餐",
-    "headingBefore": "我们",
-    "headingHighlight": "最受欢迎",
-    "headingAfter": "的旅程",
-    "description": "由我们本地团队精心挑选的行程——每一份都经过多年带领宾客游览东非的经验打磨而成。",
-    "viewAllSafaris": "查看所有野生动物园之旅",
-    "featuredBadge": "精选",
-    "fromLabel": "起价",
-    "quoteOnRequest": "询价",
-    "daysLabel": "天"
+  "safariTypes": {
+    "eyebrow": "野生动物园类型",
+    "headingBefore": "选择您的野生动物园,",
+    "headingHighlight": "由您定义",
+    "headingAfter": "",
+    "description": "从经典的游猎车巡游到大猩猩追踪,再到为蜜月量身定制的行程——探索我们为每段旅程量身打造的野生动物园风格。",
+    "viewAllTypes": "查看所有野生动物园类型",
+    "exploreLabel": "探索"
   },
   "bestSellers": {
     "eyebrow": "最受预订的行程",

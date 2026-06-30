@@ -19,6 +19,7 @@ import {
   UserCircle,
   Users2,
   BedDouble,
+  Compass,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
@@ -35,6 +36,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: 'Dashboard',    href: '/admin',            icon: LayoutDashboard, exact: true },
   { label: 'Safaris',      href: '/admin/safaris',    icon: Map },
+  { label: 'Destinations', href: '/admin/destinations', icon: Compass },
   { label: 'Accommodations', href: '/admin/accommodations', icon: BedDouble },
   { label: 'Journal',      href: '/admin/journal',    icon: BookOpen },
   { label: 'Comments',     href: '/admin/comments',   icon: MessageSquare },

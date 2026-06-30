@@ -8,6 +8,7 @@ interface PaginationProps {
   total: number
   limit: number
   onPageChange: (page: number) => void
+  itemLabel?: string
 }
 
 function buildRange(current: number, total: number): (number | '…')[] {
@@ -22,7 +23,7 @@ function buildRange(current: number, total: number): (number | '…')[] {
   return pages
 }
 
-export default function Pagination({ page, totalPages, total, limit, onPageChange }: PaginationProps) {
+export default function Pagination({ page, totalPages, total, limit, onPageChange, itemLabel = 'safari' }: PaginationProps) {
   if (totalPages <= 1) return null
 
   const pages = buildRange(page, totalPages)
@@ -82,7 +83,7 @@ export default function Pagination({ page, totalPages, total, limit, onPageChang
       </div>
 
       <p className="font-mono text-[11px] uppercase tracking-[0.12em]" style={{ color: 'var(--muted)' }}>
-        Showing {from}–{to} of {total} safari{total !== 1 ? 's' : ''}
+        Showing {from}–{to} of {total} {itemLabel}{total !== 1 ? 's' : ''}
       </p>
     </div>
   )

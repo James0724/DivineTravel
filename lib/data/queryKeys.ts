@@ -1,4 +1,4 @@
-import type { SafariFilters, PostCategory } from "@/types";
+import type { SafariFilters, PostCategory, DestinationFilters } from "@/types";
 
 export interface PostFilters {
   search?: string;
@@ -23,11 +23,18 @@ export const safariKeys = {
   details: () => [...safariKeys.all, "detail"] as const,
   detail: (slug: string) => [...safariKeys.details(), slug] as const,
   featured: () => [...safariKeys.all, "featured"] as const,
-  signature: () => [...safariKeys.all, "signature"] as const,
 };
 
 export const postKeys = {
   all: ["posts"] as const,
   lists: () => [...postKeys.all, "list"] as const,
   list: (filters: PostFilters) => [...postKeys.lists(), filters] as const,
+};
+
+export const destinationKeys = {
+  all: ["destinations"] as const,
+  lists: () => [...destinationKeys.all, "list"] as const,
+  list: (filters: DestinationFilters) => [...destinationKeys.lists(), filters] as const,
+  details: () => [...destinationKeys.all, "detail"] as const,
+  detail: (slug: string) => [...destinationKeys.details(), slug] as const,
 };

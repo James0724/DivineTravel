@@ -219,10 +219,10 @@
   },
   "signaturePackages": {
     "eyebrow": "Nuestras experiencias de safari exclusivas",
-    "headingBefore": "Categorías de safari ",
-    "headingHighlight": "populares",
-    "headingAfter": "",
-    "description": "Descubra las maravillas de África con Divine Travel Nest Safaris. Nuestros tours de safari populares ofrecen encuentros inolvidables con la fauna, paisajes impresionantes y experiencias culturales autenticas — ya sea que busque aventura o relajación.",
+    "headingBefore": "Experiencias de safari ",
+    "headingHighlight": "destacadas",
+    "headingAfter": ", elegidas para usted",
+    "description": "Descubra las maravillas de África con Divine Travel Nest Safaris. Estos son los safaris destacados de nuestro equipo — encuentros inolvidables con la fauna, paisajes impresionantes y experiencias culturales autenticas, ya sea que busque aventura o relajación.",
     "signatureBadge": "Exclusivo",
     "fromLabel": "DESDE",
     "onRequest": "A consultar",
@@ -230,17 +230,14 @@
     "ctaText": "¿No encuentra lo que busca? Creamos itinerarios completamente a medida según sus fechas, presupuesto y destinos soñados.",
     "ctaButton": "Ver todos los paquetes de safari"
   },
-  "featuredSafaris": {
-    "eyebrow": "Paquetes exclusivos",
-    "headingBefore": "Nuestros ",
-    "headingHighlight": "mejores",
-    "headingAfter": "viajes",
-    "description": "Itinerarios seleccionados a mano por nuestro equipo local — cada uno perfeccionado a lo largo de años guiando a huéspedes por toda África Oriental.",
-    "viewAllSafaris": "Ver todos los safaris",
-    "featuredBadge": "Destacado",
-    "fromLabel": "desde",
-    "quoteOnRequest": "Cotización a consultar",
-    "daysLabel": "días"
+  "safariTypes": {
+    "eyebrow": "Tipos de Safari",
+    "headingBefore": "Elija su safari, ",
+    "headingHighlight": "a su manera",
+    "headingAfter": "",
+    "description": "Desde clásicos game drives hasta trekking de gorilas e itinerarios para luna de miel — descubra los estilos de safari con los que diseñamos cada viaje.",
+    "viewAllTypes": "Ver todos los tipos de safari",
+    "exploreLabel": "Explorar"
   },
   "bestSellers": {
     "eyebrow": "Tours más reservados",

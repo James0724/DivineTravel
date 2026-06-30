@@ -219,10 +219,10 @@
   },
   "signaturePackages": {
     "eyebrow": "Nos safaris signature",
-    "headingBefore": "Catégories de safari ",
-    "headingHighlight": "populaires",
-    "headingAfter": "",
-    "description": "Découvrez les merveilles de l'Afrique avec Divine Travel Nest Safaris. Nos circuits safari populaires offrent des rencontres animalières inoubliables, des paysages à couper le souffle et des expériences culturelles authentiques — que vous recherchiez l'aventure ou la détente.",
+    "headingBefore": "Expériences de safari ",
+    "headingHighlight": "vedettes",
+    "headingAfter": ", sélectionnées pour vous",
+    "description": "Découvrez les merveilles de l'Afrique avec Divine Travel Nest Safaris. Voici les safaris vedettes de notre équipe — des rencontres animalières inoubliables, des paysages à couper le souffle et des expériences culturelles authentiques, que vous recherchiez l'aventure ou la détente.",
     "signatureBadge": "Signature",
     "fromLabel": "À PARTIR DE",
     "onRequest": "Sur demande",
@@ -230,17 +230,14 @@
     "ctaText": "Vous ne trouvez pas ce que vous cherchez ? Nous créons des itinéraires entièrement sur mesure autour de vos dates, votre budget et vos destinations de rêve.",
     "ctaButton": "Voir tous les forfaits safari"
   },
-  "featuredSafaris": {
-    "eyebrow": "Forfaits signature",
-    "headingBefore": "Nos ",
-    "headingHighlight": "meilleurs",
-    "headingAfter": "voyages",
-    "description": "Itinéraires soigneusement sélectionnés par notre équipe locale — chacun affiné au fil d'années d'accompagnement de voyageurs à travers l'Afrique de l'Est.",
-    "viewAllSafaris": "Voir tous les safaris",
-    "featuredBadge": "En vedette",
-    "fromLabel": "à partir de",
-    "quoteOnRequest": "Devis sur demande",
-    "daysLabel": "jours"
+  "safariTypes": {
+    "eyebrow": "Types de Safari",
+    "headingBefore": "Choisissez votre safari, ",
+    "headingHighlight": "à votre façon",
+    "headingAfter": "",
+    "description": "Des game drives classiques au trekking des gorilles et aux itinéraires de lune de miel — découvrez les styles de safari autour desquels nous construisons chaque voyage.",
+    "viewAllTypes": "Voir tous les types de safari",
+    "exploreLabel": "Découvrir"
   },
   "bestSellers": {
     "eyebrow": "Circuits les plus réservés",

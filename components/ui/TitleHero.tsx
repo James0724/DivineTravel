@@ -249,7 +249,7 @@ export default function TitleHero({
 
         <h1
           className={cn(
-            "flex flex-wrap items-baseline justify-center font-display font-bold uppercase",
+            "block text-center font-display font-bold uppercase",
             isTransparent
               ? "text-[clamp(22px,5.5vw,38px)] tracking-[clamp(1px,1vw,5px)] xl:text-[clamp(34px,4.5vw,64px)] xl:tracking-[clamp(3px,1.2vw,10px)]"
               : "text-[clamp(26px,7vw,64px)] tracking-[clamp(1px,1.2vw,10px)]",
@@ -258,15 +258,17 @@ export default function TitleHero({
               : "text-bone-ink [text-shadow:0_0_40px_rgba(157,69,25,0.35),0_5px_20px_rgba(23,22,18,0.25)]",
           )}
         >
-          <LettersPullUp
-            text={titleText}
-            initialDelay={TITLE_INITIAL_DELAY}
-            charDelay={TITLE_CHAR_DELAY}
-          />
-          {accent && (
-            <>
+          <span className="inline-flex flex-wrap justify-center items-baseline row-gap-x-[0.25em]">
+            <LettersPullUp
+              text={titleText}
+              justify="center"
+              initialDelay={TITLE_INITIAL_DELAY}
+              charDelay={TITLE_CHAR_DELAY}
+            />
+            {accent && (
               <LettersPullUp
                 text={accent}
+                justify="center"
                 initialDelay={accentDelay}
                 charDelay={TITLE_CHAR_DELAY}
                 charStyle={{
@@ -274,8 +276,8 @@ export default function TitleHero({
                   color: isTransparent ? "var(--bg-deep)" : "var(--clay)",
                 }}
               />
-            </>
-          )}
+            )}
+          </span>
         </h1>
 
         <motion.div

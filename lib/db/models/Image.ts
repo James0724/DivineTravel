@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose'
+import { IMAGE_USAGES, type ImageUsage } from '@/lib/cloudinary'
 
-export type ImageUsage = 'safari-cover' | 'safari-gallery' | 'blog-cover' | 'portfolio' | 'team' | 'misc'
+export type { ImageUsage }
 
 export interface IImage extends Document {
   url: string
@@ -33,7 +34,7 @@ const ImageSchema = new Schema<IImage>(
     folder:       { type: String, required: true },
     usage: {
       type: String,
-      enum: ['safari-cover', 'safari-gallery', 'blog-cover', 'portfolio', 'team', 'misc'],
+      enum: IMAGE_USAGES,
       default: 'misc',
       index: true,
     },

@@ -43,17 +43,17 @@
         "label": "Fotosafaris",
         "description": "Mehr Zeit an Sichtungen, fotoerfahrene Guides"
       },
-      "family": {
-        "label": "Familiensafaris",
-        "description": "Für jedes Alter geeignet, kinderfreundliche Lodges"
+      "wildlifeGameViewing": {
+        "label": "Wildtier- & Pirschfahrt-Safaris",
+        "description": "Big-Five-Pirschfahrten in Kenia, Tansania, Uganda & Ruanda"
       },
-      "honeymoon": {
-        "label": "Honeymoon-Safaris",
-        "description": "Private Fahrzeuge und intime Camps für zwei"
+      "cultural": {
+        "label": "Kultursafaris",
+        "description": "Authentische Dorfbesuche und Begegnungen"
       },
-      "solo": {
-        "label": "Solo-Safaris",
-        "description": "In einer kleinen Gruppe, oder ganz privat"
+      "adventure": {
+        "label": "Abenteuersafaris",
+        "description": "Heißluftballon, Reiten und Mountainbike"
       },
       "all": {
         "label": "Alle Safari-Arten",

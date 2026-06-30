@@ -32,6 +32,7 @@ export default function SafarisContent() {
 
   const [filters, setFilters] = useState<FilterState>({
     country: searchParams.get("country") ?? "",
+    destination: searchParams.get("destination") ?? "",
     category: (searchParams.get("category") as SafariCategory) ?? "",
     safariType: (searchParams.get("safariType") as SafariStyle) ?? "",
     duration: searchParams.get("duration") ?? "",
@@ -78,6 +79,7 @@ export default function SafarisContent() {
     scrollToResults();
     setFilters({
       country: "",
+      destination: "",
       category: "",
       safariType: "",
       duration: "",
@@ -99,6 +101,7 @@ export default function SafarisContent() {
   useEffect(() => {
     const p = new URLSearchParams();
     if (filters.country) p.set("country", filters.country);
+    if (filters.destination) p.set("destination", filters.destination);
     if (filters.category) p.set("category", filters.category);
     if (filters.safariType) p.set("safariType", filters.safariType);
     if (filters.duration) p.set("duration", filters.duration);
@@ -115,6 +118,7 @@ export default function SafarisContent() {
 
   const apiFilters: SafariFilters = {
     country: filters.country || undefined,
+    destination: filters.destination || undefined,
     category: filters.category || undefined,
     safariType: filters.safariType || undefined,
     difficulty: filters.difficulty || undefined,
@@ -171,6 +175,7 @@ export default function SafarisContent() {
               searchInput={searchInput}
               onSearchInput={handleSearchInput}
               onCountryChange={(v) => set("country", v)}
+              onDestinationChange={(v) => set("destination", v)}
               onCategoryChange={(v) => set("category", v)}
               onSafariTypeChange={(v) => set("safariType", v)}
               onDurationChange={(v) => set("duration", v)}

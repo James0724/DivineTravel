@@ -6,7 +6,7 @@ import TrustStrip from "@/components/home/TrustStrip";
 import IntroSection from "@/components/home/IntroSection";
 import DestinationsSection from "@/components/home/DestinationsSection";
 import SignaturePackages from "@/components/home/SignaturePackages";
-import FeaturedSafaris from "@/components/home/FeaturedSafaris";
+import SafariTypesSection from "@/components/home/SafariTypesSection";
 import BestSellers from "@/components/home/BestSellers";
 import MigrationCalendar from "@/components/home/MigrationCalendar";
 import PhotoMarquee from "@/components/home/PhotoMarquee";
@@ -18,7 +18,7 @@ import JournalSection from "@/components/home/JournalSection";
 import FAQSection from "@/components/home/FAQSection";
 import connectDB from "@/lib/db/mongoose";
 import TestimonialModel from "@/lib/db/models/Testimonial";
-import { getCountryOrderedSafaris, getSignaturePackages } from "@/lib/data/safaris";
+import { getCountryOrderedSafaris } from "@/lib/data/safaris";
 import type { Testimonial } from "@/types";
 import { buildAlternates } from "@/lib/seo/hreflang";
 
@@ -61,9 +61,8 @@ async function getHomeData() {
     await connectDB();
     const select =
       "name slug tagline location duration pricing images coverImage category difficulty featured rating reviewCount minGroupSize maxGroupSize";
-    const [safaris, signatureSafaris, testimonials] = await Promise.all([
+    const [safaris, testimonials] = await Promise.all([
       getCountryOrderedSafaris({ active: true, featured: true }, { limit: 6, select }),
-      getSignaturePackages({ limit: 6, featuredCount: 2 }),
       TestimonialModel.find({ featured: true })
         .sort({ rating: -1 })
         .limit(8)
@@ -71,17 +70,16 @@ async function getHomeData() {
     ]);
     return {
       safaris,
-      signatureSafaris,
       testimonials: JSON.parse(JSON.stringify(testimonials)) as Testimonial[],
     };
   } catch {
-    return { safaris: [], signatureSafaris: [], testimonials: [] };
+    return { safaris: [], testimonials: [] };
   }
 }
 
 export default async function HomePage() {
   const t = await getTranslations("home");
-  const { safaris, signatureSafaris, testimonials } = await getHomeData();
+  const { safaris, testimonials } = await getHomeData();
   const faqSchemaItems = t.raw("faqSchema") as { question: string; answer: string }[];
 
   return (
@@ -99,11 +97,11 @@ export default async function HomePage() {
       {/* 04 · Destinations tabs */}
       <DestinationsSection />
 
-      {/* 05 · Signature packages (DB-driven) */}
-      <SignaturePackages initialData={signatureSafaris} />
+      {/* 05 · Signature safari experiences — all featured safaris (DB-driven) */}
+      <SignaturePackages initialData={safaris} />
 
-      {/* 06 · Featured safari packages (DB-driven) */}
-      <FeaturedSafaris initialData={safaris} />
+      {/* 06 · Safari types */}
+      <SafariTypesSection />
 
       {/* 07 · Best-selling tours */}
       <BestSellers />

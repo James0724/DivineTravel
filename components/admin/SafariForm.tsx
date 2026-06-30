@@ -83,6 +83,41 @@ function blankItineraryDay(day: number) {
   }
 }
 
+function blankItineraryStop(order: number) {
+  return {
+    order,
+    title: '',
+    durationLabel: '',
+    description: '',
+    activities: [] as string[],
+  }
+}
+
+function blankHotelLocation() {
+  return {
+    country: '',
+    countries: [] as string[],
+    region: '',
+    regions: [] as string[],
+    park: '',
+    parks: [] as string[],
+  }
+}
+
+function blankHotel() {
+  return { name: '', rating: 3, location: blankHotelLocation() }
+}
+
+// Older safaris saved before the hotel-location field existed won't have it
+// at all — fill it in so the form doesn't choke on undefined inputs.
+function withHotelLocationDefaults(hotels?: { name: string; rating: number; location?: ReturnType<typeof blankHotelLocation> }[]) {
+  return (hotels ?? []).map((h) => ({
+    name: h.name,
+    rating: h.rating,
+    location: h.location ?? blankHotelLocation(),
+  }))
+}
+
 function blankPricingTier() {
   return {
     pricePerPerson: 0,
@@ -90,7 +125,7 @@ function blankPricingTier() {
     description: '',
     includes: [''],
     accommodationType: '',
-    hotels: [] as { name: string; rating: number }[],
+    hotels: [] as ReturnType<typeof blankHotel>[],
   }
 }
 
@@ -103,10 +138,13 @@ const defaultValues: SafariFormValues & {
   description: '',
   location: { country: '', countries: [], region: '', regions: [], park: '', parks: [] },
   duration: 1,
+  durationLabel: '',
+  tripLength: 'multi-day',
   highlights: [''],
   included: [''],
   excluded: [''],
   itinerary: [blankItineraryDay(1)],
+  itineraryStops: [blankItineraryStop(1)],
   pricing: {
     budget:   blankPricingTier(),
     midRange: blankPricingTier(),
@@ -297,7 +335,9 @@ function PricingTierSection({
             Accommodation Hotels
           </label>
           <p className="text-xs text-bone-ink/45 font-sans mt-0.5">
-            1–3 hotels shown on the public safari page (name + star rating)
+            1–3 hotels shown on the public safari page (name + star rating).
+            Location fields are optional — fill them in to match this hotel
+            to destinations/safaris in the same area.
           </p>
         </div>
 
@@ -344,6 +384,29 @@ function PricingTierSection({
                   <X size={13} />
                 </button>
               </div>
+              <div className="grid grid-cols-3 gap-2">
+                {([
+                  { key: 'country', placeholder: 'Country…' },
+                  { key: 'region', placeholder: 'Region/area…' },
+                  { key: 'park', placeholder: 'Park/reserve…' },
+                ] as const).map(({ key, placeholder }) => (
+                  <input
+                    key={key}
+                    type="text"
+                    value={hotel.location?.[key] ?? ''}
+                    onChange={(e) => {
+                      const updated = [...(values.hotels ?? [])]
+                      updated[i] = {
+                        ...updated[i],
+                        location: { ...(updated[i].location ?? blankHotelLocation()), [key]: e.target.value },
+                      }
+                      onChange({ hotels: updated })
+                    }}
+                    placeholder={placeholder}
+                    className="h-8 px-2.5 font-sans text-xs text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.15)] rounded focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 placeholder:text-bone-ink/35"
+                  />
+                ))}
+              </div>
               {(hotelError?.name?.message || hotelError?.rating?.message) && (
                 <p className="text-xs text-red-600 font-sans">
                   {hotelError?.name?.message || hotelError?.rating?.message}
@@ -355,7 +418,7 @@ function PricingTierSection({
 
         <button
           type="button"
-          onClick={() => onChange({ hotels: [...(values.hotels ?? []), { name: '', rating: 3 }] })}
+          onClick={() => onChange({ hotels: [...(values.hotels ?? []), blankHotel()] })}
           className="flex items-center gap-1.5 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors self-start"
         >
           <Plus size={13} /> Add Hotel
@@ -469,11 +532,18 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
               : existing.location.park ? [existing.location.park] : [],
           },
           duration: existing.duration,
+          durationLabel: existing.durationLabel ?? '',
+          tripLength: existing.tripLength ?? 'multi-day',
           highlights: existing.highlights.length ? existing.highlights : [''],
           included: existing.included.length ? existing.included : [''],
           excluded: existing.excluded.length ? existing.excluded : [''],
           itinerary: existing.itinerary.length ? existing.itinerary : [blankItineraryDay(1)],
-          pricing: existing.pricing,
+          itineraryStops: existing.itineraryStops?.length ? existing.itineraryStops : [blankItineraryStop(1)],
+          pricing: {
+            budget: { ...existing.pricing.budget, hotels: withHotelLocationDefaults(existing.pricing.budget.hotels) },
+            midRange: { ...existing.pricing.midRange, hotels: withHotelLocationDefaults(existing.pricing.midRange.hotels) },
+            luxury: { ...existing.pricing.luxury, hotels: withHotelLocationDefaults(existing.pricing.luxury.hotels) },
+          },
           category: existing.category,
           safariType: existing.safariType?.length ? existing.safariType : ['game-drive'],
           difficulty: existing.difficulty,
@@ -517,6 +587,12 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     name: 'itinerary',
   })
 
+  const { fields: itineraryStopFields, append: appendStop, remove: removeStop } = useFieldArray({
+    control,
+    name: 'itineraryStops',
+  })
+
+  const watchedTripLength  = watch('tripLength') ?? 'multi-day'
   const watchedHighlights  = watch('highlights') ?? ['']
   const watchedIncluded    = watch('included')   ?? ['']
   const watchedExcluded    = watch('excluded')   ?? ['']
@@ -631,9 +707,9 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     const sectionMap: Record<string, boolean> = {
       basic:    !!(errs.name || errs.tagline || errs.description),
       location: !!errs.location,
-      details:  !!(errs.duration || errs.difficulty || errs.category || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
+      details:  !!(errs.duration || errs.durationLabel || errs.tripLength || errs.difficulty || errs.category || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
       content:  !!(errs.highlights || errs.included || errs.excluded),
-      itinerary: !!errs.itinerary,
+      itinerary: !!(errs.itinerary || errs.itineraryStops),
       pricing:  !!errs.pricing,
       seo:      !!errs.seo,
     }
@@ -667,9 +743,9 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const sectionErrors = {
     basic:    !!(errors.name || errors.tagline || errors.description),
     location: !!errors.location,
-    details:  !!(errors.duration || errors.difficulty || errors.category || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
+    details:  !!(errors.duration || errors.durationLabel || errors.tripLength || errors.difficulty || errors.category || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
     content:  !!(errors.highlights || errors.included || errors.excluded),
-    itinerary: !!errors.itinerary,
+    itinerary: !!(errors.itinerary || errors.itineraryStops),
     pricing:  !!errors.pricing,
     images:   false,
     seo:      !!errors.seo,
@@ -831,6 +907,8 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         <SectionErrorBanner
           messages={Array.from(new Set([
             ...collectErrorMessages(errors.duration),
+            ...collectErrorMessages(errors.durationLabel),
+            ...collectErrorMessages(errors.tripLength),
             ...collectErrorMessages(errors.difficulty),
             ...collectErrorMessages(errors.category),
             ...collectErrorMessages(errors.safariType),
@@ -841,16 +919,51 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           ]))}
         />
 
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-bone-ink/80 font-sans">
+            Trip length <span className="text-bone-clay">*</span>
+          </label>
+          <p className="text-xs text-bone-ink/45 font-sans -mt-1">
+            Controls which itinerary editor shows below — day-by-day for
+            multi-day trips, or hour/segment stops for sub-day excursions.
+          </p>
+          <div className="flex gap-3">
+            {([
+              { value: 'multi-day', label: 'Multi-day (1+ nights)' },
+              { value: 'short', label: 'Short (under a day)' },
+            ] as const).map((opt) => (
+              <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  value={opt.value}
+                  {...register('tripLength')}
+                  className="accent-bone-forest"
+                />
+                <span className="text-sm font-sans text-bone-ink/75">{opt.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Input
-            label="Duration (days)"
+            label={watchedTripLength === 'short' ? 'Duration (days, e.g. 0.25 ≈ 6 hrs)' : 'Duration (days)'}
             type="number"
+            step="any"
             {...register('duration', { valueAsNumber: true })}
-            min={1}
+            min={0.1}
             max={60}
             error={errors.duration?.message}
             required
           />
+          {watchedTripLength === 'short' && (
+            <Input
+              label="Duration label"
+              {...register('durationLabel')}
+              placeholder="e.g. 3 Hours, Half Day"
+              error={errors.durationLabel?.message}
+            />
+          )}
           <Input
             label="Min group size"
             type="number"
@@ -1111,14 +1224,95 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
 
       {/* ════════════ 5 · ITINERARY ════════════ */}
       <CollapsibleSection
-        title="Day-by-Day Itinerary"
-        subtitle="Detailed programme for each day of the safari"
+        title={watchedTripLength === 'short' ? 'Itinerary Stops' : 'Day-by-Day Itinerary'}
+        subtitle={
+          watchedTripLength === 'short'
+            ? 'Hour/segment breakdown for this sub-day excursion'
+            : 'Detailed programme for each day of the safari'
+        }
         isOpen={openSections.itinerary}
         hasError={sectionErrors.itinerary}
         onToggle={() => toggleSection('itinerary')}
       >
-        <SectionErrorBanner messages={Array.from(new Set(collectErrorMessages(errors.itinerary)))} />
+        <SectionErrorBanner
+          messages={Array.from(new Set([
+            ...collectErrorMessages(errors.itinerary),
+            ...collectErrorMessages(errors.itineraryStops),
+          ]))}
+        />
 
+        {watchedTripLength === 'short' ? (
+        <div className="space-y-5">
+          {itineraryStopFields.map((field, index) => (
+            <div
+              key={field.id}
+              className="border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden"
+            >
+              <div className="flex items-center justify-between bg-bone-bg px-4 py-2.5">
+                <span className="font-sans text-xs font-semibold uppercase tracking-wider text-bone-ink/60">
+                  Stop {index + 1}
+                </span>
+                {itineraryStopFields.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeStop(index)}
+                    className="text-bone-ink/30 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 size={13} />
+                  </button>
+                )}
+              </div>
+
+              <div className="px-4 py-4 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Input
+                    label="Stop title"
+                    {...register(`itineraryStops.${index}.title`)}
+                    placeholder="e.g. Crater floor descent"
+                    error={errors.itineraryStops?.[index]?.title?.message}
+                    required
+                  />
+                  <Input
+                    label="Duration label"
+                    {...register(`itineraryStops.${index}.durationLabel`)}
+                    placeholder="e.g. 9:00 - 11:00, 2 hrs"
+                    error={errors.itineraryStops?.[index]?.durationLabel?.message}
+                    required
+                  />
+                </div>
+                <Textarea
+                  label="Description"
+                  {...register(`itineraryStops.${index}.description`)}
+                  rows={3}
+                  placeholder="What happens during this stop…"
+                  error={errors.itineraryStops?.[index]?.description?.message}
+                  required
+                />
+                <Controller
+                  control={control}
+                  name={`itineraryStops.${index}.activities`}
+                  render={({ field }) => (
+                    <ArrayField
+                      label="Activities"
+                      values={(field.value as string[]) ?? []}
+                      onChange={field.onChange}
+                      placeholder="Add activity…"
+                    />
+                  )}
+                />
+              </div>
+            </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={() => appendStop(blankItineraryStop(itineraryStopFields.length + 1))}
+            className="flex items-center gap-2 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors"
+          >
+            <Plus size={15} /> Add Stop
+          </button>
+        </div>
+        ) : (
         <div className="space-y-5">
           {itineraryFields.map((field, index) => (
             <div
@@ -1215,6 +1409,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             <Plus size={15} /> Add Day
           </button>
         </div>
+        )}
       </CollapsibleSection>
 
       {/* ════════════ 6 · PRICING ════════════ */}

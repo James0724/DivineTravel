@@ -19,16 +19,19 @@ import type {
   SafariStyle,
   PriceTier,
 } from "@/types";
+import TitleHero from "@/components/ui/TitleHero";
 
 export const metadata: Metadata = {
-  title: "East Africa Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda Tours",
+  title:
+    "East Africa Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda Tours",
   description:
     "Browse our complete East Africa safari package catalogue for 2026/2027. Kenya Masai Mara tours, Tanzania Serengeti migration circuits, Uganda gorilla trekking and Rwanda packages — filter by country, duration and budget. Every itinerary tailor-made by a Nairobi-based team.",
   keywords:
     "east africa safari packages 2026, kenya safari packages, tanzania safari tours, uganda gorilla trekking, rwanda safari, masai mara tours 2026, serengeti safari packages, big five safari east africa, tailor-made safari holiday, budget safari packages africa, luxury safari 2027, safari tour packages, gorilla trekking packages, best africa safari 2026",
   alternates: { canonical: "/en/safaris" },
   openGraph: {
-    title: "East Africa Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
+    title:
+      "East Africa Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
     description:
       "Browse Kenya Masai Mara tours, Tanzania Serengeti circuits, Uganda gorilla trekking and Rwanda safari packages — budget to luxury, tailor-made.",
     type: "website",
@@ -91,6 +94,7 @@ export default async function SafarisPage({ searchParams }: Props) {
   // on mount instead of triggering a redundant client fetch.
   const apiFilters: SafariFilters = {
     country: get("country") || undefined,
+    destination: get("destination") || undefined,
     category: (get("category") as SafariCategory) || undefined,
     safariType: (get("safariType") as SafariStyle) || undefined,
     difficulty: (get("difficulty") as SafariDifficulty) || undefined,
@@ -128,29 +132,11 @@ export default async function SafarisPage({ searchParams }: Props) {
         }))}
       />
 
-      <PageHero
-        image="https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
-        imageAlt="Safari vehicles crossing the open plains of East Africa at golden hour"
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Tours & Safaris" },
-        ]}
-        title={
-          <>
-            Kenya, Tanzania, Uganda &amp; Rwanda
-            <br />
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>
-              safari
-            </em>{" "}
-            packages 2026/2027.
-          </>
-        }
+      <TitleHero
+        eyebrow="Tours and safaris"
+        title=" Kenya, Tanzania, Uganda & Rwanda safari 2026/2027."
         description="Kenya Masai Mara tours, Tanzania Serengeti migration circuits, Uganda gorilla trekking and Rwanda Volcanoes safaris — 50+ curated packages, every itinerary rewritable for your dates, party size and budget."
-        stats={[
-          { num: "3",     sup: "",  lbl: "East African countries" },
-          { num: "50",    sup: "+", lbl: "Curated packages"       },
-          { num: "Big 5", sup: "",  lbl: "In a single circuit"    },
-        ]}
+        backgroundImage="https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
       />
 
       <CtaBand

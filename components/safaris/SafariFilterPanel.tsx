@@ -2,9 +2,14 @@
 
 import { useEffect } from "react";
 import { useState } from "react";
+import { useMemo } from "react";
+import { useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, SlidersHorizontal, ChevronDown, Filter } from "lucide-react";
 import { DURATIONS } from "@/lib/data/safariFilterOptions";
+import { useDestinations } from "@/hooks/useDestinations";
+import { useFloatingDropdown } from "@/hooks/useFloatingDropdown";
 import type {
   SafariFilters,
   SafariCategory,
@@ -80,6 +85,29 @@ export const SAFARI_TYPES: { label: string; value: SafariStyle | "" }[] = [
   ...THEME_TYPES.filter((t) => t.value),
 ];
 
+// The 9 safari types from the /safari-types content pages (see
+// lib/data/safariTypes.ts) — a coarser, marketing-facing taxonomy than the
+// 24-value `SafariStyle` enum above. Each maps onto whichever existing field
+// (`category` or `safariType`) already carries the closest matching value,
+// rather than introducing a new schema field. "Birdwatching" maps to the
+// closest `safariType` value "birding", and "Budget & Group" maps to
+// "small-group" since there's no dedicated budget/group safariType value.
+type SafariTypeFilterDef =
+  | { slug: string; label: string; field: "category"; value: SafariCategory }
+  | { slug: string; label: string; field: "safariType"; value: SafariStyle };
+
+export const SAFARI_TYPE_FILTERS: SafariTypeFilterDef[] = [
+  { slug: "wildlife-game-viewing", label: "Wildlife & Game Viewing", field: "category", value: "wildlife" },
+  { slug: "walking", label: "Walking", field: "safariType", value: "walking" },
+  { slug: "cultural", label: "Cultural", field: "category", value: "cultural" },
+  { slug: "adventure", label: "Adventure", field: "category", value: "adventure" },
+  { slug: "photographic", label: "Photographic", field: "safariType", value: "photographic" },
+  { slug: "birdwatching", label: "Birdwatching", field: "safariType", value: "birding" },
+  { slug: "fly-in", label: "Fly-in", field: "safariType", value: "fly-in" },
+  { slug: "family", label: "Family", field: "safariType", value: "family" },
+  { slug: "budget-group", label: "Budget & Group", field: "safariType", value: "small-group" },
+];
+
 export const DIFFICULTIES: { label: string; value: SafariDifficulty | "" }[] = [
   { label: "Any", value: "" },
   { label: "Easy", value: "easy" },
@@ -109,6 +137,7 @@ export const SORT_OPTIONS: {
 
 export interface SafariFilterValues {
   country: string;
+  destination: string;
   category: SafariCategory | "";
   safariType: SafariStyle | "";
   duration: string;
@@ -122,6 +151,7 @@ interface SafariFilterPanelProps {
   searchInput: string;
   onSearchInput: (val: string) => void;
   onCountryChange: (value: string) => void;
+  onDestinationChange: (value: string) => void;
   onCategoryChange: (value: SafariCategory | "") => void;
   onSafariTypeChange: (value: SafariStyle | "") => void;
   onDurationChange: (value: string) => void;
@@ -188,6 +218,200 @@ function FilterGroup({
   );
 }
 
+// ─── Destination dropdown — custom (not a native <select>) so we can force
+// the panel to always open downward via useFloatingDropdown, the same
+// trigger+portal pattern LanguageSwitcher/CurrencySwitcher use. ────────────
+
+function DestinationDropdown({
+  value,
+  onChange,
+  destinationsByCountry,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  destinationsByCountry: [string, { slug: string; name: string }[]][];
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const coords = useFloatingDropdown(open, triggerRef, "down", 280);
+
+  useEffect(() => {
+    if (!open) return;
+    function onClickOutside(e: MouseEvent) {
+      const target = e.target as Node;
+      if (rootRef.current?.contains(target)) return;
+      if (panelRef.current?.contains(target)) return;
+      setOpen(false);
+    }
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    document.addEventListener("keydown", onEscape);
+    return () => {
+      document.removeEventListener("mousedown", onClickOutside);
+      document.removeEventListener("keydown", onEscape);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) setQuery("");
+  }, [open]);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return destinationsByCountry;
+    return destinationsByCountry
+      .map(
+        ([country, list]) =>
+          [country, list.filter((d) => d.name.toLowerCase().includes(q))] as [
+            string,
+            typeof list,
+          ],
+      )
+      .filter(([, list]) => list.length > 0);
+  }, [query, destinationsByCountry]);
+
+  const selectedLabel =
+    destinationsByCountry
+      .flatMap(([, list]) => list)
+      .find((d) => d.name === value)?.name ?? "All destinations";
+
+  return (
+    <div ref={rootRef} className="relative">
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className="w-full h-8 pl-3 pr-8 font-mono text-[11px] tracking-[0.06em] border rounded-sm flex items-center justify-between text-left transition-colors relative"
+        style={{
+          background: "var(--bg)",
+          borderColor: "var(--line)",
+          color: value ? "var(--ink)" : "var(--muted)",
+        }}
+      >
+        <span className="truncate">{selectedLabel}</span>
+        <ChevronDown
+          size={11}
+          className={`absolute right-2.5 top-1/2 -translate-y-1/2 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          style={{ color: "var(--muted)" }}
+        />
+      </button>
+
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {open && coords && (
+              <motion.div
+                ref={panelRef}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.16, ease: [0.25, 1, 0.5, 1] }}
+                style={{
+                  position: "fixed",
+                  left: coords.left,
+                  width: coords.width,
+                  top: coords.top,
+                  bottom: coords.bottom,
+                  background: "var(--paper)",
+                  borderColor: "var(--line)",
+                }}
+                className="z-[300] border rounded-sm shadow-lg overflow-hidden"
+              >
+                <div
+                  className="p-2 border-b"
+                  style={{ borderColor: "var(--line-soft)" }}
+                >
+                  <div className="relative">
+                    <Search
+                      size={11}
+                      className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                      style={{ color: "var(--muted)" }}
+                    />
+                    <input
+                      autoFocus
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="Search destinations…"
+                      className="w-full h-7 pl-7 pr-2 font-sans text-[11px] border rounded-sm focus:outline-none focus:border-[var(--forest)] transition-colors"
+                      style={{
+                        background: "var(--paper)",
+                        borderColor: "var(--line)",
+                        color: "var(--ink)",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="max-h-72 overflow-y-auto p-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onChange("");
+                      setOpen(false);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-sm text-[11px] font-mono tracking-[0.04em] transition-colors"
+                    style={{
+                      background: value === "" ? "var(--forest)" : "transparent",
+                      color: value === "" ? "var(--paper)" : "var(--ink)",
+                    }}
+                  >
+                    All destinations
+                  </button>
+
+                  {filtered.length === 0 ? (
+                    <p
+                      className="px-2.5 py-4 text-center text-[11px] font-sans"
+                      style={{ color: "var(--muted)" }}
+                    >
+                      No matches
+                    </p>
+                  ) : (
+                    filtered.map(([country, destinations]) => (
+                      <div key={country} className="mt-1.5 first:mt-0">
+                        <div
+                          className="px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.16em]"
+                          style={{ color: "var(--muted)" }}
+                        >
+                          {country}
+                        </div>
+                        {destinations.map((d) => (
+                          <button
+                            key={d.slug}
+                            type="button"
+                            onClick={() => {
+                              onChange(d.name);
+                              setOpen(false);
+                            }}
+                            className="w-full text-left px-2.5 py-1.5 rounded-sm text-[11px] font-mono tracking-[0.04em] transition-colors"
+                            style={{
+                              background:
+                                value === d.name ? "var(--forest)" : "transparent",
+                              color: value === d.name ? "var(--paper)" : "var(--ink)",
+                            }}
+                          >
+                            {d.name}
+                          </button>
+                        ))}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body,
+        )}
+    </div>
+  );
+}
+
 // ─── Mobile filters trigger button ───────────────────────────────────────────
 
 export function SafariFilterTrigger({
@@ -230,6 +454,7 @@ export function countActiveFilters(
   const advanced = [values.difficulty, values.tier].filter(Boolean).length;
   const total = [
     values.country,
+    values.destination,
     values.category,
     values.safariType,
     values.duration,
@@ -247,6 +472,7 @@ export default function SafariFilterPanel({
   searchInput,
   onSearchInput,
   onCountryChange,
+  onDestinationChange,
   onCategoryChange,
   onSafariTypeChange,
   onDurationChange,
@@ -263,6 +489,21 @@ export default function SafariFilterPanel({
   const [showAdvanced, setShowAdvanced] = useState(
     !!(values.difficulty || values.tier),
   );
+
+  const { data: destinationsData } = useDestinations();
+  const destinationsByCountry = useMemo(() => {
+    const groups = new Map<string, { slug: string; name: string }[]>();
+    for (const d of destinationsData?.data ?? []) {
+      const list = groups.get(d.location.country);
+      const entry = { slug: d.slug, name: d.name };
+      if (list) list.push(entry);
+      else groups.set(d.location.country, [entry]);
+    }
+    for (const list of groups.values()) {
+      list.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return [...groups.entries()].sort(([a], [b]) => a.localeCompare(b));
+  }, [destinationsData]);
 
   const { advanced: advancedActive, total: totalActive } = countActiveFilters(
     values,
@@ -335,8 +576,18 @@ export default function SafariFilterPanel({
     </FilterGroup>
   );
 
+  const destinationBlock = (
+    <FilterGroup label="Destination">
+      <DestinationDropdown
+        value={values.destination}
+        onChange={onDestinationChange}
+        destinationsByCountry={destinationsByCountry}
+      />
+    </FilterGroup>
+  );
+
   const typeBlock = (
-    <FilterGroup label="Type">
+    <FilterGroup label="Category">
       <div className="flex flex-wrap gap-1.5">
         {CATEGORIES.map((c) => (
           <Pill
@@ -351,46 +602,43 @@ export default function SafariFilterPanel({
     </FilterGroup>
   );
 
-  const activityBlock = (
-    <FilterGroup label="Activity type">
+  const safariTypeBlock = (
+    <FilterGroup label="Safari Type">
       <div className="flex flex-wrap gap-1.5">
-        {ACTIVITY_TYPES.map((t) => (
+        <Pill
+          active={
+            !SAFARI_TYPE_FILTERS.some((t) =>
+              t.field === "category"
+                ? values.category === t.value
+                : values.safariType === t.value,
+            )
+          }
+          onClick={() => {
+            for (const t of SAFARI_TYPE_FILTERS) {
+              if (t.field === "category" && values.category === t.value) {
+                onCategoryChange("");
+              }
+              if (t.field === "safariType" && values.safariType === t.value) {
+                onSafariTypeChange("");
+              }
+            }
+          }}
+        >
+          Any safari type
+        </Pill>
+        {SAFARI_TYPE_FILTERS.map((t) => (
           <Pill
-            key={t.value}
-            active={values.safariType === t.value}
-            onClick={() => onSafariTypeChange(t.value)}
-          >
-            {t.label}
-          </Pill>
-        ))}
-      </div>
-    </FilterGroup>
-  );
-
-  const travellerBlock = (
-    <FilterGroup label="Traveller type">
-      <div className="flex flex-wrap gap-1.5">
-        {TRAVELLER_TYPES.map((t) => (
-          <Pill
-            key={t.value}
-            active={values.safariType === t.value}
-            onClick={() => onSafariTypeChange(t.value)}
-          >
-            {t.label}
-          </Pill>
-        ))}
-      </div>
-    </FilterGroup>
-  );
-
-  const themeBlock = (
-    <FilterGroup label="Safari collection">
-      <div className="flex flex-wrap gap-1.5">
-        {THEME_TYPES.map((t) => (
-          <Pill
-            key={t.value}
-            active={values.safariType === t.value}
-            onClick={() => onSafariTypeChange(t.value)}
+            key={t.slug}
+            active={
+              t.field === "category"
+                ? values.category === t.value
+                : values.safariType === t.value
+            }
+            onClick={() =>
+              t.field === "category"
+                ? onCategoryChange(t.value)
+                : onSafariTypeChange(t.value)
+            }
           >
             {t.label}
           </Pill>
@@ -562,10 +810,9 @@ export default function SafariFilterPanel({
 
           {searchBlock}
           {countryBlock}
+          {destinationBlock}
           {typeBlock}
-          {activityBlock}
-          {travellerBlock}
-          {themeBlock}
+          {safariTypeBlock}
           {lengthBlock}
           {sortBlock}
           {moreFiltersToggle}
@@ -646,7 +893,9 @@ export default function SafariFilterPanel({
 
               {searchBlock}
               {countryBlock}
+              {destinationBlock}
               {typeBlock}
+              {safariTypeBlock}
               {lengthBlock}
               {sortBlock}
               {moreFiltersToggle}

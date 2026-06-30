@@ -124,6 +124,7 @@ export default function BookPageContent() {
 
   const [filters, setFilters] = useState<FilterState>({
     country: "",
+    destination: "",
     category: "" as SafariCategory | "",
     safariType: "" as SafariStyle | "",
     duration: "",
@@ -177,6 +178,7 @@ export default function BookPageContent() {
     scrollToResults();
     setFilters({
       country: "",
+      destination: "",
       category: "",
       safariType: "",
       duration: "",
@@ -199,6 +201,7 @@ export default function BookPageContent() {
 
   const apiFilters: SafariFilters = {
     country: filters.country || undefined,
+    destination: filters.destination || undefined,
     category: filters.category || undefined,
     safariType: filters.safariType || undefined,
     difficulty: filters.difficulty || undefined,
@@ -346,6 +349,7 @@ export default function BookPageContent() {
                   searchInput={searchInput}
                   onSearchInput={handleSearchInput}
                   onCountryChange={(v) => set("country", v)}
+                  onDestinationChange={(v) => set("destination", v)}
                   onCategoryChange={(v) => set("category", v)}
                   onSafariTypeChange={(v) => set("safariType", v)}
                   onDurationChange={(v) => set("duration", v)}

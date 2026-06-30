@@ -13,6 +13,7 @@ import {
 import type { Safari } from "@/types";
 import { AnimatedHeading } from "@/components/ui/Heading";
 import { buildAlternates } from "@/lib/seo/hreflang";
+import TitleHero from "@/components/ui/TitleHero";
 
 export const revalidate = 300;
 
@@ -125,9 +126,20 @@ export default async function DestinationsPage() {
   const popularSafaris = await getPopularSafaris();
 
   const countryItems = t.raw("countries.items") as Record<string, CountryItem>;
-  const compareItems = t.raw("compare.items") as Record<string, { best: string[] }>;
-  const heroStats = t.raw("hero.stats") as { num: string; sup: string; lbl: string }[];
-  const fallbackPkgs = t.raw("popular.fallback") as { name: string; country: string; days: string }[];
+  const compareItems = t.raw("compare.items") as Record<
+    string,
+    { best: string[] }
+  >;
+  const heroStats = t.raw("hero.stats") as {
+    num: string;
+    sup: string;
+    lbl: string;
+  }[];
+  const fallbackPkgs = t.raw("popular.fallback") as {
+    name: string;
+    country: string;
+    days: string;
+  }[];
   const fallbackImages = [
     "https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
     "https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=900&q=80",
@@ -160,23 +172,11 @@ export default async function DestinationsPage() {
         }))}
       />
 
-      {/* ── Hero ── */}
-      <PageHero
-        image="https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
-        imageAlt="Elephants crossing the open savannah at golden hour, East Africa"
-        breadcrumbs={[{ label: t("breadcrumbHome"), href: "/" }, { label: t("breadcrumbCurrent") }]}
-        eyebrow={t("hero.eyebrow")}
-        title={
-          <>
-            {t("hero.titleBefore")}
-            <br />
-            {t("hero.titleMid") ? `${t("hero.titleMid")} ` : null}
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>{t("hero.titleEm")}</em>
-            {t("hero.titleSuffix")}
-          </>
-        }
+      <TitleHero
+        eyebrow="Tours and safaris"
+        title="Answer the Call of the Wild"
         description={t("hero.description")}
-        stats={heroStats}
+        backgroundImage="https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
       />
 
       {/* ── Country cards ── */}
@@ -313,7 +313,9 @@ export default async function DestinationsPage() {
                         href={country.href}
                         className="flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] uppercase text-bone-ink hover:text-bone-clay transition-colors group/link"
                       >
-                        <span>{t("countries.exploreLabel")} {country.name}</span>
+                        <span>
+                          {t("countries.exploreLabel")} {country.name}
+                        </span>
                         <span className="w-7 h-7 rounded-full bg-bone-forest text-bone-paper flex items-center justify-center text-[12px] flex-shrink-0 transition-colors duration-200 group-hover/link:bg-bone-clay">
                           →
                         </span>
@@ -341,7 +343,9 @@ export default async function DestinationsPage() {
                 style={{ fontSize: "clamp(26px, 3.5vw, 44px)" }}
               >
                 {t("compare.headingBefore")}
-                <em className="italic text-bone-clay">{t("compare.headingEm")}</em>
+                <em className="italic text-bone-clay">
+                  {t("compare.headingEm")}
+                </em>
                 {t("compare.headingAfter")}
               </h2>
             </div>

@@ -13,6 +13,7 @@ import {
   Instagram,
   Youtube,
   Star,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SiteLink from "@/components/ui/SiteLink";
@@ -96,19 +97,19 @@ function getNavLinks(t: ReturnType<typeof useTranslations>): NavItem[] {
           description: t("nav.safariTypesDropdown.photographic.description"),
         },
         {
-          label: t("nav.safariTypesDropdown.family.label"),
-          href: "/safari-types/family",
-          description: t("nav.safariTypesDropdown.family.description"),
+          label: t("nav.safariTypesDropdown.wildlifeGameViewing.label"),
+          href: "/safari-types/wildlife-game-viewing",
+          description: t("nav.safariTypesDropdown.wildlifeGameViewing.description"),
         },
         {
-          label: t("nav.safariTypesDropdown.honeymoon.label"),
-          href: "/safari-types/honeymoon",
-          description: t("nav.safariTypesDropdown.honeymoon.description"),
+          label: t("nav.safariTypesDropdown.cultural.label"),
+          href: "/safari-types/cultural",
+          description: t("nav.safariTypesDropdown.cultural.description"),
         },
         {
-          label: t("nav.safariTypesDropdown.solo.label"),
-          href: "/safari-types/solo",
-          description: t("nav.safariTypesDropdown.solo.description"),
+          label: t("nav.safariTypesDropdown.adventure.label"),
+          href: "/safari-types/adventure",
+          description: t("nav.safariTypesDropdown.adventure.description"),
         },
       ],
     },
@@ -422,32 +423,37 @@ function DesktopNavLink({
             exit={{ opacity: 0, y: -4 }}
             transition={smoothTransition}
             className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 z-[120]
-                       min-w-[360px] bg-bone-paper rounded-sm overflow-hidden
-                       border border-[rgba(23,22,18,0.12)] shadow-[0_8px_32px_rgba(23,22,18,0.12)]"
+                       min-w-[360px] overflow-hidden rounded-xl border border-bone-ink/12
+                       bg-white shadow-[0_12px_40px_-8px_rgba(0,0,0,0.18)] ring-1 ring-black/5"
           >
-            {/* Arrow notch */}
-            <div
-              className="absolute -top-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px]
-                         bg-bone-paper border-l border-t border-[rgba(23,22,18,0.12)] rotate-45"
-            />
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-bone-ink/8 bg-bone-bg/40 px-4 pt-2.5 pb-2">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-bone-ink/55">
+                {link.label}
+              </p>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="flex h-5 w-5 items-center justify-center rounded-full text-bone-ink/40 transition-colors hover:bg-bone-ink/10 hover:text-bone-ink/70"
+                aria-label="Close"
+              >
+                <X size={12} strokeWidth={2.2} aria-hidden="true" />
+              </button>
+            </div>
 
             {/* Scrollable item list — keeps a constant max height on short
                 (small-laptop) viewports instead of growing past the bottom
                 of the screen */}
             <div
-              className="overflow-y-auto"
+              className="overflow-y-auto p-1.5"
               style={{ maxHeight: "min(72vh, 480px)" }}
             >
-              {link.dropdown.map((item, i) => (
+              {link.dropdown.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className={cn(
-                    "flex flex-col px-5 py-3.5 transition-colors duration-150 hover:bg-bone-bg group",
-                    i < link.dropdown!.length - 1 &&
-                      "border-b border-[rgba(23,22,18,0.07)]",
-                  )}
+                  className="group flex flex-col rounded-lg px-3 py-2.5 transition-colors duration-150 hover:bg-bone-bg/60"
                 >
                   <p className="font-serif font-medium text-bone-ink group-hover:text-bone-forest transition-colors">
                     {item.label}

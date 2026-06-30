@@ -9,6 +9,7 @@ const AccommodationImageSchema = z.object({
 const LocationSchema = z.object({
   country: z.string().min(2, 'Country is required'),
   region: z.string().min(2, 'Region/area is required'),
+  park: z.string().optional().or(z.literal('')),
 })
 
 export const AccommodationSchema = z.object({
