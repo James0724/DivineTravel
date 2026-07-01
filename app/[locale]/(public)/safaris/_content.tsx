@@ -52,31 +52,21 @@ export default function SafarisContent() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Declared before `set`/`resetAll` so filter changes can reposition scroll
-  // to the top of the results list — without this, shrinking the grid while
-  // scrolled down leaves the viewport landing inside the CTA/footer section.
   const resultsTopRef = useRef<HTMLDivElement>(null);
-  const scrollToResults = useCallback(() => {
-    resultsTopRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }, []);
+  const isInitialMount = useRef(true);
 
   const set = useCallback(
     <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
-      scrollToResults();
       setFilters((prev) => ({
         ...prev,
         [key]: value,
         page: key === "page" ? (value as number) : 1,
       }));
     },
-    [scrollToResults],
+    [],
   );
 
   const resetAll = useCallback(() => {
-    scrollToResults();
     setFilters({
       country: "",
       destination: "",
@@ -90,7 +80,7 @@ export default function SafarisContent() {
       page: 1,
     });
     setSearchInput("");
-  }, [scrollToResults]);
+  }, []);
 
   const handleSearchInput = (val: string) => {
     setSearchInput(val);
@@ -113,6 +103,20 @@ export default function SafarisContent() {
     const qs = p.toString();
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
   }, [filters, pathname, router]);
+
+  // Scroll to the results section after each filter/page change.
+  // Using rAF defers the scroll past the router.replace call above so any
+  // internal scroll side-effect from the router fires first and we override it.
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    const id = requestAnimationFrame(() => {
+      resultsTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [filters]);
 
   const dur = DURATIONS.find((d) => d.value === filters.duration);
 
