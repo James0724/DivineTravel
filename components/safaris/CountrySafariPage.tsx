@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
-import { X, AlignJustify } from "lucide-react";
+import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import PkgCard from "@/components/safaris/PkgCard";
-import PageHero, { type HeroStat } from "@/components/ui/PageHero";
-import JumpNav, { type JumpNavLink } from "@/components/ui/JumpNav";
+import { type HeroStat } from "@/components/ui/PageHero";
+import { type JumpNavLink } from "@/components/ui/JumpNav";
 import WhyGrid, { type WhyItem } from "@/components/ui/WhyGrid";
 import ChooseGrid, { type ChooseCell } from "@/components/ui/ChooseGrid";
 import SectionFaq from "@/components/ui/SectionFaq";
@@ -15,6 +15,8 @@ import CtaBand from "@/components/ui/CtaBand";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import type { Safari } from "@/types";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+import TitleHero from "../ui/TitleHero";
 
 export interface Season {
   badge: string;
@@ -55,7 +57,7 @@ export interface CountrySafariPageConfig {
     image: string;
     imageAlt: string;
     breadcrumbs: { label: string; href?: string }[];
-    title: React.ReactNode;
+    title: string;
     description: string;
     stats: HeroStat[];
   };
@@ -136,6 +138,7 @@ export default function CountrySafariPage({
   lodges,
   safaris,
 }: Props) {
+  const t = useTranslations("common.ui.safariPage");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
 
@@ -175,412 +178,373 @@ export default function CountrySafariPage({
 
   return (
     <>
-      <PageHero
+      <TitleHero
+        eyebrow="Safari Tours"
+        title={hero.title}
+        description={hero.description}
+        backgroundImage={hero.image}
+      />
+      {/* <PageHero
         image={hero.image}
         imageAlt={hero.imageAlt}
         breadcrumbs={hero.breadcrumbs}
         title={hero.title}
         description={hero.description}
         stats={hero.stats}
-      />
-
-      {/* Mobile: sticky trigger bar (< lg) */}
-      <div
-        className=" lg:hidden sticky z-20 flex items-center justify-end px-4 py-3"
-        style={{
-          top: `${NAV_H - 1}px`,
-        }}
-      >
-        <button
-          type="button"
-          onClick={() => setMobileOpen(true)}
-          className="bg-bone-bg flex items-center gap-1.5 px-3 py-1.5 border rounded-full font-mono text-[10px] uppercase tracking-[0.12em] transition-all duration-200 hover:border-[var(--forest)] hover:text-[var(--forest)]"
-          style={{ borderColor: "rgba(31,29,24,0.14)", color: "var(--muted)" }}
-        >
-          <AlignJustify size={11} /> Page Sections
-        </button>
-      </div>
+      /> */}
 
       {/* ── Packages section ──────────────────────────────────────────── */}
       <section
         id={packagesId}
         style={{
-          padding: "96px 0",
+          padding: "clamp(48px, 6.5vw, 96px) 0",
           borderBottom: "1px solid rgba(31,29,24,0.14)",
         }}
       >
         <div className="container-site">
-          <div className="lg:flex lg:gap-12 xl:gap-16 lg:items-start">
-            {/* Desktop: sticky sidebar panel (lg+) */}
-            <aside
-              className="hidden lg:block flex-shrink-0 sticky"
-              style={{ top: "90px", width: "220px" }}
-            >
-              <div
-                className="flex flex-col border rounded-sm"
+          {/* Main content */}
+          <div className="flex-1 min-w-0">
+            <div className="section-hd">
+              <div>
+                <div className="eyebrow mb-4">
+                  <span className="dot" />
+                  {packages.eyebrow}
+                </div>
+                <h2
+                  className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
+                  style={{ fontSize: "clamp(36px, 4.8vw, 68px)" }}
+                >
+                  {packages.heading}
+                </h2>
+              </div>
+              <p
+                className="text-sm leading-[1.65] text-bone-muted"
+                style={{ maxWidth: "56ch" }}
+              >
+                {packages.description}
+              </p>
+            </div>
+
+            {safaris.length === 0 ? (
+              <p className="text-sm text-bone-muted py-8">
+                No {countryName} safari packages found — check back soon.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-7">
+                {safaris.map((safari, i) => (
+                  <PkgCard key={String(safari._id)} safari={safari} index={i} />
+                ))}
+              </div>
+            )}
+
+            <div className="mt-14 text-center">
+              <Link href="/contact" className="btn-forest">
+                {packages.ctaText}
+              </Link>
+            </div>
+
+            {/* ── Lodge listing section ──────────────────────────────── */}
+            {lodges && (
+              <section
+                id={`${idPrefix}-lodges`}
                 style={{
+                  padding: "96px 0",
+                  borderTop: "1px solid rgba(31,29,24,0.14)",
                   background: "var(--paper)",
-                  borderColor: "var(--line)",
                 }}
               >
-                <div className="px-4 py-4">
-                  <JumpNav label="Page Sections" links={jumpLinks} vertical />
-                </div>
-              </div>
-            </aside>
-
-            {/* Main content */}
-            <div className="flex-1 min-w-0">
-              <div className="section-hd">
-                <div>
+                <Reveal>
                   <div className="eyebrow mb-4">
                     <span className="dot" />
-                    {packages.eyebrow}
+                    {lodges.eyebrow ?? "Where you will stay"}
                   </div>
                   <h2
-                    className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
-                    style={{ fontSize: "clamp(36px, 4.8vw, 68px)" }}
+                    className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4 mb-4"
+                    style={{ fontSize: "clamp(36px, 4.8vw, 64px)" }}
                   >
-                    {packages.heading}
+                    {lodges.heading}
                   </h2>
-                </div>
-                <p
-                  className="text-sm leading-[1.65] text-bone-muted"
-                  style={{ maxWidth: "56ch" }}
-                >
-                  {packages.description}
-                </p>
-              </div>
+                  <p
+                    className="text-sm leading-[1.65] text-bone-muted mb-12"
+                    style={{ maxWidth: "56ch" }}
+                  >
+                    {lodges.description}
+                  </p>
+                </Reveal>
 
-              {safaris.length === 0 ? (
-                <p className="text-sm text-bone-muted py-8">
-                  No {countryName} safari packages found — check back soon.
-                </p>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-7">
-                  {safaris.map((safari, i) => (
-                    <PkgCard
-                      key={String(safari._id)}
-                      safari={safari}
-                      index={i}
-                    />
+                <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-7">
+                  {lodges.tiers.map((tier) => (
+                    <RevealItem key={tier.label}>
+                      <div
+                        style={{
+                          padding: "28px",
+                          background: "var(--bg)",
+                          border: "1px solid rgba(31,29,24,0.14)",
+                        }}
+                      >
+                        <h3
+                          className="font-serif font-normal leading-tight mb-1"
+                          style={{ fontSize: "26px" }}
+                        >
+                          {tier.label.split(" ").slice(0, -1).join(" ")}{" "}
+                          <em
+                            className="italic"
+                            style={{ color: "var(--clay)" }}
+                          >
+                            {tier.label.split(" ").slice(-1)[0]}
+                          </em>
+                        </h3>
+                        <div
+                          className="font-mono text-[10px] uppercase tracking-[0.14em] mb-5"
+                          style={{ color: "var(--muted)" }}
+                        >
+                          {tier.fromPrice}
+                        </div>
+                        <ul>
+                          {tier.lodges.map((lodge, i) => (
+                            <li
+                              key={lodge.name}
+                              className="flex justify-between items-baseline text-[14px]"
+                              style={{
+                                padding: "12px 0",
+                                borderTop:
+                                  i === 0
+                                    ? "none"
+                                    : "1px solid rgba(31,29,24,0.14)",
+                              }}
+                            >
+                              <span>{lodge.name}</span>
+                              <span
+                                className="font-mono text-[11px] ml-3 flex-shrink-0"
+                                style={{ color: "var(--clay)" }}
+                              >
+                                {"★".repeat(lodge.stars)}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </RevealItem>
                   ))}
+                </Stagger>
+              </section>
+            )}
+
+            <ChooseGrid
+              id={`${idPrefix}-destinations`}
+              eyebrow={choose.eyebrow}
+              heading={choose.heading}
+              description={choose.description}
+              cells={choose.cells}
+              actions={
+                <div className="mt-12">
+                  <Link href={choose.ctaHref} className="btn-forest">
+                    {choose.ctaText}
+                  </Link>
                 </div>
-              )}
+              }
+            />
 
-              <div className="mt-14 text-center">
-                <Link href="/contact" className="btn-forest">
-                  {packages.ctaText}
-                </Link>
+            <WhyGrid
+              id={`${idPrefix}-why`}
+              eyebrow={why.eyebrow ?? "Why choose our packages"}
+              heading={
+                why.heading ?? (
+                  <>
+                    The <em className="italic text-bone-clay">divine</em>
+                    <br />
+                    touch.
+                  </>
+                )
+              }
+              description={
+                why.description ??
+                "Every safari includes our signature attention to detail — and the practical things that actually make a trip run smoothly, before, during and after you travel."
+              }
+              items={why.items}
+            />
+
+            {/* Best time to visit */}
+            <section
+              id={`${idPrefix}-besttime`}
+              className="bg-bone-forest text-bone-paper"
+              style={{ padding: "clamp(56px, 8vw, 120px) 0" }}
+            >
+              <div className="container-site">
+                <div className="section-hd">
+                  <div>
+                    <div
+                      className="eyebrow mb-4"
+                      style={{ color: "rgba(244,239,226,0.6)" }}
+                    >
+                      <span className="dot" />
+                      {t("bestTimeToVisit")}
+                    </div>
+                    <h2
+                      className="font-serif font-normal leading-none tracking-[-0.02em] mt-4"
+                      style={{
+                        fontSize: "clamp(40px, 5.4vw, 76px)",
+                        color: "var(--paper, #faf6ec)",
+                      }}
+                    >
+                      {t("whenToGo")}
+                    </h2>
+                  </div>
+                  <p
+                    className="text-sm leading-[1.65]"
+                    style={{
+                      color: "rgba(244,239,226,0.62)",
+                      maxWidth: "56ch",
+                    }}
+                  >
+                    {bestTime.intro}
+                  </p>
+                </div>
+                <Stagger className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                  {bestTime.seasons.map((s, i) => (
+                    <RevealItem key={i}>
+                      <div
+                        style={{
+                          padding: "40px",
+                          border: "1px solid rgba(244,239,226,0.22)",
+                        }}
+                      >
+                        <div
+                          className="font-mono text-[10px] uppercase tracking-[0.16em] mb-4"
+                          style={{ color: "#f4d4a8" }}
+                        >
+                          {s.badge}
+                        </div>
+                        <h3
+                          className="font-serif font-normal leading-none mb-5"
+                          style={{ fontSize: "40px" }}
+                        >
+                          {s.title}
+                        </h3>
+                        <ul>
+                          {s.points.map((p) => (
+                            <li
+                              key={p}
+                              className="py-3 pl-6 relative"
+                              style={{
+                                borderTop: "1px solid rgba(244,239,226,0.14)",
+                                color: "rgba(244,239,226,0.82)",
+                                fontSize: "15px",
+                                lineHeight: "1.5",
+                              }}
+                            >
+                              <span
+                                className="absolute left-0.5 top-3.5"
+                                style={{ color: "#f4d4a8" }}
+                              >
+                                ›
+                              </span>
+                              {p}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </RevealItem>
+                  ))}
+                </Stagger>
               </div>
+            </section>
 
-              {/* ── Lodge listing section ──────────────────────────────── */}
-              {lodges && (
-                <section
-                  id={`${idPrefix}-lodges`}
-                  style={{
-                    padding: "96px 0",
-                    borderTop: "1px solid rgba(31,29,24,0.14)",
-                    background: "var(--paper)",
-                  }}
-                >
-                  <Reveal>
+            {/* Tailor-made */}
+            <section
+              id={`${idPrefix}-tailor`}
+              className="bg-bone-bg"
+              style={{ padding: "clamp(64px, 9vw, 140px) 0" }}
+            >
+              <div className="container-site">
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-20 items-center">
+                <Reveal variant="fadeUp">
+                  <div>
                     <div className="eyebrow mb-4">
                       <span className="dot" />
-                      {lodges.eyebrow ?? "Where you will stay"}
+                      {tailor.eyebrow}
                     </div>
                     <h2
                       className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4 mb-4"
-                      style={{ fontSize: "clamp(36px, 4.8vw, 64px)" }}
+                      style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
                     >
-                      {lodges.heading}
+                      {t("everyTravellerDifferent")}
                     </h2>
                     <p
-                      className="text-sm leading-[1.65] text-bone-muted mb-12"
-                      style={{ maxWidth: "56ch" }}
+                      className="text-[16px] leading-[1.65] text-bone-muted mb-8"
+                      style={{ maxWidth: "48ch" }}
                     >
-                      {lodges.description}
+                      {tailor.description}
                     </p>
-                  </Reveal>
-
-                  <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-7">
-                    {lodges.tiers.map((tier) => (
-                      <RevealItem key={tier.label}>
-                        <div
-                          style={{
-                            padding: "28px",
-                            background: "var(--bg)",
-                            border: "1px solid rgba(31,29,24,0.14)",
-                          }}
-                        >
-                          <h3
-                            className="font-serif font-normal leading-tight mb-1"
-                            style={{ fontSize: "26px" }}
-                          >
-                            {tier.label.split(" ").slice(0, -1).join(" ")}{" "}
-                            <em
-                              className="italic"
-                              style={{ color: "var(--clay)" }}
-                            >
-                              {tier.label.split(" ").slice(-1)[0]}
-                            </em>
-                          </h3>
-                          <div
-                            className="font-mono text-[10px] uppercase tracking-[0.14em] mb-5"
-                            style={{ color: "var(--muted)" }}
-                          >
-                            {tier.fromPrice}
-                          </div>
-                          <ul>
-                            {tier.lodges.map((lodge, i) => (
-                              <li
-                                key={lodge.name}
-                                className="flex justify-between items-baseline text-[14px]"
-                                style={{
-                                  padding: "12px 0",
-                                  borderTop:
-                                    i === 0
-                                      ? "none"
-                                      : "1px solid rgba(31,29,24,0.14)",
-                                }}
-                              >
-                                <span>{lodge.name}</span>
-                                <span
-                                  className="font-mono text-[11px] ml-3 flex-shrink-0"
-                                  style={{ color: "var(--clay)" }}
-                                >
-                                  {"★".repeat(lodge.stars)}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </RevealItem>
-                    ))}
-                  </Stagger>
-                </section>
-              )}
-
-              <ChooseGrid
-                id={`${idPrefix}-destinations`}
-                eyebrow={choose.eyebrow}
-                heading={choose.heading}
-                description={choose.description}
-                cells={choose.cells}
-                actions={
-                  <div className="mt-12">
-                    <Link href={choose.ctaHref} className="btn-forest">
-                      {choose.ctaText}
-                    </Link>
-                  </div>
-                }
-              />
-
-              <WhyGrid
-                id={`${idPrefix}-why`}
-                eyebrow={why.eyebrow ?? "Why choose our packages"}
-                heading={
-                  why.heading ?? (
-                    <>
-                      The <em className="italic text-bone-clay">divine</em>
-                      <br />
-                      touch.
-                    </>
-                  )
-                }
-                description={
-                  why.description ??
-                  "Every safari includes our signature attention to detail — and the practical things that actually make a trip run smoothly, before, during and after you travel."
-                }
-                items={why.items}
-              />
-
-              {/* Best time to visit */}
-              <section
-                id={`${idPrefix}-besttime`}
-                className="bg-bone-forest text-bone-paper"
-                style={{ padding: "120px 0" }}
-              >
-                <div className="container-site">
-                  <div className="section-hd">
-                    <div>
-                      <div
-                        className="eyebrow mb-4"
-                        style={{ color: "rgba(244,239,226,0.6)" }}
-                      >
-                        <span className="dot" />
-                        Best time to visit
-                      </div>
-                      <h2
-                        className="font-serif font-normal leading-none tracking-[-0.02em] mt-4"
-                        style={{
-                          fontSize: "clamp(40px, 5.4vw, 76px)",
-                          color: "var(--paper, #faf6ec)",
-                        }}
-                      >
-                        When to{" "}
-                        <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>
-                          go
-                        </em>
-                        .
-                      </h2>
-                    </div>
-                    <p
-                      className="text-sm leading-[1.65]"
-                      style={{
-                        color: "rgba(244,239,226,0.62)",
-                        maxWidth: "56ch",
-                      }}
-                    >
-                      {bestTime.intro}
-                    </p>
-                  </div>
-                  <Stagger className="grid grid-cols-1 lg:grid-cols-2 gap-7">
-                    {bestTime.seasons.map((s, i) => (
-                      <RevealItem key={i}>
-                        <div
-                          style={{
-                            padding: "40px",
-                            border: "1px solid rgba(244,239,226,0.22)",
-                          }}
-                        >
-                          <div
-                            className="font-mono text-[10px] uppercase tracking-[0.16em] mb-4"
-                            style={{ color: "#f4d4a8" }}
-                          >
-                            {s.badge}
-                          </div>
-                          <h3
-                            className="font-serif font-normal leading-none mb-5"
-                            style={{ fontSize: "40px" }}
-                          >
-                            {s.title}
-                          </h3>
-                          <ul>
-                            {s.points.map((p) => (
-                              <li
-                                key={p}
-                                className="py-3 pl-6 relative"
-                                style={{
-                                  borderTop: "1px solid rgba(244,239,226,0.14)",
-                                  color: "rgba(244,239,226,0.82)",
-                                  fontSize: "15px",
-                                  lineHeight: "1.5",
-                                }}
-                              >
-                                <span
-                                  className="absolute left-0.5 top-3.5"
-                                  style={{ color: "#f4d4a8" }}
-                                >
-                                  ›
-                                </span>
-                                {p}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </RevealItem>
-                    ))}
-                  </Stagger>
-                </div>
-              </section>
-
-              {/* Tailor-made */}
-              <section
-                id={`${idPrefix}-tailor`}
-                className="bg-bone-bg"
-                style={{ padding: "140px 0" }}
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-20 items-center">
-                  <Reveal variant="fadeUp">
-                    <div>
-                      <div className="eyebrow mb-4">
-                        <span className="dot" />
-                        {tailor.eyebrow}
-                      </div>
-                      <h2
-                        className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4 mb-4"
-                        style={{ fontSize: "clamp(40px, 5vw, 64px)" }}
-                      >
-                        Every traveller is{" "}
-                        <em className="italic text-bone-clay">different</em>.
-                      </h2>
-                      <p
-                        className="text-[16px] leading-[1.65] text-bone-muted mb-8"
-                        style={{ maxWidth: "48ch" }}
-                      >
-                        {tailor.description}
-                      </p>
-                      <ul>
-                        {tailor.points.map((t) => (
-                          <li
-                            key={t.ic}
-                            className="py-4 grid items-center gap-3.5"
-                            style={{
-                              borderTop: "1px solid rgba(31,29,24,0.14)",
-                              gridTemplateColumns: "32px 1fr",
-                            }}
-                          >
-                            <div className="font-serif italic text-[18px] text-bone-clay">
-                              {t.ic}
-                            </div>
-                            <div>
-                              <strong className="font-medium text-sm text-bone-ink">
-                                {t.b}
-                              </strong>{" "}
-                              <span className="text-[13px] text-bone-muted">
-                                · {t.s}
-                              </span>
-                            </div>
-                          </li>
-                        ))}
+                    <ul>
+                      {tailor.points.map((t) => (
                         <li
+                          key={t.ic}
+                          className="py-4 grid items-center gap-3.5"
                           style={{
                             borderTop: "1px solid rgba(31,29,24,0.14)",
-                            borderBottom: "1px solid rgba(31,29,24,0.14)",
+                            gridTemplateColumns: "32px 1fr",
                           }}
-                        />
-                      </ul>
-                      <Link
-                        href="/contact"
-                        className="btn-forest inline-flex items-center gap-3 mt-8"
-                      >
-                        Chat with a safari expert — planning is free →
-                      </Link>
-                    </div>
-                  </Reveal>
-                  <Reveal variant="fadeUp" delay={0.1}>
-                    <div
-                      className="overflow-hidden"
-                      style={{ aspectRatio: "5/6" }}
-                    >
-                      <OptimizedImage
-                        src={tailor.image}
-                        alt={tailor.imageAlt}
-                        width={900}
-                        height={1080}
-                        className="w-full h-full object-cover"
+                        >
+                          <div className="font-serif italic text-[18px] text-bone-clay">
+                            {t.ic}
+                          </div>
+                          <div>
+                            <strong className="font-medium text-sm text-bone-ink">
+                              {t.b}
+                            </strong>{" "}
+                            <span className="text-[13px] text-bone-muted">
+                              · {t.s}
+                            </span>
+                          </div>
+                        </li>
+                      ))}
+                      <li
+                        style={{
+                          borderTop: "1px solid rgba(31,29,24,0.14)",
+                          borderBottom: "1px solid rgba(31,29,24,0.14)",
+                        }}
                       />
-                    </div>
-                  </Reveal>
-                </div>
-              </section>
+                    </ul>
+                    <Link
+                      href="/contact"
+                      className="btn-forest inline-flex items-center gap-3 mt-8"
+                    >
+                      {t("chatWithExpert")}
+                    </Link>
+                  </div>
+                </Reveal>
+                <Reveal variant="fadeUp" delay={0.1}>
+                  <div
+                    className="overflow-hidden"
+                    style={{ aspectRatio: "5/6" }}
+                  >
+                    <OptimizedImage
+                      src={tailor.image}
+                      alt={tailor.imageAlt}
+                      width={900}
+                      height={1080}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </Reveal>
+              </div>
+              </div>
+            </section>
 
-              <SectionFaq
-                id={`${idPrefix}-faq`}
-                eyebrow={faq.eyebrow}
-                heading={
-                  faq.heading ?? (
-                    <>
-                      Before you <em className="italic text-bone-clay">book</em>
-                      .
-                    </>
-                  )
-                }
-                contactNote={faq.contactNote}
-                faqs={faq.items}
-              />
-            </div>
+            <SectionFaq
+              id={`${idPrefix}-faq`}
+              eyebrow={faq.eyebrow}
+              heading={
+                faq.heading ?? (
+                  <>
+                    Before you <em className="italic text-bone-clay">book</em>.
+                  </>
+                )
+              }
+              contactNote={faq.contactNote}
+              faqs={faq.items}
+            />
           </div>
         </div>
       </section>
@@ -619,15 +583,15 @@ export default function CountrySafariPage({
                 className="flex items-center justify-between px-5 py-3.5 flex-shrink-0"
                 style={{ borderBottom: "1px solid var(--line-soft)" }}
               >
-                <span className="font-serif text-[clamp(18px, 5vw, 24px)] uppercase tracking-[0.18em]">
-                  On this page
+                <span className="font-serif text-[clamp(18px,5vw,24px)] uppercase tracking-[0.18em]">
+                  {t("onThisPage")}
                 </span>
                 <button
                   type="button"
                   onClick={() => setMobileOpen(false)}
                   className="w-7 h-7 flex items-center justify-center rounded-full transition-colors hover:bg-[var(--line)]"
                   style={{ color: "var(--muted)" }}
-                  aria-label="Close navigation"
+                  aria-label={t("closeNav")}
                 >
                   <X size={15} />
                 </button>

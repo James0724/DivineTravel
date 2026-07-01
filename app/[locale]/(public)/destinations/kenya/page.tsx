@@ -97,10 +97,7 @@ export default async function KenyaDestinationPage() {
       eyebrow: "Why Kenya parks are the best in Africa",
       heading: (
         <>
-          One country,
-          <br />
-          every <em className="italic text-bone-clay">safari</em>
-          <br />
+          One country, every <em className="italic text-bone-clay">safari</em>{" "}
           you could want.
         </>
       ),

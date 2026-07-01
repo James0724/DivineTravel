@@ -5,25 +5,27 @@ import {
   BreadcrumbSchema,
   FaqSchema,
   CollectionPageSchema,
+  TouristDestinationSchema,
 } from "@/components/seo/StructuredData";
 import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
 import PkgCard from "@/components/safaris/PkgCard";
-import PageHero from "@/components/ui/PageHero";
-import JumpNav from "@/components/ui/JumpNav";
 import SectionFaq from "@/components/ui/SectionFaq";
-import CtaBand from "@/components/ui/CtaBand";
 import type { Safari } from "@/types";
+import TitleHero from "@/components/ui/TitleHero";
+import ChooseGrid from "@/components/ui/ChooseGrid";
 
 export const metadata: Metadata = {
-  title: "Rwanda Safari Packages 2026/2027 — Gorilla Trekking, Nyungwe Chimps & Akagera Big Five",
+  title:
+    "Rwanda Safari Packages 2026/2027 — Gorilla Trekking, Nyungwe Chimps & Akagera Big Five",
   description:
     "Book Rwanda gorilla trekking tours 2026/2027 in Volcanoes National Park — 12 habituated families, $1,500 permits. Chimpanzee trekking in Nyungwe Forest, Big Five safaris in Akagera and canopy walkway. Expert-guided, luxury-focused Rwanda safari packages from Kigali.",
   keywords:
     "rwanda gorilla trekking 2026, volcanoes national park gorillas, nyungwe forest chimpanzee, akagera big five safari, rwanda safari packages 2027, rwanda wildlife tour, kigali safari, virunga volcanoes gorillas, rwanda luxury safari lodge, gorilla trekking africa, rwanda akagera game drive, nyungwe canopy walkway, rwanda gorilla permit",
   alternates: { canonical: "/en/safaris/rwanda" },
   openGraph: {
-    title: "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
+    title:
+      "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
     description:
       "Rwanda gorilla trekking in Volcanoes NP, chimp trekking in Nyungwe Forest and Big Five safaris in Akagera — expert-guided, luxury-focused packages from Kigali.",
     type: "website",
@@ -34,6 +36,16 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Mountain gorilla family in Volcanoes National Park Rwanda",
       },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
+    description:
+      "Rwanda gorilla trekking in Volcanoes NP, chimp trekking in Nyungwe Forest and Big Five safaris in Akagera — luxury packages from Kigali.",
+    images: [
+      "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
     ],
   },
 };
@@ -73,7 +85,11 @@ const trekSteps = [
 
 const permitPrices = [
   { who: "Foreign non-residents", note: "Standard permit", amount: "$1,500" },
-  { who: "Foreign residents", note: "Valid Rwanda residency", amount: "$1,000" },
+  {
+    who: "Foreign residents",
+    note: "Valid Rwanda residency",
+    amount: "$1,000",
+  },
   { who: "East African citizens", note: "EAC nationals", amount: "RWF 200k" },
 ];
 
@@ -241,53 +257,95 @@ export default async function RwandaSafarisPage() {
           description: s.tagline,
         }))}
       />
-
-      <PageHero
-        image="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
-        imageAlt="Mountain gorilla family in Volcanoes National Park, Rwanda"
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Tours & Safaris", href: "/safaris" },
-          { label: "Rwanda Safaris" },
-        ]}
-        title={
-          <>
-            Rwanda gorilla trekking
-            <br />
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>& safaris 2026/2027</em>.
-          </>
-        }
-        description="Trek the Virunga volcanoes to meet wild mountain gorillas in Volcanoes National Park, track chimps in Nyungwe Forest and see the Big Five in Akagera — Rwanda's three-park safari circuit."
-        stats={[
-          { num: "12", sup: "", lbl: "Habituated gorilla families" },
-          { num: "3", sup: "", lbl: "Iconic national parks" },
-          { num: "$1,500", sup: "", lbl: "Gorilla permit · premium access" },
+      <TouristDestinationSchema
+        name="Rwanda — Gorilla Trekking & Wildlife Safari Destination"
+        description="Rwanda is a compact, biodiverse safari destination in East Africa offering mountain gorilla trekking in Volcanoes National Park, chimpanzee tracking in Nyungwe Forest and Big Five game drives in Akagera National Park."
+        url="https://divinetravelnestsafaris.com/safaris/rwanda"
+        image="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80"
+        countryCode="RW"
+        highlights={[
+          "Mountain gorilla trekking — Volcanoes National Park",
+          "Chimpanzee tracking — Nyungwe Forest",
+          "Big Five game drives — Akagera National Park",
+          "70-metre canopy walkway — Nyungwe",
+          "Golden monkey trekking — Virunga Massif",
+          "Lake Kivu beach extension",
         ]}
       />
 
-      <CtaBand
-        variant="large"
-        heading={
-          <>
-            Trek the gorillas of{" "}
-            <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>Volcanoes</em>.
-          </>
-        }
-        description="Tell us your dates and we'll secure your permit, match you to the right family and lodge, and handle every transfer from Kigali. Free, no-obligation, answered by a real person."
-        buttonText="Plan my Rwanda safari"
+      <TitleHero
+        eyebrow="Safari Tours"
+        title="Rwanda Safari Packages 2026/2027"
+        description="Track mountain gorillas in Volcanoes National Park, chimps in Nyungwe Forest and the Big Five in Akagera — experience Rwanda's three remarkable ecosystems on one unforgettable trip."
+        backgroundImage="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
       />
+
+      {/* Tours / packages */}
+      <section
+        id="rw-tours"
+        className="bg-bone-bg"
+        style={{
+          padding: "clamp(56px, 8vw, 120px) 0",
+          borderBottom: "1px solid rgba(31,29,24,0.14)",
+        }}
+      >
+        <div className="container-site">
+          <div className="section-hd" style={{ marginBottom: "64px" }}>
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Rwanda safari packages
+              </div>
+              <h2
+                className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
+                style={{ fontSize: "clamp(40px, 5.4vw, 76px)" }}
+              >
+                Rwanda <em className="italic text-bone-clay">itineraries</em>.
+              </h2>
+            </div>
+            <p
+              className="text-sm leading-[1.65] text-bone-muted"
+              style={{ maxWidth: "56ch" }}
+            >
+              Gorilla trekking, chimp tracking, Akagera Big Five, Lake Kivu
+              beach — every itinerary fully customised around your dates and
+              group size.
+            </p>
+          </div>
+          {safaris.length === 0 ? (
+            <p className="text-sm text-bone-muted py-8">
+              Rwanda safari packages coming soon — contact us to build a bespoke
+              itinerary.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+              {safaris.map((safari, i) => (
+                <PkgCard key={String(safari._id)} safari={safari} index={i} />
+              ))}
+            </div>
+          )}
+          <div className="mt-14 text-center">
+            <Link href="/contact" className="btn-forest">
+              Request a custom Rwanda safari quote →
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Why Rwanda */}
       <section
         className="bg-bone-paper"
         style={{
-          padding: "120px 0",
+          padding: "clamp(56px, 8vw, 120px) 0",
           borderTop: "1px solid rgba(31,29,24,0.14)",
         }}
       >
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-16 lg:gap-24 items-center">
-            <div className="grid grid-cols-2 gap-4" style={{ aspectRatio: "1/1.1" }}>
+            <div
+              className="grid grid-cols-2 gap-4"
+              style={{ aspectRatio: "1/1.1" }}
+            >
               <div className="overflow-hidden" style={{ aspectRatio: "3/4" }}>
                 <OptimizedImage
                   src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=600&q=80"
@@ -297,7 +355,10 @@ export default async function RwandaSafarisPage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="overflow-hidden mt-10" style={{ aspectRatio: "3/4" }}>
+              <div
+                className="overflow-hidden mt-10"
+                style={{ aspectRatio: "3/4" }}
+              >
                 <OptimizedImage
                   src="https://images.pexels.com/photos/39857/leopard-leopard-spots-animal-wild-39857.jpeg?auto=compress&cs=tinysrgb&w=600&q=80"
                   alt="Wildlife in Akagera National Park, Rwanda"
@@ -363,315 +424,336 @@ export default async function RwandaSafarisPage() {
         </div>
       </section>
 
+      {/* Destinations grid */}
+      <section className="container-site">
+        <ChooseGrid
+          id="rw-destinations"
+          eyebrow="Best Rwanda safari destinations we cover"
+          heading={
+            <>
+              Start from what
+              <br />
+              you want to <em className="italic text-bone-clay">see</em>.
+            </>
+          }
+          description="Tell us the wildlife or experience you're chasing and we'll combine the right parks into a seamless Rwanda itinerary."
+          cells={[
+            { want: "For gorilla trekking", go: "Volcanoes NP" },
+            { want: "For chimpanzees", go: "Nyungwe Forest" },
+            { want: "For the Big Five", go: "Akagera NP" },
+            { want: "For the canopy walk", go: "Nyungwe" },
+            { want: "For golden monkeys", go: "Volcanoes" },
+            { want: "For lake & beach", go: "Lake Kivu" },
+            { want: "For history & culture", go: "Kigali" },
+            { want: "For two countries", go: "Rwanda–Uganda" },
+          ]}
+          actions={
+            <div className="mt-12">
+              <Link href="/destinations/rwanda" className="btn-forest">
+                Explore all Rwanda wildlife parks →
+              </Link>
+            </div>
+          }
+        />
+      </section>
+
       {/* Parks */}
       <section
         className="bg-bone-bg"
         style={{
-          padding: "96px 0",
+          padding: "clamp(48px, 6.5vw, 96px) 0",
           borderBottom: "1px solid rgba(31,29,24,0.14)",
         }}
       >
         <div className="container-site">
-          <div className="lg:flex lg:gap-12 xl:gap-16 lg:items-start">
-            <JumpNav
-              vertical
-              label="On this page"
-              links={[
-                { label: "Volcanoes", href: "#rw-volcanoes" },
-                { label: "Nyungwe", href: "#rw-nyungwe" },
-                { label: "Akagera", href: "#rw-akagera" },
-                { label: "The trek", href: "#rw-trek" },
-                { label: "Permits", href: "#rw-permit" },
-                { label: "What to pack", href: "#rw-fitness" },
-                { label: "Where to stay", href: "#rw-stays" },
-                { label: "Tours", href: "#rw-tours" },
-                { label: "FAQs", href: "#rw-faq" },
-              ]}
-            />
-
-            <div className="flex-1 min-w-0">
-              <div className="section-hd" style={{ marginBottom: "72px" }}>
-                <div>
-                  <div className="eyebrow mb-4">
-                    <span className="dot" />
-                    Rwanda&apos;s national parks
-                  </div>
-                  <h2
-                    className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
-                    style={{ fontSize: "clamp(36px, 4.8vw, 68px)" }}
-                  >
-                    Three parks,{" "}
-                    <em className="italic text-bone-clay">three worlds</em>.
-                  </h2>
+          <div className="flex-1 min-w-0">
+            <div className="section-hd" style={{ marginBottom: "72px" }}>
+              <div>
+                <div className="eyebrow mb-4">
+                  <span className="dot" />
+                  Rwanda&apos;s national parks
                 </div>
-                <p
-                  className="text-sm leading-[1.65] text-bone-muted"
-                  style={{ maxWidth: "56ch" }}
+                <h2
+                  className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
+                  style={{ fontSize: "clamp(36px, 4.8vw, 68px)" }}
                 >
-                  Rwanda&apos;s three main safari parks are strikingly different
-                  from each other — volcanic highlands, ancient rainforest and
-                  open savannah all within a few hours of Kigali.
-                </p>
+                  Three parks,{" "}
+                  <em className="italic text-bone-clay">three worlds</em>.
+                </h2>
               </div>
-
-              {/* Volcanoes */}
-              <article
-                id="rw-volcanoes"
-                className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16"
-                style={{ border: "1px solid rgba(31,29,24,0.14)" }}
+              <p
+                className="text-sm leading-[1.65] text-bone-muted"
+                style={{ maxWidth: "56ch" }}
               >
-                <div
-                  className="relative overflow-hidden"
-                  style={{ aspectRatio: "5/4", minHeight: "340px" }}
-                >
-                  <OptimizedImage
-                    src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
-                    alt="Mountain gorilla in Volcanoes National Park, Rwanda"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                  <div
-                    className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
-                    style={{ background: "var(--clay, #9d4519)" }}
-                  >
-                    01 · <strong>Volcanoes</strong>
-                  </div>
-                </div>
-                <div className="p-5 sm:p-8 lg:p-11">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
-                    12 habituated families · Virunga Massif
-                  </div>
-                  <h3
-                    className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
-                    style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
-                  >
-                    Volcanoes{" "}
-                    <em className="italic text-bone-clay">National Park</em>
-                  </h3>
-                  <p className="text-sm leading-[1.65] text-bone-muted mb-8">
-                    The jewel of Rwanda — five dormant volcanoes rising above
-                    2,400 metres, home to twelve habituated mountain gorilla
-                    families. This is where Dian Fossey conducted her famous
-                    research, and where some of the most moving wildlife
-                    encounters on Earth take place daily. Golden monkey trekking
-                    is an excellent add-on.
-                  </p>
-                  <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                    {[
-                      {
-                        heading: "Gorilla highlights",
-                        items: [
-                          "12 habituated families — daily treks available",
-                          "Part of the Virunga ecosystem (Uganda, DRC)",
-                        ],
-                      },
-                      {
-                        heading: "Also in the park",
-                        items: [
-                          "Golden monkey trekking",
-                          "Dian Fossey tomb hike · Karisimbi volcano",
-                        ],
-                      },
-                    ].map((col) => (
-                      <div key={col.heading}>
-                        <h5 className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-3">
-                          {col.heading}
-                        </h5>
-                        <ul className="text-[14px] text-bone-muted space-y-1.5">
-                          {col.items.map((item) => (
-                            <li
-                              key={item}
-                              style={{
-                                paddingLeft: "14px",
-                                borderLeft: "2px solid rgba(31,29,24,0.2)",
-                              }}
-                            >
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
-                    <span className="text-bone-muted">Best for</span>
-                    <span className="text-bone-forest font-medium">
-                      Gorilla & golden monkey trekking
-                    </span>
-                  </div>
-                </div>
-              </article>
-
-              {/* Nyungwe */}
-              <article
-                id="rw-nyungwe"
-                className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16"
-                style={{ border: "1px solid rgba(31,29,24,0.14)" }}
-              >
-                <div className="order-2 lg:order-1 p-5 sm:p-8 lg:p-11">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
-                    13 primate species · Canopy walkway
-                  </div>
-                  <h3
-                    className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
-                    style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
-                  >
-                    Nyungwe Forest{" "}
-                    <em className="italic text-bone-clay">National Park</em>
-                  </h3>
-                  <p className="text-sm leading-[1.65] text-bone-muted mb-8">
-                    One of Africa&apos;s oldest and most biodiverse montane
-                    rainforests, spread across Rwanda&apos;s south-west corner.
-                    Nyungwe is home to habituated chimpanzees, thirteen primate
-                    species and over 300 bird species. Its 70-metre-high canopy
-                    walkway — a suspension bridge above the forest — is one of
-                    the most unique experiences in East Africa.
-                  </p>
-                  <ul
-                    className="text-[14px] text-bone-muted mb-8"
-                    style={{ borderTop: "1px solid rgba(31,29,24,0.14)" }}
-                  >
-                    {[
-                      "Habituated chimpanzee trekking",
-                      "70-metre forest canopy walkway",
-                      "Angolan colobus & L'Hoest's monkey",
-                      "Over 300 bird species · 29 Albertine Rift endemics",
-                    ].map((h) => (
-                      <li
-                        key={h}
-                        className="py-3 relative pl-5"
-                        style={{ borderBottom: "1px solid rgba(31,29,24,0.14)" }}
-                      >
-                        <span className="absolute left-0 top-3.5 text-bone-clay">
-                          ›
-                        </span>
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
-                    <span className="text-bone-muted">Best for</span>
-                    <span className="text-bone-forest font-medium">
-                      Chimps, canopy walk & birding
-                    </span>
-                  </div>
-                </div>
-                <div
-                  className="relative overflow-hidden order-1 lg:order-2"
-                  style={{ aspectRatio: "5/4", minHeight: "340px" }}
-                >
-                  <OptimizedImage
-                    src="https://images.pexels.com/photos/12635318/pexels-photo-12635318.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
-                    alt="Chimpanzee in Nyungwe Forest National Park, Rwanda"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                  <div
-                    className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
-                    style={{ background: "var(--clay, #9d4519)" }}
-                  >
-                    02 · <strong>Nyungwe</strong>
-                  </div>
-                </div>
-              </article>
-
-              {/* Akagera */}
-              <article
-                id="rw-akagera"
-                className="grid grid-cols-1 lg:grid-cols-2 gap-0"
-                style={{ border: "1px solid rgba(31,29,24,0.14)" }}
-              >
-                <div
-                  className="relative overflow-hidden"
-                  style={{ aspectRatio: "5/4", minHeight: "340px" }}
-                >
-                  <OptimizedImage
-                    src="https://images.pexels.com/photos/3384447/pexels-photo-3384447.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
-                    alt="Elephant at Akagera National Park, Rwanda"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                  <div
-                    className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
-                    style={{ background: "var(--clay, #9d4519)" }}
-                  >
-                    03 · <strong>Akagera</strong>
-                  </div>
-                </div>
-                <div className="p-5 sm:p-8 lg:p-11">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
-                    Big Five · Rwanda&apos;s only savannah park
-                  </div>
-                  <h3
-                    className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
-                    style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
-                  >
-                    Akagera{" "}
-                    <em className="italic text-bone-clay">National Park</em>
-                  </h3>
-                  <p className="text-sm leading-[1.65] text-bone-muted mb-8">
-                    Rwanda&apos;s only savannah park, bordering Tanzania along
-                    the Akagera River. A remarkable conservation success story
-                    — lions were reintroduced in 2015 and black rhinos in 2017,
-                    completing the Big Five. Game drives, boat safaris on Lake
-                    Ihema and night game drives make Akagera a natural complement
-                    to the primate parks.
-                  </p>
-                  <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                    {[
-                      {
-                        heading: "The Big Five",
-                        items: [
-                          "Lion, elephant, buffalo — resident year-round",
-                          "Black rhino (reintroduced 2017)",
-                        ],
-                      },
-                      {
-                        heading: "Safari activities",
-                        items: [
-                          "Game drives — morning & afternoon",
-                          "Boat safari on Lake Ihema · night drives",
-                        ],
-                      },
-                    ].map((col) => (
-                      <div key={col.heading}>
-                        <h5 className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-3">
-                          {col.heading}
-                        </h5>
-                        <ul className="text-[14px] text-bone-muted space-y-1.5">
-                          {col.items.map((item) => (
-                            <li
-                              key={item}
-                              style={{
-                                paddingLeft: "14px",
-                                borderLeft: "2px solid rgba(31,29,24,0.2)",
-                              }}
-                            >
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
-                    <span className="text-bone-muted">Best for</span>
-                    <span className="text-bone-forest font-medium">
-                      Big Five & boat safari
-                    </span>
-                  </div>
-                </div>
-              </article>
+                Rwanda&apos;s three main safari parks are strikingly different
+                from each other — volcanic highlands, ancient rainforest and
+                open savannah all within a few hours of Kigali.
+              </p>
             </div>
+
+            {/* Volcanoes */}
+            <article
+              id="rw-volcanoes"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16"
+              style={{ border: "1px solid rgba(31,29,24,0.14)" }}
+            >
+              <div
+                className="relative overflow-hidden"
+                style={{ aspectRatio: "5/4", minHeight: "340px" }}
+              >
+                <OptimizedImage
+                  src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                  alt="Mountain gorilla in Volcanoes National Park, Rwanda"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div
+                  className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
+                  style={{ background: "var(--clay, #9d4519)" }}
+                >
+                  01 · <strong>Volcanoes</strong>
+                </div>
+              </div>
+              <div className="p-5 sm:p-8 lg:p-11">
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
+                  12 habituated families · Virunga Massif
+                </div>
+                <h3
+                  className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
+                  style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
+                >
+                  Volcanoes{" "}
+                  <em className="italic text-bone-clay">National Park</em>
+                </h3>
+                <p className="text-sm leading-[1.65] text-bone-muted mb-8">
+                  The jewel of Rwanda — five dormant volcanoes rising above
+                  2,400 metres, home to twelve habituated mountain gorilla
+                  families. This is where Dian Fossey conducted her famous
+                  research, and where some of the most moving wildlife
+                  encounters on Earth take place daily. Golden monkey trekking
+                  is an excellent add-on.
+                </p>
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6 mb-8">
+                  {[
+                    {
+                      heading: "Gorilla highlights",
+                      items: [
+                        "12 habituated families — daily treks available",
+                        "Part of the Virunga ecosystem (Uganda, DRC)",
+                      ],
+                    },
+                    {
+                      heading: "Also in the park",
+                      items: [
+                        "Golden monkey trekking",
+                        "Dian Fossey tomb hike · Karisimbi volcano",
+                      ],
+                    },
+                  ].map((col) => (
+                    <div key={col.heading}>
+                      <h5 className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-3">
+                        {col.heading}
+                      </h5>
+                      <ul className="text-[14px] text-bone-muted space-y-1.5">
+                        {col.items.map((item) => (
+                          <li
+                            key={item}
+                            style={{
+                              paddingLeft: "14px",
+                              borderLeft: "2px solid rgba(31,29,24,0.2)",
+                            }}
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
+                  <span className="text-bone-muted">Best for</span>
+                  <span className="text-bone-forest font-medium">
+                    Gorilla & golden monkey trekking
+                  </span>
+                </div>
+              </div>
+            </article>
+
+            {/* Nyungwe */}
+            <article
+              id="rw-nyungwe"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16"
+              style={{ border: "1px solid rgba(31,29,24,0.14)" }}
+            >
+              <div className="order-2 lg:order-1 p-5 sm:p-8 lg:p-11">
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
+                  13 primate species · Canopy walkway
+                </div>
+                <h3
+                  className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
+                  style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
+                >
+                  Nyungwe Forest{" "}
+                  <em className="italic text-bone-clay">National Park</em>
+                </h3>
+                <p className="text-sm leading-[1.65] text-bone-muted mb-8">
+                  One of Africa&apos;s oldest and most biodiverse montane
+                  rainforests, spread across Rwanda&apos;s south-west corner.
+                  Nyungwe is home to habituated chimpanzees, thirteen primate
+                  species and over 300 bird species. Its 70-metre-high canopy
+                  walkway — a suspension bridge above the forest — is one of the
+                  most unique experiences in East Africa.
+                </p>
+                <ul
+                  className="text-[14px] text-bone-muted mb-8"
+                  style={{ borderTop: "1px solid rgba(31,29,24,0.14)" }}
+                >
+                  {[
+                    "Habituated chimpanzee trekking",
+                    "70-metre forest canopy walkway",
+                    "Angolan colobus & L'Hoest's monkey",
+                    "Over 300 bird species · 29 Albertine Rift endemics",
+                  ].map((h) => (
+                    <li
+                      key={h}
+                      className="py-3 relative pl-5"
+                      style={{
+                        borderBottom: "1px solid rgba(31,29,24,0.14)",
+                      }}
+                    >
+                      <span className="absolute left-0 top-3.5 text-bone-clay">
+                        ›
+                      </span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
+                  <span className="text-bone-muted">Best for</span>
+                  <span className="text-bone-forest font-medium">
+                    Chimps, canopy walk & birding
+                  </span>
+                </div>
+              </div>
+              <div
+                className="relative overflow-hidden order-1 lg:order-2"
+                style={{ aspectRatio: "5/4", minHeight: "340px" }}
+              >
+                <OptimizedImage
+                  src="https://images.pexels.com/photos/12635318/pexels-photo-12635318.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                  alt="Chimpanzee in Nyungwe Forest National Park, Rwanda"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div
+                  className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
+                  style={{ background: "var(--clay, #9d4519)" }}
+                >
+                  02 · <strong>Nyungwe</strong>
+                </div>
+              </div>
+            </article>
+
+            {/* Akagera */}
+            <article
+              id="rw-akagera"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-0"
+              style={{ border: "1px solid rgba(31,29,24,0.14)" }}
+            >
+              <div
+                className="relative overflow-hidden"
+                style={{ aspectRatio: "5/4", minHeight: "340px" }}
+              >
+                <OptimizedImage
+                  src="https://images.pexels.com/photos/3384447/pexels-photo-3384447.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                  alt="Elephant at Akagera National Park, Rwanda"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div
+                  className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
+                  style={{ background: "var(--clay, #9d4519)" }}
+                >
+                  03 · <strong>Akagera</strong>
+                </div>
+              </div>
+              <div className="p-5 sm:p-8 lg:p-11">
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
+                  Big Five · Rwanda&apos;s only savannah park
+                </div>
+                <h3
+                  className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
+                  style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
+                >
+                  Akagera{" "}
+                  <em className="italic text-bone-clay">National Park</em>
+                </h3>
+                <p className="text-sm leading-[1.65] text-bone-muted mb-8">
+                  Rwanda&apos;s only savannah park, bordering Tanzania along the
+                  Akagera River. A remarkable conservation success story — lions
+                  were reintroduced in 2015 and black rhinos in 2017, completing
+                  the Big Five. Game drives, boat safaris on Lake Ihema and
+                  night game drives make Akagera a natural complement to the
+                  primate parks.
+                </p>
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6 mb-8">
+                  {[
+                    {
+                      heading: "The Big Five",
+                      items: [
+                        "Lion, elephant, buffalo — resident year-round",
+                        "Black rhino (reintroduced 2017)",
+                      ],
+                    },
+                    {
+                      heading: "Safari activities",
+                      items: [
+                        "Game drives — morning & afternoon",
+                        "Boat safari on Lake Ihema · night drives",
+                      ],
+                    },
+                  ].map((col) => (
+                    <div key={col.heading}>
+                      <h5 className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-3">
+                        {col.heading}
+                      </h5>
+                      <ul className="text-[14px] text-bone-muted space-y-1.5">
+                        {col.items.map((item) => (
+                          <li
+                            key={item}
+                            style={{
+                              paddingLeft: "14px",
+                              borderLeft: "2px solid rgba(31,29,24,0.2)",
+                            }}
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
+                  <span className="text-bone-muted">Best for</span>
+                  <span className="text-bone-forest font-medium">
+                    Big Five & boat safari
+                  </span>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
       {/* Trek timeline */}
-      <section id="rw-trek" className="bg-bone-bg" style={{ padding: "120px 0" }}>
+      <section
+        id="rw-trek"
+        className="bg-bone-bg"
+        style={{ padding: "120px 0" }}
+      >
         <div className="container-site">
           <div className="section-hd" style={{ marginBottom: "64px" }}>
             <div>
@@ -709,7 +791,10 @@ export default async function RwandaSafarisPage() {
                 <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-bone-clay mb-4">
                   {s.n}
                 </div>
-                <div className="font-serif leading-none mb-3" style={{ fontSize: "30px" }}>
+                <div
+                  className="font-serif leading-none mb-3"
+                  style={{ fontSize: "30px" }}
+                >
                   <em className="italic text-bone-clay">
                     {s.time.split(" ")[0]}
                   </em>
@@ -734,7 +819,7 @@ export default async function RwandaSafarisPage() {
         id="rw-permit"
         className="bg-bone-paper"
         style={{
-          padding: "120px 0",
+          padding: "clamp(56px, 8vw, 120px) 0",
           borderTop: "1px solid rgba(31,29,24,0.14)",
           borderBottom: "1px solid rgba(31,29,24,0.14)",
         }}
@@ -777,7 +862,10 @@ export default async function RwandaSafarisPage() {
                     </div>
                     <div
                       className="font-serif italic text-bone-clay shrink-0 ml-4"
-                      style={{ fontSize: "clamp(24px, 3.5vw, 36px)", lineHeight: "1" }}
+                      style={{
+                        fontSize: "clamp(24px, 3.5vw, 36px)",
+                        lineHeight: "1",
+                      }}
                     >
                       {p.amount}
                     </div>
@@ -789,7 +877,10 @@ export default async function RwandaSafarisPage() {
                   <span
                     key={inc}
                     className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-muted px-3.5 py-1.5"
-                    style={{ border: "1px solid rgba(31,29,24,0.14)", borderRadius: "999px" }}
+                    style={{
+                      border: "1px solid rgba(31,29,24,0.14)",
+                      borderRadius: "999px",
+                    }}
                   >
                     ✓ {inc}
                   </span>
@@ -801,7 +892,10 @@ export default async function RwandaSafarisPage() {
                 </Link>
               </div>
             </div>
-            <div className="relative overflow-hidden" style={{ aspectRatio: "4/5" }}>
+            <div
+              className="relative overflow-hidden"
+              style={{ aspectRatio: "4/5" }}
+            >
               <OptimizedImage
                 src="https://images.pexels.com/photos/36478037/pexels-photo-36478037.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
                 alt="Silverback gorilla in the Virunga mountains, Rwanda"
@@ -846,16 +940,19 @@ export default async function RwandaSafarisPage() {
               className="text-sm leading-[1.65] text-bone-muted"
               style={{ maxWidth: "56ch" }}
             >
-              Rwanda&apos;s volcanic terrain makes trekking moderately
-              strenuous — altitude and steep slopes are the main challenge. Good
-              boots and reasonable fitness are essential; porters are available
-              and strongly recommended.
+              Rwanda&apos;s volcanic terrain makes trekking moderately strenuous
+              — altitude and steep slopes are the main challenge. Good boots and
+              reasonable fitness are essential; porters are available and
+              strongly recommended.
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div
               className="bg-bone-paper"
-              style={{ border: "1px solid rgba(31,29,24,0.14)", borderTop: "none" }}
+              style={{
+                border: "1px solid rgba(31,29,24,0.14)",
+                borderTop: "none",
+              }}
             >
               {trekFacts.map((f) => (
                 <div
@@ -866,7 +963,9 @@ export default async function RwandaSafarisPage() {
                   <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-bone-muted">
                     {f.k}
                   </span>
-                  <span className="font-medium text-sm text-bone-ink">{f.v}</span>
+                  <span className="font-medium text-sm text-bone-ink">
+                    {f.v}
+                  </span>
                 </div>
               ))}
             </div>
@@ -885,7 +984,10 @@ export default async function RwandaSafarisPage() {
                   <span
                     key={item}
                     className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-ink px-3 py-1.5"
-                    style={{ border: "1px solid rgba(31,29,24,0.2)", borderRadius: "999px" }}
+                    style={{
+                      border: "1px solid rgba(31,29,24,0.2)",
+                      borderRadius: "999px",
+                    }}
                   >
                     {item}
                   </span>
@@ -895,15 +997,20 @@ export default async function RwandaSafarisPage() {
                 Best time to trek
               </h4>
               <div className="flex flex-wrap gap-2">
-                {["June – September · dry", "December – February · dry"].map((t) => (
-                  <span
-                    key={t}
-                    className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-forest px-3 py-1.5"
-                    style={{ border: "1px solid rgba(42,58,42,0.3)", borderRadius: "999px" }}
-                  >
-                    {t}
-                  </span>
-                ))}
+                {["June – September · dry", "December – February · dry"].map(
+                  (t) => (
+                    <span
+                      key={t}
+                      className="font-mono text-[10px] uppercase tracking-[0.12em] text-bone-forest px-3 py-1.5"
+                      style={{
+                        border: "1px solid rgba(42,58,42,0.3)",
+                        borderRadius: "999px",
+                      }}
+                    >
+                      {t}
+                    </span>
+                  ),
+                )}
               </div>
             </div>
           </div>
@@ -915,7 +1022,7 @@ export default async function RwandaSafarisPage() {
         id="rw-stays"
         className="bg-bone-paper"
         style={{
-          padding: "120px 0",
+          padding: "clamp(56px, 8vw, 120px) 0",
           borderTop: "1px solid rgba(31,29,24,0.14)",
           borderBottom: "1px solid rgba(31,29,24,0.14)",
         }}
@@ -958,7 +1065,10 @@ export default async function RwandaSafarisPage() {
                 <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-bone-muted mb-4">
                   {tier.level}
                 </div>
-                <div className="font-serif mb-6" style={{ fontSize: "32px", lineHeight: "1" }}>
+                <div
+                  className="font-serif mb-6"
+                  style={{ fontSize: "32px", lineHeight: "1" }}
+                >
                   <em className="italic text-bone-clay">{tier.price}</em>
                   <div className="font-mono text-[10px] text-bone-muted mt-1.5 tracking-[0.12em] uppercase">
                     {tier.unit}
@@ -966,69 +1076,22 @@ export default async function RwandaSafarisPage() {
                 </div>
                 <ul
                   className="text-[14px] text-bone-muted space-y-2"
-                  style={{ borderTop: "1px solid rgba(31,29,24,0.14)", paddingTop: "20px" }}
+                  style={{
+                    borderTop: "1px solid rgba(31,29,24,0.14)",
+                    paddingTop: "20px",
+                  }}
                 >
                   {tier.lodges.map((l) => (
                     <li key={l} className="flex gap-2 items-start">
-                      <span className="text-bone-clay mt-0.5 flex-shrink-0">›</span>
+                      <span className="text-bone-clay mt-0.5 flex-shrink-0">
+                        ›
+                      </span>
                       {l}
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Tours / packages */}
-      <section
-        id="rw-tours"
-        className="bg-bone-bg"
-        style={{
-          padding: "120px 0",
-          borderBottom: "1px solid rgba(31,29,24,0.14)",
-        }}
-      >
-        <div className="container-site">
-          <div className="section-hd" style={{ marginBottom: "64px" }}>
-            <div>
-              <div className="eyebrow mb-4">
-                <span className="dot" />
-                Rwanda safari packages
-              </div>
-              <h2
-                className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
-                style={{ fontSize: "clamp(40px, 5.4vw, 76px)" }}
-              >
-                Rwanda <em className="italic text-bone-clay">itineraries</em>.
-              </h2>
-            </div>
-            <p
-              className="text-sm leading-[1.65] text-bone-muted"
-              style={{ maxWidth: "56ch" }}
-            >
-              Gorilla trekking, chimp tracking, Akagera Big Five, Lake Kivu
-              beach — every itinerary fully customised around your dates and
-              group size.
-            </p>
-          </div>
-          {safaris.length === 0 ? (
-            <p className="text-sm text-bone-muted py-8">
-              Rwanda safari packages coming soon — contact us to build a
-              bespoke itinerary.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-              {safaris.map((safari, i) => (
-                <PkgCard key={String(safari._id)} safari={safari} index={i} />
-              ))}
-            </div>
-          )}
-          <div className="mt-14 text-center">
-            <Link href="/contact" className="btn-forest">
-              Request a custom Rwanda safari quote →
-            </Link>
           </div>
         </div>
       </section>

@@ -108,15 +108,15 @@ function toCardFields(doc: ListingDoc, country: string) {
   const highlights =
     doc.highlights && doc.highlights.length > 0
       ? doc.highlights
-      : doc.majorAttractions.slice(0, 4);
+      : (doc.majorAttractions ?? []).slice(0, 4);
 
   return {
     id: doc.slug,
     name: doc.name,
     subtitle: doc.subtitle ?? "",
     tag: doc.tag ?? "",
-    image: doc.coverImage,
-    desc: doc.shortDescription,
+    image: doc.coverImage ?? "",
+    desc: doc.shortDescription ?? "",
     highlights,
     bestFor: doc.bestFor ?? "",
     href: `/destinations/${country}/${doc.slug}`,

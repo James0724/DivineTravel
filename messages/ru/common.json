@@ -180,5 +180,33 @@
     "description": "Все страницы Divine Travel Nest Safaris, упорядоченные по категориям.",
     "breadcrumbHome": "Главная",
     "breadcrumbCurrent": "Карта сайта"
+  },
+  "ui": {
+    "carousel": {
+      "prevParks": "Предыдущие парки",
+      "nextParks": "Следующие парки",
+      "prevProperties": "Предыдущие объекты",
+      "nextProperties": "Следующие объекты",
+      "featuredParks": "Избранные парки",
+      "bestFor": "Лучше всего для",
+      "view": "Смотреть"
+    },
+    "accommodationType": {
+      "luxuryLodge": "Люкс-лодж",
+      "tentedCamp": "Палаточный лагерь",
+      "beachResort": "Пляжный курорт"
+    },
+    "safariPage": {
+      "onThisPage": "На этой странице",
+      "closeNav": "Закрыть навигацию",
+      "bestTimeToVisit": "Лучшее время для посещения",
+      "whenToGo": "Когда ехать.",
+      "everyTravellerDifferent": "Каждый путешественник уникален.",
+      "chatWithExpert": "Пообщайтесь с экспертом по сафари — планирование бесплатно →",
+      "whatMakesSpecial": "Что делает каждый парк особенным.",
+      "howToChoose": "Как выбрать",
+      "tellUsAfter": "Расскажите, что вас интересует.",
+      "callUs": "Позвоните нам"
+    }
   }
 }

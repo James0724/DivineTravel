@@ -180,5 +180,33 @@
     "description": "Toutes les pages de Divine Travel Nest Safaris, classées par catégorie.",
     "breadcrumbHome": "Accueil",
     "breadcrumbCurrent": "Plan du site"
+  },
+  "ui": {
+    "carousel": {
+      "prevParks": "Parcs précédents",
+      "nextParks": "Parcs suivants",
+      "prevProperties": "Propriétés précédentes",
+      "nextProperties": "Propriétés suivantes",
+      "featuredParks": "Parcs vedettes",
+      "bestFor": "Idéal pour",
+      "view": "Voir"
+    },
+    "accommodationType": {
+      "luxuryLodge": "Lodge de luxe",
+      "tentedCamp": "Camp sous tente",
+      "beachResort": "Resort balnéaire"
+    },
+    "safariPage": {
+      "onThisPage": "Sur cette page",
+      "closeNav": "Fermer la navigation",
+      "bestTimeToVisit": "Meilleure période pour visiter",
+      "whenToGo": "Quand partir.",
+      "everyTravellerDifferent": "Chaque voyageur est unique.",
+      "chatWithExpert": "Discutez avec un expert safari — la planification est gratuite →",
+      "whatMakesSpecial": "Ce qui rend chaque parc unique.",
+      "howToChoose": "Comment choisir",
+      "tellUsAfter": "Dites-nous ce que vous cherchez.",
+      "callUs": "Appelez-nous au"
+    }
   }
 }

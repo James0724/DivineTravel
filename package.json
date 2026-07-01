@@ -12,6 +12,7 @@
     "seed:accommodations": "tsx scripts/seed-accommodations.ts",
     "seed:destinations": "tsx scripts/seed-destinations.ts",
     "patch:destination-listing-cards": "tsx scripts/patch-destination-listing-cards.ts",
+    "patch:remaining-destination-cards": "tsx scripts/patch-remaining-destination-cards.ts",
     "create-admin": "tsx scripts/create-admin.ts",
     "seed:blog": "tsx scripts/seed-blog.ts",
     "seed:journal": "tsx scripts/seed-journal.ts",

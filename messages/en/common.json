@@ -218,5 +218,33 @@
     "description": "Every page on Divine Travel Nest Safaris, organized by category.",
     "breadcrumbHome": "Home",
     "breadcrumbCurrent": "Sitemap"
+  },
+  "ui": {
+    "carousel": {
+      "prevParks": "Previous parks",
+      "nextParks": "Next parks",
+      "prevProperties": "Previous properties",
+      "nextProperties": "Next properties",
+      "featuredParks": "Featured parks",
+      "bestFor": "Best for",
+      "view": "View"
+    },
+    "accommodationType": {
+      "luxuryLodge": "Luxury Lodge",
+      "tentedCamp": "Tented Camp",
+      "beachResort": "Beach Resort"
+    },
+    "safariPage": {
+      "onThisPage": "On this page",
+      "closeNav": "Close navigation",
+      "bestTimeToVisit": "Best time to visit",
+      "whenToGo": "When to go.",
+      "everyTravellerDifferent": "Every traveller is different.",
+      "chatWithExpert": "Chat with a safari expert — planning is free →",
+      "whatMakesSpecial": "What makes each one special.",
+      "howToChoose": "How to choose",
+      "tellUsAfter": "Tell us what you're after.",
+      "callUs": "Call us at"
+    }
   }
 }

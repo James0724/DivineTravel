@@ -1,24 +1,21 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
-import { X, AlignJustify } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BreadcrumbSchema,
   FaqSchema,
   TouristDestinationSchema,
 } from "@/components/seo/StructuredData";
-import PageHero, { type HeroStat } from "@/components/ui/PageHero";
+import { type HeroStat } from "@/components/ui/PageHero";
 import FaqAccordion from "@/components/ui/FaqAccordion";
-import JumpNav from "@/components/ui/JumpNav";
-import Price from "@/components/ui/Price";
 import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
-import { NAV_H } from "@/components/safaris/CountrySafariPage";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import TitleHero from "../ui/TitleHero";
-import { destinationKeys } from "@/hooks/useDestinations";
 import PkgCard from "../safaris/PkgCard";
 import Pagination from "@/components/ui/Pagination";
 import FeatureParkCarousel from "./FeatureParkCarousel";
@@ -117,30 +114,16 @@ export default function DestinationPageTemplate({
 }: {
   data: DestinationPageData;
 }) {
+  const t = useTranslations("common.ui.safariPage");
   const slug = data.hero.slug;
   const countryLabel = slug.charAt(0).toUpperCase() + slug.slice(1);
   const countryCode = COUNTRY_CODES[slug] ?? slug.toUpperCase().slice(0, 2);
 
-  const jumpLinks = useMemo(
-    () => [
-      { label: `Why ${countryLabel}`, href: `#${slug}-why` },
-      ...(data.featureParks.length
-        ? [{ label: "Top parks", href: `#${slug}-featured-parks` }]
-        : []),
-      ...data.moreParks.map((p) => ({ label: p.name, href: `#${p.id}` })),
-      { label: "How to choose", href: `#${slug}-choose` },
-      { label: "Best time", href: `#${slug}-besttime` },
-      { label: "Safari packages", href: `#${slug}-packages` },
-      { label: "FAQ", href: `#${slug}-faq` },
-    ],
-    [data.featureParks, data.moreParks, slug, countryLabel],
-  );
-
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeId, setActiveId] = useState("");
-
-  const MORE_PARKS_PAGE_SIZE = 10;
+  const MORE_PARKS_PAGE_SIZE = 12;
   const [morePage, setMorePage] = useState(1);
+  const moreSectionRef = useRef<HTMLElement>(null);
+  const isFirstMount = useRef(true);
+
   const moreParksTotalPages = Math.ceil(
     data.moreParks.length / MORE_PARKS_PAGE_SIZE,
   );
@@ -148,43 +131,21 @@ export default function DestinationPageTemplate({
     (morePage - 1) * MORE_PARKS_PAGE_SIZE,
     morePage * MORE_PARKS_PAGE_SIZE,
   );
-  const handleMorePageChange = (p: number) => {
-    setMorePage(p);
-    document
-      .getElementById(`${slug}-more-parks`)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
+  // Scroll to section top after the new page has painted — avoids the jitter
+  // that happens when scrollIntoView is called before React has re-rendered.
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+    const el = moreSectionRef.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top, behavior: "smooth" });
+  }, [morePage]);
 
-  useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 1024) setMobileOpen(false);
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  useEffect(() => {
-    const ids = jumpLinks.map((l) => l.href.replace("#", ""));
-    const getActive = () => {
-      const threshold = window.innerHeight * 0.35;
-      let active = "";
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= threshold) active = id;
-      }
-      setActiveId(active);
-    };
-    window.addEventListener("scroll", getActive, { passive: true });
-    getActive();
-    return () => window.removeEventListener("scroll", getActive);
-  }, [jumpLinks]);
+  const handleMorePageChange = (p: number) => setMorePage(p);
 
   return (
     <>
@@ -209,21 +170,6 @@ export default function DestinationPageTemplate({
         description={data.hero.description}
         backgroundImage={data.hero.image}
       />
-
-      {/* Mobile: sticky trigger bar (< lg) */}
-      <div
-        className="lg:hidden sticky z-20 flex items-center justify-end px-4 py-3"
-        style={{ top: `${NAV_H - 1}px` }}
-      >
-        <button
-          type="button"
-          onClick={() => setMobileOpen(true)}
-          className="bg-bone-bg flex items-center gap-1.5 px-3 py-1.5 border rounded-full font-mono text-[10px] uppercase tracking-[0.12em] transition-all duration-200 hover:border-[var(--forest)] hover:text-[var(--forest)]"
-          style={{ borderColor: "rgba(31,29,24,0.14)", color: "var(--muted)" }}
-        >
-          <AlignJustify size={11} /> Page Sections
-        </button>
-      </div>
 
       <section id={`${slug}-why`} className="container-site ">
         <div className="items-center">
@@ -289,10 +235,7 @@ export default function DestinationPageTemplate({
                       className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
                       style={{ fontSize: "clamp(32px, 4vw, 54px)" }}
                     >
-                      What makes
-                      <br />
-                      each one{" "}
-                      <em className="italic text-bone-clay">special</em>.
+                      {t("whatMakesSpecial")}
                     </h2>
                   </div>
                   <p className="text-bone-muted text-sm leading-relaxed">
@@ -308,6 +251,7 @@ export default function DestinationPageTemplate({
 
             {/* ── More parks ──────────────────────────────────────────── */}
             <section
+              ref={moreSectionRef}
               id={`${slug}-more-parks`}
               className="py-20 sm:py-28 bg-bone-paper scroll-mt-[90px]"
             >
@@ -332,65 +276,94 @@ export default function DestinationPageTemplate({
                   </div>
                 </Reveal>
 
-                <Stagger
-                  className={`grid gap-5 ${data.moreParksGridCols ?? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"}`}
-                >
-                  {visibleMoreParks.map((park) => (
-                    <RevealItem key={park.id} variant="scaleUp" className="h-full">
-                      <article
-                        id={park.id}
-                        className="group flex h-full scroll-mt-[90px] flex-col border border-[var(--line)] bg-[var(--bg)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--clay)]"
+                {/* AnimatePresence keyed on morePage: old grid exits, new grid
+                    enters. Each card uses animate (not whileInView) so cards
+                    are never stuck at opacity:0 after pagination. */}
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.div
+                    key={morePage}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className={`grid gap-5 ${data.moreParksGridCols ?? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"}`}
+                  >
+                    {visibleMoreParks.map((park, i) => (
+                      <motion.div
+                        key={park.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: i * 0.04,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className="h-full"
                       >
-                        <div className="relative aspect-[4/3] overflow-hidden">
-                          <OptimizedImage
-                            src={park.image}
-                            alt={park.name}
-                            fill
-                            className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                          />
-                        </div>
-                        <div className="flex flex-1 flex-col px-5 pt-4 pb-5">
-                          {park.tag && (
-                            <div className="mb-2 font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--clay)]">
-                              {park.tag}
+                        <Link href={park.href} className="h-full block">
+                          <article
+                            id={park.id}
+                            className="group flex h-full scroll-mt-[90px] flex-col border border-[var(--line)] bg-[var(--bg)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--clay)]"
+                          >
+                            <div className="relative aspect-[4/3] overflow-hidden">
+                              <OptimizedImage
+                                src={park.image}
+                                alt={park.name}
+                                fill
+                                className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                              />
                             </div>
-                          )}
-                          <h3 className="mb-2 font-serif text-xl font-normal leading-[1.1] tracking-[-0.01em]">
-                            {park.name}{" "}
-                            {park.subtitle && (
-                              <em className="italic text-[var(--clay)]">
-                                {park.subtitle}
-                              </em>
-                            )}
-                          </h3>
-                          <p className="mb-3 text-[13px] leading-relaxed text-[var(--muted)] line-clamp-3">
-                            {park.desc}
-                          </p>
-                          {park.highlights.length > 0 && (
-                            <ul className="mb-3 list-none">
-                              {park.highlights.slice(0, 3).map((h) => (
-                                <li
-                                  key={h}
-                                  className="relative py-[4px] pl-[16px] text-[12px] leading-snug text-[var(--ink)] before:absolute before:left-[3px] before:font-bold before:text-[var(--clay)] before:content-['·']"
-                                >
-                                  {h}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                          {park.bestFor && (
-                            <div className="mt-auto border-t border-[var(--line)] pt-3 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">
-                              Best for ·{" "}
-                              <b className="font-medium text-[var(--forest)]">
-                                {park.bestFor}
-                              </b>
+                            <div className="flex flex-1 flex-col px-5 pt-4 pb-5">
+                              {park.tag && (
+                                <div className="mb-2 font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--clay)]">
+                                  {park.tag}
+                                </div>
+                              )}
+                              <h3 className="mb-2 font-serif text-xl font-normal leading-[1.1] tracking-[-0.01em]">
+                                {park.name}{" "}
+                                {park.subtitle && (
+                                  <em className="italic text-[var(--clay)]">
+                                    {park.subtitle}
+                                  </em>
+                                )}
+                              </h3>
+                              <p className="mb-3 text-[13px] leading-relaxed text-[var(--muted)] line-clamp-3">
+                                {park.desc}
+                              </p>
+                              {park.highlights.length > 0 && (
+                                <ul className="mb-3 list-none">
+                                  {park.highlights.slice(0, 3).map((h) => (
+                                    <li
+                                      key={h}
+                                      className="relative py-[4px] pl-[16px] text-[12px] leading-snug text-[var(--ink)] before:absolute before:left-[3px] before:font-bold before:text-[var(--clay)] before:content-['·']"
+                                    >
+                                      {h}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                              <div className="mt-auto border-t border-[var(--line)] pt-3 flex items-center justify-between gap-3">
+                                {park.bestFor ? (
+                                  <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)] truncate">
+                                    Best for ·{" "}
+                                    <b className="font-medium text-[var(--forest)]">
+                                      {park.bestFor}
+                                    </b>
+                                  </span>
+                                ) : (
+                                  <span />
+                                )}
+                                <span className="shrink-0 inline-flex items-center gap-1 border border-[var(--line)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)] transition-all duration-200 group-hover:border-[var(--clay)] group-hover:text-[var(--clay)]">
+                                  View <ChevronRight size={9} strokeWidth={2} />
+                                </span>
+                              </div>
                             </div>
-                          )}
-                        </div>
-                      </article>
-                    </RevealItem>
-                  ))}
-                </Stagger>
+                          </article>
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
 
                 <Pagination
                   page={morePage}
@@ -413,16 +386,13 @@ export default function DestinationPageTemplate({
                   <div>
                     <div className="eyebrow">
                       <span className="dot" />
-                      How to choose
+                      {t("howToChoose")}
                     </div>
                     <h2
                       className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
                       style={{ fontSize: "clamp(32px, 4vw, 54px)" }}
                     >
-                      Tell us what
-                      <br />
-                      you&apos;re{" "}
-                      <em className="italic text-bone-clay">after</em>.
+                      {t("tellUsAfter")}
                     </h2>
                   </div>
                   <p className="text-bone-muted text-sm leading-relaxed">
@@ -462,7 +432,7 @@ export default function DestinationPageTemplate({
                         style={{ color: "rgba(244,239,226,0.55)" }}
                       >
                         <span className="dot" />
-                        Best time to visit
+                        {t("bestTimeToVisit")}
                       </div>
                       <h2
                         className="font-serif font-normal leading-none tracking-[-0.02em] mt-4"
@@ -582,7 +552,7 @@ export default function DestinationPageTemplate({
                       {data.faqHeader.heading}
                     </h2>
                     <p className="text-bone-muted text-sm leading-relaxed mt-5">
-                      Call us at{" "}
+                      {t("callUs")}{" "}
                       <a
                         href="tel:+254722595916"
                         className="text-bone-clay hover:underline"
@@ -601,80 +571,6 @@ export default function DestinationPageTemplate({
           </main>
         </div>
       </div>
-
-      {/* ── Mobile slide-in drawer ────────────────────────────────────── */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              className="lg:hidden fixed inset-0 z-50"
-              style={{ background: "rgba(0,0,0,0.45)" }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              onClick={() => setMobileOpen(false)}
-            />
-
-            {/* Drawer panel */}
-            <motion.div
-              className="lg:hidden fixed top-0 left-0 h-full z-50 flex flex-col border-r"
-              style={{
-                width: "min(320px, 90vw)",
-                background: "var(--paper)",
-                borderColor: "var(--line)",
-                overflowY: "auto",
-              }}
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-            >
-              <div
-                className="flex items-center justify-between px-5 py-3.5 flex-shrink-0"
-                style={{ borderBottom: "1px solid var(--line-soft)" }}
-              >
-                <span className="font-serif text-[clamp(18px,5vw,24px)] uppercase tracking-[0.18em]">
-                  On this page
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setMobileOpen(false)}
-                  className="w-7 h-7 flex items-center justify-center rounded-full transition-colors hover:bg-[var(--line)]"
-                  style={{ color: "var(--muted)" }}
-                  aria-label="Close navigation"
-                >
-                  <X size={15} />
-                </button>
-              </div>
-
-              <nav className="px-3 py-3 flex-1">
-                <ul className="flex flex-col gap-0.5">
-                  {jumpLinks.map((l) => (
-                    <li key={l.href}>
-                      <a
-                        href={l.href}
-                        onClick={() => setMobileOpen(false)}
-                        className={cn(
-                          "flex items-center justify-between w-full py-[15px] border-b border-[rgba(23,22,18,0.07)]",
-                          "font-serif font-light leading-[1.1] transition-colors duration-300",
-                          "text-[clamp(26px,7vw,36px)]",
-                          activeId === l.href.replace("#", "")
-                            ? "text-bone-clay"
-                            : "text-bone-ink hover:text-bone-clay",
-                        )}
-                      >
-                        {l.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </>
   );
 }

@@ -180,5 +180,33 @@
     "description": "Divine Travel Nest Safaris 的所有页面,按类别整理。",
     "breadcrumbHome": "首页",
     "breadcrumbCurrent": "网站地图"
+  },
+  "ui": {
+    "carousel": {
+      "prevParks": "上一个公园",
+      "nextParks": "下一个公园",
+      "prevProperties": "上一个住宿",
+      "nextProperties": "下一个住宿",
+      "featuredParks": "精选公园",
+      "bestFor": "最适合",
+      "view": "查看"
+    },
+    "accommodationType": {
+      "luxuryLodge": "豪华小屋",
+      "tentedCamp": "帐篷营地",
+      "beachResort": "海滨度假村"
+    },
+    "safariPage": {
+      "onThisPage": "本页内容",
+      "closeNav": "关闭导航",
+      "bestTimeToVisit": "最佳游览时间",
+      "whenToGo": "何时出行。",
+      "everyTravellerDifferent": "每位旅行者都是独一无二的。",
+      "chatWithExpert": "与野生动物园专家交流——规划完全免费 →",
+      "whatMakesSpecial": "每个公园的独特之处。",
+      "howToChoose": "如何选择",
+      "tellUsAfter": "告诉我们您想寻求什么。",
+      "callUs": "致电我们"
+    }
   }
 }

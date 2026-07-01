@@ -5,25 +5,27 @@ import {
   BreadcrumbSchema,
   FaqSchema,
   CollectionPageSchema,
+  TouristDestinationSchema,
 } from "@/components/seo/StructuredData";
 import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
 import PkgCard from "@/components/safaris/PkgCard";
-import PageHero from "@/components/ui/PageHero";
-import JumpNav from "@/components/ui/JumpNav";
 import SectionFaq from "@/components/ui/SectionFaq";
-import CtaBand from "@/components/ui/CtaBand";
 import type { Safari } from "@/types";
+import TitleHero from "@/components/ui/TitleHero";
+import ChooseGrid from "@/components/ui/ChooseGrid";
 
 export const metadata: Metadata = {
-  title: "Uganda Gorilla Trekking Tours 2026/2027 — Bwindi, Queen Elizabeth & Murchison Falls",
+  title:
+    "Uganda Gorilla Trekking Tours 2026/2027 — Bwindi, Queen Elizabeth & Murchison Falls",
   description:
     "Book Uganda gorilla trekking tours 2026/2027 in Bwindi Impenetrable Forest and Mgahinga. $800 permits secured, licensed guides, and wildlife safari extensions to Queen Elizabeth, Murchison Falls and Kidepo Valley — transfers from Entebbe or Kigali. Best value vs Rwanda's $1,500.",
   keywords:
     "uganda gorilla trekking 2026, bwindi gorilla tour, gorilla permit uganda, mgahinga gorilla trek, uganda wildlife safari, queen elizabeth national park, murchison falls safari, chimp trekking uganda, kidepo valley safari, uganda safari packages 2027, lake bunyonyi, entebbe safari, gorilla trekking africa",
   alternates: { canonical: "/en/safaris/uganda" },
   openGraph: {
-    title: "Uganda Gorilla Trekking 2026/2027 — Bwindi, Queen Elizabeth & Murchison Falls",
+    title:
+      "Uganda Gorilla Trekking 2026/2027 — Bwindi, Queen Elizabeth & Murchison Falls",
     description:
       "Uganda gorilla trekking tours — $800 permits, Bwindi Impenetrable Forest, Queen Elizabeth NP and Murchison Falls. Best value gorilla trekking in Africa.",
     type: "website",
@@ -34,6 +36,16 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Mountain gorilla in Bwindi Impenetrable Forest Uganda",
       },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Uganda Gorilla Trekking 2026/2027 — Bwindi, Queen Elizabeth & Murchison Falls",
+    description:
+      "Uganda gorilla trekking tours — $800 permits, Bwindi Impenetrable Forest, Queen Elizabeth NP and Murchison Falls. Best value gorilla trekking in Africa.",
+    images: [
+      "https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
     ],
   },
 };
@@ -245,46 +257,89 @@ export default async function UgandaSafarisPage() {
           description: s.tagline,
         }))}
       />
+      <TouristDestinationSchema
+        name="Uganda — Gorilla Trekking & Wildlife Safari Destination"
+        description="Uganda is home to more than half the world's mountain gorillas. Bwindi Impenetrable Forest and Mgahinga offer gorilla trekking at $800 per permit, complemented by chimp tracking in Kibale, big game in Queen Elizabeth NP and the thundering Murchison Falls."
+        url="https://divinetravelnestsafaris.com/safaris/uganda"
+        image="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80"
+        countryCode="UG"
+        highlights={[
+          "Mountain gorilla trekking — Bwindi Impenetrable Forest",
+          "Gorilla trekking — Mgahinga Gorilla National Park",
+          "Chimpanzee tracking — Kibale Forest National Park",
+          "Big game safaris — Queen Elizabeth National Park",
+          "Murchison Falls — boat & game drive safari",
+          "Remote wilderness — Kidepo Valley National Park",
+        ]}
+      />
 
-      <PageHero
-        image="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
-        imageAlt="Mountain gorilla in Bwindi Impenetrable Forest, Uganda"
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Tours & Safaris", href: "/safaris" },
-          { label: "Uganda Safaris" },
-        ]}
-        title={
-          <>
-            Uganda gorilla trekking
-            <br />
-            <em style={{ color: "#f4d4a8", fontStyle: "italic" }}>tours 2026/2027</em>.
-          </>
+      <TitleHero
+        eyebrow="Safari Tours"
+        title={"Uganda Safari Packages 2026/2027"}
+        description={
+          "Embark on the ultimate wildlife adventure. From gorilla trekking in Bwindi to savanna game drives, book your dream Uganda safari for 2026/2027 today."
         }
-        description="A face-to-face hour with wild mountain gorillas in Bwindi Impenetrable Forest or Mgahinga — Africa's most powerful wildlife encounter, plus Queen Elizabeth and Murchison Falls safari extensions."
-        stats={[
-          { num: "50", sup: "%+", lbl: "World's gorilla population" },
-          { num: "98", sup: "%", lbl: "Gorilla sighting success" },
-          { num: "$800", sup: "", lbl: "Permit · vs $1,500 Rwanda" },
-        ]}
-      />
-      <CtaBand
-        variant="large"
-        heading={
-          <>
-            Meet the gorillas of{" "}
-            <em style={{ fontStyle: "italic", color: "#f4d4a8" }}>Bwindi</em>.
-          </>
+        backgroundImage={
+          "https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
         }
-        description="Tell us your dates and we'll secure your permit, choose your sector and lodge, and handle every transfer from Entebbe or Kigali. Free, no-obligation, and answered by a real person — usually within half an hour."
-        buttonText="Plan my gorilla trek"
       />
+
+      {/* Tours / packages */}
+      <section
+        id="ug-tours"
+        className="bg-bone-bg"
+        style={{
+          padding: "clamp(56px, 8vw, 120px) 0",
+          borderBottom: "1px solid rgba(31,29,24,0.14)",
+        }}
+      >
+        <div className="container-site">
+          <div className="section-hd" style={{ marginBottom: "64px" }}>
+            <div>
+              <div className="eyebrow mb-4">
+                <span className="dot" />
+                Best Uganda gorilla trekking tours
+              </div>
+              <h2
+                className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
+                style={{ fontSize: "clamp(40px, 5.4vw, 76px)" }}
+              >
+                Gorilla <em className="italic text-bone-clay">itineraries</em>.
+              </h2>
+            </div>
+            <p
+              className="text-sm leading-[1.65] text-bone-muted"
+              style={{ maxWidth: "56ch" }}
+            >
+              Tailor-made trips built around your permit — combine gorillas with
+              chimps, golden monkeys, a Big-game park or the scenic calm of Lake
+              Bunyonyi.
+            </p>
+          </div>
+          {safaris.length === 0 ? (
+            <p className="text-sm text-bone-muted py-8">
+              No Uganda safari packages found — check back soon.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+              {safaris.map((safari, i) => (
+                <PkgCard key={String(safari._id)} safari={safari} index={i} />
+              ))}
+            </div>
+          )}
+          <div className="mt-14 text-center">
+            <Link href="/contact" className="btn-forest">
+              Request a custom gorilla trekking quote →
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Why Uganda */}
       <section
         className="bg-bone-paper"
         style={{
-          padding: "120px 0",
+          padding: "clamp(56px, 8vw, 120px) 0",
           borderTop: "1px solid rgba(31,29,24,0.14)",
         }}
       >
@@ -372,224 +427,237 @@ export default async function UgandaSafarisPage() {
         </div>
       </section>
 
+      {/* Destinations grid */}
+      <section className="container-site">
+        <ChooseGrid
+          id="ug-destinations"
+          eyebrow="Best Uganda safari destinations we cover"
+          heading={
+            <>
+              Start from what you
+              <br />
+              want to <em className="italic text-bone-clay">see</em>.
+            </>
+          }
+          description="Tell us the wildlife or experience you're chasing and we'll combine the right parks into one seamless itinerary — gorillas, chimps, big game and beyond."
+          cells={[
+            { want: "For gorilla trekking", go: "Bwindi" },
+            { want: "For scenery & solitude", go: "Mgahinga" },
+            { want: "For big game", go: "Queen Elizabeth" },
+            { want: "For the waterfalls", go: "Murchison Falls" },
+            { want: "For remoteness", go: "Kidepo Valley" },
+            { want: "For chimpanzees", go: "Kibale Forest" },
+            { want: "For lake calm", go: "Lake Bunyonyi" },
+            { want: "For two countries", go: "Rwanda–Uganda" },
+          ]}
+          actions={
+            <div className="mt-12">
+              <Link href="/destinations/uganda" className="btn-forest">
+                Explore all Uganda wildlife parks →
+              </Link>
+            </div>
+          }
+        />
+      </section>
+
       {/* Gorilla trekking regions — sidebar layout */}
       <section
         className="bg-bone-bg"
         style={{
-          padding: "96px 0",
+          padding: "clamp(48px, 6.5vw, 96px) 0",
           borderBottom: "1px solid rgba(31,29,24,0.14)",
         }}
       >
         <div className="container-site">
-          <div className="lg:flex lg:gap-12 xl:gap-16 lg:items-start">
-            {/* Jump nav — mobile trigger + desktop sticky sidebar */}
-            <JumpNav
-              vertical
-              label="On this page"
-              links={[
-                { label: "Bwindi", href: "#ug-bwindi" },
-                { label: "Mgahinga", href: "#ug-mgahinga" },
-                { label: "The trek", href: "#ug-trek" },
-                { label: "Permits", href: "#ug-permit" },
-                { label: "Fitness", href: "#ug-fitness" },
-                { label: "Where to stay", href: "#ug-stays" },
-                { label: "Tours", href: "#ug-tours" },
-                { label: "FAQs", href: "#ug-faq" },
-              ]}
-            />
-
-            {/* Main trekking content */}
-            <div className="flex-1 min-w-0">
-              <div className="section-hd" style={{ marginBottom: "72px" }}>
-                <div>
-                  <div className="eyebrow mb-4">
-                    <span className="dot" />
-                    Gorilla trekking regions
-                  </div>
-                  <h2
-                    className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
-                    style={{ fontSize: "clamp(36px, 4.8vw, 68px)" }}
-                  >
-                    Where you&apos;ll{" "}
-                    <em className="italic text-bone-clay">trek</em>.
-                  </h2>
+          {/* Main trekking content */}
+          <div className="flex-1 min-w-0">
+            <div className="section-hd" style={{ marginBottom: "72px" }}>
+              <div>
+                <div className="eyebrow mb-4">
+                  <span className="dot" />
+                  Gorilla trekking regions
                 </div>
-                <p
-                  className="text-sm leading-[1.65] text-bone-muted"
-                  style={{ maxWidth: "56ch" }}
+                <h2
+                  className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
+                  style={{ fontSize: "clamp(36px, 4.8vw, 68px)" }}
                 >
-                  Two national parks in Uganda&apos;s far south-west protect the
-                  mountain gorillas — one vast and famous, one small and scenic.
-                  We secure permits in whichever suits your trip.
-                </p>
+                  Where you&apos;ll{" "}
+                  <em className="italic text-bone-clay">trek</em>.
+                </h2>
               </div>
-
-              {/* Bwindi */}
-              <article
-                id="ug-bwindi"
-                className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16"
-                style={{ border: "1px solid rgba(31,29,24,0.14)" }}
+              <p
+                className="text-sm leading-[1.65] text-bone-muted"
+                style={{ maxWidth: "56ch" }}
               >
-                <div
-                  className="relative overflow-hidden"
-                  style={{ aspectRatio: "5/4", minHeight: "340px" }}
-                >
-                  <OptimizedImage
-                    src="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
-                    alt="Mountain gorilla in Bwindi Impenetrable National Park"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                  <div
-                    className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
-                    style={{ background: "var(--clay, #9d4519)" }}
-                  >
-                    01 · <strong>Bwindi</strong>
-                  </div>
-                </div>
-                <div className="p-5 sm:p-8 lg:p-11">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
-                    19+ habituated families · 4 sectors
-                  </div>
-                  <h3
-                    className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
-                    style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
-                  >
-                    Bwindi Impenetrable{" "}
-                    <em className="italic text-bone-clay">National Park</em>
-                  </h3>
-                  <p className="text-sm leading-[1.65] text-bone-muted mb-8">
-                    The heart of Uganda gorilla trekking — a dense, ancient
-                    rainforest holding more than nineteen habituated families
-                    across four trekking sectors. The name is not marketing: the
-                    terrain is steep and tangled, and the reward is an hour you
-                    will never forget.
-                  </p>
-                  <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                    {[
-                      {
-                        heading: "Northern sectors",
-                        items: [
-                          "Buhoma — the original, most established sector",
-                          "Ruhija — high-altitude, fewer crowds",
-                        ],
-                      },
-                      {
-                        heading: "Southern sectors",
-                        items: [
-                          "Rushaga — the most gorilla families",
-                          "Nkuringo — dramatic, demanding descents",
-                        ],
-                      },
-                    ].map((col) => (
-                      <div key={col.heading}>
-                        <h5 className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-3">
-                          {col.heading}
-                        </h5>
-                        <ul className="text-[14px] text-bone-muted space-y-1.5">
-                          {col.items.map((item) => (
-                            <li
-                              key={item}
-                              style={{
-                                paddingLeft: "14px",
-                                borderLeft: "2px solid rgba(31,29,24,0.2)",
-                              }}
-                            >
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
-                    <span className="text-bone-muted">Best for</span>
-                    <span className="text-bone-forest font-medium">
-                      Choice & permit availability
-                    </span>
-                  </div>
-                </div>
-              </article>
-
-              {/* Mgahinga */}
-              <article
-                id="ug-mgahinga"
-                className="grid grid-cols-1 lg:grid-cols-2 gap-0"
-                style={{ border: "1px solid rgba(31,29,24,0.14)" }}
-              >
-                <div className="order-2 lg:order-1 p-5 sm:p-8 lg:p-11">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
-                    The Nyakagezi family · Golden monkeys
-                  </div>
-                  <h3
-                    className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
-                    style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
-                  >
-                    Mgahinga Gorilla{" "}
-                    <em className="italic text-bone-clay">National Park</em>
-                  </h3>
-                  <p className="text-sm leading-[1.65] text-bone-muted mb-8">
-                    Smaller and strikingly scenic, set against the Virunga
-                    volcanoes. Mgahinga is home to the single habituated
-                    Nyakagezi family and far fewer visitors — and it pairs
-                    gorilla trekking with golden monkey tracking and volcano
-                    hikes.
-                  </p>
-                  <ul
-                    className="text-[14px] text-bone-muted mb-8"
-                    style={{ borderTop: "1px solid rgba(31,29,24,0.14)" }}
-                  >
-                    {[
-                      "The habituated Nyakagezi gorilla family",
-                      "Golden monkey trekking",
-                      "Dramatic Virunga volcano backdrop",
-                      "Quiet trails and few other groups",
-                    ].map((h) => (
-                      <li
-                        key={h}
-                        className="py-3 relative pl-5"
-                        style={{
-                          borderBottom: "1px solid rgba(31,29,24,0.14)",
-                        }}
-                      >
-                        <span className="absolute left-0 top-3.5 text-bone-clay">
-                          ›
-                        </span>
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
-                    <span className="text-bone-muted">Best for</span>
-                    <span className="text-bone-forest font-medium">
-                      Scenery & solitude
-                    </span>
-                  </div>
-                </div>
-                <div
-                  className="relative overflow-hidden order-1 lg:order-2"
-                  style={{ aspectRatio: "5/4", minHeight: "340px" }}
-                >
-                  <OptimizedImage
-                    src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
-                    alt="Silverback gorilla in the Virunga mountains, Mgahinga"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                  <div
-                    className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
-                    style={{ background: "var(--clay, #9d4519)" }}
-                  >
-                    02 · <strong>Mgahinga</strong>
-                  </div>
-                </div>
-              </article>
+                Two national parks in Uganda&apos;s far south-west protect the
+                mountain gorillas — one vast and famous, one small and scenic.
+                We secure permits in whichever suits your trip.
+              </p>
             </div>
-            {/* end flex-1 min-w-0 */}
+
+            {/* Bwindi */}
+            <article
+              id="ug-bwindi"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16"
+              style={{ border: "1px solid rgba(31,29,24,0.14)" }}
+            >
+              <div
+                className="relative overflow-hidden"
+                style={{ aspectRatio: "5/4", minHeight: "340px" }}
+              >
+                <OptimizedImage
+                  src="https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                  alt="Mountain gorilla in Bwindi Impenetrable National Park"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div
+                  className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
+                  style={{ background: "var(--clay, #9d4519)" }}
+                >
+                  01 · <strong>Bwindi</strong>
+                </div>
+              </div>
+              <div className="p-5 sm:p-8 lg:p-11">
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
+                  19+ habituated families · 4 sectors
+                </div>
+                <h3
+                  className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
+                  style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
+                >
+                  Bwindi Impenetrable{" "}
+                  <em className="italic text-bone-clay">National Park</em>
+                </h3>
+                <p className="text-sm leading-[1.65] text-bone-muted mb-8">
+                  The heart of Uganda gorilla trekking — a dense, ancient
+                  rainforest holding more than nineteen habituated families
+                  across four trekking sectors. The name is not marketing: the
+                  terrain is steep and tangled, and the reward is an hour you
+                  will never forget.
+                </p>
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 sm:gap-6 mb-8">
+                  {[
+                    {
+                      heading: "Northern sectors",
+                      items: [
+                        "Buhoma — the original, most established sector",
+                        "Ruhija — high-altitude, fewer crowds",
+                      ],
+                    },
+                    {
+                      heading: "Southern sectors",
+                      items: [
+                        "Rushaga — the most gorilla families",
+                        "Nkuringo — dramatic, demanding descents",
+                      ],
+                    },
+                  ].map((col) => (
+                    <div key={col.heading}>
+                      <h5 className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-3">
+                        {col.heading}
+                      </h5>
+                      <ul className="text-[14px] text-bone-muted space-y-1.5">
+                        {col.items.map((item) => (
+                          <li
+                            key={item}
+                            style={{
+                              paddingLeft: "14px",
+                              borderLeft: "2px solid rgba(31,29,24,0.2)",
+                            }}
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
+                  <span className="text-bone-muted">Best for</span>
+                  <span className="text-bone-forest font-medium">
+                    Choice & permit availability
+                  </span>
+                </div>
+              </div>
+            </article>
+
+            {/* Mgahinga */}
+            <article
+              id="ug-mgahinga"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-0"
+              style={{ border: "1px solid rgba(31,29,24,0.14)" }}
+            >
+              <div className="order-2 lg:order-1 p-5 sm:p-8 lg:p-11">
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-bone-muted mb-4">
+                  The Nyakagezi family · Golden monkeys
+                </div>
+                <h3
+                  className="font-serif font-normal leading-[1.05] tracking-[-0.01em] text-bone-ink mb-5"
+                  style={{ fontSize: "clamp(24px, 3.5vw, 36px)" }}
+                >
+                  Mgahinga Gorilla{" "}
+                  <em className="italic text-bone-clay">National Park</em>
+                </h3>
+                <p className="text-sm leading-[1.65] text-bone-muted mb-8">
+                  Smaller and strikingly scenic, set against the Virunga
+                  volcanoes. Mgahinga is home to the single habituated Nyakagezi
+                  family and far fewer visitors — and it pairs gorilla trekking
+                  with golden monkey tracking and volcano hikes.
+                </p>
+                <ul
+                  className="text-[14px] text-bone-muted mb-8"
+                  style={{ borderTop: "1px solid rgba(31,29,24,0.14)" }}
+                >
+                  {[
+                    "The habituated Nyakagezi gorilla family",
+                    "Golden monkey trekking",
+                    "Dramatic Virunga volcano backdrop",
+                    "Quiet trails and few other groups",
+                  ].map((h) => (
+                    <li
+                      key={h}
+                      className="py-3 relative pl-5"
+                      style={{
+                        borderBottom: "1px solid rgba(31,29,24,0.14)",
+                      }}
+                    >
+                      <span className="absolute left-0 top-3.5 text-bone-clay">
+                        ›
+                      </span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]">
+                  <span className="text-bone-muted">Best for</span>
+                  <span className="text-bone-forest font-medium">
+                    Scenery & solitude
+                  </span>
+                </div>
+              </div>
+              <div
+                className="relative overflow-hidden order-1 lg:order-2"
+                style={{ aspectRatio: "5/4", minHeight: "340px" }}
+              >
+                <OptimizedImage
+                  src="https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                  alt="Silverback gorilla in the Virunga mountains, Mgahinga"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div
+                  className="absolute top-[22px] left-[22px] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-2 text-white"
+                  style={{ background: "var(--clay, #9d4519)" }}
+                >
+                  02 · <strong>Mgahinga</strong>
+                </div>
+              </div>
+            </article>
           </div>
-          {/* end lg:flex */}
+          {/* end flex-1 min-w-0 */}
         </div>
       </section>
 
@@ -664,7 +732,7 @@ export default async function UgandaSafarisPage() {
         id="ug-permit"
         className="bg-bone-paper"
         style={{
-          padding: "120px 0",
+          padding: "clamp(56px, 8vw, 120px) 0",
           borderTop: "1px solid rgba(31,29,24,0.14)",
           borderBottom: "1px solid rgba(31,29,24,0.14)",
         }}
@@ -865,7 +933,7 @@ export default async function UgandaSafarisPage() {
         id="ug-stays"
         className="bg-bone-paper"
         style={{
-          padding: "120px 0",
+          padding: "clamp(56px, 8vw, 120px) 0",
           borderTop: "1px solid rgba(31,29,24,0.14)",
           borderBottom: "1px solid rgba(31,29,24,0.14)",
         }}
@@ -935,57 +1003,6 @@ export default async function UgandaSafarisPage() {
                 </ul>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Tours / packages */}
-      <section
-        id="ug-tours"
-        className="bg-bone-bg"
-        style={{
-          padding: "120px 0",
-          borderBottom: "1px solid rgba(31,29,24,0.14)",
-        }}
-      >
-        <div className="container-site">
-          <div className="section-hd" style={{ marginBottom: "64px" }}>
-            <div>
-              <div className="eyebrow mb-4">
-                <span className="dot" />
-                Best Uganda gorilla trekking tours
-              </div>
-              <h2
-                className="font-serif font-normal leading-none tracking-[-0.02em] text-bone-ink mt-4"
-                style={{ fontSize: "clamp(40px, 5.4vw, 76px)" }}
-              >
-                Gorilla <em className="italic text-bone-clay">itineraries</em>.
-              </h2>
-            </div>
-            <p
-              className="text-sm leading-[1.65] text-bone-muted"
-              style={{ maxWidth: "56ch" }}
-            >
-              Tailor-made trips built around your permit — combine gorillas with
-              chimps, golden monkeys, a Big-game park or the scenic calm of Lake
-              Bunyonyi.
-            </p>
-          </div>
-          {safaris.length === 0 ? (
-            <p className="text-sm text-bone-muted py-8">
-              No Uganda safari packages found — check back soon.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-              {safaris.map((safari, i) => (
-                <PkgCard key={String(safari._id)} safari={safari} index={i} />
-              ))}
-            </div>
-          )}
-          <div className="mt-14 text-center">
-            <Link href="/contact" className="btn-forest">
-              Request a custom gorilla trekking quote →
-            </Link>
           </div>
         </div>
       </section>

@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import OptimizedImage from "@/components/ui/OptimizedImage";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import type { FeaturePark } from "@/types";
 
 /* ── Card — image, tag, name, clamped description, top highlights & a
@@ -19,6 +20,7 @@ function FeatureParkCard({
   index: number;
   total: number;
 }) {
+  const t = useTranslations("common.ui.carousel");
   return (
     <Link
       href={park.href}
@@ -26,7 +28,7 @@ function FeatureParkCard({
       role="group"
       aria-roledescription="slide"
       aria-label={`${index + 1} of ${total}: ${park.name}`}
-      className="group flex h-full w-[300px] xs:w-[360px] sm:w-[400px] md:w-[430px] lg:w-[450px] shrink-0 snap-start flex-col overflow-hidden border border-[var(--line)] bg-[var(--bg)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--clay)]"
+      className="group flex w-[300px] xs:w-[360px] sm:w-[400px] md:w-[430px] lg:w-[450px] shrink-0 snap-start flex-col overflow-hidden border border-[var(--line)] bg-[var(--bg)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--clay)]"
     >
       <div className="relative aspect-[16/11] overflow-hidden bg-[var(--bg-deep)]">
         <OptimizedImage
@@ -68,16 +70,23 @@ function FeatureParkCard({
             ))}
           </ul>
         )}
-        {park.bestFor && (
-          <div className="mt-auto inline-flex w-fit items-center gap-[10px] rounded-full border border-[var(--line)] bg-bone-paper px-[16px] py-[9px] text-[13px]">
-            <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">
-              Best for
-            </span>
-            <b className="font-serif text-[16px] font-medium italic text-bone-clay">
-              {park.bestFor}
-            </b>
-          </div>
-        )}
+        <div className="mt-auto flex items-end justify-between gap-3">
+          {park.bestFor ? (
+            <div className="inline-flex w-fit items-center gap-[10px] rounded-full border border-[var(--line)] bg-bone-paper px-[16px] py-[9px] text-[13px]">
+              <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">
+                {t("bestFor")}
+              </span>
+              <b className="font-serif text-[16px] font-medium italic text-bone-clay">
+                {park.bestFor}
+              </b>
+            </div>
+          ) : (
+            <span />
+          )}
+          <span className="shrink-0 inline-flex items-center gap-1.5 border border-[var(--line)] px-[14px] py-[9px] font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--muted)] transition-all duration-200 group-hover:border-[var(--clay)] group-hover:text-[var(--clay)]">
+            {t("view")} <ArrowRight size={10} strokeWidth={2} />
+          </span>
+        </div>
       </div>
     </Link>
   );
@@ -95,6 +104,7 @@ export default function FeatureParkCarousel({
 }: {
   parks: FeaturePark[];
 }) {
+  const t = useTranslations("common.ui.carousel");
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -158,13 +168,13 @@ export default function FeatureParkCarousel({
     <div
       role="region"
       aria-roledescription="carousel"
-      aria-label="Featured parks"
+      aria-label={t("featuredParks")}
       onKeyDown={onKeyDown}
     >
       <div
         ref={scrollerRef}
         tabIndex={0}
-        className="flex gap-4 sm:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 -mx-6 px-6 sm:mx-0 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
+        className="flex items-stretch gap-4 sm:gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 px-1 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
       >
         {parks.map((park, i) => (
           <FeatureParkCard
@@ -189,7 +199,7 @@ export default function FeatureParkCarousel({
             type="button"
             onClick={() => scrollByCard(-1)}
             disabled={!canScrollPrev}
-            aria-label="Previous parks"
+            aria-label={t("prevParks")}
             className="flex w-10 h-10 items-center justify-center rounded-full bg-bone-paper text-bone-ink shadow-md ring-1 ring-bone-ink/10 transition-opacity duration-200 hover:bg-bone-bg-soft disabled:opacity-30 disabled:pointer-events-none"
           >
             <ChevronLeft size={18} />
@@ -198,7 +208,7 @@ export default function FeatureParkCarousel({
             type="button"
             onClick={() => scrollByCard(1)}
             disabled={!canScrollNext}
-            aria-label="Next parks"
+            aria-label={t("nextParks")}
             className="flex w-10 h-10 items-center justify-center rounded-full bg-bone-paper text-bone-ink shadow-md ring-1 ring-bone-ink/10 transition-opacity duration-200 hover:bg-bone-bg-soft disabled:opacity-30 disabled:pointer-events-none"
           >
             <ChevronRight size={18} />
