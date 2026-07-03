@@ -9,9 +9,9 @@ interface SafariProps {
   name: string;
   duration: number;
   pricing: {
-    budget?: { pricePerPerson: number } | null;
-    midRange?: { pricePerPerson: number } | null;
-    luxury?: { pricePerPerson: number } | null;
+    budget?: { pricePerPerson?: number } | null;
+    midRange?: { pricePerPerson?: number } | null;
+    luxury?: { pricePerPerson?: number } | null;
   };
 }
 

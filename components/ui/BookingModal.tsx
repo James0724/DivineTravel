@@ -6,7 +6,7 @@ import { useCreateBooking } from "@/hooks/useBooking";
 import { useCurrency } from "@/lib/currency/useCurrency";
 
 interface PricingTier {
-  pricePerPerson: number;
+  pricePerPerson?: number;
 }
 
 interface SafariProps {
