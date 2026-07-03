@@ -485,8 +485,18 @@ export default function BookPageContent() {
 // ─── Booking details form (step 2) ───────────────────────────────────────────
 
 function BookingDetailsForm({ safari }: { safari: Safari }) {
+  // Resolve "from" price for a tier — per6 in lowest season, or legacy pricePerPerson
+  const tierFromPrice = (tier: Safari["pricing"]["budget"]): number => {
+    if (!tier) return 0;
+    if (tier.rows?.length) {
+      const vals = tier.rows.map((r) => r.per6).filter((p): p is number => typeof p === "number" && p > 0);
+      return vals.length ? Math.min(...vals) : 0;
+    }
+    return tier.pricePerPerson ?? 0;
+  };
+
   const availableTiers = TIERS.filter(
-    (t) => safari.pricing?.[t.key]?.pricePerPerson,
+    (t) => tierFromPrice(safari.pricing?.[t.key]) > 0,
   );
   const defaultTier =
     availableTiers.find((t) => t.key === "midRange")?.key ??
@@ -510,7 +520,7 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
   const createBooking = useCreateBooking();
   const { displayPrice } = useCurrency();
 
-  const pricePerPerson = safari.pricing?.[tier]?.pricePerPerson ?? 0;
+  const pricePerPerson = tierFromPrice(safari.pricing?.[tier]);
   const groupSize = adults + children;
   const totalPrice = pricePerPerson * groupSize;
 
@@ -629,7 +639,7 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
           </p>
           <div className="grid grid-cols-3 gap-2.5">
             {TIERS.map(({ key, label }) => {
-              const price = safari.pricing?.[key]?.pricePerPerson;
+              const price = tierFromPrice(safari.pricing?.[key]);
               if (!price) return null;
               const active = tier === key;
               return (

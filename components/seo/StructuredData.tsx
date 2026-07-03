@@ -271,12 +271,17 @@ export function SafariSchema({
   safari: Safari;
   locale?: string;
 }) {
+  // Resolve the "from" price for a tier: minimum per6 across seasons, or fallback to legacy pricePerPerson
+  const tierFrom = (tier: typeof safari.pricing.budget): number => {
+    if (!tier) return 0;
+    if (tier.rows?.length) {
+      const vals = tier.rows.map((r) => r.per6).filter((p): p is number => typeof p === "number" && p > 0);
+      return vals.length ? Math.min(...vals) : 0;
+    }
+    return tier.pricePerPerson ?? 0;
+  };
   const lowestPrice = Math.min(
-    ...[
-      safari.pricing.budget?.pricePerPerson,
-      safari.pricing.midRange?.pricePerPerson,
-      safari.pricing.luxury?.pricePerPerson,
-    ].filter((p): p is number => typeof p === "number" && p > 0),
+    ...[tierFrom(safari.pricing.budget), tierFrom(safari.pricing.midRange), tierFrom(safari.pricing.luxury)].filter((p) => p > 0),
   );
   const currency = safari.pricing.budget?.currency ?? "USD";
 
@@ -326,27 +331,27 @@ export function SafariSchema({
         {
           "@type": "Offer",
           name: "Budget Package",
-          price: safari.pricing.budget.pricePerPerson,
+          price: tierFrom(safari.pricing.budget) || undefined,
           priceCurrency: safari.pricing.budget.currency,
-          description: safari.pricing.budget.description,
+          description: safari.pricing.budget.accommodationType || undefined,
           availability: "https://schema.org/InStock",
           url: buildAbsoluteUrl(`/contact`),
         },
         {
           "@type": "Offer",
           name: "Mid-Range Package",
-          price: safari.pricing.midRange.pricePerPerson,
+          price: tierFrom(safari.pricing.midRange) || undefined,
           priceCurrency: safari.pricing.midRange.currency,
-          description: safari.pricing.midRange.description,
+          description: safari.pricing.midRange.accommodationType || undefined,
           availability: "https://schema.org/InStock",
           url: buildAbsoluteUrl(`/contact`),
         },
         {
           "@type": "Offer",
           name: "Luxury Package",
-          price: safari.pricing.luxury.pricePerPerson,
+          price: tierFrom(safari.pricing.luxury) || undefined,
           priceCurrency: safari.pricing.luxury.currency,
-          description: safari.pricing.luxury.description,
+          description: safari.pricing.luxury.accommodationType || undefined,
           availability: "https://schema.org/InStock",
           url: buildAbsoluteUrl(`/contact`),
         },

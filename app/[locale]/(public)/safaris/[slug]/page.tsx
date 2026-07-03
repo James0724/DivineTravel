@@ -256,16 +256,121 @@ function SideBoxTitle({
   );
 }
 
+// Renders the mid-range seasonal pricing table — only when real values exist
+function MidRangePricingTable({ safari }: { safari: Safari }) {
+  const rows = safari.pricing?.midRange?.rows;
+  const hasData = rows?.some(
+    (r) => r.per2 > 0 || r.per3 > 0 || r.per4 > 0 || r.per5 > 0 || r.per6 > 0
+  );
+  if (!hasData) return null;
+
+  const isShort = safari.tripLength === "short";
+  const PAX = [
+    { key: "per2" as const, label: "2 pax" },
+    { key: "per3" as const, label: "3 pax" },
+    { key: "per4" as const, label: "4 pax" },
+    { key: "per5" as const, label: "5 pax" },
+    { key: "per6" as const, label: "6 pax" },
+  ];
+
+  return (
+    <Reveal delay={0.1}>
+      <div className="mt-16 pt-14 border-t border-[var(--line)]">
+        <Eyebrow>Pricing guide</Eyebrow>
+        <h2 className="font-serif font-normal text-[clamp(26px,3.2vw,44px)] leading-[1.05] tracking-[-0.02em] mt-3.5 mb-2">
+          Mid-range <em className="italic text-[var(--clay)]">rates</em>.
+        </h2>
+        <p className="text-[13px] leading-[1.65] text-[var(--muted)] mb-8 max-w-[52ch]">
+          Prices are per person in USD. Larger groups pay less per person —
+          contact us for a tailored quote.
+        </p>
+
+        <div className="overflow-x-auto border border-[var(--line)]">
+          <table className="w-full text-[13px] border-collapse">
+            <thead>
+              <tr className="bg-[var(--paper)] border-b border-[var(--line)]">
+                {!isShort && (
+                  <th className="text-left px-5 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[200px] border-r border-[var(--line)]">
+                    Season
+                  </th>
+                )}
+                {PAX.map((p) => (
+                  <th
+                    key={p.key}
+                    className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]"
+                  >
+                    {p.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows!.map((row, i) => (
+                <tr
+                  key={i}
+                  className={`border-b border-[var(--line)] last:border-b-0 ${
+                    i % 2 === 0 ? "bg-[var(--bg)]" : "bg-[var(--paper)]"
+                  }`}
+                >
+                  {!isShort && (
+                    <td className="px-5 py-4 border-r border-[var(--line)]">
+                      <span className="font-serif italic text-[var(--clay)] text-[16px] leading-none block mb-1">
+                        {row.seasonLabel}
+                      </span>
+                      {row.dateRange && (
+                        <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-[var(--muted)]">
+                          {row.dateRange}
+                        </span>
+                      )}
+                    </td>
+                  )}
+                  {PAX.map((p) => (
+                    <td key={p.key} className="text-center px-3 py-4">
+                      {row[p.key] > 0 ? (
+                        <span className="font-serif text-[15px] text-[var(--ink)]">
+                          <Price amountUsd={row[p.key]} />
+                        </span>
+                      ) : (
+                        <span className="text-[var(--muted)] text-xs">—</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-[11px] text-[var(--muted)] mt-3 font-mono tracking-[0.06em]">
+          * USD per person · mid-range tier · prices may vary by season and
+          availability
+        </p>
+      </div>
+    </Reveal>
+  );
+}
+
+// Return cheapest 6-pax price across all seasonal rows for a tier (the "from" price)
+function tierFromPrice(tier: Safari["pricing"]["budget"]): number {
+  if (!tier) return 0;
+  if (tier.rows?.length) {
+    const vals = tier.rows.map((r) => r.per6).filter((p): p is number => typeof p === "number" && p > 0);
+    return vals.length ? Math.min(...vals) : 0;
+  }
+  return tier.pricePerPerson ?? 0;
+}
+
 // Extracted so it renders both inside the hero overlay (desktop) and below the hero (mobile)
 function PriceTiersBox({ safari }: { safari: Safari }) {
   return (
     <>
       <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)] mb-1.5">
-        FROM · per person
+        FROM · per person · 6 pax
       </div>
       {(["budget", "midRange", "luxury"] as const).map((tier, i, arr) => {
         const t = safari.pricing?.[tier];
-        if (!t?.pricePerPerson) return null;
+        const from = tierFromPrice(t);
+        if (!from) return null;
         const label =
           tier === "midRange"
             ? "Mid-range"
@@ -279,7 +384,7 @@ function PriceTiersBox({ safari }: { safari: Safari }) {
           >
             <span>{label}</span>
             <b className="font-serif text-xl italic text-[var(--clay)]">
-              <Price amountUsd={t.pricePerPerson} suffix={tier === "luxury" ? "+" : ""} />
+              <Price amountUsd={from} suffix={tier === "luxury" ? "+" : ""} />
             </b>
           </div>
         );
@@ -479,6 +584,9 @@ export default async function SafariDetailPage({ params }: Props) {
                   your personalised day-by-day plan.
                 </p>
               )}
+
+              {/* Mid-range pricing table — renders only when rows have real values */}
+              <MidRangePricingTable safari={safari} />
             </div>
 
             {/* ── RIGHT — Sidebar ───────────────────────────────────────── */}
@@ -606,6 +714,7 @@ export default async function SafariDetailPage({ params }: Props) {
             ).map(({ tier, label, em }) => {
               const t = safari.pricing?.[tier];
               if (!t) return null;
+              const from = tierFromPrice(t);
               return (
                 <RevealItem
                   key={tier}
@@ -614,9 +723,14 @@ export default async function SafariDetailPage({ params }: Props) {
                   <h3 className="font-serif text-[26px] mb-1.5">
                     {label} <em className="italic text-[var(--clay)]">{em}</em>
                   </h3>
-                  <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)] mb-[18px]">
-                    From <Price amountUsd={t.pricePerPerson} /> / person
-                  </div>
+                  {t.accommodationType && (
+                    <p className="text-[13px] text-[var(--muted)] mb-2">{t.accommodationType}</p>
+                  )}
+                  {from > 0 && (
+                    <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)] mb-[18px]">
+                      From <Price amountUsd={from} /> / person · 6 pax
+                    </div>
+                  )}
 
                   {t.hotels && t.hotels.length > 0 ? (
                     <ul className="list-none p-0 m-0">
@@ -638,11 +752,11 @@ export default async function SafariDetailPage({ params }: Props) {
                         </li>
                       ))}
                     </ul>
-                  ) : (
+                  ) : t.description ? (
                     <p className="text-[13px] leading-relaxed text-[var(--muted)] mt-1">
                       {t.description}
                     </p>
-                  )}
+                  ) : null}
                 </RevealItem>
               );
             })}

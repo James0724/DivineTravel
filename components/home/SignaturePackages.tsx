@@ -35,10 +35,19 @@ export function PackageCard({
     daysLabel: string;
   };
 }) {
+  const tierFrom = (tier: typeof safari.pricing.budget) => {
+    if (!tier) return 0;
+    if (tier.rows?.length) {
+      const vals = tier.rows.map((r) => r.per6).filter((p): p is number => typeof p === "number" && p > 0);
+      return vals.length ? Math.min(...vals) : 0;
+    }
+    return tier.pricePerPerson ?? 0;
+  };
   const price =
-    safari.pricing?.budget?.pricePerPerson ??
-    safari.pricing?.midRange?.pricePerPerson ??
-    safari.pricing?.luxury?.pricePerPerson;
+    tierFrom(safari.pricing?.budget) ||
+    tierFrom(safari.pricing?.midRange) ||
+    tierFrom(safari.pricing?.luxury) ||
+    undefined;
   const { displayPrice } = useCurrency();
 
   const categoryLabel = Array.isArray(safari.category)

@@ -108,16 +108,22 @@ export function formatDuration(days: number): string {
 }
 
 export function getLowestPrice(pricing?: {
-  budget?: { pricePerPerson?: number }
-  midRange?: { pricePerPerson?: number }
-  luxury?: { pricePerPerson?: number }
+  budget?:   { rows?: { per6?: number }[]; pricePerPerson?: number }
+  midRange?: { rows?: { per6?: number }[]; pricePerPerson?: number }
+  luxury?:   { rows?: { per6?: number }[]; pricePerPerson?: number }
 }): number {
   if (!pricing) return 0
-  const prices = [
-    pricing.budget?.pricePerPerson,
-    pricing.midRange?.pricePerPerson,
-    pricing.luxury?.pricePerPerson,
-  ].filter((p): p is number => typeof p === 'number' && p > 0)
+  const prices: number[] = []
+  for (const tier of [pricing.budget, pricing.midRange, pricing.luxury]) {
+    if (!tier) continue
+    if (tier.rows?.length) {
+      tier.rows.forEach((row) => {
+        if (typeof row.per6 === 'number' && row.per6 > 0) prices.push(row.per6)
+      })
+    } else if (typeof tier.pricePerPerson === 'number' && tier.pricePerPerson > 0) {
+      prices.push(tier.pricePerPerson)
+    }
+  }
   return prices.length ? Math.min(...prices) : 0
 }
 

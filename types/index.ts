@@ -51,13 +51,26 @@ export interface Hotel {
   location: SafariLocation;
 }
 
+export interface SeasonalPriceRow {
+  seasonLabel: string;
+  dateRange?: string;
+  per2: number;
+  per3: number;
+  per4: number;
+  per5: number;
+  per6: number;
+}
+
 export interface PricingTier {
-  pricePerPerson: number;
   currency: string;
-  description: string;
   includes: string[];
   accommodationType: string;
   hotels?: Hotel[];
+  rows: SeasonalPriceRow[];
+  /** @deprecated kept for backward compat with docs created before the seasonal-table migration */
+  pricePerPerson?: number;
+  /** @deprecated kept for backward compat */
+  description?: string;
 }
 
 export interface ItineraryDay {

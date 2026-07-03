@@ -1,10 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-// ─── Safari type (style of experience — distinct from `category`/theme) ────
-// Two dimensions, stored in one array: "activity" (how the safari is run)
-// and "traveller" (who it's designed for). See lib/data/safariTypes.ts for
-// the grouping/labels used on the /safari-types pages.
-
 export const SAFARI_TYPE_VALUES = [
   // Activity types
   "walking",
@@ -20,14 +15,14 @@ export const SAFARI_TYPE_VALUES = [
   "birding",
   "wellness",
   "conservation",
-  // Traveller types
+  // Traveller types (kept for backward compat — hidden in admin UI)
   "family",
   "honeymoon",
   "solo",
   "small-group",
   "couples",
   "private",
-  // Theme types (Safari Collections)
+  // Theme types (kept for backward compat — hidden in admin UI)
   "gorilla-trekking",
   "big-five",
   "great-migration",
@@ -39,78 +34,93 @@ export const SAFARI_TYPE_VALUES = [
 
 const SafariImageSchema = new Schema(
   {
-    url: { type: String, required: true },
+    url:      { type: String, required: true },
     publicId: { type: String, required: true },
-    alt: { type: String, default: "" },
-    width: Number,
-    height: Number,
+    alt:      { type: String, default: "" },
+    width:    Number,
+    height:   Number,
   },
   { _id: false },
 );
 
 const LocationSchema = new Schema(
   {
-    country: { type: String, default: "" },
+    country:  { type: String, default: "" },
     countries: [{ type: String }],
-    region: { type: String, default: "" },
-    regions: [{ type: String }],
-    park: { type: String, default: "" },
-    parks: [{ type: String }],
+    region:   { type: String, default: "" },
+    regions:  [{ type: String }],
+    park:     { type: String, default: "" },
+    parks:    [{ type: String }],
   },
   { _id: false },
 );
 
 const HotelSchema = new Schema(
   {
-    name: { type: String, required: true },
-    rating: { type: Number, required: true, min: 1, max: 5 },
+    name:     { type: String, required: true },
+    rating:   { type: Number, required: true, min: 1, max: 5 },
     location: { type: LocationSchema, required: true },
+  },
+  { _id: false },
+);
+
+// One row in the pricing table (one season, group-size columns 2–6)
+const SeasonalPriceRowSchema = new Schema(
+  {
+    seasonLabel: { type: String, default: "Standard Season" },
+    dateRange:   { type: String, default: "" },
+    per2: { type: Number, default: 0 },
+    per3: { type: Number, default: 0 },
+    per4: { type: Number, default: 0 },
+    per5: { type: Number, default: 0 },
+    per6: { type: Number, default: 0 },
   },
   { _id: false },
 );
 
 const PricingTierSchema = new Schema(
   {
-    pricePerPerson: { type: Number, required: true, min: 0 },
-    currency: { type: String, default: "USD" },
-    description: { type: String, required: true },
-    includes: [{ type: String }],
-    accommodationType: { type: String, required: true },
-    hotels: [HotelSchema],
+    currency:         { type: String, default: "USD" },
+    includes:         [{ type: String }],
+    accommodationType: { type: String, default: "" },
+    hotels:           [HotelSchema],
+    rows:             [SeasonalPriceRowSchema],
+    // Backward-compat fields — present on documents created before the
+    // seasonal-table migration; no longer written by the admin form.
+    pricePerPerson: { type: Number },
+    description:    { type: String },
   },
   { _id: false },
 );
 
 const ItineraryDaySchema = new Schema(
   {
-    day: { type: Number, required: true },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    meals: [{ type: String }],
+    day:           { type: Number, required: true },
+    title:         { type: String, required: true },
+    description:   { type: String, required: true },
+    meals:         [{ type: String }],
     accommodation: { type: String, default: "" },
-    activities: [{ type: String }],
+    activities:    [{ type: String }],
   },
   { _id: false },
 );
 
-// Sub-day itinerary entry for `tripLength: "short"` safaris — no day number,
-// just an order and a free-text duration label ("9:00 - 11:00", "2 hrs").
 const ItineraryStopSchema = new Schema(
   {
-    order: { type: Number, required: true },
-    title: { type: String, required: true },
+    order:         { type: Number, required: true },
+    title:         { type: String, required: true },
     durationLabel: { type: String, required: true },
-    description: { type: String, required: true },
-    activities: [{ type: String }],
+    description:   { type: String, required: true },
+    activities:    [{ type: String }],
   },
   { _id: false },
 );
 
 const SeoSchema = new Schema(
   {
-    metaTitle: String,
+    metaTitle:       String,
     metaDescription: String,
-    keywords: [String],
+    keywords:        [String],
   },
   { _id: false },
 );
@@ -152,9 +162,9 @@ export interface ISafari extends Document {
     activities: string[];
   }[];
   pricing: {
-    budget: typeof PricingTierSchema;
-    midRange: typeof PricingTierSchema;
-    luxury: typeof PricingTierSchema;
+    budget:   { rows: { seasonLabel: string; dateRange?: string; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
+    midRange: { rows: { seasonLabel: string; dateRange?: string; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
+    luxury:   { rows: { seasonLabel: string; dateRange?: string; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
   };
   images: { url: string; publicId: string; alt: string }[];
   coverImage: string;
@@ -181,7 +191,6 @@ const SafariSchema = new Schema<ISafari>(
       type: String,
       required: [true, "Safari name is required"],
       trim: true,
-      maxlength: [120, "Name cannot exceed 120 characters"],
     },
     slug: {
       type: String,
@@ -191,20 +200,12 @@ const SafariSchema = new Schema<ISafari>(
       trim: true,
       index: true,
     },
-    tagline: {
-      type: String,
-      required: [true, "Tagline is required"],
-      maxlength: [200, "Tagline cannot exceed 200 characters"],
-    },
-    description: {
-      type: String,
-      required: [true, "Description is required"],
-    },
-    location: { type: LocationSchema, required: true },
+    tagline:     { type: String, default: "" },
+    description: { type: String, default: "" },
+    location:    { type: LocationSchema, default: () => ({}) },
     duration: {
       type: Number,
-      required: true,
-      // Fractional days allow "short" (sub-day) safaris — e.g. 0.25 for a 6-hour tour.
+      default: 1,
       min: [0.1, "Duration must be at least 0.1 days"],
     },
     durationLabel: { type: String, default: "" },
@@ -213,38 +214,26 @@ const SafariSchema = new Schema<ISafari>(
       enum: ["multi-day", "short"],
       default: "multi-day",
     },
-    highlights: [{ type: String }],
-    included: [{ type: String }],
-    excluded: [{ type: String }],
-    itinerary: [ItineraryDaySchema],
+    highlights:     [{ type: String }],
+    included:       [{ type: String }],
+    excluded:       [{ type: String }],
+    itinerary:      [ItineraryDaySchema],
     itineraryStops: [ItineraryStopSchema],
     pricing: {
-      budget: { type: PricingTierSchema, required: true },
-      midRange: { type: PricingTierSchema, required: true },
-      luxury: { type: PricingTierSchema, required: true },
+      budget:   { type: PricingTierSchema, default: () => ({}) },
+      midRange: { type: PricingTierSchema, default: () => ({}) },
+      luxury:   { type: PricingTierSchema, default: () => ({}) },
     },
-    images: [SafariImageSchema],
-    coverImage: { type: String, default: "" },
+    images:             [SafariImageSchema],
+    coverImage:         { type: String, default: "" },
     coverImagePublicId: { type: String, default: "" },
     category: [
       {
         type: String,
-        enum: [
-          "wildlife",
-          "adventure",
-          "cultural",
-          "beach",
-          "mountain",
-          "gorilla",
-        ],
+        enum: ["wildlife", "adventure", "cultural", "beach", "mountain", "gorilla"],
       },
     ],
-    safariType: [
-      {
-        type: String,
-        enum: SAFARI_TYPE_VALUES,
-      },
-    ],
+    safariType: [{ type: String, enum: SAFARI_TYPE_VALUES }],
     difficulty: {
       type: String,
       enum: ["easy", "moderate", "challenging"],
@@ -252,29 +241,28 @@ const SafariSchema = new Schema<ISafari>(
     },
     maxGroupSize: { type: Number, default: 12 },
     minGroupSize: { type: Number, default: 1 },
-    minAge: { type: Number, default: 5 },
-    bestSeason: [{ type: String }],
-    featured: { type: Boolean, default: false, index: true },
-    active: { type: Boolean, default: true, index: true },
-    rating: { type: Number, default: 0, min: 0, max: 5 },
-    reviewCount: { type: Number, default: 0 },
-    seo: { type: SeoSchema, default: () => ({}) },
+    minAge:       { type: Number, default: 5 },
+    bestSeason:   [{ type: String }],
+    featured:     { type: Boolean, default: false, index: true },
+    active:       { type: Boolean, default: true,  index: true },
+    rating:       { type: Number, default: 0, min: 0, max: 5 },
+    reviewCount:  { type: Number, default: 0 },
+    seo:          { type: SeoSchema, default: () => ({}) },
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
+    toJSON:   { virtuals: true },
     toObject: { virtuals: true },
   },
 );
 
-// ─── Indexes for performance ──────────────────────────────────────────────
+// ─── Indexes ──────────────────────────────────────────────────────────────
 
 SafariSchema.index({ active: 1, featured: -1, rating: -1 });
 SafariSchema.index({ "location.country": 1 });
 SafariSchema.index({ "location.countries": 1 });
 SafariSchema.index({ category: 1 });
 SafariSchema.index({ safariType: 1 });
-SafariSchema.index({ "pricing.budget.pricePerPerson": 1 });
 SafariSchema.index({ createdAt: -1 });
 SafariSchema.index({
   name: "text",
@@ -286,18 +274,18 @@ SafariSchema.index({
 // ─── Virtual ─────────────────────────────────────────────────────────────────
 
 SafariSchema.virtual("lowestPrice").get(function (this: ISafari) {
-  type P = {
-    budget: { pricePerPerson: number };
-    midRange: { pricePerPerson: number };
-    luxury: { pricePerPerson: number };
-  };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const p = this.pricing as unknown as P;
-  return Math.min(
-    p.budget.pricePerPerson,
-    p.midRange.pricePerPerson,
-    p.luxury.pricePerPerson,
-  );
+  const prices: number[] = [];
+  for (const tier of [this.pricing?.budget, this.pricing?.midRange, this.pricing?.luxury]) {
+    if (!tier) continue;
+    if (tier.rows?.length) {
+      tier.rows.forEach((row) => {
+        if (typeof row.per6 === "number" && row.per6 > 0) prices.push(row.per6);
+      });
+    } else if (typeof tier.pricePerPerson === "number" && tier.pricePerPerson > 0) {
+      prices.push(tier.pricePerPerson);
+    }
+  }
+  return prices.length ? Math.min(...prices) : 0;
 });
 
 const SafariModel: Model<ISafari> =

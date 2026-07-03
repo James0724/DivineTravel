@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, KeyboardEvent } from 'react'
+import { useState, useEffect, KeyboardEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm, useFieldArray, Controller, FieldErrors } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus, Trash2, X, ChevronDown, ChevronUp, ArrowLeft, FolderOpen, AlertCircle } from 'lucide-react'
+import { Plus, Trash2, X, ChevronDown, ChevronUp, ArrowLeft, FolderOpen, AlertCircle, Save } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -22,46 +22,23 @@ const MediaPicker = dynamic(() => import('@/components/admin/MediaPicker'), { ss
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December']
 
-const CATEGORIES = [
-  { value: 'wildlife',   label: 'Wildlife' },
-  { value: 'adventure',  label: 'Adventure' },
-  { value: 'cultural',   label: 'Cultural' },
-  { value: 'beach',      label: 'Beach' },
-  { value: 'mountain',   label: 'Mountain' },
-  { value: 'gorilla',    label: 'Gorilla' },
-]
-
+// Only activity types shown in the admin form.
+// Traveller and theme types are kept in the Zod enum for backward compat
+// but are no longer surfaced in the UI (category field is also removed).
 const ACTIVITY_SAFARI_TYPES = [
-  { value: 'walking',        label: 'Walking Safari' },
-  { value: 'photographic',   label: 'Photographic Safari' },
-  { value: 'water-based',    label: 'Water-Based Safari' },
-  { value: 'night',          label: 'Night Safari' },
-  { value: 'birding',        label: 'Birding Safari' },
   { value: 'game-drive',     label: 'Game-Drive Safari' },
+  { value: 'walking',        label: 'Walking Safari' },
   { value: 'fly-in',         label: 'Fly-in Safari' },
-  { value: 'mobile-camping', label: 'Mobile/Camping Safari' },
+  { value: 'mobile-camping', label: 'Mobile / Camping Safari' },
+  { value: 'water-based',    label: 'Water-Based Safari' },
   { value: 'horseback',      label: 'Horseback Safari' },
   { value: 'balloon',        label: 'Hot-Air Balloon Safari' },
   { value: 'self-drive',     label: 'Self-Drive Safari' },
-  { value: 'conservation',   label: 'Conservation Safari' },
+  { value: 'photographic',   label: 'Photographic Safari' },
+  { value: 'night',          label: 'Night Safari' },
+  { value: 'birding',        label: 'Birding Safari' },
   { value: 'wellness',       label: 'Wellness Safari' },
-]
-
-const TRAVELLER_SAFARI_TYPES = [
-  { value: 'family',      label: 'Family Safari' },
-  { value: 'honeymoon',   label: 'Honeymoon Safari' },
-  { value: 'couples',     label: "Couple's Safari" },
-  { value: 'solo',        label: 'Solo Safari' },
-  { value: 'small-group', label: 'Small Group Safari' },
-  { value: 'private',     label: 'Private Safari' },
-]
-
-const THEME_SAFARI_TYPES = [
-  { value: 'gorilla-trekking', label: 'Gorilla Trekking' },
-  { value: 'big-five',         label: 'Big Five' },
-  { value: 'great-migration',  label: 'Great Migration' },
-  { value: 'luxury',           label: 'Luxury Safaris' },
-  { value: 'beach-and-bush',   label: 'Beach & Bush' },
+  { value: 'conservation',   label: 'Conservation Safari' },
 ]
 
 const DIFFICULTIES = [
@@ -70,46 +47,55 @@ const DIFFICULTIES = [
   { value: 'challenging', label: 'Challenging' },
 ]
 
-/* ─── Defaults ───────────────────────────────────────────────────────────── */
+/* ─── Default inclusions / exclusions ────────────────────────────────────── */
+
+const DEFAULT_INCLUSIONS = [
+  'All park fees & conservancy charges',
+  'Game drives as specified in the itinerary',
+  'Professional English-speaking guide',
+  'Full board meals (where specified)',
+  'Airport / hotel transfers',
+  'Drinking water during safaris',
+]
+
+const DEFAULT_EXCLUSIONS = [
+  'International airfare',
+  'Visa fees',
+  'Travel insurance',
+  'Personal expenses (laundry, phone calls, shopping)',
+  'Tips & gratuities',
+  'Alcoholic & soft beverages (unless specified)',
+]
+
+// Ordered default season calendar for multi-day safaris.
+// When "Add Season" is clicked the next entry in this list is pre-filled.
+const DEFAULT_SEASONS = [
+  { seasonLabel: 'Low Season',  dateRange: 'Oct 21 – Dec 21, 2025' },
+  { seasonLabel: 'Peak Season', dateRange: 'Dec 22, 2025 – Jan 2, 2026' },
+  { seasonLabel: 'Low Season',  dateRange: 'Jan 3, 2026 – Jun 10, 2026' },
+  { seasonLabel: 'High Season', dateRange: 'Jun 11, 2026 – Oct 30, 2026' },
+  { seasonLabel: 'Low Season',  dateRange: 'Nov 1, 2026 – Dec 21, 2026' },
+  { seasonLabel: 'Peak Season', dateRange: 'Dec 22, 2026 – Jan 2, 2027' },
+]
+
+/* ─── Helpers ────────────────────────────────────────────────────────────── */
 
 function blankItineraryDay(day: number) {
-  return {
-    day,
-    title: '',
-    description: '',
-    meals: [] as string[],
-    accommodation: '',
-    activities: [] as string[],
-  }
+  return { day, title: '', description: '', meals: [] as string[], accommodation: '', activities: [] as string[] }
 }
 
 function blankItineraryStop(order: number) {
-  return {
-    order,
-    title: '',
-    durationLabel: '',
-    description: '',
-    activities: [] as string[],
-  }
+  return { order, title: '', durationLabel: '', description: '', activities: [] as string[] }
 }
 
 function blankHotelLocation() {
-  return {
-    country: '',
-    countries: [] as string[],
-    region: '',
-    regions: [] as string[],
-    park: '',
-    parks: [] as string[],
-  }
+  return { country: '', countries: [] as string[], region: '', regions: [] as string[], park: '', parks: [] as string[] }
 }
 
 function blankHotel() {
   return { name: '', rating: 3, location: blankHotelLocation() }
 }
 
-// Older safaris saved before the hotel-location field existed won't have it
-// at all — fill it in so the form doesn't choke on undefined inputs.
 function withHotelLocationDefaults(hotels?: { name: string; rating: number; location?: ReturnType<typeof blankHotelLocation> }[]) {
   return (hotels ?? []).map((h) => ({
     name: h.name,
@@ -118,21 +104,45 @@ function withHotelLocationDefaults(hotels?: { name: string; rating: number; loca
   }))
 }
 
-function blankPricingTier() {
+// Return a season row pre-filled with the nth default season, or a blank row if exhausted
+function blankSeasonRow(index = 0) {
+  const def = DEFAULT_SEASONS[index]
   return {
-    pricePerPerson: 0,
-    currency: 'USD',
-    description: '',
-    includes: [''],
-    accommodationType: '',
-    hotels: [] as ReturnType<typeof blankHotel>[],
+    seasonLabel: def?.seasonLabel ?? 'Low Season',
+    dateRange:   def?.dateRange   ?? '',
+    per2: 0, per3: 0, per4: 0, per5: 0, per6: 0,
   }
 }
 
-const defaultValues: SafariFormValues & {
-  coverImage: string
-  itinerary: ReturnType<typeof blankItineraryDay>[]
-} = {
+function blankPricingTier() {
+  return {
+    currency: 'USD',
+    includes: [...DEFAULT_INCLUSIONS],
+    accommodationType: '',
+    hotels: [] as ReturnType<typeof blankHotel>[],
+    // Pre-populate all 6 default seasons so the table is ready to fill in
+    rows: DEFAULT_SEASONS.map((s) => ({ ...s, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0 })),
+  }
+}
+
+// Migrate an old-format tier (pricePerPerson) to new seasonal-rows format
+function migratePricingTier(tier: Safari['pricing']['budget'], withDefaults = false) {
+  const rows = (tier as { rows?: typeof blankSeasonRow extends (...args: unknown[]) => infer R ? R[] : unknown[] }).rows
+  const hasRows = Array.isArray(rows) && rows.length > 0
+  return {
+    currency: tier.currency || 'USD',
+    includes: tier.includes?.filter(Boolean).length ? tier.includes.filter(Boolean) : (withDefaults ? [...DEFAULT_INCLUSIONS] : []),
+    accommodationType: tier.accommodationType || '',
+    hotels: withHotelLocationDefaults(tier.hotels),
+    rows: hasRows
+      ? rows
+      : tier.pricePerPerson
+        ? DEFAULT_SEASONS.map((s) => ({ ...s, per2: tier.pricePerPerson!, per3: tier.pricePerPerson!, per4: tier.pricePerPerson!, per5: tier.pricePerPerson!, per6: tier.pricePerPerson! }))
+        : DEFAULT_SEASONS.map((s) => ({ ...s, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0 })),
+  }
+}
+
+const defaultValues: SafariFormValues & { coverImage: string } = {
   name: '',
   tagline: '',
   description: '',
@@ -140,9 +150,9 @@ const defaultValues: SafariFormValues & {
   duration: 1,
   durationLabel: '',
   tripLength: 'multi-day',
-  highlights: [''],
-  included: [''],
-  excluded: [''],
+  highlights: [],
+  included: [...DEFAULT_INCLUSIONS],
+  excluded: [...DEFAULT_EXCLUSIONS],
   itinerary: [blankItineraryDay(1)],
   itineraryStops: [blankItineraryStop(1)],
   pricing: {
@@ -150,9 +160,8 @@ const defaultValues: SafariFormValues & {
     midRange: blankPricingTier(),
     luxury:   blankPricingTier(),
   },
-  category: ['wildlife'],
   safariType: ['game-drive'],
-  difficulty: 'easy',
+  difficulty: 'moderate',
   maxGroupSize: 8,
   minGroupSize: 2,
   minAge: 5,
@@ -163,96 +172,52 @@ const defaultValues: SafariFormValues & {
   seo: { metaTitle: '', metaDescription: '', keywords: [] },
 }
 
-/* ─── Helpers ────────────────────────────────────────────────────────────── */
-
-// Recursively walk a react-hook-form FieldErrors tree and collect every
-// leaf error message, however deeply nested (e.g. pricing.luxury.hotels.1.name).
 function collectErrorMessages(node: unknown, messages: string[] = []): string[] {
   if (!node || typeof node !== 'object') return messages
-
   const obj = node as Record<string, unknown>
-  if (typeof obj.message === 'string' && obj.message) {
-    messages.push(obj.message)
-  }
-
+  if (typeof obj.message === 'string' && obj.message) messages.push(obj.message)
   for (const key of Object.keys(obj)) {
     if (key === 'message' || key === 'type' || key === 'types' || key === 'ref') continue
     collectErrorMessages(obj[key], messages)
   }
-
   return messages
 }
 
+/* ─── ArrayField ─────────────────────────────────────────────────────────── */
+
 function ArrayField({
-  label,
-  values,
-  onChange,
-  placeholder = 'Add item…',
-  hint,
-  error,
-  required,
+  label, values, onChange, placeholder = 'Add item…', hint, error, required,
 }: {
-  label: string
-  values: string[]
-  onChange: (v: string[]) => void
-  placeholder?: string
-  hint?: string
-  error?: string
-  required?: boolean
+  label: string; values: string[]; onChange: (v: string[]) => void
+  placeholder?: string; hint?: string; error?: string; required?: boolean
 }) {
   const [draft, setDraft] = useState('')
-
-  const add = () => {
-    const v = draft.trim()
-    if (v) { onChange([...values, v]); setDraft('') }
-  }
-
+  const add = () => { const v = draft.trim(); if (v) { onChange([...values, v]); setDraft('') } }
   const remove = (i: number) => onChange(values.filter((_, idx) => idx !== i))
-
-  const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') { e.preventDefault(); add() }
-  }
+  const onKey = (e: KeyboardEvent<HTMLInputElement>) => { if (e.key === 'Enter') { e.preventDefault(); add() } }
 
   return (
     <div className="flex flex-col gap-2">
       <label className="text-sm font-medium text-bone-ink/80 font-sans">
-        {label}
-        {required && <span className="text-bone-clay ml-0.5">*</span>}
+        {label}{required && <span className="text-bone-clay ml-0.5">*</span>}
       </label>
       {hint && !error && <p className="text-xs text-bone-ink/45 font-sans -mt-1">{hint}</p>}
-
       {values.filter(Boolean).length > 0 && (
         <ul className="flex flex-col gap-1">
           {values.filter(Boolean).map((v, i) => (
             <li key={i} className="flex items-start gap-2 text-sm font-sans">
               <span className="mt-0.5 text-bone-clay text-xs">–</span>
               <span className="flex-1 text-bone-ink/80">{v}</span>
-              <button type="button" onClick={() => remove(i)} className="text-bone-ink/30 hover:text-red-500 transition-colors flex-shrink-0 mt-0.5">
-                <X size={13} />
-              </button>
+              <button type="button" onClick={() => remove(i)} className="text-bone-ink/30 hover:text-red-500 transition-colors flex-shrink-0 mt-0.5"><X size={13} /></button>
             </li>
           ))}
         </ul>
       )}
-
       <div className="flex gap-2">
-        <input
-          type="text"
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onKeyDown={onKey}
-          placeholder={placeholder}
-          className={`flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border rounded focus:outline-none focus:ring-1 transition-colors placeholder:text-bone-ink/35 ${
-            error
-              ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
-              : 'border-[rgba(23,22,18,0.2)] focus:border-bone-forest focus:ring-bone-forest/30'
-          }`}
+        <input type="text" value={draft} onChange={(e) => setDraft(e.target.value)} onKeyDown={onKey} placeholder={placeholder}
+          className={`flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border rounded focus:outline-none focus:ring-1 transition-colors placeholder:text-bone-ink/35 ${error ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : 'border-[rgba(23,22,18,0.2)] focus:border-bone-forest focus:ring-bone-forest/30'}`}
         />
-        <button
-          type="button"
-          onClick={add}
-          className="h-9 px-3 rounded bg-bone-bg border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-forest hover:border-bone-forest transition-colors text-sm font-sans flex items-center gap-1"
-        >
+        <button type="button" onClick={add} className="h-9 px-3 rounded bg-bone-bg border border-[rgba(23,22,18,0.2)] text-bone-ink/60 hover:text-bone-forest hover:border-bone-forest transition-colors text-sm font-sans flex items-center gap-1">
           <Plus size={13} /> Add
         </button>
       </div>
@@ -261,83 +226,195 @@ function ArrayField({
   )
 }
 
-type PricingTierFieldErrors = Partial<Record<keyof SafariFormValues['pricing']['budget'], { message?: string }>> & {
+/* ─── PricingTableEditor ─────────────────────────────────────────────────── */
+
+type SeasonRow = { seasonLabel: string; dateRange: string; per2: number; per3: number; per4: number; per5: number; per6: number }
+type PricingTierValue = SafariFormValues['pricing']['budget']
+type PricingTierErrors = Partial<Record<keyof PricingTierValue, { message?: string }>> & {
   hotels?: { name?: { message?: string }; rating?: { message?: string } }[]
+  rows?: { seasonLabel?: { message?: string }; per2?: { message?: string } }[] | { message?: string }
 }
 
-function PricingTierSection({
-  tier,
-  label,
-  values,
-  onChange,
-  errors,
+// Shared class for all table cell inputs — solid, no spinners
+const cellInput = [
+  'w-full h-8 px-2 text-xs font-sans text-bone-ink',
+  'bg-bone-paper border border-[rgba(23,22,18,0.22)] rounded',
+  'focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/25',
+  'placeholder:text-bone-ink/30',
+  // Hide number-input spinners in all browsers
+  '[appearance:textfield]',
+  '[&::-webkit-outer-spin-button]:appearance-none',
+  '[&::-webkit-inner-spin-button]:appearance-none',
+].join(' ')
+
+const seasonTextInput = [
+  'w-full h-8 px-2 text-xs font-sans text-bone-ink',
+  'bg-bone-paper border border-[rgba(23,22,18,0.22)] rounded',
+  'focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/25',
+  'placeholder:text-bone-ink/30',
+].join(' ')
+
+function PricingTableEditor({
+  rows, onChange, isShort, errors,
 }: {
-  tier: 'budget' | 'midRange' | 'luxury'
-  label: string
-  values: SafariFormValues['pricing']['budget']
-  onChange: (v: Partial<SafariFormValues['pricing']['budget']>) => void
-  errors?: PricingTierFieldErrors
+  rows: SeasonRow[]; onChange: (rows: SeasonRow[]) => void; isShort: boolean
+  errors?: { message?: string } | { seasonLabel?: { message?: string } }[] | undefined
+}) {
+  const paxCols: { key: keyof SeasonRow; label: string }[] = [
+    { key: 'per2', label: '2 pax' }, { key: 'per3', label: '3 pax' },
+    { key: 'per4', label: '4 pax' }, { key: 'per5', label: '5 pax' }, { key: 'per6', label: '6 pax' },
+  ]
+
+  const updateRow = (i: number, patch: Partial<SeasonRow>) => {
+    const updated = [...rows]
+    updated[i] = { ...updated[i], ...patch }
+    onChange(updated)
+  }
+  const removeRow = (i: number) => onChange(rows.filter((_, idx) => idx !== i))
+  // Add next default season in sequence; fall back to blank if all defaults used
+  const addRow = () => onChange([...rows, blankSeasonRow(rows.length)])
+
+  const errorMsg = Array.isArray(errors) ? undefined : (errors as { message?: string } | undefined)?.message
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-medium text-bone-ink/80 font-sans">
+          Pricing Table <span className="text-bone-clay">*</span>
+          <span className="ml-2 text-bone-ink/40 font-normal text-xs">— prices per person (USD)</span>
+        </label>
+        {!isShort && (
+          <button type="button" onClick={addRow}
+            className="flex items-center gap-1 text-xs font-sans text-bone-forest hover:text-bone-forest/70 transition-colors">
+            <Plus size={12} /> Add Season
+          </button>
+        )}
+      </div>
+
+      {errorMsg && <p className="text-xs text-red-600 font-sans">{errorMsg}</p>}
+
+      <div className="overflow-x-auto rounded border border-[rgba(23,22,18,0.15)]">
+        <table className="w-full text-xs font-sans border-collapse">
+          <thead>
+            <tr className="bg-bone-bg border-b border-[rgba(23,22,18,0.1)]">
+              {!isShort && (
+                <th className="text-left px-3 py-2.5 font-medium text-bone-ink/60 min-w-[200px]">
+                  Season / Date Range
+                </th>
+              )}
+              {paxCols.map((c) => (
+                <th key={c.key} className="text-center px-2 py-2.5 font-medium text-bone-ink/60 min-w-[88px]">
+                  {c.label}
+                </th>
+              ))}
+              {!isShort && <th className="w-9" />}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[rgba(23,22,18,0.07)]">
+            {rows.map((row, i) => (
+              <tr key={i} className={i % 2 === 1 ? 'bg-bone-bg/40' : 'bg-bone-paper'}>
+                {!isShort && (
+                  <td className="px-2 py-2 space-y-1.5">
+                    <input
+                      value={row.seasonLabel}
+                      onChange={(e) => updateRow(i, { seasonLabel: e.target.value })}
+                      placeholder="e.g. Low Season"
+                      className={seasonTextInput}
+                    />
+                    <input
+                      value={row.dateRange}
+                      onChange={(e) => updateRow(i, { dateRange: e.target.value })}
+                      placeholder="e.g. Oct 21 – Dec 21, 2025"
+                      className={seasonTextInput}
+                    />
+                  </td>
+                )}
+                {paxCols.map((c) => (
+                  <td key={c.key} className="px-2 py-2">
+                    <input
+                      type="number"
+                      min={0}
+                      value={row[c.key] === 0 ? '' : row[c.key]}
+                      onChange={(e) => updateRow(i, { [c.key]: e.target.value === '' ? 0 : Number(e.target.value) } as Partial<SeasonRow>)}
+                      placeholder="0"
+                      className={cellInput + ' text-center'}
+                    />
+                  </td>
+                ))}
+                {!isShort && (
+                  <td className="px-1 py-2 text-center">
+                    {rows.length > 1 ? (
+                      <button type="button" onClick={() => removeRow(i)} className="text-bone-ink/25 hover:text-red-500 transition-colors p-1 rounded">
+                        <X size={13} />
+                      </button>
+                    ) : (
+                      <span className="block w-7" />
+                    )}
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {!isShort && (
+        <p className="text-[11px] text-bone-ink/40 font-sans">
+          Tip: The frontend shows the lowest 6-pax price across all seasons as the &ldquo;From&rdquo; price.
+        </p>
+      )}
+    </div>
+  )
+}
+
+/* ─── PricingTierSection ─────────────────────────────────────────────────── */
+
+function PricingTierSection({
+  tier, label, values, onChange, errors, isShort,
+}: {
+  tier: 'budget' | 'midRange' | 'luxury'; label: string
+  values: PricingTierValue; onChange: (v: Partial<PricingTierValue>) => void
+  errors?: PricingTierErrors; isShort: boolean
 }) {
   const colors: Record<string, string> = {
-    budget: 'border-l-blue-400',
-    midRange: 'border-l-amber-400',
-    luxury: 'border-l-bone-clay',
+    budget: 'border-l-blue-400', midRange: 'border-l-amber-400', luxury: 'border-l-bone-clay',
   }
 
   return (
     <div className={`pl-4 border-l-2 ${colors[tier]} space-y-4`}>
       <h4 className="text-sm font-semibold font-sans text-bone-ink uppercase tracking-wide">{label}</h4>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Input
-          label="Price per person (USD)"
-          type="number"
-          value={values.pricePerPerson || ''}
-          onChange={(e) => onChange({ pricePerPerson: Number(e.target.value) })}
-          min={0}
-          error={errors?.pricePerPerson?.message}
-          required
-        />
-        <Input
-          label="Accommodation type"
-          value={values.accommodationType}
-          onChange={(e) => onChange({ accommodationType: e.target.value })}
-          placeholder="e.g. En-suite Tented Lodge"
-          error={errors?.accommodationType?.message}
-          required
-        />
-      </div>
-
-      <Textarea
-        label="Tier description"
-        value={values.description}
-        onChange={(e) => onChange({ description: e.target.value })}
-        rows={3}
-        placeholder="What makes this tier special…"
-        error={errors?.description?.message}
+      <Input
+        label="Accommodation type"
+        value={values.accommodationType}
+        onChange={(e) => onChange({ accommodationType: e.target.value })}
+        placeholder="e.g. En-suite Tented Lodge"
+        error={errors?.accommodationType?.message}
         required
+      />
+
+      <PricingTableEditor
+        rows={(values.rows ?? []).length ? (values.rows as SeasonRow[]) : [blankSeasonRow()]}
+        onChange={(rows) => onChange({ rows })}
+        isShort={isShort}
+        errors={errors?.rows as PricingTierErrors['rows']}
       />
 
       <ArrayField
         label="What's included"
+        required
         values={values.includes}
         onChange={(v) => onChange({ includes: v })}
         placeholder="Add inclusion…"
         hint="Press Enter or click Add"
         error={errors?.includes?.message}
-        required
       />
 
-      {/* ── Hotels ── */}
+      {/* Hotels */}
       <div className="flex flex-col gap-2">
         <div>
-          <label className="text-sm font-medium text-bone-ink/80 font-sans">
-            Accommodation Hotels
-          </label>
+          <label className="text-sm font-medium text-bone-ink/80 font-sans">Accommodation Hotels</label>
           <p className="text-xs text-bone-ink/45 font-sans mt-0.5">
-            1–3 hotels shown on the public safari page (name + star rating).
-            Location fields are optional — fill them in to match this hotel
-            to destinations/safaris in the same area.
+            1–3 hotels shown on the public safari page. Location fields are optional.
           </p>
         </div>
 
@@ -346,81 +423,37 @@ function PricingTierSection({
           return (
             <div key={i} className="flex flex-col gap-1">
               <div className="flex gap-2 items-center">
-                <input
-                  type="text"
-                  value={hotel.name}
-                  onChange={(e) => {
-                    const updated = [...(values.hotels ?? [])]
-                    updated[i] = { ...updated[i], name: e.target.value }
-                    onChange({ hotels: updated })
-                  }}
+                <input type="text" value={hotel.name}
+                  onChange={(e) => { const u = [...(values.hotels ?? [])]; u[i] = { ...u[i], name: e.target.value }; onChange({ hotels: u }) }}
                   placeholder="Hotel name…"
-                  className={`flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border rounded focus:outline-none focus:ring-1 transition-colors placeholder:text-bone-ink/35 ${
-                    hotelError?.name
-                      ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
-                      : 'border-[rgba(23,22,18,0.2)] focus:border-bone-forest focus:ring-bone-forest/30'
-                  }`}
+                  className={`flex-1 h-9 px-3 font-sans text-sm text-bone-ink bg-bone-paper border rounded focus:outline-none focus:ring-1 transition-colors placeholder:text-bone-ink/35 ${hotelError?.name ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : 'border-[rgba(23,22,18,0.2)] focus:border-bone-forest focus:ring-bone-forest/30'}`}
                 />
-                <select
-                  value={hotel.rating}
-                  onChange={(e) => {
-                    const updated = [...(values.hotels ?? [])]
-                    updated[i] = { ...updated[i], rating: Number(e.target.value) }
-                    onChange({ hotels: updated })
-                  }}
-                  className={`h-9 px-2 font-sans text-sm text-bone-ink bg-bone-paper border rounded focus:outline-none transition-colors ${
-                    hotelError?.rating ? 'border-red-400' : 'border-[rgba(23,22,18,0.2)] focus:border-bone-forest'
-                  }`}
-                >
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>{'★'.repeat(n)} ({n})</option>
-                  ))}
+                <select value={hotel.rating}
+                  onChange={(e) => { const u = [...(values.hotels ?? [])]; u[i] = { ...u[i], rating: Number(e.target.value) }; onChange({ hotels: u }) }}
+                  className="h-9 px-2 font-sans text-sm text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.2)] rounded focus:outline-none focus:border-bone-forest">
+                  {[1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{'★'.repeat(n)} ({n})</option>)}
                 </select>
-                <button
-                  type="button"
-                  onClick={() => onChange({ hotels: (values.hotels ?? []).filter((_, idx) => idx !== i) })}
-                  className="text-bone-ink/30 hover:text-red-500 transition-colors flex-shrink-0"
-                >
-                  <X size={13} />
-                </button>
+                <button type="button" onClick={() => onChange({ hotels: (values.hotels ?? []).filter((_, idx) => idx !== i) })}
+                  className="text-bone-ink/30 hover:text-red-500 transition-colors flex-shrink-0"><X size={13} /></button>
               </div>
               <div className="grid grid-cols-3 gap-2">
-                {([
-                  { key: 'country', placeholder: 'Country…' },
-                  { key: 'region', placeholder: 'Region/area…' },
-                  { key: 'park', placeholder: 'Park/reserve…' },
-                ] as const).map(({ key, placeholder }) => (
-                  <input
-                    key={key}
-                    type="text"
-                    value={hotel.location?.[key] ?? ''}
-                    onChange={(e) => {
-                      const updated = [...(values.hotels ?? [])]
-                      updated[i] = {
-                        ...updated[i],
-                        location: { ...(updated[i].location ?? blankHotelLocation()), [key]: e.target.value },
-                      }
-                      onChange({ hotels: updated })
-                    }}
+                {([{ key: 'country', placeholder: 'Country…' }, { key: 'region', placeholder: 'Region/area…' }, { key: 'park', placeholder: 'Park/reserve…' }] as const).map(({ key, placeholder }) => (
+                  <input key={key} type="text" value={hotel.location?.[key] ?? ''}
+                    onChange={(e) => { const u = [...(values.hotels ?? [])]; u[i] = { ...u[i], location: { ...(u[i].location ?? blankHotelLocation()), [key]: e.target.value } }; onChange({ hotels: u }) }}
                     placeholder={placeholder}
                     className="h-8 px-2.5 font-sans text-xs text-bone-ink bg-bone-paper border border-[rgba(23,22,18,0.15)] rounded focus:outline-none focus:border-bone-forest focus:ring-1 focus:ring-bone-forest/30 placeholder:text-bone-ink/35"
                   />
                 ))}
               </div>
               {(hotelError?.name?.message || hotelError?.rating?.message) && (
-                <p className="text-xs text-red-600 font-sans">
-                  {hotelError?.name?.message || hotelError?.rating?.message}
-                </p>
+                <p className="text-xs text-red-600 font-sans">{hotelError?.name?.message || hotelError?.rating?.message}</p>
               )}
             </div>
           )
         })}
 
-        <button
-          type="button"
-          onClick={() => onChange({ hotels: [...(values.hotels ?? []), blankHotel()] })}
-          className="flex items-center gap-1.5 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors self-start"
-        >
+        <button type="button" onClick={() => onChange({ hotels: [...(values.hotels ?? []), blankHotel()] })}
+          className="flex items-center gap-1.5 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors self-start">
           <Plus size={13} /> Add Hotel
         </button>
       </div>
@@ -428,56 +461,28 @@ function PricingTierSection({
   )
 }
 
-/* ─── SectionErrorBanner ─────────────────────────────────────────────────────
-   Same red callout style as the SEO section's guidance box, reused everywhere
-   so every collapsible section explains exactly what's wrong and how to fix it
-   instead of just turning the header red.
-────────────────────────────────────────────────────────────────────────────── */
+/* ─── SectionErrorBanner ─────────────────────────────────────────────────── */
 
 function SectionErrorBanner({ messages }: { messages: string[] }) {
   if (messages.length === 0) return null
   return (
     <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-md bg-red-50 border border-red-200">
       <AlertCircle size={14} className="text-red-500 flex-shrink-0 mt-0.5" />
-      {messages.length === 1 ? (
-        <p className="text-xs text-red-700 font-sans">{messages[0]}</p>
-      ) : (
-        <ul className="text-xs text-red-700 font-sans space-y-1 list-disc list-inside">
-          {messages.map((m, i) => <li key={i}>{m}</li>)}
-        </ul>
-      )}
+      {messages.length === 1
+        ? <p className="text-xs text-red-700 font-sans">{messages[0]}</p>
+        : <ul className="text-xs text-red-700 font-sans space-y-1 list-disc list-inside">{messages.map((m, i) => <li key={i}>{m}</li>)}</ul>}
     </div>
   )
 }
 
-/* ─── CollapsibleSection ─────────────────────────────────────────────────────
-   Defined OUTSIDE SafariForm so React never treats it as a new component type
-   across re-renders. Keeping it inside the parent causes full unmount/remount
-   on every state change, losing input focus and scrolling the page to top.
-────────────────────────────────────────────────────────────────────────────── */
+/* ─── CollapsibleSection ─────────────────────────────────────────────────── */
 
-function CollapsibleSection({
-  title,
-  subtitle,
-  isOpen,
-  hasError,
-  onToggle,
-  children,
-}: {
-  title: string
-  subtitle?: string
-  isOpen: boolean
-  hasError?: boolean
-  onToggle: () => void
-  children: React.ReactNode
+function CollapsibleSection({ title, subtitle, isOpen, hasError, onToggle, children }: {
+  title: string; subtitle?: string; isOpen: boolean; hasError?: boolean; onToggle: () => void; children: React.ReactNode
 }) {
   return (
     <div className={`bg-bone-paper border rounded-md overflow-hidden ${hasError ? 'border-red-400' : 'border-[rgba(23,22,18,0.12)]'}`}>
-      <button
-        type="button"
-        onClick={onToggle}
-        className="w-full flex items-center justify-between px-5 py-4 text-left"
-      >
+      <button type="button" onClick={onToggle} className="w-full flex items-center justify-between px-5 py-4 text-left">
         <div className="flex items-center gap-2">
           {hasError && <AlertCircle size={14} className="text-red-500 flex-shrink-0" />}
           <div>
@@ -485,11 +490,8 @@ function CollapsibleSection({
             {subtitle && <p className="text-xs text-bone-ink/45 font-sans mt-0.5">{subtitle}</p>}
           </div>
         </div>
-        {isOpen
-          ? <ChevronUp size={15} className="text-bone-ink/40 flex-shrink-0" />
-          : <ChevronDown size={15} className="text-bone-ink/40 flex-shrink-0" />}
+        {isOpen ? <ChevronUp size={15} className="text-bone-ink/40 flex-shrink-0" /> : <ChevronDown size={15} className="text-bone-ink/40 flex-shrink-0" />}
       </button>
-
       {isOpen && (
         <div className="px-5 pb-6 border-t border-[rgba(23,22,18,0.07)] pt-5 space-y-5">
           {children}
@@ -506,98 +508,78 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const isEdit = !!existing
 
   const {
-    register,
-    handleSubmit,
-    control,
-    watch,
-    setValue,
+    register, handleSubmit, control, watch, setValue, getValues,
     formState: { errors, isSubmitting },
   } = useForm<SafariFormValues>({
     resolver: zodResolver(SafariSchema),
     defaultValues: existing
       ? {
-          name: existing.name,
-          tagline: existing.tagline,
+          name:        existing.name,
+          tagline:     existing.tagline,
           description: existing.description,
           location: {
             ...existing.location,
-            countries: existing.location.countries?.length
-              ? existing.location.countries
-              : existing.location.country ? [existing.location.country] : [],
-            regions: existing.location.regions?.length
-              ? existing.location.regions
-              : existing.location.region ? [existing.location.region] : [],
-            parks: existing.location.parks?.length
-              ? existing.location.parks
-              : existing.location.park ? [existing.location.park] : [],
+            countries: existing.location.countries?.length ? existing.location.countries : existing.location.country ? [existing.location.country] : [],
+            regions:   existing.location.regions?.length   ? existing.location.regions   : existing.location.region  ? [existing.location.region]  : [],
+            parks:     existing.location.parks?.length     ? existing.location.parks     : existing.location.park    ? [existing.location.park]    : [],
           },
-          duration: existing.duration,
-          durationLabel: existing.durationLabel ?? '',
-          tripLength: existing.tripLength ?? 'multi-day',
-          highlights: existing.highlights.length ? existing.highlights : [''],
-          included: existing.included.length ? existing.included : [''],
-          excluded: existing.excluded.length ? existing.excluded : [''],
-          itinerary: existing.itinerary.length ? existing.itinerary : [blankItineraryDay(1)],
+          duration:       existing.duration,
+          durationLabel:  existing.durationLabel ?? '',
+          tripLength:     existing.tripLength ?? 'multi-day',
+          highlights:     existing.highlights ?? [],
+          included:       existing.included?.filter(Boolean).length ? existing.included.filter(Boolean) : [...DEFAULT_INCLUSIONS],
+          excluded:       existing.excluded?.filter(Boolean).length ? existing.excluded.filter(Boolean) : [...DEFAULT_EXCLUSIONS],
+          itinerary:      existing.itinerary.length ? existing.itinerary : [blankItineraryDay(1)],
           itineraryStops: existing.itineraryStops?.length ? existing.itineraryStops : [blankItineraryStop(1)],
           pricing: {
-            budget: { ...existing.pricing.budget, hotels: withHotelLocationDefaults(existing.pricing.budget.hotels) },
-            midRange: { ...existing.pricing.midRange, hotels: withHotelLocationDefaults(existing.pricing.midRange.hotels) },
-            luxury: { ...existing.pricing.luxury, hotels: withHotelLocationDefaults(existing.pricing.luxury.hotels) },
+            budget:   migratePricingTier(existing.pricing.budget),
+            midRange: migratePricingTier(existing.pricing.midRange),
+            luxury:   migratePricingTier(existing.pricing.luxury),
           },
-          category: existing.category,
-          safariType: existing.safariType?.length ? existing.safariType : ['game-drive'],
-          difficulty: existing.difficulty,
+          safariType:   existing.safariType?.length ? existing.safariType : ['game-drive'],
+          difficulty:   existing.difficulty,
           maxGroupSize: existing.maxGroupSize,
           minGroupSize: existing.minGroupSize,
-          minAge: existing.minAge,
-          bestSeason: existing.bestSeason,
-          featured: existing.featured,
-          active: existing.active,
-          seo: existing.seo ?? {},
+          minAge:       existing.minAge,
+          bestSeason:   existing.bestSeason,
+          featured:     existing.featured,
+          active:       existing.active,
+          seo:          existing.seo ?? {},
         }
       : defaultValues,
   })
 
-  const [coverImage,          setCoverImage]          = useState(existing?.coverImage ?? '')
-  const [coverImagePublicId,  setCoverImagePublicId]  = useState(existing?.coverImagePublicId ?? '')
+  const [coverImage,         setCoverImage]         = useState(existing?.coverImage ?? '')
+  const [coverImagePublicId, setCoverImagePublicId] = useState(existing?.coverImagePublicId ?? '')
   const [imageGallery, setImageGallery] = useState<{ url: string; alt: string; publicId: string }[]>(
-    // Only keep gallery images that have both url and publicId so Mongoose validators don't reject the update
-    existing?.images
-      ?.filter((img) => img.url && img.publicId)
-      ?.map((img) => ({ url: img.url, alt: img.alt, publicId: img.publicId ?? '' })) ?? []
+    existing?.images?.filter((img) => img.url && img.publicId)?.map((img) => ({ url: img.url, alt: img.alt, publicId: img.publicId ?? '' })) ?? []
   )
   const [galleryPickerOpen, setGalleryPickerOpen] = useState(false)
-  const [saveError, setSaveError] = useState<string | null>(null)
+  const [saveError,         setSaveError]         = useState<string | null>(null)
+  const [isSavingDraft,     setIsSavingDraft]     = useState(false)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    basic: true,
-    location: true,
-    details: true,
-    content: false,
-    itinerary: false,
-    pricing: true,
-    images: false,
-    seo: false,
+    basic: true, location: true, details: true, content: false,
+    itinerary: false, pricing: true, images: false, seo: false,
   })
 
-  const toggleSection = (key: string) =>
-    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }))
+  const toggleSection = (key: string) => setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }))
 
-  const { fields: itineraryFields, append: appendDay, remove: removeDay } = useFieldArray({
-    control,
-    name: 'itinerary',
-  })
-
-  const { fields: itineraryStopFields, append: appendStop, remove: removeStop } = useFieldArray({
-    control,
-    name: 'itineraryStops',
-  })
+  const { fields: itineraryFields, append: appendDay, remove: removeDay }   = useFieldArray({ control, name: 'itinerary' })
+  const { fields: itineraryStopFields, append: appendStop, remove: removeStop } = useFieldArray({ control, name: 'itineraryStops' })
 
   const watchedTripLength  = watch('tripLength') ?? 'multi-day'
-  const watchedHighlights  = watch('highlights') ?? ['']
-  const watchedIncluded    = watch('included')   ?? ['']
-  const watchedExcluded    = watch('excluded')   ?? ['']
+
+  // Auto-select all months for short safaris (available year-round)
+  useEffect(() => {
+    if (watchedTripLength === 'short') {
+      setValue('bestSeason', MONTHS, { shouldValidate: false })
+    }
+  }, [watchedTripLength]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const watchedHighlights  = watch('highlights') ?? []
+  const watchedIncluded    = watch('included')   ?? []
+  const watchedExcluded    = watch('excluded')   ?? []
   const watchedBestSeason  = watch('bestSeason') ?? []
-  const watchedCategory    = watch('category')   ?? []
   const watchedSafariType  = watch('safariType') ?? []
   const watchedFeatured    = watch('featured')
   const watchedActive      = watch('active')
@@ -607,182 +589,137 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const watchedMetaTitle       = watch('seo.metaTitle')       ?? ''
   const watchedMetaDescription = watch('seo.metaDescription') ?? ''
 
-  // Values saved before the category/safari-type lists changed (e.g. a retired
-  // option) won't match any button above, so they'd otherwise sit invisibly in
-  // the form data. Surface them as removable chips so the user can actually act.
-  const unknownCategories = watchedCategory.filter(
-    (c) => !CATEGORIES.some((opt) => opt.value === c)
-  )
-  const knownSafariTypeValues = [...ACTIVITY_SAFARI_TYPES, ...TRAVELLER_SAFARI_TYPES, ...THEME_SAFARI_TYPES].map((t) => t.value)
-  const unknownSafariTypes = watchedSafariType.filter(
-    (t) => !knownSafariTypeValues.includes(t)
-  )
-
-  const removeUnknownCategory = (val: string) =>
-    setValue('category', watchedCategory.filter((c) => c !== val) as typeof watchedCategory, { shouldValidate: true })
+  const knownSafariTypeValues = ACTIVITY_SAFARI_TYPES.map((t) => t.value)
+  const unknownSafariTypes = watchedSafariType.filter((t) => !knownSafariTypeValues.includes(t))
 
   const removeUnknownSafariType = (val: string) =>
     setValue('safariType', watchedSafariType.filter((t) => t !== val) as typeof watchedSafariType, { shouldValidate: true })
 
   const toggleMonth = (month: string) => {
     const current = watch('bestSeason') ?? []
-    setValue('bestSeason',
-      current.includes(month)
-        ? current.filter((m) => m !== month)
-        : [...current, month]
-    )
-  }
-
-  const toggleCategory = (cat: string) => {
-    const current = watch('category') ?? []
-    const next = current.includes(cat as never)
-      ? current.filter((c) => c !== cat)
-      : [...current, cat as never]
-    setValue('category', next as typeof current)
+    setValue('bestSeason', current.includes(month) ? current.filter((m) => m !== month) : [...current, month])
   }
 
   const toggleSafariType = (type: string) => {
     const current = watch('safariType') ?? []
-    const next = current.includes(type as never)
-      ? current.filter((t) => t !== type)
-      : [...current, type as never]
+    const next = current.includes(type as never) ? current.filter((t) => t !== type) : [...current, type as never]
     setValue('safariType', next as typeof current)
   }
 
-  /* ── Submit ── */
+  /* ── Build payload ── */
+  const buildPayload = (data: SafariFormValues, overrides?: { active?: boolean }) => ({
+    ...data,
+    ...overrides,
+    location: { ...data.location, country: data.location.countries?.[0] ?? '', region: data.location.regions?.[0] ?? '', park: data.location.parks?.[0] ?? '' },
+    coverImage,
+    coverImagePublicId,
+    images: imageGallery.filter((img) => img.url.trim() && img.publicId.trim()).map((img) => ({ url: img.url, publicId: img.publicId, alt: img.alt || data.name })),
+    highlights: data.highlights.filter(Boolean),
+    included:   data.included.filter(Boolean),
+    excluded:   data.excluded.filter(Boolean),
+  })
+
+  /* ── Submit (publish) ── */
   const onSubmit = async (data: SafariFormValues) => {
     setSaveError(null)
-    const payload = {
-      ...data,
-      location: {
-        ...data.location,
-        country:  data.location.countries?.[0] ?? '',
-        region:   data.location.regions?.[0]   ?? '',
-        park:     data.location.parks?.[0]      ?? '',
-      },
-      coverImage,
-      coverImagePublicId,
-      images: imageGallery
-        .filter((img) => img.url.trim() && img.publicId.trim())
-        .map((img) => ({
-          url:      img.url,
-          publicId: img.publicId,
-          alt:      img.alt || data.name,
-        })),
-      highlights: data.highlights.filter(Boolean),
-      included:   data.included.filter(Boolean),
-      excluded:   data.excluded.filter(Boolean),
-    }
-
     try {
       const url    = isEdit ? `/api/safaris/${existing!._id}` : '/api/safaris'
       const method = isEdit ? 'PATCH' : 'POST'
-
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-
+      const res  = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildPayload(data)) })
       const json = await res.json()
-
-      if (!res.ok) {
-        throw new Error(json.error ?? 'Failed to save safari')
-      }
-
-      toast.success(isEdit ? 'Safari updated successfully!' : 'Safari created!')
-      // Small delay so the toast renders before navigation unmounts the layout
+      if (!res.ok) throw new Error(json.error ?? 'Failed to save safari')
+      toast.success(isEdit ? 'Safari updated!' : 'Safari created!')
       await new Promise((r) => setTimeout(r, 800))
       router.push('/admin/safaris')
       router.refresh()
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Failed to save safari'
-      setSaveError(msg)
-      toast.error(msg)
+      setSaveError(msg); toast.error(msg)
     }
   }
 
-  /* ── Validation error handler — surfaces which sections have problems ── */
+  /* ── Save as Draft (bypasses Zod, saves active:false) ── */
+  const saveDraft = async () => {
+    const name = getValues('name')
+    if (!name?.trim()) { toast.error('Enter a safari name before saving a draft'); return }
+    setSaveError(null); setIsSavingDraft(true)
+    try {
+      const raw = getValues()
+      const url    = isEdit ? `/api/safaris/${existing!._id}` : '/api/safaris'
+      const method = isEdit ? 'PATCH' : 'POST'
+      const res  = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildPayload(raw, { active: false })) })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error ?? 'Failed to save draft')
+      toast.success('Draft saved!')
+      // For new safaris, navigate to edit page so future saves are PATCHes
+      if (!isEdit && json.data?._id) {
+        router.push(`/admin/safaris/${json.data._id}`)
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Failed to save draft'
+      setSaveError(msg); toast.error(msg)
+    } finally {
+      setIsSavingDraft(false)
+    }
+  }
+
+  /* ── Validation error handler ── */
   const onValidationError = (errs: FieldErrors<SafariFormValues>) => {
     const sectionMap: Record<string, boolean> = {
-      basic:    !!(errs.name || errs.tagline || errs.description),
-      location: !!errs.location,
-      details:  !!(errs.duration || errs.durationLabel || errs.tripLength || errs.difficulty || errs.category || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
-      content:  !!(errs.highlights || errs.included || errs.excluded),
+      basic:     !!(errs.name || errs.tagline || errs.description),
+      location:  !!errs.location,
+      details:   !!(errs.duration || errs.tripLength || errs.difficulty || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
+      content:   !!(errs.highlights || errs.included || errs.excluded),
       itinerary: !!(errs.itinerary || errs.itineraryStops),
-      pricing:  !!errs.pricing,
-      seo:      !!errs.seo,
+      pricing:   !!errs.pricing,
+      seo:       !!errs.seo,
     }
-
-    // Open every section that contains an error so the user can see the red fields
     setOpenSections((prev) => ({
       ...prev,
-      ...Object.fromEntries(
-        Object.entries(sectionMap)
-          .filter(([, hasErr]) => hasErr)
-          .map(([key]) => [key, true])
-      ),
+      ...Object.fromEntries(Object.entries(sectionMap).filter(([, v]) => v).map(([k]) => [k, true])),
     }))
-
-    // Surface every distinct validation message, not just the first one,
-    // so the user doesn't have to hunt through sections to find what's wrong.
     const messages = Array.from(new Set(collectErrorMessages(errs)))
-
-    if (messages.length === 0) {
-      toast.error('Please fix the highlighted errors before saving')
-    } else if (messages.length === 1) {
-      toast.error(messages[0])
-    } else {
-      toast.error(
-        `${messages[0]} (+${messages.length - 1} more issue${messages.length - 1 > 1 ? 's' : ''} — see highlighted sections below)`
-      )
-    }
+    if (messages.length === 0) toast.error('Please fix the highlighted errors before saving')
+    else if (messages.length === 1) toast.error(messages[0])
+    else toast.error(`${messages[0]} (+${messages.length - 1} more issue${messages.length - 1 > 1 ? 's' : ''} — see highlighted sections below)`)
   }
 
-  /* ── Section error flags (passed as hasError to open sections) ── */
   const sectionErrors = {
-    basic:    !!(errors.name || errors.tagline || errors.description),
-    location: !!errors.location,
-    details:  !!(errors.duration || errors.durationLabel || errors.tripLength || errors.difficulty || errors.category || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
-    content:  !!(errors.highlights || errors.included || errors.excluded),
+    basic:     !!(errors.name || errors.tagline || errors.description),
+    location:  !!errors.location,
+    details:   !!(errors.duration || errors.tripLength || errors.difficulty || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
+    content:   !!(errors.highlights || errors.included || errors.excluded),
     itinerary: !!(errors.itinerary || errors.itineraryStops),
-    pricing:  !!errors.pricing,
-    images:   false,
-    seo:      !!errors.seo,
+    pricing:   !!errors.pricing,
+    images:    false,
+    seo:       !!errors.seo,
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit, onValidationError)} className="space-y-5 max-w-4xl">
 
-      {/* ── Full-page saving overlay ── */}
-      {isSubmitting && (
+      {/* Saving overlay */}
+      {(isSubmitting || isSavingDraft) && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-bone-paper/80 backdrop-blur-[2px]">
           <div className="w-10 h-10 border-2 border-bone-forest border-t-transparent rounded-full animate-spin" />
-          <p className="font-sans text-sm text-bone-ink/70">
-            {isEdit ? 'Saving changes…' : 'Creating safari…'}
-          </p>
+          <p className="font-sans text-sm text-bone-ink/70">{isSavingDraft ? 'Saving draft…' : isEdit ? 'Saving changes…' : 'Creating safari…'}</p>
         </div>
       )}
 
-      {/* ── Back link ── */}
-      <Link
-        href="/admin/safaris"
-        className="inline-flex items-center gap-1.5 text-sm font-sans text-bone-ink/50 hover:text-bone-ink transition-colors"
-      >
+      {/* Back link */}
+      <Link href="/admin/safaris" className="inline-flex items-center gap-1.5 text-sm font-sans text-bone-ink/50 hover:text-bone-ink transition-colors">
         <ArrowLeft size={14} /> Back to Safaris
       </Link>
 
-      {/* ── Page title ── */}
+      {/* Page title */}
       <div>
-        <h1 className="font-serif text-2xl font-semibold text-bone-ink">
-          {isEdit ? 'Edit Safari' : 'Add New Safari'}
-        </h1>
+        <h1 className="font-serif text-2xl font-semibold text-bone-ink">{isEdit ? 'Edit Safari' : 'Add New Safari'}</h1>
         <p className="text-sm text-bone-ink/45 font-sans mt-1">
           {isEdit ? `Editing: ${existing!.name}` : 'Fill in the details below. Required fields are marked *.'}
         </p>
       </div>
 
-      {/* ── Inline save error banner ── */}
+      {/* Inline save error */}
       {saveError && (
         <div className="flex items-start gap-3 px-4 py-3 rounded-md bg-red-50 border border-red-200">
           <AlertCircle size={16} className="text-red-500 flex-shrink-0 mt-0.5" />
@@ -791,154 +728,44 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       )}
 
       {/* ════════════ 1 · BASIC INFO ════════════ */}
-      <CollapsibleSection
-        title="Basic Information"
-        subtitle="Name, tagline, description and status"
-        isOpen={openSections.basic}
-        hasError={sectionErrors.basic}
-        onToggle={() => toggleSection('basic')}
-      >
-        <SectionErrorBanner
-          messages={Array.from(new Set([
-            ...collectErrorMessages(errors.name),
-            ...collectErrorMessages(errors.tagline),
-            ...collectErrorMessages(errors.description),
-          ]))}
-        />
-
+      <CollapsibleSection title="Basic Information" subtitle="Name, tagline, description and status" isOpen={openSections.basic} hasError={sectionErrors.basic} onToggle={() => toggleSection('basic')}>
+        <SectionErrorBanner messages={Array.from(new Set([...collectErrorMessages(errors.name), ...collectErrorMessages(errors.tagline), ...collectErrorMessages(errors.description)]))} />
         <div className="grid grid-cols-1 gap-4">
-          <Input
-            label="Safari Name"
-            {...register('name')}
-            placeholder="e.g. Great Wildebeest Migration Safari"
-            error={errors.name?.message}
-            required
-          />
-          <Input
-            label="Tagline"
-            {...register('tagline')}
-            placeholder="One compelling sentence about this safari…"
-            error={errors.tagline?.message}
-            required
-          />
-          <Textarea
-            label="Full Description"
-            {...register('description')}
-            rows={6}
-            placeholder="Detailed description of the experience…"
-            error={errors.description?.message}
-            required
-          />
+          <Input label="Safari Name" {...register('name')} placeholder="e.g. 7-Day Masai Mara & Amboseli Safari" error={errors.name?.message} required />
+          <Input label="Tagline" {...register('tagline')} placeholder="One compelling sentence about this safari…" error={errors.tagline?.message} required />
+          <Textarea label="Full Description" {...register('description')} rows={6} placeholder="Detailed description of the experience…" error={errors.description?.message} required />
         </div>
-
         <div className="flex flex-wrap gap-6 pt-1">
           <label className="flex items-center gap-2.5 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={watchedActive}
-              onChange={(e) => setValue('active', e.target.checked)}
-              className="w-4 h-4 accent-bone-forest rounded"
-            />
-            <span className="text-sm font-sans text-bone-ink/75">
-              Published <span className="text-bone-ink/40">(visible on site)</span>
-            </span>
+            <input type="checkbox" checked={watchedActive} onChange={(e) => setValue('active', e.target.checked)} className="w-4 h-4 accent-bone-forest rounded" />
+            <span className="text-sm font-sans text-bone-ink/75">Published <span className="text-bone-ink/40">(visible on site)</span></span>
           </label>
           <label className="flex items-center gap-2.5 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={watchedFeatured}
-              onChange={(e) => setValue('featured', e.target.checked)}
-              className="w-4 h-4 accent-bone-clay rounded"
-            />
-            <span className="text-sm font-sans text-bone-ink/75">
-              Featured <span className="text-bone-ink/40">(show on homepage)</span>
-            </span>
+            <input type="checkbox" checked={watchedFeatured} onChange={(e) => setValue('featured', e.target.checked)} className="w-4 h-4 accent-bone-clay rounded" />
+            <span className="text-sm font-sans text-bone-ink/75">Featured <span className="text-bone-ink/40">(show on homepage)</span></span>
           </label>
         </div>
       </CollapsibleSection>
 
       {/* ════════════ 2 · LOCATION ════════════ */}
-      <CollapsibleSection
-        title="Location"
-        subtitle="Countries, regions and parks / reserves"
-        isOpen={openSections.location}
-        hasError={sectionErrors.location}
-        onToggle={() => toggleSection('location')}
-      >
+      <CollapsibleSection title="Location" subtitle="Countries, regions and parks / reserves" isOpen={openSections.location} hasError={sectionErrors.location} onToggle={() => toggleSection('location')}>
         <SectionErrorBanner messages={Array.from(new Set(collectErrorMessages(errors.location)))} />
-
-        <ArrayField
-          label="Countries"
-          required
-          values={watchedCountries}
-          onChange={(v) => setValue('location.countries', v, { shouldValidate: true })}
-          placeholder="e.g. Kenya"
-          hint="Add every country this safari visits. First entry is the primary."
-          error={(errors.location?.countries as { message?: string } | undefined)?.message}
-        />
-
-        <ArrayField
-          label="Regions / Areas"
-          values={watchedRegions}
-          onChange={(v) => setValue('location.regions', v, { shouldValidate: true })}
-          placeholder="e.g. Rift Valley"
-          hint="Add each region or area covered by this safari."
-        />
-
-        <ArrayField
-          label="Parks & Reserves"
-          required
-          values={watchedParks}
-          onChange={(v) => setValue('location.parks', v, { shouldValidate: true })}
-          placeholder="e.g. Masai Mara National Reserve"
-          hint="Add every park or reserve visited. First entry is the primary."
-          error={(errors.location?.parks as { message?: string } | undefined)?.message}
-        />
+        <ArrayField label="Countries" required values={watchedCountries} onChange={(v) => setValue('location.countries', v, { shouldValidate: true })} placeholder="e.g. Kenya" hint="Add every country this safari visits. First entry is the primary." error={(errors.location?.countries as { message?: string } | undefined)?.message} />
+        <ArrayField label="Regions / Areas" values={watchedRegions} onChange={(v) => setValue('location.regions', v, { shouldValidate: true })} placeholder="e.g. Rift Valley" hint="Add each region or area covered by this safari." />
+        <ArrayField label="Parks & Reserves" required values={watchedParks} onChange={(v) => setValue('location.parks', v, { shouldValidate: true })} placeholder="e.g. Masai Mara National Reserve" hint="Add every park or reserve visited. First entry is the primary." error={(errors.location?.parks as { message?: string } | undefined)?.message} />
       </CollapsibleSection>
 
       {/* ════════════ 3 · DETAILS ════════════ */}
-      <CollapsibleSection
-        title="Safari Details"
-        subtitle="Duration, group size, categories, best season"
-        isOpen={openSections.details}
-        hasError={sectionErrors.details}
-        onToggle={() => toggleSection('details')}
-      >
-        <SectionErrorBanner
-          messages={Array.from(new Set([
-            ...collectErrorMessages(errors.duration),
-            ...collectErrorMessages(errors.durationLabel),
-            ...collectErrorMessages(errors.tripLength),
-            ...collectErrorMessages(errors.difficulty),
-            ...collectErrorMessages(errors.category),
-            ...collectErrorMessages(errors.safariType),
-            ...collectErrorMessages(errors.bestSeason),
-            ...collectErrorMessages(errors.maxGroupSize),
-            ...collectErrorMessages(errors.minGroupSize),
-            ...collectErrorMessages(errors.minAge),
-          ]))}
-        />
+      <CollapsibleSection title="Safari Details" subtitle="Duration, group size, safari type, best season" isOpen={openSections.details} hasError={sectionErrors.details} onToggle={() => toggleSection('details')}>
+        <SectionErrorBanner messages={Array.from(new Set([...collectErrorMessages(errors.duration), ...collectErrorMessages(errors.tripLength), ...collectErrorMessages(errors.difficulty), ...collectErrorMessages(errors.safariType), ...collectErrorMessages(errors.bestSeason), ...collectErrorMessages(errors.maxGroupSize), ...collectErrorMessages(errors.minGroupSize), ...collectErrorMessages(errors.minAge)]))} />
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-bone-ink/80 font-sans">
-            Trip length <span className="text-bone-clay">*</span>
-          </label>
-          <p className="text-xs text-bone-ink/45 font-sans -mt-1">
-            Controls which itinerary editor shows below — day-by-day for
-            multi-day trips, or hour/segment stops for sub-day excursions.
-          </p>
+          <label className="text-sm font-medium text-bone-ink/80 font-sans">Trip length <span className="text-bone-clay">*</span></label>
+          <p className="text-xs text-bone-ink/45 font-sans -mt-1">Controls which itinerary editor shows below and whether pricing uses seasonal rows (multi-day) or a single year-round row (short).</p>
           <div className="flex gap-3">
-            {([
-              { value: 'multi-day', label: 'Multi-day (1+ nights)' },
-              { value: 'short', label: 'Short (under a day)' },
-            ] as const).map((opt) => (
+            {([{ value: 'multi-day', label: 'Multi-day (1+ nights)' }, { value: 'short', label: 'Short (under a day)' }] as const).map((opt) => (
               <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  value={opt.value}
-                  {...register('tripLength')}
-                  className="accent-bone-forest"
-                />
+                <input type="radio" value={opt.value} {...register('tripLength')} className="accent-bone-forest" />
                 <span className="text-sm font-sans text-bone-ink/75">{opt.label}</span>
               </label>
             ))}
@@ -946,46 +773,11 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <Input
-            label={watchedTripLength === 'short' ? 'Duration (days, e.g. 0.25 ≈ 6 hrs)' : 'Duration (days)'}
-            type="number"
-            step="any"
-            {...register('duration', { valueAsNumber: true })}
-            min={0.1}
-            max={60}
-            error={errors.duration?.message}
-            required
-          />
-          {watchedTripLength === 'short' && (
-            <Input
-              label="Duration label"
-              {...register('durationLabel')}
-              placeholder="e.g. 3 Hours, Half Day"
-              error={errors.durationLabel?.message}
-            />
-          )}
-          <Input
-            label="Min group size"
-            type="number"
-            {...register('minGroupSize', { valueAsNumber: true })}
-            min={1}
-            error={errors.minGroupSize?.message}
-          />
-          <Input
-            label="Max group size"
-            type="number"
-            {...register('maxGroupSize', { valueAsNumber: true })}
-            min={1}
-            error={errors.maxGroupSize?.message}
-          />
-          <Input
-            label="Minimum age"
-            type="number"
-            {...register('minAge', { valueAsNumber: true })}
-            min={0}
-            max={18}
-            error={errors.minAge?.message}
-          />
+          <Input label={watchedTripLength === 'short' ? 'Duration (days, e.g. 0.25 ≈ 6 hrs)' : 'Duration (days)'} type="number" step="any" {...register('duration', { valueAsNumber: true })} min={0.1} max={60} error={errors.duration?.message} required />
+          {watchedTripLength === 'short' && <Input label="Duration label" {...register('durationLabel')} placeholder="e.g. 3 Hours, Half Day" error={errors.durationLabel?.message} />}
+          <Input label="Min group size" type="number" {...register('minGroupSize', { valueAsNumber: true })} min={1} error={errors.minGroupSize?.message} />
+          <Input label="Max group size" type="number" {...register('maxGroupSize', { valueAsNumber: true })} min={1} error={errors.maxGroupSize?.message} />
+          <Input label="Minimum age" type="number" {...register('minAge', { valueAsNumber: true })} min={0} max={18} error={errors.minAge?.message} />
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -993,12 +785,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           <div className="flex gap-3">
             {DIFFICULTIES.map((d) => (
               <label key={d.value} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  value={d.value}
-                  {...register('difficulty')}
-                  className="accent-bone-forest"
-                />
+                <input type="radio" value={d.value} {...register('difficulty')} className="accent-bone-forest" />
                 <span className="text-sm font-sans text-bone-ink/75">{d.label}</span>
               </label>
             ))}
@@ -1006,160 +793,49 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           {errors.difficulty && <p className="text-xs text-red-600 font-sans">{errors.difficulty.message}</p>}
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-bone-ink/80 font-sans">Categories <span className="text-bone-clay">*</span></label>
+        <div className="flex flex-col gap-3">
+          <div>
+            <label className="text-sm font-medium text-bone-ink/80 font-sans">Safari Type <span className="text-bone-clay">*</span></label>
+            <p className="text-xs text-bone-ink/45 font-sans mt-0.5">Style of experience — a package can have more than one type</p>
+          </div>
           <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((c) => {
-              const active = watchedCategory.includes(c.value as never)
+            {ACTIVITY_SAFARI_TYPES.map((t) => {
+              const active = watchedSafariType.includes(t.value as never)
               return (
-                <button
-                  key={c.value}
-                  type="button"
-                  onClick={() => toggleCategory(c.value)}
-                  className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${
-                    active
-                      ? 'bg-bone-forest text-bone-paper border-bone-forest'
-                      : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-forest hover:text-bone-forest'
-                  }`}
-                >
-                  {c.label}
+                <button key={t.value} type="button" onClick={() => toggleSafariType(t.value)}
+                  className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${active ? 'bg-bone-clay text-white border-bone-clay' : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-clay hover:text-bone-clay'}`}>
+                  {t.label}
                 </button>
               )
             })}
           </div>
-          {unknownCategories.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {unknownCategories.map((val) => (
-                <button
-                  key={val}
-                  type="button"
-                  onClick={() => removeUnknownCategory(val)}
-                  className="flex items-center gap-1.5 text-xs font-sans px-3 py-1.5 rounded-full border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
-                >
-                  "{val}" — unsupported, click to remove <X size={12} />
-                </button>
-              ))}
-            </div>
-          )}
-          {errors.category && (
-            <p className="text-xs text-red-600 font-sans">
-              {collectErrorMessages(errors.category)[0] ?? 'Select at least one category'}
-            </p>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <div>
-            <label className="text-sm font-medium text-bone-ink/80 font-sans">Safari Type <span className="text-bone-clay">*</span></label>
-            <p className="text-xs text-bone-ink/45 font-sans mt-0.5">Style of experience — a package can have more than one, from any group</p>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <span className="text-xs font-sans font-medium text-bone-ink/55 uppercase tracking-wide">Activity type</span>
-            <div className="flex flex-wrap gap-2">
-              {ACTIVITY_SAFARI_TYPES.map((t) => {
-                const active = watchedSafariType.includes(t.value as never)
-                return (
-                  <button
-                    key={t.value}
-                    type="button"
-                    onClick={() => toggleSafariType(t.value)}
-                    className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${
-                      active
-                        ? 'bg-bone-clay text-white border-bone-clay'
-                        : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-clay hover:text-bone-clay'
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <span className="text-xs font-sans font-medium text-bone-ink/55 uppercase tracking-wide">Traveller type</span>
-            <div className="flex flex-wrap gap-2">
-              {TRAVELLER_SAFARI_TYPES.map((t) => {
-                const active = watchedSafariType.includes(t.value as never)
-                return (
-                  <button
-                    key={t.value}
-                    type="button"
-                    onClick={() => toggleSafariType(t.value)}
-                    className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${
-                      active
-                        ? 'bg-bone-forest text-white border-bone-forest'
-                        : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-forest hover:text-bone-forest'
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <span className="text-xs font-sans font-medium text-bone-ink/55 uppercase tracking-wide">Theme / Collection</span>
-            <div className="flex flex-wrap gap-2">
-              {THEME_SAFARI_TYPES.map((t) => {
-                const active = watchedSafariType.includes(t.value as never)
-                return (
-                  <button
-                    key={t.value}
-                    type="button"
-                    onClick={() => toggleSafariType(t.value)}
-                    className={`text-xs font-sans px-3 py-1.5 rounded-full border transition-colors ${
-                      active
-                        ? 'bg-bone-ink text-white border-bone-ink'
-                        : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-ink hover:text-bone-ink'
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
           {unknownSafariTypes.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {unknownSafariTypes.map((val) => (
-                <button
-                  key={val}
-                  type="button"
-                  onClick={() => removeUnknownSafariType(val)}
-                  className="flex items-center gap-1.5 text-xs font-sans px-3 py-1.5 rounded-full border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
-                >
-                  "{val}" — unsupported, click to remove <X size={12} />
+                <button key={val} type="button" onClick={() => removeUnknownSafariType(val)}
+                  className="flex items-center gap-1.5 text-xs font-sans px-3 py-1.5 rounded-full border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 transition-colors">
+                  "{val}" — legacy, click to remove <X size={12} />
                 </button>
               ))}
             </div>
           )}
-          {errors.safariType && (
-            <p className="text-xs text-red-600 font-sans">
-              {collectErrorMessages(errors.safariType)[0] ?? 'Select at least one safari type'}
-            </p>
-          )}
+          {errors.safariType && <p className="text-xs text-red-600 font-sans">{collectErrorMessages(errors.safariType)[0] ?? 'Select at least one safari type'}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-bone-ink/80 font-sans">Best Season <span className="text-bone-clay">*</span></label>
+          {watchedTripLength === 'short' && (
+            <p className="text-[11px] text-bone-ink/40 font-sans -mt-0.5">Short safaris run year-round — all months are selected automatically.</p>
+          )}
           <div className="flex flex-wrap gap-2">
             {MONTHS.map((month) => {
               const active = watchedBestSeason.includes(month)
+              const isShortSafari = watchedTripLength === 'short'
               return (
-                <button
-                  key={month}
-                  type="button"
-                  onClick={() => toggleMonth(month)}
-                  className={`text-xs font-sans px-2.5 py-1 rounded border transition-colors ${
-                    active
-                      ? 'bg-bone-clay text-white border-bone-clay'
-                      : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-clay hover:text-bone-clay'
-                  }`}
-                >
+                <button key={month} type="button"
+                  onClick={() => !isShortSafari && toggleMonth(month)}
+                  disabled={isShortSafari}
+                  className={`text-xs font-sans px-2.5 py-1 rounded border transition-colors ${active ? 'bg-bone-clay text-white border-bone-clay' : 'bg-transparent text-bone-ink/55 border-[rgba(23,22,18,0.2)] hover:border-bone-clay hover:text-bone-clay'} ${isShortSafari ? 'cursor-default' : ''}`}>
                   {month.slice(0, 3)}
                 </button>
               )
@@ -1170,33 +846,15 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       </CollapsibleSection>
 
       {/* ════════════ 4 · CONTENT ARRAYS ════════════ */}
-      <CollapsibleSection
-        title="Highlights, Inclusions & Exclusions"
-        subtitle="What guests experience, what's included and what's not"
-        isOpen={openSections.content}
-        hasError={sectionErrors.content}
-        onToggle={() => toggleSection('content')}
-      >
-        <SectionErrorBanner
-          messages={Array.from(new Set([
-            ...collectErrorMessages(errors.highlights),
-            ...collectErrorMessages(errors.included),
-            ...collectErrorMessages(errors.excluded),
-          ]))}
-        />
+      <CollapsibleSection title="Highlights, Inclusions & Exclusions" subtitle="What guests experience, what's included and what's not" isOpen={openSections.content} hasError={sectionErrors.content} onToggle={() => toggleSection('content')}>
+        <SectionErrorBanner messages={Array.from(new Set([...collectErrorMessages(errors.highlights), ...collectErrorMessages(errors.included), ...collectErrorMessages(errors.excluded)]))} />
 
         <ArrayField
           label="Highlights"
-          required
           values={watchedHighlights}
           onChange={(v) => setValue('highlights', v, { shouldValidate: true })}
           placeholder="Add a highlight…"
-          hint="Key selling points — at least 3"
-          error={
-            errors.highlights?.message
-              ? `${errors.highlights.message} — currently ${watchedHighlights.filter(Boolean).length}, add ${Math.max(0, 3 - watchedHighlights.filter(Boolean).length)} more`
-              : undefined
-          }
+          hint="Key selling points shown on the safari detail page"
         />
 
         <div className="h-px bg-[rgba(23,22,18,0.07)]" />
@@ -1207,7 +865,6 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           values={watchedIncluded}
           onChange={(v) => setValue('included', v, { shouldValidate: true })}
           placeholder="Add inclusion…"
-          hint="e.g. All park fees, full board meals, professional guide"
           error={errors.included?.message as string | undefined}
         />
 
@@ -1218,229 +875,103 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           values={watchedExcluded}
           onChange={(v) => setValue('excluded', v)}
           placeholder="Add exclusion…"
-          hint="e.g. International flights, visa fees, travel insurance"
         />
       </CollapsibleSection>
 
       {/* ════════════ 5 · ITINERARY ════════════ */}
       <CollapsibleSection
         title={watchedTripLength === 'short' ? 'Itinerary Stops' : 'Day-by-Day Itinerary'}
-        subtitle={
-          watchedTripLength === 'short'
-            ? 'Hour/segment breakdown for this sub-day excursion'
-            : 'Detailed programme for each day of the safari'
-        }
-        isOpen={openSections.itinerary}
-        hasError={sectionErrors.itinerary}
-        onToggle={() => toggleSection('itinerary')}
-      >
-        <SectionErrorBanner
-          messages={Array.from(new Set([
-            ...collectErrorMessages(errors.itinerary),
-            ...collectErrorMessages(errors.itineraryStops),
-          ]))}
-        />
+        subtitle={watchedTripLength === 'short' ? 'Hour/segment breakdown for this sub-day excursion' : 'Detailed programme for each day of the safari'}
+        isOpen={openSections.itinerary} hasError={sectionErrors.itinerary} onToggle={() => toggleSection('itinerary')}>
+        <SectionErrorBanner messages={Array.from(new Set([...collectErrorMessages(errors.itinerary), ...collectErrorMessages(errors.itineraryStops)]))} />
 
         {watchedTripLength === 'short' ? (
-        <div className="space-y-5">
-          {itineraryStopFields.map((field, index) => (
-            <div
-              key={field.id}
-              className="border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden"
-            >
-              <div className="flex items-center justify-between bg-bone-bg px-4 py-2.5">
-                <span className="font-sans text-xs font-semibold uppercase tracking-wider text-bone-ink/60">
-                  Stop {index + 1}
-                </span>
-                {itineraryStopFields.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeStop(index)}
-                    className="text-bone-ink/30 hover:text-red-500 transition-colors"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                )}
-              </div>
-
-              <div className="px-4 py-4 space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Input
-                    label="Stop title"
-                    {...register(`itineraryStops.${index}.title`)}
-                    placeholder="e.g. Crater floor descent"
-                    error={errors.itineraryStops?.[index]?.title?.message}
-                    required
-                  />
-                  <Input
-                    label="Duration label"
-                    {...register(`itineraryStops.${index}.durationLabel`)}
-                    placeholder="e.g. 9:00 - 11:00, 2 hrs"
-                    error={errors.itineraryStops?.[index]?.durationLabel?.message}
-                    required
-                  />
+          <div className="space-y-5">
+            {itineraryStopFields.map((field, index) => (
+              <div key={field.id} className="border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden">
+                <div className="flex items-center justify-between bg-bone-bg px-4 py-2.5">
+                  <span className="font-sans text-xs font-semibold uppercase tracking-wider text-bone-ink/60">Stop {index + 1}</span>
+                  {itineraryStopFields.length > 1 && <button type="button" onClick={() => removeStop(index)} className="text-bone-ink/30 hover:text-red-500 transition-colors"><Trash2 size={13} /></button>}
                 </div>
-                <Textarea
-                  label="Description"
-                  {...register(`itineraryStops.${index}.description`)}
-                  rows={3}
-                  placeholder="What happens during this stop…"
-                  error={errors.itineraryStops?.[index]?.description?.message}
-                  required
-                />
-                <Controller
-                  control={control}
-                  name={`itineraryStops.${index}.activities`}
-                  render={({ field }) => (
-                    <ArrayField
-                      label="Activities"
-                      values={(field.value as string[]) ?? []}
-                      onChange={field.onChange}
-                      placeholder="Add activity…"
-                    />
-                  )}
-                />
-              </div>
-            </div>
-          ))}
-
-          <button
-            type="button"
-            onClick={() => appendStop(blankItineraryStop(itineraryStopFields.length + 1))}
-            className="flex items-center gap-2 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors"
-          >
-            <Plus size={15} /> Add Stop
-          </button>
-        </div>
-        ) : (
-        <div className="space-y-5">
-          {itineraryFields.map((field, index) => (
-            <div
-              key={field.id}
-              className="border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden"
-            >
-              <div className="flex items-center justify-between bg-bone-bg px-4 py-2.5">
-                <span className="font-sans text-xs font-semibold uppercase tracking-wider text-bone-ink/60">
-                  Day {index + 1}
-                </span>
-                {itineraryFields.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeDay(index)}
-                    className="text-bone-ink/30 hover:text-red-500 transition-colors"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                )}
-              </div>
-
-              <div className="px-4 py-4 space-y-4">
-                <Input
-                  label="Day title"
-                  {...register(`itinerary.${index}.title`)}
-                  placeholder="e.g. Nairobi → Masai Mara"
-                  error={errors.itinerary?.[index]?.title?.message}
-                  required
-                />
-                <Textarea
-                  label="Description"
-                  {...register(`itinerary.${index}.description`)}
-                  rows={3}
-                  placeholder="What happens on this day…"
-                  error={errors.itinerary?.[index]?.description?.message}
-                  required
-                />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-bone-ink/80 font-sans">Meals</label>
-                    <div className="flex flex-wrap gap-2">
-                      {['Breakfast', 'Lunch', 'Dinner', 'Bush Lunch', 'Packed Lunch'].map((meal) => {
-                        const meals = (watch(`itinerary.${index}.meals`) ?? []) as string[]
-                        const on = meals.includes(meal)
-                        return (
-                          <button
-                            key={meal}
-                            type="button"
-                            onClick={() => {
-                              const current = (watch(`itinerary.${index}.meals`) ?? []) as string[]
-                              setValue(
-                                `itinerary.${index}.meals`,
-                                on ? current.filter((m) => m !== meal) : [...current, meal]
-                              )
-                            }}
-                            className={`text-xs px-2.5 py-1 rounded border font-sans transition-colors ${on ? 'bg-bone-forest text-bone-paper border-bone-forest' : 'text-bone-ink/50 border-[rgba(23,22,18,0.18)] hover:border-bone-forest hover:text-bone-forest'}`}
-                          >
-                            {meal}
-                          </button>
-                        )
-                      })}
-                    </div>
+                <div className="px-4 py-4 space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Input label="Stop title" {...register(`itineraryStops.${index}.title`)} placeholder="e.g. Crater floor descent" error={errors.itineraryStops?.[index]?.title?.message} required />
+                    <Input label="Duration label" {...register(`itineraryStops.${index}.durationLabel`)} placeholder="e.g. 9:00 - 11:00, 2 hrs" error={errors.itineraryStops?.[index]?.durationLabel?.message} required />
                   </div>
-
-                  <Input
-                    label="Accommodation"
-                    {...register(`itinerary.${index}.accommodation`)}
-                    placeholder="See tier / Camp name"
-                  />
+                  <Textarea label="Description" {...register(`itineraryStops.${index}.description`)} rows={3} placeholder="What happens during this stop…" error={errors.itineraryStops?.[index]?.description?.message} required />
+                  <Controller control={control} name={`itineraryStops.${index}.activities`} render={({ field }) => (
+                    <ArrayField label="Activities" values={(field.value as string[]) ?? []} onChange={field.onChange} placeholder="Add activity…" />
+                  )} />
                 </div>
-
-                <Controller
-                  control={control}
-                  name={`itinerary.${index}.activities`}
-                  render={({ field }) => (
-                    <ArrayField
-                      label="Activities"
-                      values={(field.value as string[]) ?? []}
-                      onChange={field.onChange}
-                      placeholder="Add activity…"
-                    />
-                  )}
-                />
               </div>
-            </div>
-          ))}
-
-          <button
-            type="button"
-            onClick={() => appendDay(blankItineraryDay(itineraryFields.length + 1))}
-            className="flex items-center gap-2 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors"
-          >
-            <Plus size={15} /> Add Day
-          </button>
-        </div>
+            ))}
+            <button type="button" onClick={() => appendStop(blankItineraryStop(itineraryStopFields.length + 1))} className="flex items-center gap-2 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors">
+              <Plus size={15} /> Add Stop
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-5">
+            {itineraryFields.map((field, index) => (
+              <div key={field.id} className="border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden">
+                <div className="flex items-center justify-between bg-bone-bg px-4 py-2.5">
+                  <span className="font-sans text-xs font-semibold uppercase tracking-wider text-bone-ink/60">Day {index + 1}</span>
+                  {itineraryFields.length > 1 && <button type="button" onClick={() => removeDay(index)} className="text-bone-ink/30 hover:text-red-500 transition-colors"><Trash2 size={13} /></button>}
+                </div>
+                <div className="px-4 py-4 space-y-4">
+                  <Input label="Day title" {...register(`itinerary.${index}.title`)} placeholder="e.g. Nairobi → Masai Mara" error={errors.itinerary?.[index]?.title?.message} required />
+                  <Textarea label="Description" {...register(`itinerary.${index}.description`)} rows={3} placeholder="What happens on this day…" error={errors.itinerary?.[index]?.description?.message} required />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-sm font-medium text-bone-ink/80 font-sans">Meals</label>
+                      <div className="flex flex-wrap gap-2">
+                        {['Breakfast', 'Lunch', 'Dinner', 'Bush Lunch', 'Packed Lunch'].map((meal) => {
+                          const meals = (watch(`itinerary.${index}.meals`) ?? []) as string[]
+                          const on = meals.includes(meal)
+                          return (
+                            <button key={meal} type="button"
+                              onClick={() => { const cur = (watch(`itinerary.${index}.meals`) ?? []) as string[]; setValue(`itinerary.${index}.meals`, on ? cur.filter((m) => m !== meal) : [...cur, meal]) }}
+                              className={`text-xs px-2.5 py-1 rounded border font-sans transition-colors ${on ? 'bg-bone-forest text-bone-paper border-bone-forest' : 'text-bone-ink/50 border-[rgba(23,22,18,0.18)] hover:border-bone-forest hover:text-bone-forest'}`}>
+                              {meal}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                    <Input label="Accommodation" {...register(`itinerary.${index}.accommodation`)} placeholder="See tier / Camp name" />
+                  </div>
+                  <Controller control={control} name={`itinerary.${index}.activities`} render={({ field }) => (
+                    <ArrayField label="Activities" values={(field.value as string[]) ?? []} onChange={field.onChange} placeholder="Add activity…" />
+                  )} />
+                </div>
+              </div>
+            ))}
+            <button type="button" onClick={() => appendDay(blankItineraryDay(itineraryFields.length + 1))} className="flex items-center gap-2 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors">
+              <Plus size={15} /> Add Day
+            </button>
+          </div>
         )}
       </CollapsibleSection>
 
       {/* ════════════ 6 · PRICING ════════════ */}
-      <CollapsibleSection
-        title="Pricing Tiers"
-        subtitle="Budget, mid-range and luxury pricing with inclusions"
-        isOpen={openSections.pricing}
-        hasError={sectionErrors.pricing}
-        onToggle={() => toggleSection('pricing')}
-      >
+      <CollapsibleSection title="Pricing Tiers" subtitle="Budget, mid-range and luxury pricing — seasonal tables" isOpen={openSections.pricing} hasError={sectionErrors.pricing} onToggle={() => toggleSection('pricing')}>
         <SectionErrorBanner messages={Array.from(new Set(collectErrorMessages(errors.pricing)))} />
 
+        {watchedTripLength === 'short' && (
+          <div className="px-3.5 py-2.5 rounded-md bg-bone-bg border border-[rgba(23,22,18,0.12)] text-xs font-sans text-bone-ink/60">
+            Short safari — one fixed price row per tier (no seasonal rows). Prices are constant year-round.
+          </div>
+        )}
+
         <div className="space-y-8">
-          {(
-            [
-              { tier: 'budget'   as const, label: 'Budget' },
-              { tier: 'midRange' as const, label: 'Mid-Range' },
-              { tier: 'luxury'   as const, label: 'Luxury' },
-            ] as const
-          ).map(({ tier, label }) => (
-            <Controller
-              key={tier}
-              control={control}
-              name={`pricing.${tier}`}
+          {([{ tier: 'budget' as const, label: 'Budget' }, { tier: 'midRange' as const, label: 'Mid-Range' }, { tier: 'luxury' as const, label: 'Luxury' }]).map(({ tier, label }) => (
+            <Controller key={tier} control={control} name={`pricing.${tier}`}
               render={({ field }) => (
                 <PricingTierSection
-                  tier={tier}
-                  label={label}
+                  tier={tier} label={label}
                   values={field.value}
                   onChange={(v) => field.onChange({ ...field.value, ...v })}
-                  errors={errors.pricing?.[tier] as PricingTierFieldErrors}
+                  errors={errors.pricing?.[tier] as PricingTierErrors}
+                  isShort={watchedTripLength === 'short'}
                 />
               )}
             />
@@ -1449,150 +980,73 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       </CollapsibleSection>
 
       {/* ════════════ 7 · IMAGES ════════════ */}
-      <CollapsibleSection
-        title="Images"
-        subtitle="Cover image and gallery — upload from your machine or pick from media library"
-        isOpen={openSections.images}
-        onToggle={() => toggleSection('images')}
-      >
-        <ImageUpload
-          label="Cover Image"
-          required
-          usage="safari-cover"
-          value={coverImage}
-          publicId={coverImagePublicId}
+      <CollapsibleSection title="Images" subtitle="Cover image and gallery" isOpen={openSections.images} onToggle={() => toggleSection('images')}>
+        <ImageUpload label="Cover Image" required usage="safari-cover" value={coverImage} publicId={coverImagePublicId}
           onChange={(url, publicId) => { setCoverImage(url); setCoverImagePublicId(publicId) }}
           onClear={() => { setCoverImage(''); setCoverImagePublicId('') }}
-          aspectRatio="16/9"
-          hint="Main listing image and OG image — required"
+          aspectRatio="16/9" hint="Main listing image and OG image — required"
         />
-
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-bone-ink/80 font-sans">
-              Gallery Images
-              <span className="ml-1.5 text-bone-ink/40 font-normal">({imageGallery.length})</span>
-            </label>
-            <button
-              type="button"
-              onClick={() => setGalleryPickerOpen(true)}
-              className="flex items-center gap-1.5 text-xs font-sans text-bone-forest hover:text-bone-clay transition-colors"
-            >
+            <label className="text-sm font-medium text-bone-ink/80 font-sans">Gallery Images <span className="ml-1.5 text-bone-ink/40 font-normal">({imageGallery.length})</span></label>
+            <button type="button" onClick={() => setGalleryPickerOpen(true)} className="flex items-center gap-1.5 text-xs font-sans text-bone-forest hover:text-bone-clay transition-colors">
               <FolderOpen size={13} /> Add from library
             </button>
           </div>
-
           {imageGallery.length > 0 && (
             <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
               {imageGallery.map((img, i) => (
                 <div key={i} className="relative group aspect-square rounded-md overflow-hidden border border-[rgba(23,22,18,0.12)]">
-                  <Image
-                    src={img.url}
-                    alt={img.alt || `Gallery ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="120px"
-                    unoptimized
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setImageGallery(imageGallery.filter((_, idx) => idx !== i))}
-                    className="absolute top-1 right-1 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
+                  <Image src={img.url} alt={img.alt || `Gallery ${i + 1}`} fill className="object-cover" sizes="120px" unoptimized />
+                  <button type="button" onClick={() => setImageGallery(imageGallery.filter((_, idx) => idx !== i))}
+                    className="absolute top-1 right-1 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <X size={10} className="text-white" />
                   </button>
                 </div>
               ))}
             </div>
           )}
-
-          {imageGallery.length === 0 && (
-            <p className="text-xs text-bone-ink/40 font-sans">No gallery images yet — click "Add from library" above.</p>
-          )}
+          {imageGallery.length === 0 && <p className="text-xs text-bone-ink/40 font-sans">No gallery images yet — click "Add from library" above.</p>}
         </div>
-
         {galleryPickerOpen && (
-          <MediaPicker
-            usage="safari-gallery"
-            onSelect={(url, publicId) => {
-              setImageGallery(prev => [...prev, { url, publicId, alt: '' }])
-              setGalleryPickerOpen(false)
-            }}
+          <MediaPicker usage="safari-gallery"
+            onSelect={(url, publicId) => { setImageGallery(prev => [...prev, { url, publicId, alt: '' }]); setGalleryPickerOpen(false) }}
             onClose={() => setGalleryPickerOpen(false)}
           />
         )}
       </CollapsibleSection>
 
       {/* ════════════ 8 · SEO ════════════ */}
-      <CollapsibleSection
-        title="SEO"
-        subtitle="Search engine meta title, description and keywords"
-        isOpen={openSections.seo}
-        hasError={sectionErrors.seo}
-        onToggle={() => toggleSection('seo')}
-      >
+      <CollapsibleSection title="SEO" subtitle="Search engine meta title, description and keywords" isOpen={openSections.seo} hasError={sectionErrors.seo} onToggle={() => toggleSection('seo')}>
         {sectionErrors.seo && (
           <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-md bg-red-50 border border-red-200">
             <AlertCircle size={14} className="text-red-500 flex-shrink-0 mt-0.5" />
-            <p className="text-xs text-red-700 font-sans">
-              The meta title or description below is too long for search engines to display properly. Shorten the text until the counter under the field turns black again, then save.
-            </p>
+            <p className="text-xs text-red-700 font-sans">The meta title or description is too long. Shorten until the counter turns black.</p>
           </div>
         )}
-        <Input
-          label="Meta Title"
-          {...register('seo.metaTitle')}
-          placeholder="e.g. Great Migration Safari Kenya | Divine Travel Nest Safaris"
-          error={
-            errors.seo?.metaTitle
-              ? `${errors.seo.metaTitle.message} — currently ${watchedMetaTitle.length}, remove ${watchedMetaTitle.length - 60}`
-              : undefined
-          }
+        <Input label="Meta Title" {...register('seo.metaTitle')} placeholder="e.g. 7-Day Masai Mara Safari | Divine Travel Nest"
+          error={errors.seo?.metaTitle ? `${errors.seo.metaTitle.message} — currently ${watchedMetaTitle.length}, remove ${watchedMetaTitle.length - 60}` : undefined}
           hint={`${watchedMetaTitle.length}/60 characters`}
         />
-        <Textarea
-          label="Meta Description"
-          {...register('seo.metaDescription')}
-          rows={3}
-          placeholder="Compelling description for Google search results…"
-          error={
-            errors.seo?.metaDescription
-              ? `${errors.seo.metaDescription.message} — currently ${watchedMetaDescription.length}, remove ${watchedMetaDescription.length - 160}`
-              : undefined
-          }
+        <Textarea label="Meta Description" {...register('seo.metaDescription')} rows={3} placeholder="Compelling description for Google search results…"
+          error={errors.seo?.metaDescription ? `${errors.seo.metaDescription.message} — currently ${watchedMetaDescription.length}, remove ${watchedMetaDescription.length - 160}` : undefined}
           hint={`${watchedMetaDescription.length}/160 characters`}
         />
-        <Controller
-          control={control}
-          name="seo.keywords"
-          render={({ field }) => (
-            <ArrayField
-              label="Keywords"
-              values={(field.value as string[]) ?? []}
-              onChange={field.onChange}
-              placeholder="Add keyword…"
-              hint="Press Enter or click Add"
-            />
-          )}
-        />
+        <Controller control={control} name="seo.keywords" render={({ field }) => (
+          <ArrayField label="Keywords" values={(field.value as string[]) ?? []} onChange={field.onChange} placeholder="Add keyword…" hint="Press Enter or click Add" />
+        )} />
       </CollapsibleSection>
 
       {/* ════════════ SUBMIT ════════════ */}
-      <div className="flex items-center gap-3 pt-2">
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          loading={isSubmitting}
-        >
-          {isEdit ? 'Save Changes' : 'Create Safari'}
+      <div className="flex items-center gap-3 pt-2 flex-wrap">
+        <Button type="submit" variant="primary" size="lg" loading={isSubmitting}>
+          {isEdit ? 'Save Changes' : 'Publish Safari'}
         </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="lg"
-          onClick={() => router.push('/admin/safaris')}
-        >
+        <Button type="button" variant="ghost" size="lg" onClick={saveDraft} loading={isSavingDraft}
+          className="flex items-center gap-2">
+          <Save size={15} /> Save as Draft
+        </Button>
+        <Button type="button" variant="ghost" size="lg" onClick={() => router.push('/admin/safaris')}>
           Cancel
         </Button>
       </div>
