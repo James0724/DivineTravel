@@ -160,7 +160,7 @@ export default function BookingForm({ safari, initialTier, onSuccess }: BookingF
                 />
                 <p className="text-xs font-sans font-semibold text-bone-ink">{t.label}</p>
                 <p className="text-sm font-serif font-bold text-bone-ink mt-1">
-                  {displayPrice(p.pricePerPerson)}
+                  {displayPrice(p.pricePerPerson ?? 0)}
                 </p>
                 <p className="text-xs text-bone-ink/40 font-sans">/ person</p>
               </label>

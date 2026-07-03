@@ -127,7 +127,7 @@ function blankPricingTier() {
 
 // Migrate an old-format tier (pricePerPerson) to new seasonal-rows format
 function migratePricingTier(tier: Safari['pricing']['budget'], withDefaults = false) {
-  const rows = (tier as { rows?: typeof blankSeasonRow extends (...args: unknown[]) => infer R ? R[] : unknown[] }).rows
+  const rows = (tier as unknown as { rows?: { seasonLabel: string; dateRange: string; per2: number; per3: number; per4: number; per5: number; per6: number }[] }).rows
   const hasRows = Array.isArray(rows) && rows.length > 0
   return {
     currency: tier.currency || 'USD',
