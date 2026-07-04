@@ -20,7 +20,7 @@ interface SafariCardProps {
 }
 
 export default function SafariCard({ safari, index = 0, compact = false }: SafariCardProps) {
-  const lowestPrice = getLowestPrice(safari.pricing)
+  const lowestPrice = getLowestPrice(safari.pricing, safari.tripLength)
   const { displayPrice } = useCurrency()
 
   return (
@@ -61,7 +61,7 @@ export default function SafariCard({ safari, index = 0, compact = false }: Safar
           <div className="absolute top-3 right-3">
             <span className="inline-flex items-center gap-1 text-xs font-sans font-medium bg-bone-ink/70 text-bone-paper px-2 py-0.5 rounded">
               <Clock size={10} />
-              {formatDuration(safari.duration)}
+              {formatDuration(safari.duration, safari.tripLength, safari.durationLabel)}
             </span>
           </div>
         </div>

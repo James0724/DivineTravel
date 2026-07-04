@@ -66,7 +66,7 @@ export default async function JournalSection() {
                 {t("description")}
               </p>
               <SiteLink
-                href="/journal"
+                href="/african-travel-blog"
                 variant="ghost-mono"
                 arrow
                 className="mt-5"
@@ -84,7 +84,7 @@ export default async function JournalSection() {
             return (
               <RevealItem key={post._id as string}>
                 <Link
-                  href={`/journal/${post.slug}`}
+                  href={`/african-travel-blog/${post.slug}`}
                   className="flex flex-col cursor-pointer group bg-bone-paper border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
                 >
                   <div

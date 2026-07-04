@@ -16,6 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${title} | Divine Travel Nest Safaris`,
     alternates: buildAlternates(locale, `/tools/${slug}`),
+    robots: { index: false, follow: false },
   };
 }
 

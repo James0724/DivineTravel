@@ -84,6 +84,15 @@ const nextConfig: NextConfig = {
     ];
 
     return [
+      // Consolidate www to non-www so Google sees a single canonical domain.
+      // Pair this with a DNS-level CNAME/redirect at your hosting provider so
+      // requests for www.divinetravelnestsafaris.com actually reach Next.js.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.divinetravelnestsafaris.com" }],
+        destination: "https://divinetravelnestsafaris.com/:path*",
+        permanent: true,
+      },
       ...legacyWordpressRedirects.flatMap(([source, destination]) => [
         { source, destination, permanent: true },
         { source: `${source}/`, destination, permanent: true },

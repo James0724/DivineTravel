@@ -166,7 +166,7 @@ const DISCOVER_LINKS: ColumnLink[] = [
   { key: "photographic", href: "/safari-types/photographic" },
   { key: "luxuryLodges", href: "/accommodations/luxury-lodges" },
   { key: "beachBush", href: "/safaris/beach-and-bush" },
-  { key: "zanzibar", href: "/destinations/zanzibar" },
+  { key: "zanzibar", href: "/destinations/tanzania" },
 ];
 
 const PLAN_LINKS: ColumnLink[] = [
@@ -180,10 +180,10 @@ const PLAN_LINKS: ColumnLink[] = [
 
 const COMPANY_LINKS: ColumnLink[] = [
   { key: "about", href: "/about" },
-  { key: "whyDivine", href: "/about/why-divine" },
+  { key: "whyDivine", href: "/about" },
   { key: "reviews", href: "/reviews" },
-  { key: "responsible", href: "/responsible-travel" },
-  { key: "bookingTerms", href: "/safari-booking-terms" },
+  { key: "responsible", href: "/guidelines" },
+  { key: "bookingTerms", href: "/guidelines" },
   { key: "contact", href: "/contact" },
 ];
 

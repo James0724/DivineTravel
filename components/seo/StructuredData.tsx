@@ -280,8 +280,21 @@ export function SafariSchema({
     }
     return tier.pricePerPerson ?? 0;
   };
-  const lowestPrice = Math.min(
-    ...[tierFrom(safari.pricing.budget), tierFrom(safari.pricing.midRange), tierFrom(safari.pricing.luxury)].filter((p) => p > 0),
+  // Resolve the "up to" price for a tier: maximum per6 across seasons
+  const tierMax = (tier: typeof safari.pricing.budget): number => {
+    if (!tier) return 0;
+    if (tier.rows?.length) {
+      const vals = tier.rows.map((r) => r.per6).filter((p): p is number => typeof p === "number" && p > 0);
+      return vals.length ? Math.max(...vals) : 0;
+    }
+    return tier.pricePerPerson ?? 0;
+  };
+  const tierPrices = [tierFrom(safari.pricing.budget), tierFrom(safari.pricing.midRange), tierFrom(safari.pricing.luxury)].filter((p) => p > 0);
+  const lowestPrice = tierPrices.length ? Math.min(...tierPrices) : 0;
+  const highestPrice = Math.max(
+    tierMax(safari.pricing.budget),
+    tierMax(safari.pricing.midRange),
+    tierMax(safari.pricing.luxury),
   );
   const currency = safari.pricing.budget?.currency ?? "USD";
 
@@ -322,7 +335,8 @@ export function SafariSchema({
     },
     offers: {
       "@type": "AggregateOffer",
-      lowPrice: Number.isFinite(lowestPrice) ? lowestPrice : undefined,
+      lowPrice: lowestPrice > 0 ? lowestPrice : undefined,
+      highPrice: highestPrice > 0 ? highestPrice : undefined,
       priceCurrency: currency,
       offerCount: 3,
       availability: "https://schema.org/InStock",
@@ -357,13 +371,13 @@ export function SafariSchema({
         },
       ],
     },
-    ...(safari.rating > 0 && {
+    ...(safari.rating > 0 && safari.reviewCount > 0 && {
       aggregateRating: {
         "@type": "AggregateRating",
-        ratingValue: safari.rating.toFixed(1),
+        ratingValue: Math.round(safari.rating * 10) / 10,
         reviewCount: safari.reviewCount,
-        bestRating: "5",
-        worstRating: "1",
+        bestRating: 5,
+        worstRating: 1,
       },
     }),
   };

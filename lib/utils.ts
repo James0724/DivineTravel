@@ -98,33 +98,51 @@ export function getDifficultyColor(difficulty: string): string {
   return colors[difficulty] ?? ''
 }
 
-export function formatDuration(days: number): string {
-  if (days === 1) return '1 Day'
-  if (days < 7) return `${days} Days`
-  const weeks = Math.floor(days / 7)
-  const remainder = days % 7
+// If durationLabel is provided it is shown as-is (admin's own words).
+// Any sub-day value (< 1) is always shown as hours, regardless of tripLength.
+export function formatDuration(value: number, tripLength?: string, durationLabel?: string): string {
+  if (durationLabel?.trim()) return durationLabel.trim()
+  if (tripLength === 'short' || value < 1) {
+    const hours = Math.round(value * 24)
+    return hours === 1 ? '1 hr' : `${hours} hrs`
+  }
+  if (value === 1) return '1 Day'
+  if (value < 7) return `${value} Days`
+  const weeks = Math.floor(value / 7)
+  const remainder = value % 7
   if (remainder === 0) return weeks === 1 ? '1 Week' : `${weeks} Weeks`
   return `${weeks}W ${remainder}D`
 }
 
-export function getLowestPrice(pricing?: {
-  budget?:   { rows?: { per6?: number }[]; pricePerPerson?: number }
-  midRange?: { rows?: { per6?: number }[]; pricePerPerson?: number }
-  luxury?:   { rows?: { per6?: number }[]; pricePerPerson?: number }
+function extractMinPer6(tier?: {
+  rows?: { per6?: number }[]
+  pricePerPerson?: number
 }): number {
-  if (!pricing) return 0
-  const prices: number[] = []
-  for (const tier of [pricing.budget, pricing.midRange, pricing.luxury]) {
-    if (!tier) continue
-    if (tier.rows?.length) {
-      tier.rows.forEach((row) => {
-        if (typeof row.per6 === 'number' && row.per6 > 0) prices.push(row.per6)
-      })
-    } else if (typeof tier.pricePerPerson === 'number' && tier.pricePerPerson > 0) {
-      prices.push(tier.pricePerPerson)
-    }
+  if (!tier) return 0
+  if (tier.rows?.length) {
+    const prices = tier.rows
+      .map((r) => r.per6)
+      .filter((p): p is number => typeof p === 'number' && p > 0)
+    return prices.length ? Math.min(...prices) : 0
   }
-  return prices.length ? Math.min(...prices) : 0
+  return typeof tier.pricePerPerson === 'number' && tier.pricePerPerson > 0
+    ? tier.pricePerPerson
+    : 0
+}
+
+// Short safaris → budget tier flat rate (6 pax).
+// Multi-day → midRange tier 6-pax price, fallback to budget if midRange has no data.
+export function getLowestPrice(
+  pricing?: {
+    budget?:   { rows?: { per6?: number }[]; pricePerPerson?: number }
+    midRange?: { rows?: { per6?: number }[]; pricePerPerson?: number }
+    luxury?:   { rows?: { per6?: number }[]; pricePerPerson?: number }
+  },
+  tripLength?: string
+): number {
+  if (!pricing) return 0
+  if (tripLength === 'short') return extractMinPer6(pricing.budget)
+  return extractMinPer6(pricing.midRange) || extractMinPer6(pricing.budget)
 }
 
 export function getRatingStars(rating: number): string {

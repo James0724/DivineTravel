@@ -404,7 +404,7 @@ export default function AdminJournalPage() {
                 {
                   label: 'View live',
                   icon: <Eye size={14} />,
-                  onClick: () => window.open(`/journal/${post.slug}`, '_blank', 'noopener,noreferrer'),
+                  onClick: () => window.open(`/african-travel-blog/${post.slug}`, '_blank', 'noopener,noreferrer'),
                 },
                 {
                   label: 'Edit',

@@ -201,7 +201,7 @@ export default function JournalContent() {
                   {posts.map((post) => (
                     <RevealItem key={post._id} className="flex flex-col">
                       <Link
-                        href={`/journal/${post.slug}`}
+                        href={`/african-travel-blog/${post.slug}`}
                         className="group flex flex-col cursor-pointer h-full bg-bone-paper border border-[rgba(23,22,18,0.18)] rounded-sm overflow-hidden transition-shadow duration-300 hover:shadow-card-hover"
                       >
                         <div className="overflow-hidden bg-bone-paper flex-shrink-0" style={{ aspectRatio: "3/2" }}>

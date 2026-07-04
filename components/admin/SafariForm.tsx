@@ -22,23 +22,16 @@ const MediaPicker = dynamic(() => import('@/components/admin/MediaPicker'), { ss
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December']
 
-// Only activity types shown in the admin form.
-// Traveller and theme types are kept in the Zod enum for backward compat
-// but are no longer surfaced in the UI (category field is also removed).
 const ACTIVITY_SAFARI_TYPES = [
-  { value: 'game-drive',     label: 'Game-Drive Safari' },
-  { value: 'walking',        label: 'Walking Safari' },
-  { value: 'fly-in',         label: 'Fly-in Safari' },
-  { value: 'mobile-camping', label: 'Mobile / Camping Safari' },
-  { value: 'water-based',    label: 'Water-Based Safari' },
-  { value: 'horseback',      label: 'Horseback Safari' },
-  { value: 'balloon',        label: 'Hot-Air Balloon Safari' },
-  { value: 'self-drive',     label: 'Self-Drive Safari' },
-  { value: 'photographic',   label: 'Photographic Safari' },
-  { value: 'night',          label: 'Night Safari' },
-  { value: 'birding',        label: 'Birding Safari' },
-  { value: 'wellness',       label: 'Wellness Safari' },
-  { value: 'conservation',   label: 'Conservation Safari' },
+  { value: 'game-drive',   label: 'Wildlife & Game Viewing' },
+  { value: 'walking',      label: 'Walking Safari' },
+  { value: 'photographic', label: 'Photography Safari' },
+  { value: 'cultural',     label: 'Cultural Safari' },
+  { value: 'adventure',    label: 'Adventure Safari' },
+  { value: 'family',       label: 'Family Safari' },
+  { value: 'birding',      label: 'Bird Watching Safari' },
+  { value: 'fly-in',       label: 'Fly-in Safari' },
+  { value: 'small-group',  label: 'Budget & Group Safari' },
 ]
 
 const DIFFICULTIES = [
@@ -125,20 +118,37 @@ function blankPricingTier() {
   }
 }
 
-// Migrate an old-format tier (pricePerPerson) to new seasonal-rows format
-function migratePricingTier(tier: Safari['pricing']['budget'], withDefaults = false) {
+// Migrate an old-format tier (pricePerPerson) to new seasonal-rows format.
+// Pass isShort=true for budget tier on a short safari — produces exactly ONE flat row.
+function migratePricingTier(tier: Safari['pricing']['budget'], isShort = false) {
   const rows = (tier as unknown as { rows?: { seasonLabel: string; dateRange: string; per2: number; per3: number; per4: number; per5: number; per6: number }[] }).rows
   const hasRows = Array.isArray(rows) && rows.length > 0
-  return {
-    currency: tier.currency || 'USD',
-    includes: tier.includes?.filter(Boolean).length ? tier.includes.filter(Boolean) : (withDefaults ? [...DEFAULT_INCLUSIONS] : []),
-    accommodationType: tier.accommodationType || '',
-    hotels: withHotelLocationDefaults(tier.hotels),
-    rows: hasRows
+
+  let migratedRows: typeof rows
+  if (isShort) {
+    // One flat row only — take existing rows[0] or seed from legacy pricePerPerson
+    if (hasRows) {
+      migratedRows = [rows[0]]
+    } else if (tier.pricePerPerson) {
+      const p = tier.pricePerPerson
+      migratedRows = [{ seasonLabel: 'Flat Rate', dateRange: '', per2: p, per3: p, per4: p, per5: p, per6: p }]
+    } else {
+      migratedRows = []
+    }
+  } else {
+    migratedRows = hasRows
       ? rows
       : tier.pricePerPerson
         ? DEFAULT_SEASONS.map((s) => ({ ...s, per2: tier.pricePerPerson!, per3: tier.pricePerPerson!, per4: tier.pricePerPerson!, per5: tier.pricePerPerson!, per6: tier.pricePerPerson! }))
-        : DEFAULT_SEASONS.map((s) => ({ ...s, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0 })),
+        : DEFAULT_SEASONS.map((s) => ({ ...s, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0 }))
+  }
+
+  return {
+    currency: tier.currency || 'USD',
+    includes: tier.includes?.filter(Boolean).length ? tier.includes.filter(Boolean) : [],
+    accommodationType: tier.accommodationType || '',
+    hotels: withHotelLocationDefaults(tier.hotels),
+    rows: migratedRows,
   }
 }
 
@@ -148,13 +158,13 @@ const defaultValues: SafariFormValues & { coverImage: string } = {
   description: '',
   location: { country: '', countries: [], region: '', regions: [], park: '', parks: [] },
   duration: 1,
-  durationLabel: '',
+  durationLabel: '1 day',
   tripLength: 'multi-day',
   highlights: [],
   included: [...DEFAULT_INCLUSIONS],
   excluded: [...DEFAULT_EXCLUSIONS],
   itinerary: [blankItineraryDay(1)],
-  itineraryStops: [blankItineraryStop(1)],
+  itineraryStops: [],
   pricing: {
     budget:   blankPricingTier(),
     midRange: blankPricingTier(),
@@ -226,6 +236,25 @@ function ArrayField({
   )
 }
 
+/* ─── Duration helpers ───────────────────────────────────────────────────── */
+
+// Parse a human-readable duration string into decimal days for DB storage / filtering.
+// Examples: "6 hrs" → 0.25 | "7 days" → 7 | "Half day" → 0.5 | "3 days 4 hrs" → 3.17
+function parseDurationDays(label: string): number {
+  const s = label.toLowerCase().trim()
+  if (!s) return 1
+  if (s.includes('half day') || s.includes('half-day')) return 0.5
+  if (s.includes('full day') || s.includes('full-day')) return 1
+  const hrMatch  = s.match(/(\d+(?:\.\d+)?)\s*(?:hr|hrs|hour|hours)/)
+  const dayMatch = s.match(/(\d+(?:\.\d+)?)\s*(?:day|days|night|nights)/)
+  const hours = hrMatch  ? parseFloat(hrMatch[1])  : 0
+  const days  = dayMatch ? parseFloat(dayMatch[1]) : 0
+  if (days > 0) return days + hours / 24
+  if (hours > 0) return hours / 24
+  const num = parseFloat(s)
+  return isNaN(num) ? 1 : num
+}
+
 /* ─── PricingTableEditor ─────────────────────────────────────────────────── */
 
 type SeasonRow = { seasonLabel: string; dateRange: string; per2: number; per3: number; per4: number; per5: number; per6: number }
@@ -275,6 +304,7 @@ function PricingTableEditor({
   const addRow = () => onChange([...rows, blankSeasonRow(rows.length)])
 
   const errorMsg = Array.isArray(errors) ? undefined : (errors as { message?: string } | undefined)?.message
+  const displayRows = isShort ? rows.slice(0, 1) : rows
 
   return (
     <div className="space-y-3">
@@ -311,7 +341,7 @@ function PricingTableEditor({
             </tr>
           </thead>
           <tbody className="divide-y divide-[rgba(23,22,18,0.07)]">
-            {rows.map((row, i) => (
+            {displayRows.map((row, i) => (
               <tr key={i} className={i % 2 === 1 ? 'bg-bone-bg/40' : 'bg-bone-paper'}>
                 {!isShort && (
                   <td className="px-2 py-2 space-y-1.5">
@@ -362,6 +392,78 @@ function PricingTableEditor({
           Tip: The frontend shows the lowest 6-pax price across all seasons as the &ldquo;From&rdquo; price.
         </p>
       )}
+    </div>
+  )
+}
+
+/* ─── ShortSafariPricingTable ────────────────────────────────────────────── */
+
+// Simple flat pricing table for short (sub-day) safaris: one row, one rate per pax count.
+function ShortSafariPricingTable({
+  values, onChange, errors,
+}: {
+  values: PricingTierValue
+  onChange: (v: Partial<PricingTierValue>) => void
+  errors?: PricingTierErrors
+}) {
+  const paxCols: { key: keyof SeasonRow; label: string }[] = [
+    { key: 'per2', label: '2 pax' }, { key: 'per3', label: '3 pax' },
+    { key: 'per4', label: '4 pax' }, { key: 'per5', label: '5 pax' }, { key: 'per6', label: '6 pax' },
+  ]
+  const rows = values.rows?.length ? (values.rows as SeasonRow[]) : [blankSeasonRow()]
+  const row = rows[0]
+
+  const updatePax = (key: keyof SeasonRow, val: number) => {
+    // Always save exactly ONE flat row — discard any legacy multi-season rows
+    onChange({ rows: [{ ...row, [key]: val }] })
+  }
+
+  const errorMsg = Array.isArray(errors?.rows) ? undefined : (errors?.rows as { message?: string } | undefined)?.message
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-medium text-bone-ink/80 font-sans">
+          Flat Rates <span className="text-bone-clay">*</span>
+          <span className="ml-2 text-bone-ink/40 font-normal text-xs">— per person (USD)</span>
+        </label>
+      </div>
+      {errorMsg && <p className="text-xs text-red-600 font-sans">{errorMsg}</p>}
+      <div className="overflow-x-auto rounded border border-[rgba(23,22,18,0.15)]">
+        <table className="w-full text-xs font-sans border-collapse">
+          <thead>
+            <tr className="bg-bone-bg border-b border-[rgba(23,22,18,0.1)]">
+              <th className="text-left px-3 py-2.5 font-medium text-bone-ink/60 min-w-[130px]">
+                Group size
+              </th>
+              {paxCols.map((c) => (
+                <th key={c.key} className="text-center px-2 py-2.5 font-medium text-bone-ink/60 min-w-[88px]">
+                  {c.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="bg-bone-paper">
+              <td className="px-3 py-2.5 font-medium text-bone-ink/70">Rate / person</td>
+              {paxCols.map((c) => (
+                <td key={c.key} className="px-2 py-2">
+                  <input
+                    type="number" min={0}
+                    value={(row[c.key] as number) === 0 ? '' : (row[c.key] as number)}
+                    onChange={(e) => updatePax(c.key, e.target.value === '' ? 0 : Number(e.target.value))}
+                    placeholder="0"
+                    className={cellInput + ' text-center'}
+                  />
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+        <p className="px-3 py-1.5 text-[11px] text-bone-ink/35 font-sans border-t border-[rgba(23,22,18,0.06)]">
+          6 pax rate = best per-person price shown on the public page
+        </p>
+      </div>
     </div>
   )
 }
@@ -524,15 +626,18 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             parks:     existing.location.parks?.length     ? existing.location.parks     : existing.location.park    ? [existing.location.park]    : [],
           },
           duration:       existing.duration,
-          durationLabel:  existing.durationLabel ?? '',
+          durationLabel:  existing.durationLabel ||
+            (existing.tripLength === 'short'
+              ? `${Math.round(existing.duration * 24)} hrs`
+              : `${existing.duration} day${existing.duration !== 1 ? 's' : ''}`),
           tripLength:     existing.tripLength ?? 'multi-day',
           highlights:     existing.highlights ?? [],
           included:       existing.included?.filter(Boolean).length ? existing.included.filter(Boolean) : [...DEFAULT_INCLUSIONS],
           excluded:       existing.excluded?.filter(Boolean).length ? existing.excluded.filter(Boolean) : [...DEFAULT_EXCLUSIONS],
           itinerary:      existing.itinerary.length ? existing.itinerary : [blankItineraryDay(1)],
-          itineraryStops: existing.itineraryStops?.length ? existing.itineraryStops : [blankItineraryStop(1)],
+          itineraryStops: existing.itineraryStops?.length ? existing.itineraryStops : [],
           pricing: {
-            budget:   migratePricingTier(existing.pricing.budget),
+            budget:   migratePricingTier(existing.pricing.budget, existing.tripLength === 'short'),
             midRange: migratePricingTier(existing.pricing.midRange),
             luxury:   migratePricingTier(existing.pricing.luxury),
           },
@@ -570,11 +675,23 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const watchedTripLength  = watch('tripLength') ?? 'multi-day'
 
   // Auto-select all months for short safaris (available year-round)
+  // Also seed one blank stop when switching to short with no stops yet
   useEffect(() => {
     if (watchedTripLength === 'short') {
       setValue('bestSeason', MONTHS, { shouldValidate: false })
+      if (itineraryStopFields.length === 0) appendStop(blankItineraryStop(1))
     }
   }, [watchedTripLength]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const watchedDurationLabel = watch('durationLabel') ?? ''
+
+  // Auto-compute numeric duration (days) whenever the label changes — keeps DB sortable
+  useEffect(() => {
+    if (watchedDurationLabel.trim()) {
+      const parsed = parseDurationDays(watchedDurationLabel)
+      setValue('duration', Math.max(0.1, Math.min(60, parsed)), { shouldValidate: false })
+    }
+  }, [watchedDurationLabel]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const watchedHighlights  = watch('highlights') ?? []
   const watchedIncluded    = watch('included')   ?? []
@@ -668,7 +785,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     const sectionMap: Record<string, boolean> = {
       basic:     !!(errs.name || errs.tagline || errs.description),
       location:  !!errs.location,
-      details:   !!(errs.duration || errs.tripLength || errs.difficulty || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
+      details:   !!(errs.duration || errs.durationLabel || errs.tripLength || errs.difficulty || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
       content:   !!(errs.highlights || errs.included || errs.excluded),
       itinerary: !!(errs.itinerary || errs.itineraryStops),
       pricing:   !!errs.pricing,
@@ -687,7 +804,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const sectionErrors = {
     basic:     !!(errors.name || errors.tagline || errors.description),
     location:  !!errors.location,
-    details:   !!(errors.duration || errors.tripLength || errors.difficulty || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
+    details:   !!(errors.duration || errors.durationLabel || errors.tripLength || errors.difficulty || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
     content:   !!(errors.highlights || errors.included || errors.excluded),
     itinerary: !!(errors.itinerary || errors.itineraryStops),
     pricing:   !!errors.pricing,
@@ -757,7 +874,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
 
       {/* ════════════ 3 · DETAILS ════════════ */}
       <CollapsibleSection title="Safari Details" subtitle="Duration, group size, safari type, best season" isOpen={openSections.details} hasError={sectionErrors.details} onToggle={() => toggleSection('details')}>
-        <SectionErrorBanner messages={Array.from(new Set([...collectErrorMessages(errors.duration), ...collectErrorMessages(errors.tripLength), ...collectErrorMessages(errors.difficulty), ...collectErrorMessages(errors.safariType), ...collectErrorMessages(errors.bestSeason), ...collectErrorMessages(errors.maxGroupSize), ...collectErrorMessages(errors.minGroupSize), ...collectErrorMessages(errors.minAge)]))} />
+        <SectionErrorBanner messages={Array.from(new Set([...collectErrorMessages(errors.duration), ...collectErrorMessages(errors.durationLabel), ...collectErrorMessages(errors.tripLength), ...collectErrorMessages(errors.difficulty), ...collectErrorMessages(errors.safariType), ...collectErrorMessages(errors.bestSeason), ...collectErrorMessages(errors.maxGroupSize), ...collectErrorMessages(errors.minGroupSize), ...collectErrorMessages(errors.minAge)]))} />
 
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-bone-ink/80 font-sans">Trip length <span className="text-bone-clay">*</span></label>
@@ -773,8 +890,16 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <Input label={watchedTripLength === 'short' ? 'Duration (days, e.g. 0.25 ≈ 6 hrs)' : 'Duration (days)'} type="number" step="any" {...register('duration', { valueAsNumber: true })} min={0.1} max={60} error={errors.duration?.message} required />
-          {watchedTripLength === 'short' && <Input label="Duration label" {...register('durationLabel')} placeholder="e.g. 3 Hours, Half Day" error={errors.durationLabel?.message} />}
+          <div className="col-span-2">
+            <Input
+              label="Duration"
+              {...register('durationLabel')}
+              placeholder={watchedTripLength === 'short' ? 'e.g. 6 hrs, Half day, 3 hours' : 'e.g. 7 days, 10 days, 5 nights'}
+              error={errors.durationLabel?.message || errors.duration?.message}
+              required
+            />
+            <p className="text-[11px] text-bone-ink/40 font-sans mt-1">Type naturally — "6 hrs", "7 days", "Half day". Numeric value auto-computed for filtering.</p>
+          </div>
           <Input label="Min group size" type="number" {...register('minGroupSize', { valueAsNumber: true })} min={1} error={errors.minGroupSize?.message} />
           <Input label="Max group size" type="number" {...register('maxGroupSize', { valueAsNumber: true })} min={1} error={errors.maxGroupSize?.message} />
           <Input label="Minimum age" type="number" {...register('minAge', { valueAsNumber: true })} min={0} max={18} error={errors.minAge?.message} />
@@ -953,30 +1078,57 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       </CollapsibleSection>
 
       {/* ════════════ 6 · PRICING ════════════ */}
-      <CollapsibleSection title="Pricing Tiers" subtitle="Budget, mid-range and luxury pricing — seasonal tables" isOpen={openSections.pricing} hasError={sectionErrors.pricing} onToggle={() => toggleSection('pricing')}>
+      <CollapsibleSection
+        title={watchedTripLength === 'short' ? 'Pricing' : 'Pricing Tiers'}
+        subtitle={watchedTripLength === 'short' ? 'Flat per-person rates by group size' : 'Budget, mid-range and luxury pricing — seasonal tables'}
+        isOpen={openSections.pricing} hasError={sectionErrors.pricing} onToggle={() => toggleSection('pricing')}>
         <SectionErrorBanner messages={Array.from(new Set(collectErrorMessages(errors.pricing)))} />
 
-        {watchedTripLength === 'short' && (
-          <div className="px-3.5 py-2.5 rounded-md bg-bone-bg border border-[rgba(23,22,18,0.12)] text-xs font-sans text-bone-ink/60">
-            Short safari — one fixed price row per tier (no seasonal rows). Prices are constant year-round.
-          </div>
-        )}
-
-        <div className="space-y-8">
-          {([{ tier: 'budget' as const, label: 'Budget' }, { tier: 'midRange' as const, label: 'Mid-Range' }, { tier: 'luxury' as const, label: 'Luxury' }]).map(({ tier, label }) => (
-            <Controller key={tier} control={control} name={`pricing.${tier}`}
+        {watchedTripLength === 'short' ? (
+          /* ── Short safari: one flat rate table, no tiers ── */
+          <div className="space-y-5">
+            <div className="px-3.5 py-2.5 rounded-md bg-bone-bg border border-[rgba(23,22,18,0.12)] text-xs font-sans text-bone-ink/60">
+              Short safari — flat rate per group size. No seasonal pricing, no budget / mid-range / luxury split.
+            </div>
+            <Controller control={control} name="pricing.budget"
               render={({ field }) => (
-                <PricingTierSection
-                  tier={tier} label={label}
-                  values={field.value}
-                  onChange={(v) => field.onChange({ ...field.value, ...v })}
-                  errors={errors.pricing?.[tier] as PricingTierErrors}
-                  isShort={watchedTripLength === 'short'}
-                />
+                <div className="space-y-5">
+                  <ShortSafariPricingTable
+                    values={field.value}
+                    onChange={(v) => field.onChange({ ...field.value, ...v })}
+                    errors={errors.pricing?.budget as PricingTierErrors}
+                  />
+                  <ArrayField
+                    label="What's included"
+                    required
+                    values={field.value.includes ?? []}
+                    onChange={(v) => field.onChange({ ...field.value, includes: v })}
+                    placeholder="Add inclusion…"
+                    hint="Press Enter or click Add"
+                    error={(errors.pricing?.budget as PricingTierErrors)?.includes?.message}
+                  />
+                </div>
               )}
             />
-          ))}
-        </div>
+          </div>
+        ) : (
+          /* ── Multi-day: three tier sections ── */
+          <div className="space-y-8">
+            {([{ tier: 'budget' as const, label: 'Budget' }, { tier: 'midRange' as const, label: 'Mid-Range' }, { tier: 'luxury' as const, label: 'Luxury' }]).map(({ tier, label }) => (
+              <Controller key={tier} control={control} name={`pricing.${tier}`}
+                render={({ field }) => (
+                  <PricingTierSection
+                    tier={tier} label={label}
+                    values={field.value}
+                    onChange={(v) => field.onChange({ ...field.value, ...v })}
+                    errors={errors.pricing?.[tier] as PricingTierErrors}
+                    isShort={false}
+                  />
+                )}
+              />
+            ))}
+          </div>
+        )}
       </CollapsibleSection>
 
       {/* ════════════ 7 · IMAGES ════════════ */}

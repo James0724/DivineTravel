@@ -15,6 +15,8 @@ export const SAFARI_TYPE_VALUES = [
   "birding",
   "wellness",
   "conservation",
+  "cultural",
+  "adventure",
   // Traveller types (kept for backward compat — hidden in admin UI)
   "family",
   "honeymoon",
@@ -96,8 +98,8 @@ const PricingTierSchema = new Schema(
 const ItineraryDaySchema = new Schema(
   {
     day:           { type: Number, required: true },
-    title:         { type: String, required: true },
-    description:   { type: String, required: true },
+    title:         { type: String, default: "" },
+    description:   { type: String, default: "" },
     meals:         [{ type: String }],
     accommodation: { type: String, default: "" },
     activities:    [{ type: String }],
@@ -108,9 +110,9 @@ const ItineraryDaySchema = new Schema(
 const ItineraryStopSchema = new Schema(
   {
     order:         { type: Number, required: true },
-    title:         { type: String, required: true },
-    durationLabel: { type: String, required: true },
-    description:   { type: String, required: true },
+    title:         { type: String, default: "" },
+    durationLabel: { type: String, default: "" },
+    description:   { type: String, default: "" },
     activities:    [{ type: String }],
   },
   { _id: false },

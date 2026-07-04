@@ -8,7 +8,7 @@ import { Check, ChevronLeft, MapPin, Clock } from "lucide-react";
 import { useSafaris, useSafari } from "@/hooks/useSafaris";
 import { useCreateBooking } from "@/hooks/useBooking";
 import { useCurrency } from "@/lib/currency/useCurrency";
-import { getLowestPrice } from "@/lib/utils";
+import { getLowestPrice, formatDuration } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
 import SafariFilterPanel, {
@@ -49,7 +49,7 @@ function SafariPickCard({
   safari: Safari;
   onSelect: (s: Safari) => void;
 }) {
-  const lowestPrice = getLowestPrice(safari.pricing);
+  const lowestPrice = getLowestPrice(safari.pricing, safari.tripLength);
   const country = safari.location?.countries?.[0] ?? safari.location?.country;
   const { displayPrice } = useCurrency();
 
@@ -95,7 +95,7 @@ function SafariPickCard({
           </div>
           <div className="flex items-center gap-1 font-mono text-[10px] tracking-[0.1em] text-[var(--muted)]">
             <Clock size={11} />
-            {safari.duration}d
+            {formatDuration(safari.duration, safari.tripLength, safari.durationLabel)}
           </div>
         </div>
 
@@ -485,19 +485,54 @@ export default function BookPageContent() {
 // ─── Booking details form (step 2) ───────────────────────────────────────────
 
 function BookingDetailsForm({ safari }: { safari: Safari }) {
-  // Resolve "from" price for a tier — per6 in lowest season, or legacy pricePerPerson
-  const tierFromPrice = (tier: Safari["pricing"]["budget"]): number => {
+  const isShort = safari.tripLength === "short";
+
+  // ── Pricing helpers ────────────────────────────────────────────────────────
+
+  type PriceRow = { per2: number; per3: number; per4: number; per5: number; per6: number; seasonLabel: string; dateRange: string };
+
+  // Pick per-N column for a group size (clamp to available per2–per6 range)
+  function perNRate(row: PriceRow | null | undefined, count: number): number {
+    if (!row) return 0;
+    const key = `per${Math.max(2, Math.min(6, count))}` as "per2" | "per3" | "per4" | "per5" | "per6";
+    const v = row[key];
+    return typeof v === "number" && v > 0 ? v : 0;
+  }
+
+  // Lowest seasonal per6 for a tier — used to display "from" in tier buttons
+  function tierLowestPer6(tier: Safari["pricing"]["budget"]): number {
     if (!tier) return 0;
     if (tier.rows?.length) {
       const vals = tier.rows.map((r) => r.per6).filter((p): p is number => typeof p === "number" && p > 0);
       return vals.length ? Math.min(...vals) : 0;
     }
     return tier.pricePerPerson ?? 0;
-  };
+  }
 
-  const availableTiers = TIERS.filter(
-    (t) => tierFromPrice(safari.pricing?.[t.key]) > 0,
-  );
+  // Match a date to a season row by parsing its dateRange string ("Jun 11, 2026 – Oct 30, 2026")
+  function findSeasonRow(rows: PriceRow[] | undefined, date: Date | null): { row: PriceRow; label: string; matched: boolean } | null {
+    if (!rows?.length) return null;
+    if (date) {
+      for (const row of rows) {
+        if (!row.dateRange) continue;
+        const sep = /[–—]/;
+        const parts = row.dateRange.split(sep).map((p) => p.trim());
+        if (parts.length === 2) {
+          const start = new Date(parts[0]);
+          const end = new Date(parts[1]);
+          if (!isNaN(start.getTime()) && !isNaN(end.getTime()) && date >= start && date <= end) {
+            return { row, label: row.seasonLabel, matched: true };
+          }
+        }
+      }
+    }
+    // No match — default to first row
+    return { row: rows[0], label: rows[0].seasonLabel, matched: false };
+  }
+
+  // ── State ──────────────────────────────────────────────────────────────────
+
+  const availableTiers = TIERS.filter((t) => tierLowestPer6(safari.pricing?.[t.key]) > 0);
   const defaultTier =
     availableTiers.find((t) => t.key === "midRange")?.key ??
     availableTiers[0]?.key ??
@@ -520,9 +555,33 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
   const createBooking = useCreateBooking();
   const { displayPrice } = useCurrency();
 
-  const pricePerPerson = tierFromPrice(safari.pricing?.[tier]);
+  // ── Dynamic pricing calculation ────────────────────────────────────────────
+
   const groupSize = adults + children;
-  const totalPrice = pricePerPerson * groupSize;
+  const preferredDateObj = preferredDate ? new Date(preferredDate) : null;
+
+  let adultRate = 0;
+  let seasonLabel: string | null = null;
+  let seasonMatched = false;
+
+  if (isShort) {
+    // Flat table: one row, per-N based on total group
+    adultRate = perNRate(safari.pricing?.budget?.rows?.[0] as PriceRow | undefined, groupSize);
+  } else {
+    // Seasonal table for selected tier; preferred date determines the season
+    const tierRows = (safari.pricing?.[tier]?.rows ?? []) as PriceRow[];
+    const found = findSeasonRow(tierRows, preferredDateObj);
+    if (found) {
+      adultRate = perNRate(found.row, groupSize);
+      seasonLabel = found.label;
+      seasonMatched = found.matched;
+    }
+  }
+
+  const childRate = adultRate > 0 ? Math.round(adultRate / 2) : 0;
+  const adultTotal = adults * adultRate;
+  const childTotal = children * childRate;
+  const totalPrice = adultTotal + childTotal;
 
   const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
 
@@ -632,41 +691,46 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
       </div>
 
       <form onSubmit={handleSubmit} className="p-6 space-y-6">
-        {/* Tier selection */}
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)] mb-3">
-            Select Package Tier
-          </p>
-          <div className="grid grid-cols-3 gap-2.5">
-            {TIERS.map(({ key, label }) => {
-              const price = tierFromPrice(safari.pricing?.[key]);
-              if (!price) return null;
-              const active = tier === key;
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => setTier(key)}
-                  className={`p-3 border text-left transition-colors ${
-                    active
-                      ? "border-[var(--forest)] bg-[var(--forest)]/5"
-                      : "border-[var(--line)] hover:border-[var(--forest)]/40"
-                  }`}
-                >
-                  <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--muted)] mb-1">
-                    {label}
-                  </div>
-                  <div className="font-serif italic text-[20px] leading-none text-[var(--clay)]">
-                    {displayPrice(price)}
-                  </div>
-                  <div className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
-                    per person
-                  </div>
-                </button>
-              );
-            })}
+        {/* Tier selection — multi-day only; short safaris have flat group-size pricing */}
+        {!isShort && (
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--muted)] mb-1">
+              Safari Tier
+            </p>
+            <p className="text-[11px] text-[var(--muted)] mb-3">
+              Choose your comfort level — each tier uses different lodges and services.
+            </p>
+            <div className="grid grid-cols-3 gap-2.5">
+              {TIERS.map(({ key, label }) => {
+                const fromPrice = tierLowestPer6(safari.pricing?.[key]);
+                if (!fromPrice) return null;
+                const active = tier === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setTier(key)}
+                    className={`p-3 border text-left transition-colors ${
+                      active
+                        ? "border-[var(--forest)] bg-[var(--forest)]/5"
+                        : "border-[var(--line)] hover:border-[var(--forest)]/40"
+                    }`}
+                  >
+                    <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-[var(--muted)] mb-1">
+                      {label}
+                    </div>
+                    <div className="font-serif italic text-[18px] leading-none text-[var(--clay)]">
+                      from {displayPrice(fromPrice)}
+                    </div>
+                    <div className="font-mono text-[9px] text-[var(--muted)] mt-0.5">
+                      / person · 6 pax
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Dates */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -754,20 +818,79 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
           </div>
         </div>
 
-        {/* Cost summary */}
-        <div className="bg-[var(--forest)] text-[var(--paper)] px-5 py-4">
-          <div className="flex items-baseline justify-between gap-4">
+        {/* Cost breakdown */}
+        <div className="bg-[var(--forest)] text-[var(--paper)] px-5 py-4 space-y-2">
+          {/* Season badge — multi-day only */}
+          {!isShort && (
+            <div className="flex items-center gap-2 pb-2 border-b border-[var(--paper)]/15 text-[11px] opacity-70">
+              <span className="font-mono text-[9px] uppercase tracking-[0.12em] opacity-60">Season:</span>
+              {seasonLabel ? (
+                <>
+                  <span>{seasonLabel}</span>
+                  {preferredDate && !seasonMatched && (
+                    <span className="opacity-50 text-[10px]">(nearest match)</span>
+                  )}
+                  {!preferredDate && (
+                    <span className="opacity-50 text-[10px]">— pick a date above to auto-detect</span>
+                  )}
+                </>
+              ) : (
+                <span className="opacity-50">Select a travel date to match your season</span>
+              )}
+            </div>
+          )}
+
+          {/* Line items */}
+          <div className="space-y-1">
+            {adultRate > 0 ? (
+              <div className="flex justify-between text-[13px]">
+                <span className="opacity-80">
+                  {adults} adult{adults !== 1 ? "s" : ""} × {displayPrice(adultRate)}
+                  {groupSize > 1 && (
+                    <span className="opacity-50 text-[10px] ml-1">({groupSize} pax rate)</span>
+                  )}
+                </span>
+                <span className="font-medium">{displayPrice(adultTotal)}</span>
+              </div>
+            ) : (
+              <div className="text-[12px] opacity-50 italic">
+                {!preferredDate && !isShort
+                  ? "Add a travel date to calculate pricing"
+                  : "Pricing not available — contact us"}
+              </div>
+            )}
+            {children > 0 && childRate > 0 && (
+              <div className="flex justify-between text-[13px]">
+                <span className="opacity-80">
+                  {children} child{children !== 1 ? "ren" : ""} × {displayPrice(childRate)}
+                  <span className="opacity-50 text-[10px] ml-1">(½ adult rate)</span>
+                </span>
+                <span className="font-medium">{displayPrice(childTotal)}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Total */}
+          <div className="border-t border-[var(--paper)]/20 pt-2 flex items-end justify-between gap-4">
             <div>
               <div className="font-mono text-[9px] uppercase tracking-[0.16em] opacity-50 mb-1">
                 Estimated total
               </div>
               <div className="font-serif italic text-[36px] leading-none">
-                {displayPrice(totalPrice)}
+                {totalPrice > 0 ? displayPrice(totalPrice) : "—"}
               </div>
+              {totalPrice > 0 && groupSize > 0 && (
+                <div className="font-mono text-[10px] opacity-50 mt-1">
+                  ≈ {displayPrice(Math.round(totalPrice / groupSize))} avg / person
+                </div>
+              )}
             </div>
-            <div className="text-right text-[12px] opacity-65 leading-relaxed">
-              {displayPrice(pricePerPerson)} × {groupSize}{" "}
-              {groupSize === 1 ? "person" : "people"}
+            <div className="text-right text-[11px] opacity-55 leading-relaxed">
+              {isShort ? (
+                <span>Fixed rate · no seasonal change</span>
+              ) : (
+                <span>{tier === "midRange" ? "Mid-range" : tier === "luxury" ? "Luxury" : "Budget"} tier</span>
+              )}
               <br />
               <span className="font-mono text-[9px] uppercase tracking-[0.12em]">
                 Final price confirmed by team
@@ -916,7 +1039,9 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
         >
           {createBooking.isPending
             ? "Submitting your request…"
-            : `Submit Booking Request — ${displayPrice(totalPrice)}`}
+            : totalPrice > 0
+              ? `Submit Booking Request — ${displayPrice(totalPrice)}`
+              : "Submit Booking Request"}
         </Button>
 
         <p className="text-[11px] text-[var(--muted)] text-center leading-relaxed">

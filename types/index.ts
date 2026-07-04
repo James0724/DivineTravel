@@ -28,6 +28,8 @@ export type SafariStyle =
   | "birding"
   | "wellness"
   | "conservation"
+  | "cultural"
+  | "adventure"
   // Traveller types
   | "family"
   | "honeymoon"

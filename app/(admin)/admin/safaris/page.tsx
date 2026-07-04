@@ -360,9 +360,9 @@ export default function AdminSafarisPage() {
       id: 'duration',
       header: ({ column }) => <SortableHeader column={column}>Duration</SortableHeader>,
       filterFn: durationFilterFn,
-      cell: ({ getValue }) => formatDuration(getValue()),
+      cell: ({ getValue, row }) => formatDuration(getValue(), row.original.tripLength, row.original.durationLabel),
     }),
-    columnHelper.accessor((row) => getLowestPrice(row.pricing), {
+    columnHelper.accessor((row) => getLowestPrice(row.pricing, row.tripLength), {
       id: 'price',
       header: ({ column }) => <SortableHeader column={column}>From</SortableHeader>,
       cell: ({ getValue }) => <span className="font-medium">{formatPrice(getValue())}</span>,
@@ -373,8 +373,8 @@ export default function AdminSafarisPage() {
       filterFn: statusFilterFn,
       cell: ({ row }) => (
         <div className="flex gap-1.5 flex-wrap">
-          <Badge variant={row.original.active ? 'success' : 'danger'} dot>
-            {row.original.active ? 'Published' : 'Unpublished'}
+          <Badge variant={row.original.active ? 'success' : 'warning'} dot>
+            {row.original.active ? 'Published' : 'Draft'}
           </Badge>
           {row.original.featured && <Badge variant="clay">Featured</Badge>}
         </div>
@@ -509,6 +509,32 @@ export default function AdminSafarisPage() {
         </div>
       </div>
 
+      {/* Drafts banner */}
+      {(() => {
+        const draftCount = (safaris ?? []).filter((s) => !s.active).length
+        const isDraftFiltered = (table.getColumn('active')?.getFilterValue() as string | undefined) === 'inactive'
+        if (!draftCount) return null
+        return (
+          <div className="flex items-center justify-between px-4 py-3 rounded-md bg-amber-50 border border-amber-200">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[11px] font-semibold bg-amber-400 text-white">{draftCount}</span>
+              <span className="text-sm font-sans text-amber-900">
+                {draftCount === 1 ? '1 unpublished draft' : `${draftCount} unpublished drafts`} — ready to continue editing
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                table.getColumn('active')?.setFilterValue(isDraftFiltered ? undefined : 'inactive')
+              }}
+              className="text-xs font-sans font-medium text-amber-800 hover:text-amber-600 underline underline-offset-2 transition-colors"
+            >
+              {isDraftFiltered ? 'Show all' : 'Show drafts'}
+            </button>
+          </div>
+        )
+      })()}
+
       {/* Search + filter */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative max-w-sm flex-1 min-w-[220px]">
@@ -567,7 +593,7 @@ export default function AdminSafarisPage() {
                     active={(activeFilterValue ?? '') === v}
                     onClick={() => toggleFilterValue('active', v)}
                   >
-                    {v === '' ? 'All' : v === 'active' ? 'Published' : 'Unpublished'}
+                    {v === '' ? 'All' : v === 'active' ? 'Published' : 'Drafts'}
                   </FilterPill>
                 ))}
               </FilterSection>

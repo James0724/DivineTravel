@@ -126,7 +126,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  alternates: { canonical: APP_URL },
+  alternates: { canonical: `${APP_URL}/en` },
   verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
   category: "travel",
   manifest: "/manifest.webmanifest",

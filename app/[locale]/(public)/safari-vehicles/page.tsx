@@ -4,7 +4,7 @@ import { Stagger, RevealItem } from "@/components/ui/Reveal";
 import PageHero from "@/components/ui/PageHero";
 import { BreadcrumbSchema } from "@/components/seo/StructuredData";
 import { buildAlternates } from "@/lib/seo/hreflang";
-import { SAFARI_VEHICLES } from "@/lib/data/sitemapDirectory";
+import { SAFARI_VEHICLES_DATA } from "@/lib/data/safariVehicles";
 
 const TITLE = "Safari Vehicles";
 const PATH = "/safari-vehicles";
@@ -39,15 +39,33 @@ export default function SafariVehiclesPage() {
 
       <div className="bg-bone-bg py-20 lg:py-28">
         <div className="container-site">
-          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {SAFARI_VEHICLES.map((v) => (
-              <RevealItem key={v.href}>
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {SAFARI_VEHICLES_DATA.map((v) => (
+              <RevealItem key={v.slug}>
                 <Link
-                  href={v.href}
-                  className="block rounded-sm bg-bone-paper px-6 py-5 text-sm text-bone-ink hover:text-bone-clay hover:underline transition-colors"
+                  href={`/safari-vehicles/${v.slug}`}
+                  className="group block rounded-sm bg-bone-paper overflow-hidden transition-shadow hover:shadow-md"
                   style={{ border: "1px solid rgba(31,29,24,0.14)" }}
                 >
-                  {v.title}
+                  <div className="relative h-48 w-full overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={v.image}
+                      alt={v.imageAlt}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="px-6 py-5">
+                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-bone-clay mb-1">
+                      Safari Vehicles
+                    </p>
+                    <h3 className="text-[15px] font-semibold text-bone-ink mb-1 group-hover:text-bone-clay transition-colors">
+                      {v.title}
+                    </h3>
+                    <p className="text-[13px] text-bone-muted leading-relaxed">
+                      {v.tagline}
+                    </p>
+                  </div>
                 </Link>
               </RevealItem>
             ))}

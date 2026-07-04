@@ -65,7 +65,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     const safari = await SafariModel.findByIdAndUpdate(id, body, {
       new: true,
-      runValidators: true,
+      runValidators: false,
     })
 
     if (!safari) {

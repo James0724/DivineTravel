@@ -77,6 +77,8 @@ function PriceTable({ rows, isShort, displayPrice }: {
     { key: 'per6', label: '6' },
   ]
 
+  const displayRows = isShort ? rows.slice(0, 1) : rows
+
   return (
     <div className="overflow-x-auto rounded border border-[rgba(23,22,18,0.1)]">
       <table className="w-full text-xs">
@@ -95,7 +97,7 @@ function PriceTable({ rows, isShort, displayPrice }: {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, i) => (
+          {displayRows.map((row, i) => (
             <tr key={i} className={i % 2 === 0 ? 'bg-transparent' : 'bg-bone-bg/30'}>
               {!isShort && (
                 <td className="px-2.5 py-2 font-sans text-bone-ink/70">

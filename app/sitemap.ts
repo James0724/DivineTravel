@@ -4,6 +4,7 @@ import PostModel from "@/lib/db/models/Post";
 import SafariModel from "@/lib/db/models/Safari";
 import { SAFARI_TYPES } from "@/lib/data/safariTypes";
 import { ACCOMMODATION_TYPES } from "@/lib/data/accommodationTypes";
+import { SAFARI_VEHICLES, WILDLIFE_SPECIES, PLANNING_TOOLS } from "@/lib/data/sitemapDirectory";
 import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
@@ -52,7 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ["/plan-my-safari", "monthly", 0.9],
     ["/contact", "monthly", 0.9],
     ["/about", "monthly", 0.85],
-    ["/journal", "daily", 0.85],
+    ["/african-travel-blog", "daily", 0.85],
     ["/safari-types", "monthly", 0.8],
     ["/accommodations", "weekly", 0.8],
     ["/bookings", "monthly", 0.7],
@@ -64,10 +65,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ["/safaris/rwanda", "weekly", 0.88],
     ["/safaris/cross-country-safaris", "weekly", 0.82],
     // Destination pages
+    ["/destinations", "monthly", 0.78],
     ["/destinations/kenya", "monthly", 0.75],
     ["/destinations/tanzania", "monthly", 0.75],
     ["/destinations/uganda", "monthly", 0.75],
     ["/destinations/rwanda", "monthly", 0.75],
+    // Explore pages with real content
+    ["/wildlife", "monthly", 0.72],
+    ["/safari-vehicles", "monthly", 0.65],
+    ["/countries", "monthly", 0.65],
+    ["/tools", "monthly", 0.65],
     // Legal
     ["/terms", "yearly", 0.3],
   ];
@@ -91,6 +98,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       )
   );
 
+  const wildlifeRoutes: MetadataRoute.Sitemap = WILDLIFE_SPECIES.flatMap((w) =>
+    localizedEntries(w.href, STATIC_LAST_MODIFIED, "monthly", 0.55)
+  );
+
+  const vehicleRoutes: MetadataRoute.Sitemap = SAFARI_VEHICLES.flatMap((v) =>
+    localizedEntries(v.href, STATIC_LAST_MODIFIED, "monthly", 0.5)
+  );
+
+  const toolRoutes: MetadataRoute.Sitemap = PLANNING_TOOLS.flatMap((t) =>
+    localizedEntries(t.href, STATIC_LAST_MODIFIED, "monthly", 0.5)
+  );
+
   try {
     await connectDB();
 
@@ -100,7 +119,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .lean();
     const journalRoutes: MetadataRoute.Sitemap = posts.flatMap((p) =>
       localizedEntries(
-        `/journal/${p.slug}`,
+        `/african-travel-blog/${p.slug}`,
         new Date(p.updatedAt),
         "monthly",
         0.7
@@ -124,10 +143,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...staticRoutes,
       ...safariTypeRoutes,
       ...accommodationTypeRoutes,
+      ...wildlifeRoutes,
+      ...vehicleRoutes,
+      ...toolRoutes,
       ...journalRoutes,
       ...safariRoutes,
     ];
   } catch {
-    return [...staticRoutes, ...safariTypeRoutes, ...accommodationTypeRoutes];
+    return [
+      ...staticRoutes,
+      ...safariTypeRoutes,
+      ...accommodationTypeRoutes,
+      ...wildlifeRoutes,
+      ...vehicleRoutes,
+      ...toolRoutes,
+    ];
   }
 }

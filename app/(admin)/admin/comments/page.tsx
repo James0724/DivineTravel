@@ -265,7 +265,7 @@ export default function AdminCommentsPage() {
                     {/* Post slug */}
                     <td className="px-4 py-3 hidden md:table-cell">
                       <a
-                        href={`/journal/${c.postSlug}`}
+                        href={`/african-travel-blog/${c.postSlug}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-bone-clay hover:underline text-[12px] font-mono break-all"

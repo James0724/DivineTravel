@@ -328,21 +328,16 @@ export const WILDLIFE_COMING_SOON_SLUGS = new Map<string, string>(
 
 export const SAFARI_VEHICLES: SitemapLink[] = [
   "4×4 Safari Land Cruiser|4x4-safari-land-cruiser",
-  "4×4 Safari Van|4x4-safari-van",
-  "Land Cruiser Prado / V8|land-cruiser-prado-v8",
-  "Mini Bus / Rosa Bus|mini-bus-rosa-bus",
-  "Open-Sided Land Cruiser|open-sided-land-cruiser",
+  "Safari Van|safari-van",
+  "Mini Bus / Coaster Bus|minibus-coaster-bus",
   "Overland Safari Truck|overland-safari-truck",
-  "Toyota Alphard / Velfire|toyota-alphard-velfire",
-  "Toyota Noah / Voxy|toyota-noah-voxy",
 ].map((row) => {
   const [title, slug] = row.split("|");
   return { title, href: `/safari-vehicles/${slug}` };
 });
 
-export const SAFARI_VEHICLE_COMING_SOON_SLUGS = new Map<string, string>(
-  SAFARI_VEHICLES.map((l) => [l.href.split("/").pop()!, l.title]),
-);
+// No coming-soon slugs — all four vehicle pages have real content now.
+export const SAFARI_VEHICLE_COMING_SOON_SLUGS = new Map<string, string>();
 
 /* ── Planning tools — /tools/[slug] ──────────────────────────────────── */
 
@@ -408,7 +403,7 @@ export const SITEMAP_CATEGORIES: SitemapCategory[] = [
       { title: "Countries", href: "/countries" },
       { title: "Wildlife Guide", href: "/wildlife" },
       { title: "Accommodations", href: "/accommodations" },
-      { title: "Journal / Blog", href: "/journal" },
+      { title: "African Travel Blog", href: "/african-travel-blog" },
       { title: "Plan a Safari", href: "/plan-my-safari" },
       { title: "Reviews", href: "/reviews" },
       { title: "About Us", href: "/about" },

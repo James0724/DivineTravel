@@ -27,11 +27,11 @@ export const SeasonalPriceRowSchema = z.object({
 })
 
 const PricingTierSchema = z.object({
-  currency:         z.string().default('USD'),
-  includes:         z.array(z.string()).min(1, 'Add at least one inclusion for this tier'),
-  accommodationType: z.string().min(1, 'Accommodation type is required'),
-  hotels:           z.array(HotelSchema).optional(),
-  rows:             z.array(SeasonalPriceRowSchema).min(1, 'Add at least one pricing row'),
+  currency:          z.string().default('USD'),
+  includes:          z.array(z.string()).default([]),
+  accommodationType: z.string().default(''),
+  hotels:            z.array(HotelSchema).optional(),
+  rows:              z.array(SeasonalPriceRowSchema).default([]),
 })
 
 const ItineraryDaySchema = z.object({
@@ -67,7 +67,7 @@ export const SafariSchema = z.object({
   location:    LocationSchema,
   // Fractional days allow "short" (sub-day) safaris — e.g. 0.25 for a 6-hour tour.
   duration:      z.number().min(0.1, 'Duration must be at least 0.1 days').max(60),
-  durationLabel: z.string().optional().default(''),
+  durationLabel: z.string().min(1, 'Enter a duration, e.g. "7 days" or "6 hrs"'),
   tripLength:    z.enum(['multi-day', 'short'], {
     errorMap: () => ({ message: 'Select a trip length' }),
   }).default('multi-day'),
@@ -90,7 +90,7 @@ export const SafariSchema = z.object({
         [
           'walking', 'game-drive', 'fly-in', 'mobile-camping', 'water-based',
           'horseback', 'balloon', 'self-drive', 'photographic', 'night',
-          'birding', 'wellness', 'conservation',
+          'birding', 'wellness', 'conservation', 'cultural', 'adventure',
           'family', 'honeymoon', 'solo', 'small-group', 'couples', 'private',
           'gorilla-trekking', 'big-five', 'great-migration', 'luxury', 'beach-and-bush',
         ],
@@ -133,6 +133,19 @@ export const SafariSchema = z.object({
       message: 'Add at least 1 itinerary stop',
       path: ['itineraryStops'],
     })
+  }
+  // Pricing tier validation depends on trip type
+  if (data.tripLength === 'multi-day') {
+    (['budget', 'midRange', 'luxury'] as const).forEach((tier) => {
+      const t = data.pricing[tier]
+      if (!t?.accommodationType?.trim()) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Accommodation type is required', path: ['pricing', tier, 'accommodationType'] })
+      if (!t?.includes?.length) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Add at least one inclusion for this tier', path: ['pricing', tier, 'includes'] })
+      if (!t?.rows?.length) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Add at least one pricing row', path: ['pricing', tier, 'rows'] })
+    })
+  } else if (data.tripLength === 'short') {
+    if (!data.pricing.budget.rows?.length) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Add at least one pricing row for this safari', path: ['pricing', 'budget', 'rows'] })
+    }
   }
 })
 

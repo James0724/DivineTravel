@@ -62,7 +62,10 @@ async function getHomeData() {
     const select =
       "name slug tagline location duration pricing images coverImage category difficulty featured rating reviewCount minGroupSize maxGroupSize";
     const [safaris, testimonials] = await Promise.all([
-      getCountryOrderedSafaris({ active: true, featured: true }, { limit: 6, select }),
+      getCountryOrderedSafaris(
+        { active: true, featured: true },
+        { limit: 6, select },
+      ),
       TestimonialModel.find({ featured: true })
         .sort({ rating: -1 })
         .limit(8)
@@ -80,7 +83,10 @@ async function getHomeData() {
 export default async function HomePage() {
   const t = await getTranslations("home");
   const { safaris, testimonials } = await getHomeData();
-  const faqSchemaItems = t.raw("faqSchema") as { question: string; answer: string }[];
+  const faqSchemaItems = t.raw("faqSchema") as {
+    question: string;
+    answer: string;
+  }[];
 
   return (
     <>
@@ -94,11 +100,11 @@ export default async function HomePage() {
       {/* 03 · Welcome intro */}
       <IntroSection />
 
-      {/* 04 · Destinations tabs */}
-      <DestinationsSection />
-
       {/* 05 · Signature safari experiences — all featured safaris (DB-driven) */}
       <SignaturePackages initialData={safaris} />
+
+      {/* 04 · Destinations tabs */}
+      <DestinationsSection />
 
       {/* 06 · Safari types */}
       <SafariTypesSection />

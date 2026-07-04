@@ -10,6 +10,7 @@ import SiteLink from "@/components/ui/SiteLink";
 import type { Safari } from "@/types";
 import { AnimatedHeading } from "../ui/Heading";
 import Reveal from "../ui/Reveal";
+import { formatDuration, getLowestPrice } from "@/lib/utils";
 
 /* ── Types ─────────────────────────────────────────────────────────────── */
 
@@ -38,7 +39,9 @@ export function PackageCard({
   const tierFrom = (tier: typeof safari.pricing.budget) => {
     if (!tier) return 0;
     if (tier.rows?.length) {
-      const vals = tier.rows.map((r) => r.per6).filter((p): p is number => typeof p === "number" && p > 0);
+      const vals = tier.rows
+        .map((r) => r.per6)
+        .filter((p): p is number => typeof p === "number" && p > 0);
       return vals.length ? Math.min(...vals) : 0;
     }
     return tier.pricePerPerson ?? 0;
@@ -49,6 +52,8 @@ export function PackageCard({
     tierFrom(safari.pricing?.luxury) ||
     undefined;
   const { displayPrice } = useCurrency();
+
+  const lowestPrice = getLowestPrice(safari.pricing, safari.tripLength);
 
   const categoryLabel = Array.isArray(safari.category)
     ? safari.category[0]
@@ -135,12 +140,16 @@ export function PackageCard({
                 {labels.fromLabel}
               </span>
               <strong className="font-serif text-[26px] sm:text-[28px] font-light text-bone-ink leading-none">
-                {price ? displayPrice(price) : labels.onRequest}
+                {displayPrice(lowestPrice)}
               </strong>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-mono text-[10px] tracking-[0.1em] text-bone-muted">
-                {safari.duration} {labels.daysLabel}
+                {formatDuration(
+                  safari.duration,
+                  safari.tripLength,
+                  safari.durationLabel,
+                )}
               </span>
               <span className="w-7 h-7 rounded-full bg-bone-forest text-bone-paper flex items-center justify-center text-[12px] flex-shrink-0 transition-colors duration-200 group-hover:bg-bone-clay">
                 →

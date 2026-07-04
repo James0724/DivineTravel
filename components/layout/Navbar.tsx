@@ -172,7 +172,7 @@ function getNavLinks(t: ReturnType<typeof useTranslations>): NavItem[] {
     },
     { label: t("nav.aboutUs"), href: "/about" },
     { label: t("nav.contact"), href: "/contact" },
-    { label: t("nav.journal"), href: "/journal" },
+    { label: t("nav.journal"), href: "/african-travel-blog" },
   ];
 }
 

@@ -15,6 +15,7 @@ export async function generateMetadata({
   return {
     title: `${TITLE} | Divine Travel Nest Safaris`,
     alternates: buildAlternates(locale, PATH),
+    robots: { index: false, follow: false },
   };
 }
 

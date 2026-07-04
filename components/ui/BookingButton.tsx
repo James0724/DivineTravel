@@ -3,20 +3,10 @@
 import { useState } from "react";
 import BookingModal from "./BookingModal";
 import SiteLink from "./SiteLink";
-
-interface SafariProps {
-  _id: string;
-  name: string;
-  duration: number;
-  pricing: {
-    budget?: { pricePerPerson?: number } | null;
-    midRange?: { pricePerPerson?: number } | null;
-    luxury?: { pricePerPerson?: number } | null;
-  };
-}
+import type { Safari } from "@/types";
 
 interface BookingButtonProps {
-  safari: SafariProps;
+  safari: Safari;
   label?: string;
   className?: string;
 }

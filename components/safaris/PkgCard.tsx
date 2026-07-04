@@ -3,7 +3,7 @@
 import OptimizedImage from '@/components/ui/OptimizedImage'
 import { Link } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
-import { getLowestPrice } from '@/lib/utils'
+import { getLowestPrice, formatDuration } from '@/lib/utils'
 import { SAFARI_TYPES } from '@/components/safaris/SafariFilterPanel'
 import { useCurrency } from '@/lib/currency/useCurrency'
 import type { Safari } from '@/types'
@@ -14,7 +14,7 @@ interface PkgCardProps {
 }
 
 export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
-  const lowestPrice = getLowestPrice(safari.pricing)
+  const lowestPrice = getLowestPrice(safari.pricing, safari.tripLength)
   const { displayPrice } = useCurrency()
 
   const primaryCountry = safari.location.countries?.[0] ?? safari.location.country
@@ -105,7 +105,7 @@ export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
             </div>
             <div className="flex items-center gap-2">
               <span className="font-mono text-[10px] tracking-[0.1em] text-bone-muted">
-                {safari.duration} DAYS
+                {formatDuration(safari.duration, safari.tripLength, safari.durationLabel)}
               </span>
               <span className="w-7 h-7 rounded-full bg-bone-forest text-bone-paper flex items-center justify-center text-[12px] flex-shrink-0 transition-colors duration-200 group-hover:bg-bone-clay">
                 →

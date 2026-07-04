@@ -169,7 +169,7 @@ export default async function GuidelinesPage() {
                 <p>
                   {t.rich("sections.comments.intro", {
                     link: (chunks) => (
-                      <Link href="/journal" className="text-bone-clay hover:underline">
+                      <Link href="/african-travel-blog" className="text-bone-clay hover:underline">
                         {chunks}
                       </Link>
                     ),
