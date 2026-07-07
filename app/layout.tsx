@@ -162,8 +162,6 @@ export default async function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${cormorant.variable} ${nunito.variable} ${cinzel.variable}`}
       suppressHydrationWarning
     >
-      <SpeedInsights />
-      <Analytics />
       <head>
         <OrganizationSchema />
         <WebSiteSchema />
@@ -203,6 +201,8 @@ export default async function RootLayout({
             }}
           />
         </Providers>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
