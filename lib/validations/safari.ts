@@ -35,10 +35,15 @@ const PricingTierSchema = z.object({
   rows:              z.array(SeasonalPriceRowSchema).default([]),
 })
 
+// Field-level requiredness for these two schemas is enforced conditionally in
+// SafariSchema's superRefine (based on tripLength), not here — the array itself
+// is always present in form state even when its type isn't the active one, so
+// an unconditional .min(1) here would reject a short safari over its unused,
+// hidden multi-day day (or vice versa).
 const ItineraryDaySchema = z.object({
   day:           z.number().min(1),
-  title:         z.string().min(1, 'Day title is required'),
-  description:   z.string().min(1, 'Day description is required'),
+  title:         z.string(),
+  description:   z.string(),
   meals:         z.array(z.string()),
   accommodation: z.string(),
   activities:    z.array(z.string()),
@@ -46,9 +51,9 @@ const ItineraryDaySchema = z.object({
 
 const ItineraryStopSchema = z.object({
   order:         z.number().min(1),
-  title:         z.string().min(1, 'Stop title is required'),
-  durationLabel: z.string().min(1, 'Add a duration label, e.g. "2 hrs" or "9:00 - 11:00"'),
-  description:   z.string().min(1, 'Stop description is required'),
+  title:         z.string(),
+  durationLabel: z.string(),
+  description:   z.string(),
   activities:    z.array(z.string()),
 })
 
@@ -123,18 +128,31 @@ export const SafariSchema = z.object({
     })
     .optional(),
 }).superRefine((data, ctx) => {
-  if (data.tripLength === 'multi-day' && data.itinerary.length < 1) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'Add at least 1 itinerary day',
-      path: ['itinerary'],
+  if (data.tripLength === 'multi-day') {
+    if (data.itinerary.length < 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Add at least 1 itinerary day',
+        path: ['itinerary'],
+      })
+    }
+    data.itinerary.forEach((day, i) => {
+      if (!day.title?.trim()) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Day title is required', path: ['itinerary', i, 'title'] })
+      if (!day.description?.trim()) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Day description is required', path: ['itinerary', i, 'description'] })
     })
   }
-  if (data.tripLength === 'short' && data.itineraryStops.length < 1) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'Add at least 1 itinerary stop',
-      path: ['itineraryStops'],
+  if (data.tripLength === 'short') {
+    if (data.itineraryStops.length < 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Add at least 1 itinerary stop',
+        path: ['itineraryStops'],
+      })
+    }
+    data.itineraryStops.forEach((stop, i) => {
+      if (!stop.title?.trim()) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Stop title is required', path: ['itineraryStops', i, 'title'] })
+      if (!stop.durationLabel?.trim()) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Add a duration label, e.g. "2 hrs" or "9:00 - 11:00"', path: ['itineraryStops', i, 'durationLabel'] })
+      if (!stop.description?.trim()) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Stop description is required', path: ['itineraryStops', i, 'description'] })
     })
   }
   // Pricing tier validation depends on trip type

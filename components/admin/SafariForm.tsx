@@ -683,11 +683,16 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const watchedTripLength  = watch('tripLength') ?? 'multi-day'
 
   // Auto-select all months for short safaris (available year-round)
-  // Also seed one blank stop when switching to short with no stops yet
+  // Also seed one blank stop/day for the active type and clear the other
+  // type's array so its (hidden, unfilled) fields never reach validation or the payload.
   useEffect(() => {
     if (watchedTripLength === 'short') {
       setValue('bestSeason', MONTHS, { shouldValidate: false })
       if (itineraryStopFields.length === 0) appendStop(blankItineraryStop(1))
+      if (itineraryFields.length > 0) setValue('itinerary', [], { shouldValidate: false })
+    } else if (watchedTripLength === 'multi-day') {
+      if (itineraryFields.length === 0) appendDay(blankItineraryDay(1))
+      if (itineraryStopFields.length > 0) setValue('itineraryStops', [], { shouldValidate: false })
     }
   }, [watchedTripLength]) // eslint-disable-line react-hooks/exhaustive-deps
 
