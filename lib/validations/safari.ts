@@ -75,6 +75,8 @@ export const SafariSchema = z.object({
   highlights:      z.array(z.string()).default([]),
   included:        z.array(z.string()),
   excluded:        z.array(z.string()),
+  bestTimeToVisit: z.array(z.string()).default([]),
+  whyChoose:       z.array(z.string()).default([]),
   itinerary:       z.array(ItineraryDaySchema).default([]),
   itineraryStops:  z.array(ItineraryStopSchema).default([]),
   pricing: z.object({

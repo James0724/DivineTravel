@@ -121,6 +121,10 @@ export interface Safari {
   highlights: string[];
   included: string[];
   excluded: string[];
+  /** Admin-entered key points — section is hidden on the detail page when empty. */
+  bestTimeToVisit: string[];
+  /** Admin-entered key points — section is hidden on the detail page when empty. */
+  whyChoose: string[];
   /** Day-numbered itinerary — populated when tripLength is "multi-day". */
   itinerary: ItineraryDay[];
   /** Hour/segment-based itinerary — populated when tripLength is "short". */

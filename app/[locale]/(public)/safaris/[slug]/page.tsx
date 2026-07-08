@@ -556,7 +556,7 @@ export default async function SafariDetailPage({ params }: Props) {
       {/* ════════════════════════════════════════════════════════════════════
           HERO — image fills section; price box moves below on mobile
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative h-[42vh] sm:h-[48vh] md:h-[52vh] min-h-[320px] sm:min-h-[400px] md:min-h-[460px] overflow-hidden text-white">
+      <section className="relative h-[42vh] sm:h-[48vh] md:h-[52vh] min-h-[340px] sm:min-h-[420px] md:min-h-[480px] lg:min-h-[540px] overflow-hidden text-white">
         <OptimizedImage
           src={heroImage}
           alt={safari.name}
@@ -575,7 +575,7 @@ export default async function SafariDetailPage({ params }: Props) {
                 Tours &amp; Safaris · {countries.join(" · ")} ·{" "}
                 {parks[0] || safari.location.region}
               </div>
-              <h1 className="font-serif font-light text-[clamp(30px,5.5vw,88px)] leading-[0.98] tracking-[-0.02em] max-w-[18ch]">
+              <h1 className="font-serif font-light text-[clamp(28px,4.4vw,58px)] leading-[1.05] tracking-[-0.02em] max-w-[26ch] break-words">
                 {safari.name}
               </h1>
               <p className="hidden sm:block mt-4 max-w-[56ch] text-sm leading-relaxed opacity-90">
@@ -866,6 +866,84 @@ export default async function SafariDetailPage({ params }: Props) {
                     </p>
                   </div>
                 ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
+      {/* ════════════════════════════════════════════════════════════════════
+          BEST TIME TO VISIT / WHY CHOOSE — admin-entered key points only;
+          each half (and the CTA banner) is hidden entirely when empty.
+      ════════════════════════════════════════════════════════════════════ */}
+      {(safari.bestTimeToVisit?.length > 0 || safari.whyChoose?.length > 0) && (
+        <section className="py-16 sm:py-20 lg:py-24 bg-[var(--paper)] border-t border-[var(--line)]">
+          <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
+            <div
+              className={`grid grid-cols-1 gap-12 lg:gap-16 ${
+                safari.bestTimeToVisit?.length > 0 && safari.whyChoose?.length > 0
+                  ? "lg:grid-cols-2"
+                  : ""
+              }`}
+            >
+              {safari.bestTimeToVisit?.length > 0 && (
+                <Reveal>
+                  <Eyebrow>Travel planning</Eyebrow>
+                  <h2 className="font-serif font-normal text-[clamp(26px,3.4vw,44px)] leading-[1.05] tracking-[-0.02em] mt-3.5 mb-7 max-w-[20ch]">
+                    Best Time to Visit{" "}
+                    <em className="italic text-[var(--clay)]">{safari.name}</em>
+                  </h2>
+                  <ul className="list-none p-0 m-0 flex flex-col gap-4">
+                    {safari.bestTimeToVisit.map((point, i) => (
+                      <li
+                        key={i}
+                        className="flex gap-3.5 items-start text-sm leading-relaxed text-[var(--ink)]"
+                      >
+                        <span className="font-serif italic text-[16px] text-[var(--clay)] leading-[1.4] shrink-0">
+                          ✓
+                        </span>
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              )}
+
+              {safari.whyChoose?.length > 0 && (
+                <Reveal delay={0.1}>
+                  <Eyebrow>The experience</Eyebrow>
+                  <h2 className="font-serif font-normal text-[clamp(26px,3.4vw,44px)] leading-[1.05] tracking-[-0.02em] mt-3.5 mb-7 max-w-[24ch]">
+                    Why Choose a{" "}
+                    <em className="italic text-[var(--clay)]">{safari.name}</em>{" "}
+                    Safari
+                  </h2>
+                  <ul className="list-none p-0 m-0 flex flex-col gap-4">
+                    {safari.whyChoose.map((point, i) => (
+                      <li
+                        key={i}
+                        className="flex gap-3.5 items-start text-sm leading-relaxed text-[var(--ink)]"
+                      >
+                        <span className="font-serif italic text-[16px] text-[var(--clay)] leading-[1.4] shrink-0">
+                          ✓
+                        </span>
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              )}
+            </div>
+
+            {/* CTA banner */}
+            <Reveal delay={0.15}>
+              <div className="mt-14 pt-12 border-t border-[var(--line)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <p className="font-serif italic text-[22px] sm:text-[26px] leading-[1.25] text-[var(--ink)] max-w-[42ch] m-0">
+                  Ready for the adventure of a lifetime?
+                </p>
+                <BookingButton
+                  safari={safari}
+                  label={`Plan Your ${safari.name} Safari Today`}
+                />
               </div>
             </Reveal>
           </div>

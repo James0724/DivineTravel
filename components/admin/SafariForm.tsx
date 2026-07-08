@@ -165,6 +165,8 @@ const defaultValues: SafariFormValues & { coverImage: string } = {
   highlights: [],
   included: [...DEFAULT_INCLUSIONS],
   excluded: [...DEFAULT_EXCLUSIONS],
+  bestTimeToVisit: [],
+  whyChoose: [],
   itinerary: [blankItineraryDay(1)],
   itineraryStops: [],
   pricing: {
@@ -638,6 +640,8 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           highlights:     existing.highlights ?? [],
           included:       existing.included?.filter(Boolean).length ? existing.included.filter(Boolean) : [...DEFAULT_INCLUSIONS],
           excluded:       existing.excluded?.filter(Boolean).length ? existing.excluded.filter(Boolean) : [...DEFAULT_EXCLUSIONS],
+          bestTimeToVisit: existing.bestTimeToVisit ?? [],
+          whyChoose:       existing.whyChoose ?? [],
           itinerary:      existing.itinerary.length ? existing.itinerary : [blankItineraryDay(1)],
           itineraryStops: existing.itineraryStops?.length ? existing.itineraryStops : [],
           pricing: {
@@ -700,6 +704,8 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const watchedHighlights  = watch('highlights') ?? []
   const watchedIncluded    = watch('included')   ?? []
   const watchedExcluded    = watch('excluded')   ?? []
+  const watchedBestTimeToVisit = watch('bestTimeToVisit') ?? []
+  const watchedWhyChoose       = watch('whyChoose')       ?? []
   const watchedBestSeason  = watch('bestSeason') ?? []
   const watchedSafariType  = watch('safariType') ?? []
   const watchedFeatured    = watch('featured')
@@ -738,6 +744,8 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     highlights: data.highlights.filter(Boolean),
     included:   data.included.filter(Boolean),
     excluded:   data.excluded.filter(Boolean),
+    bestTimeToVisit: data.bestTimeToVisit.filter(Boolean),
+    whyChoose:       data.whyChoose.filter(Boolean),
   })
 
   /* ── Submit (publish) ── */
@@ -790,7 +798,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       basic:     !!(errs.name || errs.tagline || errs.description),
       location:  !!errs.location,
       details:   !!(errs.duration || errs.durationLabel || errs.tripLength || errs.difficulty || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
-      content:   !!(errs.highlights || errs.included || errs.excluded),
+      content:   !!(errs.highlights || errs.included || errs.excluded || errs.bestTimeToVisit || errs.whyChoose),
       itinerary: !!(errs.itinerary || errs.itineraryStops),
       pricing:   !!errs.pricing,
       seo:       !!errs.seo,
@@ -809,7 +817,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     basic:     !!(errors.name || errors.tagline || errors.description),
     location:  !!errors.location,
     details:   !!(errors.duration || errors.durationLabel || errors.tripLength || errors.difficulty || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
-    content:   !!(errors.highlights || errors.included || errors.excluded),
+    content:   !!(errors.highlights || errors.included || errors.excluded || errors.bestTimeToVisit || errors.whyChoose),
     itinerary: !!(errors.itinerary || errors.itineraryStops),
     pricing:   !!errors.pricing,
     images:    false,
@@ -976,7 +984,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
 
       {/* ════════════ 4 · CONTENT ARRAYS ════════════ */}
       <CollapsibleSection title="Highlights, Inclusions & Exclusions" subtitle="What guests experience, what's included and what's not" isOpen={openSections.content} hasError={sectionErrors.content} onToggle={() => toggleSection('content')}>
-        <SectionErrorBanner messages={Array.from(new Set([...collectErrorMessages(errors.highlights), ...collectErrorMessages(errors.included), ...collectErrorMessages(errors.excluded)]))} />
+        <SectionErrorBanner messages={Array.from(new Set([...collectErrorMessages(errors.highlights), ...collectErrorMessages(errors.included), ...collectErrorMessages(errors.excluded), ...collectErrorMessages(errors.bestTimeToVisit), ...collectErrorMessages(errors.whyChoose)]))} />
 
         <ArrayField
           label="Highlights"
@@ -984,6 +992,26 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           onChange={(v) => setValue('highlights', v, { shouldValidate: true })}
           placeholder="Add a highlight…"
           hint="Key selling points shown on the safari detail page"
+        />
+
+        <div className="h-px bg-[rgba(23,22,18,0.07)]" />
+
+        <ArrayField
+          label="Best Time to Visit"
+          values={watchedBestTimeToVisit}
+          onChange={(v) => setValue('bestTimeToVisit', v, { shouldValidate: true })}
+          placeholder="Add a key point…"
+          hint="Optional — shown as a 'Best Time to Visit' section on the detail page. Leave empty to hide it."
+        />
+
+        <div className="h-px bg-[rgba(23,22,18,0.07)]" />
+
+        <ArrayField
+          label="Why Choose This Safari"
+          values={watchedWhyChoose}
+          onChange={(v) => setValue('whyChoose', v, { shouldValidate: true })}
+          placeholder="Add a key point…"
+          hint="Optional — shown as a 'Why Choose' section on the detail page. Leave empty to hide it."
         />
 
         <div className="h-px bg-[rgba(23,22,18,0.07)]" />

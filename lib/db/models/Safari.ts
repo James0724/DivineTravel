@@ -149,6 +149,8 @@ export interface ISafari extends Document {
   highlights: string[];
   included: string[];
   excluded: string[];
+  bestTimeToVisit: string[];
+  whyChoose: string[];
   itinerary: {
     day: number;
     title: string;
@@ -220,6 +222,8 @@ const SafariSchema = new Schema<ISafari>(
     highlights:     [{ type: String }],
     included:       [{ type: String }],
     excluded:       [{ type: String }],
+    bestTimeToVisit: [{ type: String }],
+    whyChoose:       [{ type: String }],
     itinerary:      [ItineraryDaySchema],
     itineraryStops: [ItineraryStopSchema],
     pricing: {
