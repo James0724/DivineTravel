@@ -125,6 +125,8 @@ export interface Safari {
   bestTimeToVisit: string[];
   /** Admin-entered key points — section is hidden on the detail page when empty. */
   whyChoose: string[];
+  /** Admin-entered Q&A pairs — section is hidden on the detail page when empty. */
+  faqs: { question: string; answer: string }[];
   /** Day-numbered itinerary — populated when tripLength is "multi-day". */
   itinerary: ItineraryDay[];
   /** Hour/segment-based itinerary — populated when tripLength is "short". */

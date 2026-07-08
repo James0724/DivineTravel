@@ -9,7 +9,9 @@ import type { Safari } from "@/types";
 import {
   BreadcrumbSchema,
   SafariSchema,
+  FaqSchema,
 } from "@/components/seo/StructuredData";
+import FaqAccordion from "@/components/ui/FaqAccordion";
 import { getLowestPrice, formatDuration } from "@/lib/utils";
 import BookingButton from "@/components/ui/BookingButton";
 import Price from "@/components/ui/Price";
@@ -552,6 +554,7 @@ export default async function SafariDetailPage({ params }: Props) {
         ]}
       />
       <SafariSchema safari={safari} locale={locale} />
+      {safari.faqs?.length > 0 && <FaqSchema items={safari.faqs} />}
 
       {/* ════════════════════════════════════════════════════════════════════
           HERO — image fills section; price box moves below on mobile
@@ -945,6 +948,27 @@ export default async function SafariDetailPage({ params }: Props) {
                   label={`Plan Your ${safari.name} Safari Today`}
                 />
               </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
+      {/* ════════════════════════════════════════════════════════════════════
+          FAQs — admin-entered Q&A for this safari; hidden entirely when empty.
+      ════════════════════════════════════════════════════════════════════ */}
+      {safari.faqs?.length > 0 && (
+        <section className="py-16 sm:py-20 lg:py-24 bg-[var(--paper)] border-t border-[var(--line)]">
+          <div className="max-w-[900px] mx-auto px-5 sm:px-8 md:px-12">
+            <Reveal>
+              <Eyebrow>Good to know</Eyebrow>
+              <h2 className="font-serif font-normal text-[clamp(26px,3.4vw,44px)] leading-[1.05] tracking-[-0.02em] mt-3.5 mb-9">
+                Frequently Asked{" "}
+                <em className="italic text-[var(--clay)]">Questions</em>
+              </h2>
+              <FaqAccordion
+                variant="large"
+                faqs={safari.faqs.map((f) => ({ q: f.question, a: f.answer }))}
+              />
             </Reveal>
           </div>
         </section>

@@ -49,6 +49,11 @@ const ItineraryDaySchema = z.object({
   activities:    z.array(z.string()),
 })
 
+const FaqSchema = z.object({
+  question: z.string(),
+  answer:   z.string(),
+})
+
 const ItineraryStopSchema = z.object({
   order:         z.number().min(1),
   title:         z.string(),
@@ -82,6 +87,7 @@ export const SafariSchema = z.object({
   excluded:        z.array(z.string()),
   bestTimeToVisit: z.array(z.string()).default([]),
   whyChoose:       z.array(z.string()).default([]),
+  faqs:            z.array(FaqSchema).default([]),
   itinerary:       z.array(ItineraryDaySchema).default([]),
   itineraryStops:  z.array(ItineraryStopSchema).default([]),
   pricing: z.object({

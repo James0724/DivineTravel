@@ -108,6 +108,14 @@ const ItineraryDaySchema = new Schema(
   { _id: false },
 );
 
+const SafariFaqSchema = new Schema(
+  {
+    question: { type: String, required: true },
+    answer:   { type: String, required: true },
+  },
+  { _id: false },
+);
+
 const ItineraryStopSchema = new Schema(
   {
     order:         { type: Number, required: true },
@@ -151,6 +159,7 @@ export interface ISafari extends Document {
   excluded: string[];
   bestTimeToVisit: string[];
   whyChoose: string[];
+  faqs: { question: string; answer: string }[];
   itinerary: {
     day: number;
     title: string;
@@ -224,6 +233,7 @@ const SafariSchema = new Schema<ISafari>(
     excluded:       [{ type: String }],
     bestTimeToVisit: [{ type: String }],
     whyChoose:       [{ type: String }],
+    faqs:           [SafariFaqSchema],
     itinerary:      [ItineraryDaySchema],
     itineraryStops: [ItineraryStopSchema],
     pricing: {

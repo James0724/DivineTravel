@@ -81,6 +81,10 @@ function blankItineraryStop(order: number) {
   return { order, title: '', durationLabel: '', description: '', activities: [] as string[] }
 }
 
+function blankFaq() {
+  return { question: '', answer: '' }
+}
+
 function blankHotelLocation() {
   return { country: '', countries: [] as string[], region: '', regions: [] as string[], park: '', parks: [] as string[] }
 }
@@ -167,6 +171,7 @@ const defaultValues: SafariFormValues & { coverImage: string } = {
   excluded: [...DEFAULT_EXCLUSIONS],
   bestTimeToVisit: [],
   whyChoose: [],
+  faqs: [],
   itinerary: [blankItineraryDay(1)],
   itineraryStops: [],
   pricing: {
@@ -642,6 +647,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
           excluded:       existing.excluded?.filter(Boolean).length ? existing.excluded.filter(Boolean) : [...DEFAULT_EXCLUSIONS],
           bestTimeToVisit: existing.bestTimeToVisit ?? [],
           whyChoose:       existing.whyChoose ?? [],
+          faqs:           existing.faqs ?? [],
           itinerary:      existing.itinerary.length ? existing.itinerary : [blankItineraryDay(1)],
           itineraryStops: existing.itineraryStops?.length ? existing.itineraryStops : [],
           pricing: {
@@ -672,13 +678,14 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
   const [isSavingDraft,     setIsSavingDraft]     = useState(false)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     basic: true, location: true, details: true, content: false,
-    itinerary: false, pricing: true, images: false, seo: false,
+    itinerary: false, faqs: false, pricing: true, images: false, seo: false,
   })
 
   const toggleSection = (key: string) => setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }))
 
   const { fields: itineraryFields, append: appendDay, remove: removeDay }   = useFieldArray({ control, name: 'itinerary' })
   const { fields: itineraryStopFields, append: appendStop, remove: removeStop } = useFieldArray({ control, name: 'itineraryStops' })
+  const { fields: faqFields, append: appendFaq, remove: removeFaq } = useFieldArray({ control, name: 'faqs' })
 
   const watchedTripLength  = watch('tripLength') ?? 'multi-day'
 
@@ -751,6 +758,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     excluded:   data.excluded.filter(Boolean),
     bestTimeToVisit: data.bestTimeToVisit.filter(Boolean),
     whyChoose:       data.whyChoose.filter(Boolean),
+    faqs:            data.faqs.filter((f) => f.question.trim() && f.answer.trim()),
   })
 
   /* ── Submit (publish) ── */
@@ -805,6 +813,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
       details:   !!(errs.duration || errs.durationLabel || errs.tripLength || errs.difficulty || errs.safariType || errs.bestSeason || errs.maxGroupSize || errs.minGroupSize || errs.minAge),
       content:   !!(errs.highlights || errs.included || errs.excluded || errs.bestTimeToVisit || errs.whyChoose),
       itinerary: !!(errs.itinerary || errs.itineraryStops),
+      faqs:      !!errs.faqs,
       pricing:   !!errs.pricing,
       seo:       !!errs.seo,
     }
@@ -824,6 +833,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
     details:   !!(errors.duration || errors.durationLabel || errors.tripLength || errors.difficulty || errors.safariType || errors.bestSeason || errors.maxGroupSize || errors.minGroupSize || errors.minAge),
     content:   !!(errors.highlights || errors.included || errors.excluded || errors.bestTimeToVisit || errors.whyChoose),
     itinerary: !!(errors.itinerary || errors.itineraryStops),
+    faqs:      !!errors.faqs,
     pricing:   !!errors.pricing,
     images:    false,
     seo:       !!errors.seo,
@@ -1114,7 +1124,35 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         )}
       </CollapsibleSection>
 
-      {/* ════════════ 6 · PRICING ════════════ */}
+      {/* ════════════ 6 · FAQs ════════════ */}
+      <CollapsibleSection
+        title="FAQs"
+        subtitle="Common questions guests ask about this specific safari"
+        isOpen={openSections.faqs} hasError={sectionErrors.faqs} onToggle={() => toggleSection('faqs')}>
+        <SectionErrorBanner messages={Array.from(new Set(collectErrorMessages(errors.faqs)))} />
+        <div className="space-y-5">
+          {faqFields.map((field, index) => (
+            <div key={field.id} className="border border-[rgba(23,22,18,0.12)] rounded-md overflow-hidden">
+              <div className="flex items-center justify-between bg-bone-bg px-4 py-2.5">
+                <span className="font-sans text-xs font-semibold uppercase tracking-wider text-bone-ink/60">FAQ {index + 1}</span>
+                <button type="button" onClick={() => removeFaq(index)} className="text-bone-ink/30 hover:text-red-500 transition-colors"><Trash2 size={13} /></button>
+              </div>
+              <div className="px-4 py-4 space-y-4">
+                <Input label="Question" {...register(`faqs.${index}.question`)} placeholder="e.g. Is this safari suitable for young children?" />
+                <Textarea label="Answer" {...register(`faqs.${index}.answer`)} rows={3} placeholder="Write a clear, helpful answer…" />
+              </div>
+            </div>
+          ))}
+          <button type="button" onClick={() => appendFaq(blankFaq())} className="flex items-center gap-2 text-sm font-sans text-bone-forest hover:text-bone-forest/70 transition-colors">
+            <Plus size={15} /> Add FAQ
+          </button>
+          {faqFields.length === 0 && (
+            <p className="text-xs text-bone-ink/40 font-sans">Optional — shown as an accordion on the safari page. Great for SEO and pre-empting guest questions.</p>
+          )}
+        </div>
+      </CollapsibleSection>
+
+      {/* ════════════ 7 · PRICING ════════════ */}
       <CollapsibleSection
         title={watchedTripLength === 'short' ? 'Pricing' : 'Pricing Tiers'}
         subtitle={watchedTripLength === 'short' ? 'Flat per-person rates by group size' : 'Budget, mid-range and luxury pricing — seasonal tables'}
@@ -1168,7 +1206,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         )}
       </CollapsibleSection>
 
-      {/* ════════════ 7 · IMAGES ════════════ */}
+      {/* ════════════ 8 · IMAGES ════════════ */}
       <CollapsibleSection title="Images" subtitle="Cover image and gallery" isOpen={openSections.images} onToggle={() => toggleSection('images')}>
         <ImageUpload label="Cover Image" required usage="safari-cover" value={coverImage} publicId={coverImagePublicId}
           onChange={(url, publicId) => { setCoverImage(url); setCoverImagePublicId(publicId) }}
@@ -1205,7 +1243,7 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
         )}
       </CollapsibleSection>
 
-      {/* ════════════ 8 · SEO ════════════ */}
+      {/* ════════════ 9 · SEO ════════════ */}
       <CollapsibleSection title="SEO" subtitle="Search engine meta title, description and keywords" isOpen={openSections.seo} hasError={sectionErrors.seo} onToggle={() => toggleSection('seo')}>
         {sectionErrors.seo && (
           <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-md bg-red-50 border border-red-200">
