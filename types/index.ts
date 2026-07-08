@@ -56,6 +56,8 @@ export interface Hotel {
 export interface SeasonalPriceRow {
   seasonLabel: string;
   dateRange?: string;
+  /** Solo / single-supplement rate — usually higher per-person than per2 */
+  per1: number;
   per2: number;
   per3: number;
   per4: number;

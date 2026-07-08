@@ -103,7 +103,7 @@ function blankSeasonRow(index = 0) {
   return {
     seasonLabel: def?.seasonLabel ?? 'Low Season',
     dateRange:   def?.dateRange   ?? '',
-    per2: 0, per3: 0, per4: 0, per5: 0, per6: 0,
+    per1: 0, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0,
   }
 }
 
@@ -114,33 +114,35 @@ function blankPricingTier() {
     accommodationType: '',
     hotels: [] as ReturnType<typeof blankHotel>[],
     // Pre-populate all 6 default seasons so the table is ready to fill in
-    rows: DEFAULT_SEASONS.map((s) => ({ ...s, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0 })),
+    rows: DEFAULT_SEASONS.map((s) => ({ ...s, per1: 0, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0 })),
   }
 }
 
 // Migrate an old-format tier (pricePerPerson) to new seasonal-rows format.
 // Pass isShort=true for budget tier on a short safari — produces exactly ONE flat row.
 function migratePricingTier(tier: Safari['pricing']['budget'], isShort = false) {
-  const rows = (tier as unknown as { rows?: { seasonLabel: string; dateRange: string; per2: number; per3: number; per4: number; per5: number; per6: number }[] }).rows
+  const rows = (tier as unknown as { rows?: { seasonLabel: string; dateRange: string; per1?: number; per2: number; per3: number; per4: number; per5: number; per6: number }[] }).rows
   const hasRows = Array.isArray(rows) && rows.length > 0
+  // Older documents predate the solo/per1 column — default it to 0 (not offered) rather than leaving it undefined.
+  const withPer1 = (rows ?? []).map((r) => ({ ...r, per1: r.per1 ?? 0 }))
 
-  let migratedRows: typeof rows
+  let migratedRows: typeof withPer1
   if (isShort) {
     // One flat row only — take existing rows[0] or seed from legacy pricePerPerson
     if (hasRows) {
-      migratedRows = [rows[0]]
+      migratedRows = [withPer1[0]]
     } else if (tier.pricePerPerson) {
       const p = tier.pricePerPerson
-      migratedRows = [{ seasonLabel: 'Flat Rate', dateRange: '', per2: p, per3: p, per4: p, per5: p, per6: p }]
+      migratedRows = [{ seasonLabel: 'Flat Rate', dateRange: '', per1: 0, per2: p, per3: p, per4: p, per5: p, per6: p }]
     } else {
       migratedRows = []
     }
   } else {
     migratedRows = hasRows
-      ? rows
+      ? withPer1
       : tier.pricePerPerson
-        ? DEFAULT_SEASONS.map((s) => ({ ...s, per2: tier.pricePerPerson!, per3: tier.pricePerPerson!, per4: tier.pricePerPerson!, per5: tier.pricePerPerson!, per6: tier.pricePerPerson! }))
-        : DEFAULT_SEASONS.map((s) => ({ ...s, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0 }))
+        ? DEFAULT_SEASONS.map((s) => ({ ...s, per1: 0, per2: tier.pricePerPerson!, per3: tier.pricePerPerson!, per4: tier.pricePerPerson!, per5: tier.pricePerPerson!, per6: tier.pricePerPerson! }))
+        : DEFAULT_SEASONS.map((s) => ({ ...s, per1: 0, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0 }))
   }
 
   return {
@@ -257,7 +259,7 @@ function parseDurationDays(label: string): number {
 
 /* ─── PricingTableEditor ─────────────────────────────────────────────────── */
 
-type SeasonRow = { seasonLabel: string; dateRange: string; per2: number; per3: number; per4: number; per5: number; per6: number }
+type SeasonRow = { seasonLabel: string; dateRange: string; per1: number; per2: number; per3: number; per4: number; per5: number; per6: number }
 type PricingTierValue = SafariFormValues['pricing']['budget']
 type PricingTierErrors = Partial<Record<keyof PricingTierValue, { message?: string }>> & {
   hotels?: { name?: { message?: string }; rating?: { message?: string } }[]
@@ -290,6 +292,7 @@ function PricingTableEditor({
   errors?: { message?: string } | { seasonLabel?: { message?: string } }[] | undefined
 }) {
   const paxCols: { key: keyof SeasonRow; label: string }[] = [
+    { key: 'per1', label: 'Solo' },
     { key: 'per2', label: '2 pax' }, { key: 'per3', label: '3 pax' },
     { key: 'per4', label: '4 pax' }, { key: 'per5', label: '5 pax' }, { key: 'per6', label: '6 pax' },
   ]
@@ -407,6 +410,7 @@ function ShortSafariPricingTable({
   errors?: PricingTierErrors
 }) {
   const paxCols: { key: keyof SeasonRow; label: string }[] = [
+    { key: 'per1', label: 'Solo' },
     { key: 'per2', label: '2 pax' }, { key: 'per3', label: '3 pax' },
     { key: 'per4', label: '4 pax' }, { key: 'per5', label: '5 pax' }, { key: 'per6', label: '6 pax' },
   ]

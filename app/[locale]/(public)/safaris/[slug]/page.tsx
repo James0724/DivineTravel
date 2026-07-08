@@ -264,6 +264,7 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
   const isShort = safari.tripLength === "short";
 
   const PAX = [
+    { key: "per1" as const, label: "Solo" },
     { key: "per2" as const, label: "2 pax" },
     { key: "per3" as const, label: "3 pax" },
     { key: "per4" as const, label: "4 pax" },
@@ -275,7 +276,7 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
     // Use budget tier flat rate for short safaris
     const budgetRows = safari.pricing?.budget?.rows;
     const row = budgetRows?.[0];
-    const hasData = row && (row.per2 > 0 || row.per3 > 0 || row.per4 > 0 || row.per5 > 0 || row.per6 > 0);
+    const hasData = row && (row.per1 > 0 || row.per2 > 0 || row.per3 > 0 || row.per4 > 0 || row.per5 > 0 || row.per6 > 0);
     if (!hasData) return null;
 
     return (
@@ -331,7 +332,7 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
   // Multi-day: mid-range seasonal table
   const rows = safari.pricing?.midRange?.rows;
   const hasData = rows?.some(
-    (r) => r.per2 > 0 || r.per3 > 0 || r.per4 > 0 || r.per5 > 0 || r.per6 > 0
+    (r) => r.per1 > 0 || r.per2 > 0 || r.per3 > 0 || r.per4 > 0 || r.per5 > 0 || r.per6 > 0
   );
   if (!hasData) return null;
 

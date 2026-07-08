@@ -70,11 +70,12 @@ function PriceTable({ rows, isShort, displayPrice }: {
   if (!rows?.length) return null
 
   const paxCols: { key: keyof SeasonalPriceRow; label: string }[] = [
-    { key: 'per2', label: '2' },
-    { key: 'per3', label: '3' },
-    { key: 'per4', label: '4' },
-    { key: 'per5', label: '5' },
-    { key: 'per6', label: '6' },
+    { key: 'per1', label: 'Solo' },
+    { key: 'per2', label: '2 pax' },
+    { key: 'per3', label: '3 pax' },
+    { key: 'per4', label: '4 pax' },
+    { key: 'per5', label: '5 pax' },
+    { key: 'per6', label: '6 pax' },
   ]
 
   const displayRows = isShort ? rows.slice(0, 1) : rows
@@ -91,7 +92,7 @@ function PriceTable({ rows, isShort, displayPrice }: {
             )}
             {paxCols.map((c) => (
               <th key={c.key} className="text-center px-2 py-2 font-sans font-medium text-bone-ink/50 border-b border-[rgba(23,22,18,0.08)]">
-                {c.label} pax
+                {c.label}
               </th>
             ))}
           </tr>
@@ -121,7 +122,7 @@ function PriceTable({ rows, isShort, displayPrice }: {
         </tbody>
       </table>
       <p className="px-2.5 py-1.5 text-[10px] text-bone-ink/35 font-sans border-t border-[rgba(23,22,18,0.06)]">
-        Per person · {paxCols[paxCols.length - 1].label} pax = best rate
+        Per person · {paxCols[paxCols.length - 1].label} = best rate
       </p>
     </div>
   )

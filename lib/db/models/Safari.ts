@@ -66,11 +66,12 @@ const HotelSchema = new Schema(
   { _id: false },
 );
 
-// One row in the pricing table (one season, group-size columns 2–6)
+// One row in the pricing table (one season, group-size columns 1–6; per1 is the solo/single-supplement rate)
 const SeasonalPriceRowSchema = new Schema(
   {
     seasonLabel: { type: String, default: "Standard Season" },
     dateRange:   { type: String, default: "" },
+    per1: { type: Number, default: 0 },
     per2: { type: Number, default: 0 },
     per3: { type: Number, default: 0 },
     per4: { type: Number, default: 0 },
@@ -164,9 +165,9 @@ export interface ISafari extends Document {
     activities: string[];
   }[];
   pricing: {
-    budget:   { rows: { seasonLabel: string; dateRange?: string; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
-    midRange: { rows: { seasonLabel: string; dateRange?: string; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
-    luxury:   { rows: { seasonLabel: string; dateRange?: string; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
+    budget:   { rows: { seasonLabel: string; dateRange?: string; per1: number; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
+    midRange: { rows: { seasonLabel: string; dateRange?: string; per1: number; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
+    luxury:   { rows: { seasonLabel: string; dateRange?: string; per1: number; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
   };
   images: { url: string; publicId: string; alt: string }[];
   coverImage: string;

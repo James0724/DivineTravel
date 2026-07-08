@@ -9,12 +9,15 @@ import type { Safari, PriceTier } from "@/types";
 // ─── Pricing helpers (mirrors BookingDetailsForm logic) ───────────────────────
 
 type PriceRow = {
-  per2: number; per3: number; per4: number; per5: number; per6: number;
+  per1: number; per2: number; per3: number; per4: number; per5: number; per6: number;
   seasonLabel: string; dateRange: string;
 };
 
 function perNRate(row: PriceRow | null | undefined, count: number): number {
   if (!row) return 0;
+  // Solo travellers use the per1 (single-supplement) rate if one is set; otherwise
+  // fall back to the 2-pax rate, since not every safari offers a solo rate.
+  if (count <= 1 && row.per1 > 0) return row.per1;
   const key = `per${Math.max(2, Math.min(6, count))}` as keyof Pick<PriceRow, "per2" | "per3" | "per4" | "per5" | "per6">;
   const v = row[key];
   return typeof v === "number" && v > 0 ? v : 0;
@@ -357,8 +360,10 @@ export default function BookingModal({ safari, onClose }: BookingModalProps) {
                 <div className="flex justify-between text-[13px]">
                   <span className="opacity-80">
                     {adults} adult{adults !== 1 ? "s" : ""} × {displayPrice(adultRate)}
-                    {groupSize > 1 && (
+                    {groupSize > 1 ? (
                       <span className="opacity-50 text-[10px] ml-1">({groupSize} pax rate)</span>
+                    ) : (
+                      <span className="opacity-50 text-[10px] ml-1">(solo rate)</span>
                     )}
                   </span>
                   <span className="font-medium">{displayPrice(adultTotal)}</span>

@@ -489,11 +489,13 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
 
   // ── Pricing helpers ────────────────────────────────────────────────────────
 
-  type PriceRow = { per2: number; per3: number; per4: number; per5: number; per6: number; seasonLabel: string; dateRange: string };
+  type PriceRow = { per1: number; per2: number; per3: number; per4: number; per5: number; per6: number; seasonLabel: string; dateRange: string };
 
-  // Pick per-N column for a group size (clamp to available per2–per6 range)
+  // Pick per-N column for a group size (clamp to available per2–per6 range, with a
+  // dedicated per1 solo/single-supplement rate when the group is just one person)
   function perNRate(row: PriceRow | null | undefined, count: number): number {
     if (!row) return 0;
+    if (count <= 1 && row.per1 > 0) return row.per1;
     const key = `per${Math.max(2, Math.min(6, count))}` as "per2" | "per3" | "per4" | "per5" | "per6";
     const v = row[key];
     return typeof v === "number" && v > 0 ? v : 0;
@@ -846,8 +848,10 @@ function BookingDetailsForm({ safari }: { safari: Safari }) {
               <div className="flex justify-between text-[13px]">
                 <span className="opacity-80">
                   {adults} adult{adults !== 1 ? "s" : ""} × {displayPrice(adultRate)}
-                  {groupSize > 1 && (
+                  {groupSize > 1 ? (
                     <span className="opacity-50 text-[10px] ml-1">({groupSize} pax rate)</span>
+                  ) : (
+                    <span className="opacity-50 text-[10px] ml-1">(solo rate)</span>
                   )}
                 </span>
                 <span className="font-medium">{displayPrice(adultTotal)}</span>

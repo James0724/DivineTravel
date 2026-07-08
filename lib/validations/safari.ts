@@ -19,6 +19,7 @@ const HotelSchema = z.object({
 export const SeasonalPriceRowSchema = z.object({
   seasonLabel: z.string().default('Standard Season'),
   dateRange:   z.string().optional().default(''),
+  per1: z.number({ invalid_type_error: 'Enter a price' }).min(0).optional().default(0),
   per2: z.number({ invalid_type_error: 'Enter a price' }).min(0),
   per3: z.number({ invalid_type_error: 'Enter a price' }).min(0),
   per4: z.number({ invalid_type_error: 'Enter a price' }).min(0),
