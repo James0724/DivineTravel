@@ -113,7 +113,7 @@ export default async function HomePage() {
       <BestSellers />
 
       {/* 08 · Migration calendar */}
-      <MigrationCalendar />
+      {/* <MigrationCalendar /> */}
 
       {/* 09 · Photo marquee strip */}
       <PhotoMarquee />

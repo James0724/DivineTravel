@@ -155,8 +155,8 @@ const TOUR_LINKS: ColumnLink[] = [
   { key: "tanzania", href: "/safaris/tanzania" },
   { key: "crossCountry", href: "/safaris/cross-country-safaris" },
   { key: "uganda", href: "/safaris/uganda" },
-  { key: "migration", href: "/safaris/great-migration" },
-  { key: "nairobi", href: "/safaris/nairobi-day-tours" },
+  { key: "migration", href: "/safari-types/great-migration" },
+  { key: "nairobi", href: "/safaris/kenya" },
   { key: "all", href: "/safaris" },
 ];
 
@@ -165,7 +165,7 @@ const DISCOVER_LINKS: ColumnLink[] = [
   { key: "honeymoon", href: "/safari-types/honeymoon" },
   { key: "photographic", href: "/safari-types/photographic" },
   { key: "luxuryLodges", href: "/accommodations/luxury-lodges" },
-  { key: "beachBush", href: "/safaris/beach-and-bush" },
+  { key: "beachBush", href: "/safari-types/beach-and-bush" },
   { key: "zanzibar", href: "/destinations/tanzania" },
 ];
 

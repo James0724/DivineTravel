@@ -14,41 +14,49 @@ import SectionFaq from "@/components/ui/SectionFaq";
 import type { Safari } from "@/types";
 import TitleHero from "@/components/ui/TitleHero";
 import ChooseGrid from "@/components/ui/ChooseGrid";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
-export const metadata: Metadata = {
-  title:
-    "Rwanda Safari Packages 2026/2027 — Gorilla Trekking, Nyungwe Chimps & Akagera Big Five",
-  description:
-    "Book Rwanda gorilla trekking tours 2026/2027 in Volcanoes National Park — 12 habituated families, $1,500 permits. Chimpanzee trekking in Nyungwe Forest, Big Five safaris in Akagera and canopy walkway. Expert-guided, luxury-focused Rwanda safari packages from Kigali.",
-  keywords:
-    "rwanda gorilla trekking 2026, volcanoes national park gorillas, nyungwe forest chimpanzee, akagera big five safari, rwanda safari packages 2027, rwanda wildlife tour, kigali safari, virunga volcanoes gorillas, rwanda luxury safari lodge, gorilla trekking africa, rwanda akagera game drive, nyungwe canopy walkway, rwanda gorilla permit",
-  alternates: { canonical: "/en/safaris/rwanda" },
-  openGraph: {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
     title:
-      "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
+      "Rwanda Safari Packages 2026/2027 — Gorilla Trekking, Nyungwe Chimps & Akagera Big Five",
     description:
-      "Rwanda gorilla trekking in Volcanoes NP, chimp trekking in Nyungwe Forest and Big Five safaris in Akagera — expert-guided, luxury-focused packages from Kigali.",
-    type: "website",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Mountain gorilla family in Volcanoes National Park Rwanda",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title:
-      "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
-    description:
-      "Rwanda gorilla trekking in Volcanoes NP, chimp trekking in Nyungwe Forest and Big Five safaris in Akagera — luxury packages from Kigali.",
-    images: [
-      "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-    ],
-  },
-};
+      "Book Rwanda gorilla trekking tours 2026/2027 in Volcanoes National Park — 12 habituated families, $1,500 permits. Chimpanzee trekking in Nyungwe Forest, Big Five safaris in Akagera and canopy walkway. Expert-guided, luxury-focused Rwanda safari packages from Kigali.",
+    keywords:
+      "rwanda gorilla trekking 2026, volcanoes national park gorillas, nyungwe forest chimpanzee, akagera big five safari, rwanda safari packages 2027, rwanda wildlife tour, kigali safari, virunga volcanoes gorillas, rwanda luxury safari lodge, gorilla trekking africa, rwanda akagera game drive, nyungwe canopy walkway, rwanda gorilla permit",
+    alternates: buildAlternates(locale, "/safaris/rwanda"),
+    openGraph: {
+      title:
+        "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
+      description:
+        "Rwanda gorilla trekking in Volcanoes NP, chimp trekking in Nyungwe Forest and Big Five safaris in Akagera — expert-guided, luxury-focused packages from Kigali.",
+      type: "website",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "Mountain gorilla family in Volcanoes National Park Rwanda",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title:
+        "Rwanda Safari 2026/2027 — Gorilla Trekking, Nyungwe & Akagera Big Five",
+      description:
+        "Rwanda gorilla trekking in Volcanoes NP, chimp trekking in Nyungwe Forest and Big Five safaris in Akagera — luxury packages from Kigali.",
+      images: [
+        "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+      ],
+    },
+  };
+}
 
 const trekSteps = [
   {

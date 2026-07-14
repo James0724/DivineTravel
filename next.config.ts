@@ -63,24 +63,33 @@ const nextConfig: NextConfig = {
       ["/family-friendly-safaris", "/en/safari-types/family"],
       [
         "/what-to-expect-on-a-3-days-masai-mara-safari",
-        "/en/journal/what-to-expect-on-a-3-days-masai-mara-safari",
+        "/en/african-travel-blog/what-to-expect-on-a-3-days-masai-mara-safari",
       ],
-      ["/is-7-days-too-long-for-a-safari", "/en/journal/is-7-days-too-long-for-safari"],
-      ["/great-wildebeest-migration-safari", "/en/journal/great-wildebeest-migration-safari"],
-      ["/big-five-safari-in-kenya", "/en/journal/big-five-safari-in-kenya"],
+      [
+        "/is-7-days-too-long-for-a-safari",
+        "/en/african-travel-blog/is-7-days-too-long-for-safari",
+      ],
+      [
+        "/great-wildebeest-migration-safari",
+        "/en/african-travel-blog/great-wildebeest-migration-safari",
+      ],
+      ["/big-five-safari-in-kenya", "/en/african-travel-blog/big-five-safari-in-kenya"],
       [
         "/how-many-days-is-enough-for-a-kenya-safari",
-        "/en/journal/how-many-days-is-enough-for-a-kenya-safari",
+        "/en/african-travel-blog/how-many-days-is-enough-for-a-kenya-safari",
       ],
       [
         "/best-time-to-visit-east-africa-for-safari",
-        "/en/journal/best-time-to-visit-east-africa-for-safari",
+        "/en/african-travel-blog/best-time-to-visit-east-africa-for-safari",
       ],
       [
         "/family-friendly-safari-packages-in-kenya",
-        "/en/journal/family-friendly-safari-packages-in-kenya",
+        "/en/african-travel-blog/family-friendly-safari-packages-in-kenya",
       ],
-      ["/masai-mara-vs-serengeti-vs-amboseli", "/en/journal/masai-mara-vs-serengeti"],
+      [
+        "/masai-mara-vs-serengeti-vs-amboseli",
+        "/en/african-travel-blog/masai-mara-vs-serengeti",
+      ],
     ];
 
     return [
@@ -97,8 +106,17 @@ const nextConfig: NextConfig = {
         { source, destination, permanent: true },
         { source: `${source}/`, destination, permanent: true },
       ]),
-      // WordPress tag archives have no equivalent — send to the journal index
-      { source: "/tag/:tag*", destination: "/en/journal", permanent: true },
+      // WordPress tag archives have no equivalent — send to the blog index
+      { source: "/tag/:tag*", destination: "/en/african-travel-blog", permanent: true },
+      // /journal was a duplicate of /african-travel-blog (same Post data under
+      // a different URL) — redirect any indexed/bookmarked /journal URLs to
+      // the one canonical blog path.
+      { source: "/:locale/journal", destination: "/:locale/african-travel-blog", permanent: true },
+      {
+        source: "/:locale/journal/:slug",
+        destination: "/:locale/african-travel-blog/:slug",
+        permanent: true,
+      },
     ];
   },
   async headers() {

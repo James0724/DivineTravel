@@ -49,15 +49,15 @@ export const AnimatedHeading: React.FC<AnimatedHeadingProps> = ({
             charStyle={{ fontStyle: "italic", color: highlightColor }}
           />
         )}
-      </span>
 
-      {textAfter && (
-        <LettersPullUp
-          text={textAfter}
-          initialDelay={textAfterDelay}
-          charDelay={charDelay}
-        />
-      )}
+        {textAfter && (
+          <LettersPullUp
+            text={textAfter}
+            initialDelay={textAfterDelay}
+            charDelay={charDelay}
+          />
+        )}
+      </span>
     </Component>
   );
 };

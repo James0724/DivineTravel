@@ -23,7 +23,7 @@ export default function PkgCard({ safari, index = 0 }: PkgCardProps) {
 
   const displayParks = safari.location.parks?.length ? safari.location.parks : safari.location.park ? [safari.location.park] : []
   const displayRegions = safari.location.regions?.length ? safari.location.regions : safari.location.region ? [safari.location.region] : []
-  const locationTags = [...displayParks, ...displayRegions].filter(Boolean)
+  const locationTags = Array.from(new Set([...displayParks, ...displayRegions].filter(Boolean)))
 
   return (
     <motion.div

@@ -8,39 +8,47 @@ import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
 import CountrySafariPage from "@/components/safaris/CountrySafariPage";
 import type { Safari } from "@/types";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
-export const metadata: Metadata = {
-  title:
-    "Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five Tours",
-  description:
-    "Book the best Kenya safari packages for 2026/2027. Masai Mara game drives, Amboseli elephant safaris, Big Five in Tsavo, Samburu rare species and Lake Nakuru flamingos — tailor-made by a Nairobi in-country team. Budget, mid-range and luxury.",
-  keywords:
-    "kenya safari packages 2026, masai mara safari tours, kenya safari tours 2027, best kenya safari, amboseli elephant safari, big five kenya safari, tsavo safari packages, samburu national reserve, kenya wildlife tour, affordable kenya safari, masai mara game drive, kenya luxury safari, nairobi national park day trip",
-  alternates: { canonical: "/en/safaris/kenya" },
-  openGraph: {
-    title: "Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title:
+      "Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five Tours",
     description:
-      "Best Kenya safari tours 2026/2027 — Masai Mara game drives, Amboseli, Tsavo Big Five & more. Tailor-made by a Nairobi-based team.",
-    type: "website",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Masai Mara Kenya Safari — lions on the savannah",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five",
-    description:
-      "Best Kenya safari tours 2026/2027 — Masai Mara game drives, Amboseli, Tsavo Big Five & more. Tailor-made by a Nairobi-based team.",
-    images: [
-      "https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-    ],
-  },
-};
+      "Book the best Kenya safari packages for 2026/2027. Masai Mara game drives, Amboseli elephant safaris, Big Five in Tsavo, Samburu rare species and Lake Nakuru flamingos — tailor-made by a Nairobi in-country team. Budget, mid-range and luxury.",
+    keywords:
+      "kenya safari packages 2026, masai mara safari tours, kenya safari tours 2027, best kenya safari, amboseli elephant safari, big five kenya safari, tsavo safari packages, samburu national reserve, kenya wildlife tour, affordable kenya safari, masai mara game drive, kenya luxury safari, nairobi national park day trip",
+    alternates: buildAlternates(locale, "/safaris/kenya"),
+    openGraph: {
+      title: "Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five",
+      description:
+        "Best Kenya safari tours 2026/2027 — Masai Mara game drives, Amboseli, Tsavo Big Five & more. Tailor-made by a Nairobi-based team.",
+      type: "website",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "Masai Mara Kenya Safari — lions on the savannah",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Kenya Safari Packages 2026/2027 — Masai Mara, Amboseli & Big Five",
+      description:
+        "Best Kenya safari tours 2026/2027 — Masai Mara game drives, Amboseli, Tsavo Big Five & more. Tailor-made by a Nairobi-based team.",
+      images: [
+        "https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+      ],
+    },
+  };
+}
 
 const faqs = [
   {

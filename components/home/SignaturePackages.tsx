@@ -120,8 +120,9 @@ export function PackageCard({
 
           {/* Parks */}
           <div className="flex flex-wrap gap-1.5 mb-5">
-            {[safari.location?.park, safari.location?.region]
-              .filter(Boolean)
+            {Array.from(
+              new Set([safari.location?.park, safari.location?.region].filter(Boolean)),
+            )
               .slice(0, 3)
               .map((p) => (
                 <span
@@ -205,7 +206,7 @@ export default function SignaturePackages({
 
   return (
     <section
-      className="py-20 sm:py-[120px] bg-bone-bg border-b"
+      className="pt-10 pb-20 sm:pb-[120px] sm:pt-[60px] bg-bone-bg border-b"
       style={{ borderColor: "rgba(23,22,18,0.12)" }}
     >
       <div className="container-site">
@@ -229,7 +230,7 @@ export default function SignaturePackages({
           </div>
 
           <Reveal variant="fadeUp">
-            <p className="text-sm leading-[1.7] text-bone-muted max-w-[54ch]">
+            <p className="hidden md:block text-sm leading-[1.7] text-bone-muted max-w-[54ch]">
               {t("description")}
             </p>
           </Reveal>

@@ -14,6 +14,7 @@ import CtaBand from "@/components/ui/CtaBand";
 import { getQueryClient } from "@/lib/queryClient";
 import { getPostsList, type PostListFilters } from "@/lib/data/posts";
 import { postKeys } from "@/lib/data/queryKeys";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
 function resolveAuthor(raw: PostAuthor | string | undefined) {
   if (!raw) return { _id: "", name: "", avatar: undefined, title: undefined };
@@ -24,48 +25,55 @@ function resolveAuthor(raw: PostAuthor | string | undefined) {
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "African Travel Blog — Safari Stories, Guides & Tips from East Africa",
-  description:
-    "Expert safari planning guides, wildlife field reports, destination deep-dives and insider tips from the team at Divine Travel Nest Safaris. Fuel your African adventure.",
-  keywords: [
-    "safari guides",
-    "safari tips",
-    "safari planning",
-    "wildlife photography",
-    "East Africa travel",
-    "safari blog",
-    "migration guide",
-    "safari stories",
-    "destination guides Kenya Tanzania Uganda",
-    "safari how-to",
-  ],
-  authors: [{ name: "Divine Travel Nest Safaris" }],
-  creator: "Divine Travel Nest Safaris",
-  alternates: { canonical: "/en/african-travel-blog" },
-  openGraph: {
-    title: "African Travel Blog | Divine Travel Nest Safaris",
-    description: "Expert guides and stories from East Africa.",
-    type: "website",
-    url: "/african-travel-blog",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "African Travel Blog — Divine Travel Nest Safaris",
-      },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "African Travel Blog — Safari Stories, Guides & Tips from East Africa",
+    description:
+      "Expert safari planning guides, wildlife field reports, destination deep-dives and insider tips from the team at Divine Travel Nest Safaris. Fuel your African adventure.",
+    keywords: [
+      "safari guides",
+      "safari tips",
+      "safari planning",
+      "wildlife photography",
+      "East Africa travel",
+      "safari blog",
+      "migration guide",
+      "safari stories",
+      "destination guides Kenya Tanzania Uganda",
+      "safari how-to",
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "African Travel Blog | Divine Travel Nest Safaris",
-    description: "Expert guides and stories from East Africa.",
-    images: [
-      "https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-    ],
-  },
-};
+    authors: [{ name: "Divine Travel Nest Safaris" }],
+    creator: "Divine Travel Nest Safaris",
+    alternates: buildAlternates(locale, "/african-travel-blog"),
+    openGraph: {
+      title: "African Travel Blog | Divine Travel Nest Safaris",
+      description: "Expert guides and stories from East Africa.",
+      type: "website",
+      url: "/african-travel-blog",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "African Travel Blog — Divine Travel Nest Safaris",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "African Travel Blog | Divine Travel Nest Safaris",
+      description: "Expert guides and stories from East Africa.",
+      images: [
+        "https://images.pexels.com/photos/12339600/pexels-photo-12339600.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+      ],
+    },
+  };
+}
 
 const CATEGORY_LABELS: Record<PostCategory, string> = {
   migration: "Migration",

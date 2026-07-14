@@ -28,12 +28,12 @@ export default function WhatsAppWidget() {
   return (
     <div
       // Right side, clear of ScrollToTop's bottom-left arrow
-      className="fixed right-4 bottom-6 z-[60] sm:right-5 hidden lg:block lg:right-6"
+      className="fixed right-3 bottom-4 z-[60] sm:right-4 sm:bottom-5 md:right-5 lg:right-6 lg:bottom-6"
       data-analytics-location="floating_whatsapp"
     >
       {/* Popup card */}
       <div
-        className={`absolute bottom-[calc(100%+0.75rem)] right-0 w-56 sm:w-64 origin-bottom-right transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        className={`absolute bottom-[calc(100%+0.75rem)] right-0 w-[calc(100vw-1.5rem)] max-w-56 sm:max-w-64 origin-bottom-right transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           open
             ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
             : "pointer-events-none translate-y-2 scale-95 opacity-0"
@@ -107,7 +107,7 @@ export default function WhatsAppWidget() {
           open ? "Close WhatsApp chat" : `Chat on WhatsApp: ${WHATSAPP_DISPLAY}`
         }
         className={`group relative flex items-center justify-center rounded-full transition-all duration-300 ease-out
-          h-12 w-12 sm:h-[3.25rem] sm:w-[3.25rem] lg:h-14 lg:w-14
+          h-11 w-11 sm:h-12 sm:w-12 md:h-[3.25rem] md:w-[3.25rem] lg:h-14 lg:w-14
           border border-bone-forest/30 bg-bone-forest/90
           shadow-[0_6px_28px_-4px_rgba(26,46,26,0.4),0_0_0_1px_rgba(26,46,26,0.1),inset_0_1px_0_rgba(255,255,255,0.15)]
           backdrop-blur-2xl backdrop-saturate-150
@@ -124,7 +124,7 @@ export default function WhatsAppWidget() {
               : "rotate-0 scale-100 opacity-100"
           }`}
         >
-          <WhatsAppIcon className="h-5 w-5 text-bone-paper drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)] sm:h-[1.375rem] sm:w-[1.375rem] lg:h-6 lg:w-6" />
+          <WhatsAppIcon className="h-[1.125rem] w-[1.125rem] text-bone-paper drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)] sm:h-5 sm:w-5 md:h-[1.375rem] md:w-[1.375rem] lg:h-6 lg:w-6" />
         </div>
         <div
           className={`absolute transition-all duration-300 ${
@@ -134,7 +134,7 @@ export default function WhatsAppWidget() {
           }`}
         >
           <X
-            className="h-5 w-5 text-bone-paper sm:h-[1.375rem] sm:w-[1.375rem] lg:h-6 lg:w-6"
+            className="h-[1.125rem] w-[1.125rem] text-bone-paper sm:h-5 sm:w-5 md:h-[1.375rem] md:w-[1.375rem] lg:h-6 lg:w-6"
             aria-hidden="true"
           />
         </div>

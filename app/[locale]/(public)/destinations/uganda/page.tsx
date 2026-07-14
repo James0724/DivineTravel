@@ -6,31 +6,39 @@ import DestinationPageTemplate, {
 } from "@/components/destinations/DestinationPageTemplate";
 import { getCountryParksForListing } from "@/lib/data/destinations";
 import type { Safari } from "@/types";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Uganda Wildlife Parks & Reserves — Complete Safari Guide",
-  description:
-    "Home to half the world's mountain gorillas, wild chimpanzees and tree-climbing lions — your complete guide to Uganda's national parks, primate habitats and safari experiences.",
-  keywords:
-    "uganda gorilla trekking, bwindi impenetrable forest, queen elizabeth national park, kibale, uganda safari",
-  alternates: { canonical: "/en/destinations/uganda" },
-  openGraph: {
-    title: "Uganda Wildlife Parks & Reserves | Divine Travel Nest Safaris",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Uganda Wildlife Parks & Reserves — Complete Safari Guide",
     description:
-      "A complete expert guide to Uganda's national parks and primate habitats.",
-    type: "website",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Uganda Gorilla Safari",
-      },
-    ],
-  },
-};
+      "Home to half the world's mountain gorillas, wild chimpanzees and tree-climbing lions — your complete guide to Uganda's national parks, primate habitats and safari experiences.",
+    keywords:
+      "uganda gorilla trekking, bwindi impenetrable forest, queen elizabeth national park, kibale, uganda safari",
+    alternates: buildAlternates(locale, "/destinations/uganda"),
+    openGraph: {
+      title: "Uganda Wildlife Parks & Reserves | Divine Travel Nest Safaris",
+      description:
+        "A complete expert guide to Uganda's national parks and primate habitats.",
+      type: "website",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/35889782/pexels-photo-35889782.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "Uganda Gorilla Safari",
+        },
+      ],
+    },
+  };
+}
 
 async function getUgandaPackages(): Promise<Safari[]> {
   try {

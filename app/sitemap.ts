@@ -4,7 +4,7 @@ import PostModel from "@/lib/db/models/Post";
 import SafariModel from "@/lib/db/models/Safari";
 import { SAFARI_TYPES } from "@/lib/data/safariTypes";
 import { ACCOMMODATION_TYPES } from "@/lib/data/accommodationTypes";
-import { SAFARI_VEHICLES, WILDLIFE_SPECIES, PLANNING_TOOLS } from "@/lib/data/sitemapDirectory";
+import { SAFARI_VEHICLES } from "@/lib/data/sitemapDirectory";
 import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
@@ -98,16 +98,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       )
   );
 
-  const wildlifeRoutes: MetadataRoute.Sitemap = WILDLIFE_SPECIES.flatMap((w) =>
-    localizedEntries(w.href, STATIC_LAST_MODIFIED, "monthly", 0.55)
-  );
-
   const vehicleRoutes: MetadataRoute.Sitemap = SAFARI_VEHICLES.flatMap((v) =>
     localizedEntries(v.href, STATIC_LAST_MODIFIED, "monthly", 0.5)
-  );
-
-  const toolRoutes: MetadataRoute.Sitemap = PLANNING_TOOLS.flatMap((t) =>
-    localizedEntries(t.href, STATIC_LAST_MODIFIED, "monthly", 0.5)
   );
 
   try {
@@ -143,9 +135,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...staticRoutes,
       ...safariTypeRoutes,
       ...accommodationTypeRoutes,
-      ...wildlifeRoutes,
       ...vehicleRoutes,
-      ...toolRoutes,
       ...journalRoutes,
       ...safariRoutes,
     ];
@@ -154,9 +144,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...staticRoutes,
       ...safariTypeRoutes,
       ...accommodationTypeRoutes,
-      ...wildlifeRoutes,
       ...vehicleRoutes,
-      ...toolRoutes,
     ];
   }
 }

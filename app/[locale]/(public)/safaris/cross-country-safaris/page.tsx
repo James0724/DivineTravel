@@ -11,30 +11,38 @@ import ChooseGrid from "@/components/ui/ChooseGrid";
 import SectionFaq from "@/components/ui/SectionFaq";
 import CtaBand from "@/components/ui/CtaBand";
 import type { Safari } from "@/types";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
-export const metadata: Metadata = {
-  title:
-    "Cross-Country Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda Circuits",
-  description:
-    "Multi-country East Africa safari packages combining Kenya, Tanzania, Uganda and Rwanda in one seamless circuit. Great Wildebeest Migration, Big Five game drives, Bwindi gorilla trekking, Serengeti and Masai Mara — all tailor-made in one trip. 2026/2027.",
-  keywords:
-    "cross-country safari east africa, kenya tanzania safari circuit, multi-country safari packages, kenya tanzania uganda safari, great migration gorilla trekking, east africa safari itinerary, masai mara serengeti safari, kenya uganda gorilla circuit, multi-destination east africa tour, kenya rwanda safari, 10 day east africa safari, 14 day safari east africa",
-  alternates: { canonical: "/en/safaris/cross-country" },
-  openGraph: {
-    title: "Cross-Country Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title:
+      "Cross-Country Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda Circuits",
     description:
-      "Multi-country East Africa safari circuits — Great Migration, Serengeti, Masai Mara and Bwindi gorilla trekking in one seamless tailor-made trip.",
-    type: "website",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/6056088/pexels-photo-6056088.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Wildebeest Great Migration crossing — East Africa cross-country safari",
-      },
-    ],
-  },
-};
+      "Multi-country East Africa safari packages combining Kenya, Tanzania, Uganda and Rwanda in one seamless circuit. Great Wildebeest Migration, Big Five game drives, Bwindi gorilla trekking, Serengeti and Masai Mara — all tailor-made in one trip. 2026/2027.",
+    keywords:
+      "cross-country safari east africa, kenya tanzania safari circuit, multi-country safari packages, kenya tanzania uganda safari, great migration gorilla trekking, east africa safari itinerary, masai mara serengeti safari, kenya uganda gorilla circuit, multi-destination east africa tour, kenya rwanda safari, 10 day east africa safari, 14 day safari east africa",
+    alternates: buildAlternates(locale, "/safaris/cross-country-safaris"),
+    openGraph: {
+      title: "Cross-Country Safari Packages 2026/2027 — Kenya, Tanzania, Uganda & Rwanda",
+      description:
+        "Multi-country East Africa safari circuits — Great Migration, Serengeti, Masai Mara and Bwindi gorilla trekking in one seamless tailor-made trip.",
+      type: "website",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/6056088/pexels-photo-6056088.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "Wildebeest Great Migration crossing — East Africa cross-country safari",
+        },
+      ],
+    },
+  };
+}
 
 const whyCircuit = [
   {

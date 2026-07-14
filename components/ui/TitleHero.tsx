@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { LettersPullUp } from "@/components/ui/LettersPullUp";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { cn } from "@/lib/utils";
 
 interface TitleHeroProps {
@@ -73,14 +74,13 @@ export default function TitleHero({
         <>
           {backgroundImage && (
             <>
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-no-repeat"
-                style={{
-                  backgroundImage: `url('${backgroundImage}')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
+              <OptimizedImage
+                src={backgroundImage}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-center"
               />
               {/* Center scrim — keeps title/eyebrow text readable over the pattern */}
               <div

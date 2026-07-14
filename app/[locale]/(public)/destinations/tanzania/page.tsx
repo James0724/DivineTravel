@@ -6,31 +6,39 @@ import DestinationPageTemplate, {
 } from "@/components/destinations/DestinationPageTemplate";
 import { getCountryParksForListing } from "@/lib/data/destinations";
 import type { Safari } from "@/types";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Tanzania Wildlife Parks & Reserves — Complete Safari Guide",
-  description:
-    "From the endless Serengeti plains to the Ngorongoro Crater, Tarangire and the pristine southern parks — your complete expert guide to Tanzania's national parks and game reserves.",
-  keywords:
-    "tanzania national parks, serengeti, ngorongoro crater, tarangire, tanzania safari, big five tanzania",
-  alternates: { canonical: "/en/destinations/tanzania" },
-  openGraph: {
-    title: "Tanzania Wildlife Parks & Reserves | Divine Travel Nest Safaris",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Tanzania Wildlife Parks & Reserves — Complete Safari Guide",
     description:
-      "A complete expert guide to Tanzania's national parks and reserves.",
-    type: "website",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Tanzania Safari",
-      },
-    ],
-  },
-};
+      "From the endless Serengeti plains to the Ngorongoro Crater, Tarangire and the pristine southern parks — your complete expert guide to Tanzania's national parks and game reserves.",
+    keywords:
+      "tanzania national parks, serengeti, ngorongoro crater, tarangire, tanzania safari, big five tanzania",
+    alternates: buildAlternates(locale, "/destinations/tanzania"),
+    openGraph: {
+      title: "Tanzania Wildlife Parks & Reserves | Divine Travel Nest Safaris",
+      description:
+        "A complete expert guide to Tanzania's national parks and reserves.",
+      type: "website",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "Tanzania Safari",
+        },
+      ],
+    },
+  };
+}
 
 async function getTanzaniaPackages(): Promise<Safari[]> {
   try {

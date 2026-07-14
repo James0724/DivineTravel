@@ -224,7 +224,6 @@ export default function Hero() {
             variant="transparent"
             eyebrow={t("eyebrow")}
             title="East Africa Safari"
-            accent={"(KE/TZ/UG/RW)"}
             description={t("description")}
           />
         </div>

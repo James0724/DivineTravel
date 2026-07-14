@@ -23,6 +23,12 @@ function isCloudinary(src: string): boolean {
   return src.includes('res.cloudinary.com') && src.includes('/upload/')
 }
 
+// Next's built-in optimizer refuses to raster-process .svg sources unless
+// `dangerouslyAllowSVG` is set (it isn't, for security) — serve these directly.
+function isSvg(src: string): boolean {
+  return src.split('?')[0].toLowerCase().endsWith('.svg')
+}
+
 // Neutral warm-grey fill — matches the site's --bg-soft tone
 const SHIMMER_DATA_URL =
   "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23e8e2d9'/%3E%3C/svg%3E"
@@ -68,6 +74,7 @@ export default function OptimizedImage({
 }: OptimizedImageProps) {
   const [errored, setErrored] = useState(false)
   const cloudinary = isCloudinary(src)
+  const svg = isSvg(src)
 
   const resolvedSrc = cloudinary
     ? cloudinaryUrl(
@@ -112,12 +119,12 @@ export default function OptimizedImage({
       priority={priority}
       loading={priority ? undefined : 'lazy'}
       quality={cloudinary ? undefined : 80}
-      unoptimized={cloudinary}
+      unoptimized={cloudinary || svg}
       sizes={defaultSizes}
       className={className}
       style={style}
       onError={() => setErrored(true)}
-      {...(shimmer
+      {...(shimmer && !svg
         ? ({ placeholder: 'blur', blurDataURL: blurSrc ?? SHIMMER_DATA_URL } as Partial<ImageProps>)
         : {})}
       {...rest}

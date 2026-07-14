@@ -6,31 +6,39 @@ import DestinationPageTemplate, {
 } from "@/components/destinations/DestinationPageTemplate";
 import { getCountryParksForListing } from "@/lib/data/destinations";
 import type { Safari } from "@/types";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Kenya Wildlife Parks & Reserves — Complete Safari Guide",
-  description:
-    "From the legendary Masai Mara to the elephant kingdom of Amboseli — your complete field guide to Kenya's national parks and reserves. Where to go, what to see, and when.",
-  keywords:
-    "kenya national parks, masai mara, amboseli, tsavo, kenya safari, big five kenya, kenya wildlife parks",
-  alternates: { canonical: "/en/destinations/kenya" },
-  openGraph: {
-    title: "Kenya Wildlife Parks & Reserves | Divine Travel Nest Safaris",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Kenya Wildlife Parks & Reserves — Complete Safari Guide",
     description:
-      "A complete expert guide to Kenya's national parks and reserves.",
-    type: "website",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Kenya Safari",
-      },
-    ],
-  },
-};
+      "From the legendary Masai Mara to the elephant kingdom of Amboseli — your complete field guide to Kenya's national parks and reserves. Where to go, what to see, and when.",
+    keywords:
+      "kenya national parks, masai mara, amboseli, tsavo, kenya safari, big five kenya, kenya wildlife parks",
+    alternates: buildAlternates(locale, "/destinations/kenya"),
+    openGraph: {
+      title: "Kenya Wildlife Parks & Reserves | Divine Travel Nest Safaris",
+      description:
+        "A complete expert guide to Kenya's national parks and reserves.",
+      type: "website",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/33498304/pexels-photo-33498304.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "Kenya Safari",
+        },
+      ],
+    },
+  };
+}
 
 async function getKenyaPackages(): Promise<Safari[]> {
   try {

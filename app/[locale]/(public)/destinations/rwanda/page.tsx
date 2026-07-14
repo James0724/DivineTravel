@@ -6,31 +6,39 @@ import DestinationPageTemplate, {
 } from "@/components/destinations/DestinationPageTemplate";
 import { getCountryParksForListing } from "@/lib/data/destinations";
 import type { Safari } from "@/types";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Rwanda Wildlife Parks & Reserves — Complete Safari Guide",
-  description:
-    "Your complete guide to Rwanda safari destinations — gorilla trekking in Volcanoes National Park, chimpanzees in Nyungwe Forest and the Big Five in Akagera National Park.",
-  keywords:
-    "rwanda gorilla trekking, volcanoes national park, nyungwe forest, akagera national park, rwanda safari guide",
-  alternates: { canonical: "/en/destinations/rwanda" },
-  openGraph: {
-    title: "Rwanda Wildlife Parks & Reserves | Divine Travel Nest Safaris",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Rwanda Wildlife Parks & Reserves — Complete Safari Guide",
     description:
-      "A complete expert guide to Rwanda's national parks — gorillas, chimps and the Big Five.",
-    type: "website",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Mountain gorilla in Volcanoes National Park Rwanda",
-      },
-    ],
-  },
-};
+      "Your complete guide to Rwanda safari destinations — gorilla trekking in Volcanoes National Park, chimpanzees in Nyungwe Forest and the Big Five in Akagera National Park.",
+    keywords:
+      "rwanda gorilla trekking, volcanoes national park, nyungwe forest, akagera national park, rwanda safari guide",
+    alternates: buildAlternates(locale, "/destinations/rwanda"),
+    openGraph: {
+      title: "Rwanda Wildlife Parks & Reserves | Divine Travel Nest Safaris",
+      description:
+        "A complete expert guide to Rwanda's national parks — gorillas, chimps and the Big Five.",
+      type: "website",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/34303083/pexels-photo-34303083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "Mountain gorilla in Volcanoes National Park Rwanda",
+        },
+      ],
+    },
+  };
+}
 
 async function getRwandaPackages(): Promise<Safari[]> {
   try {

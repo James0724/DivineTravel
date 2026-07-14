@@ -10,6 +10,7 @@ import {
 } from "@/components/seo/StructuredData";
 import type { Safari } from "@/types";
 import { routing } from "@/i18n/routing";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
 export const revalidate = 300;
 
@@ -22,16 +23,16 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ type: string }>;
+  params: Promise<{ locale: string; type: string }>;
 }): Promise<Metadata> {
-  const { type } = await params;
+  const { locale, type } = await params;
   const config = getSafariType(type);
   if (!config) return {};
 
   return {
     title: `${config.label} Packages — East Africa | Divine Travel Nest Safaris`,
     description: config.heroDescription,
-    alternates: { canonical: `/en/safari-types/${config.slug}` },
+    alternates: buildAlternates(locale, `/safari-types/${config.slug}`),
     openGraph: {
       title: `${config.label} Packages | Divine Travel Nest Safaris`,
       description: config.heroDescription,

@@ -8,41 +8,49 @@ import connectDB from "@/lib/db/mongoose";
 import SafariModel from "@/lib/db/models/Safari";
 import CountrySafariPage from "@/components/safaris/CountrySafariPage";
 import type { Safari } from "@/types";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
-export const metadata: Metadata = {
-  title:
-    "Tanzania Safari Packages 2026/2027 — Serengeti Great Migration, Ngorongoro & Zanzibar",
-  description:
-    "Book the best Tanzania safari packages for 2026/2027. Serengeti Great Wildebeest Migration tours, Ngorongoro Crater game drives, Tarangire elephant safaris, Ruaha wilderness and optional Zanzibar beach extension — tailor-made by an in-country team. Budget to luxury.",
-  keywords:
-    "tanzania safari packages 2026, serengeti safari tours, great migration safari tanzania, ngorongoro crater game drive, tarangire elephant safari, ruaha national park, zanzibar beach holiday, tanzania safari tours 2027, best tanzania safari, tanzania wildlife tour, serengeti wildebeest migration, kilimanjaro safari, fly-in safari tanzania, tanzania luxury safari",
-  alternates: { canonical: "/en/safaris/tanzania" },
-  openGraph: {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return {
     title:
-      "Tanzania Safari Packages 2026/2027 — Serengeti, Ngorongoro & Great Migration",
+      "Tanzania Safari Packages 2026/2027 — Serengeti Great Migration, Ngorongoro & Zanzibar",
     description:
-      "Best Tanzania safari tours 2026/2027 — Serengeti Great Migration, Ngorongoro Crater, Tarangire & Zanzibar. Tailor-made by an in-country team.",
-    type: "website",
-    images: [
-      {
-        url: "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-        width: 1200,
-        height: 630,
-        alt: "Wildebeest crossing in the Serengeti Tanzania — Great Migration",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title:
-      "Tanzania Safari Packages 2026/2027 — Serengeti, Ngorongoro & Great Migration",
-    description:
-      "Best Tanzania safari tours 2026/2027 — Serengeti Great Migration, Ngorongoro Crater, Tarangire & Zanzibar. Tailor-made by an in-country team.",
-    images: [
-      "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
-    ],
-  },
-};
+      "Book the best Tanzania safari packages for 2026/2027. Serengeti Great Wildebeest Migration tours, Ngorongoro Crater game drives, Tarangire elephant safaris, Ruaha wilderness and optional Zanzibar beach extension — tailor-made by an in-country team. Budget to luxury.",
+    keywords:
+      "tanzania safari packages 2026, serengeti safari tours, great migration safari tanzania, ngorongoro crater game drive, tarangire elephant safari, ruaha national park, zanzibar beach holiday, tanzania safari tours 2027, best tanzania safari, tanzania wildlife tour, serengeti wildebeest migration, kilimanjaro safari, fly-in safari tanzania, tanzania luxury safari",
+    alternates: buildAlternates(locale, "/safaris/tanzania"),
+    openGraph: {
+      title:
+        "Tanzania Safari Packages 2026/2027 — Serengeti, Ngorongoro & Great Migration",
+      description:
+        "Best Tanzania safari tours 2026/2027 — Serengeti Great Migration, Ngorongoro Crater, Tarangire & Zanzibar. Tailor-made by an in-country team.",
+      type: "website",
+      images: [
+        {
+          url: "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+          width: 1200,
+          height: 630,
+          alt: "Wildebeest crossing in the Serengeti Tanzania — Great Migration",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title:
+        "Tanzania Safari Packages 2026/2027 — Serengeti, Ngorongoro & Great Migration",
+      description:
+        "Best Tanzania safari tours 2026/2027 — Serengeti Great Migration, Ngorongoro Crater, Tarangire & Zanzibar. Tailor-made by an in-country team.",
+      images: [
+        "https://images.pexels.com/photos/33650573/pexels-photo-33650573.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80",
+      ],
+    },
+  };
+}
 
 const faqs = [
   {

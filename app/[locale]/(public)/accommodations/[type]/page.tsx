@@ -18,6 +18,7 @@ import type { Accommodation } from "@/types";
 import { routing } from "@/i18n/routing";
 import ComingSoonPage from "@/components/ui/ComingSoonPage";
 import { ACCOMMODATION_COMING_SOON_SLUGS } from "@/lib/data/sitemapDirectory";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
 export const revalidate = 300;
 
@@ -48,7 +49,7 @@ export async function generateMetadata({
   return {
     title: t("typePage.meta.titleTemplate", { label: content.label }),
     description: content.heroDescription,
-    alternates: { canonical: `/en/accommodations/${entry.slug}` },
+    alternates: buildAlternates(locale, `/accommodations/${entry.slug}`),
     openGraph: {
       title: t("typePage.meta.ogTitleTemplate", { label: content.label }),
       description: content.heroDescription,

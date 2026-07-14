@@ -86,7 +86,11 @@ function ItineraryDayBlock({ day }: { day: Safari["itinerary"][number] }) {
 
 // Sibling to ItineraryDayBlock for `tripLength: "short"` safaris — a stop
 // has no day number, just an order and a free-text duration label.
-function ItineraryStopBlock({ stop }: { stop: Safari["itineraryStops"][number] }) {
+function ItineraryStopBlock({
+  stop,
+}: {
+  stop: Safari["itineraryStops"][number];
+}) {
   return (
     <div className="py-9 border-t border-[var(--line)] [&:last-child]:border-b grid grid-cols-1 xs:grid-cols-[56px_1fr] md:grid-cols-[120px_1fr] gap-2 xs:gap-[18px] md:gap-9">
       <div>
@@ -278,18 +282,26 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
     // Use budget tier flat rate for short safaris
     const budgetRows = safari.pricing?.budget?.rows;
     const row = budgetRows?.[0];
-    const hasData = row && (row.per1 > 0 || row.per2 > 0 || row.per3 > 0 || row.per4 > 0 || row.per5 > 0 || row.per6 > 0);
+    const hasData =
+      row &&
+      (row.per1 > 0 ||
+        row.per2 > 0 ||
+        row.per3 > 0 ||
+        row.per4 > 0 ||
+        row.per5 > 0 ||
+        row.per6 > 0);
     if (!hasData) return null;
 
     return (
       <Reveal delay={0.1}>
-        <div className="mt-16 pt-14 border-t border-[var(--line)]">
+        <div className="mt-16 pt-14">
           <Eyebrow>Pricing guide</Eyebrow>
           <h2 className="font-serif font-normal text-[clamp(26px,3.2vw,44px)] leading-[1.05] tracking-[-0.02em] mt-3.5 mb-2">
             Group <em className="italic text-[var(--clay)]">rates</em>.
           </h2>
           <p className="text-[13px] leading-[1.65] text-[var(--muted)] mb-8 max-w-[52ch]">
-            Prices per person in USD — the more people in your group, the less each person pays.
+            Prices per person in USD — the more people in your group, the less
+            each person pays.
           </p>
           <div className="overflow-x-auto border border-[var(--line)]">
             <table className="w-full text-[13px]">
@@ -299,7 +311,10 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
                     Group size
                   </th>
                   {PAX.map((p) => (
-                    <th key={p.key} className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]">
+                    <th
+                      key={p.key}
+                      className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]"
+                    >
                       {p.label}
                     </th>
                   ))}
@@ -308,12 +323,16 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
               <tbody>
                 <tr className="bg-[var(--bg)]">
                   <td className="px-5 py-4 border-r border-[var(--line)]">
-                    <span className="font-serif italic text-[var(--clay)] text-[16px]">Per person</span>
+                    <span className="font-serif italic text-[var(--clay)] text-[16px]">
+                      Per person
+                    </span>
                   </td>
                   {PAX.map((p) => (
                     <td key={p.key} className="text-center px-3 py-4">
                       {row![p.key] > 0 ? (
-                        <span className="font-serif text-[15px] text-[var(--ink)]"><Price amountUsd={row![p.key]} /></span>
+                        <span className="font-serif text-[15px] text-[var(--ink)]">
+                          <Price amountUsd={row![p.key]} />
+                        </span>
                       ) : (
                         <span className="text-[var(--muted)] text-xs">—</span>
                       )}
@@ -324,7 +343,8 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
             </table>
           </div>
           <p className="text-[11px] text-[var(--muted)] mt-3 font-mono tracking-[0.06em]">
-            * USD per person · fixed rate year-round · contact us for a tailored quote
+            * USD per person · fixed rate year-round · contact us for a tailored
+            quote
           </p>
         </div>
       </Reveal>
@@ -334,13 +354,19 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
   // Multi-day: mid-range seasonal table
   const rows = safari.pricing?.midRange?.rows;
   const hasData = rows?.some(
-    (r) => r.per1 > 0 || r.per2 > 0 || r.per3 > 0 || r.per4 > 0 || r.per5 > 0 || r.per6 > 0
+    (r) =>
+      r.per1 > 0 ||
+      r.per2 > 0 ||
+      r.per3 > 0 ||
+      r.per4 > 0 ||
+      r.per5 > 0 ||
+      r.per6 > 0,
   );
   if (!hasData) return null;
 
   return (
     <Reveal delay={0.1}>
-      <div className="mt-16 pt-14 border-t border-[var(--line)]">
+      <div className="mt-16 pt-14 ">
         <Eyebrow>Pricing guide</Eyebrow>
         <h2 className="font-serif font-normal text-[clamp(26px,3.2vw,44px)] leading-[1.05] tracking-[-0.02em] mt-3.5 mb-2">
           Mid-range <em className="italic text-[var(--clay)]">rates</em>.
@@ -358,7 +384,10 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
                   Season
                 </th>
                 {PAX.map((p) => (
-                  <th key={p.key} className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]">
+                  <th
+                    key={p.key}
+                    className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]"
+                  >
                     {p.label}
                   </th>
                 ))}
@@ -366,7 +395,10 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
             </thead>
             <tbody>
               {rows!.map((row, i) => (
-                <tr key={i} className={`border-b border-[var(--line)] last:border-b-0 ${i % 2 === 0 ? "bg-[var(--bg)]" : "bg-[var(--paper)]"}`}>
+                <tr
+                  key={i}
+                  className={`border-b border-[var(--line)] last:border-b-0 ${i % 2 === 0 ? "bg-[var(--bg)]" : "bg-[var(--paper)]"}`}
+                >
                   <td className="px-5 py-4 border-r border-[var(--line)]">
                     <span className="font-serif italic text-[var(--clay)] text-[16px] leading-none block mb-1">
                       {row.seasonLabel}
@@ -380,7 +412,9 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
                   {PAX.map((p) => (
                     <td key={p.key} className="text-center px-3 py-4">
                       {row[p.key] > 0 ? (
-                        <span className="font-serif text-[15px] text-[var(--ink)]"><Price amountUsd={row[p.key]} /></span>
+                        <span className="font-serif text-[15px] text-[var(--ink)]">
+                          <Price amountUsd={row[p.key]} />
+                        </span>
                       ) : (
                         <span className="text-[var(--muted)] text-xs">—</span>
                       )}
@@ -393,7 +427,8 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
         </div>
 
         <p className="text-[11px] text-[var(--muted)] mt-3 font-mono tracking-[0.06em]">
-          * USD per person · mid-range tier · prices may vary by season and availability
+          * USD per person · mid-range tier · prices may vary by season and
+          availability
         </p>
       </div>
     </Reveal>
@@ -404,7 +439,9 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
 function tierFromPrice(tier: Safari["pricing"]["budget"]): number {
   if (!tier) return 0;
   if (tier.rows?.length) {
-    const vals = tier.rows.map((r) => r.per6).filter((p): p is number => typeof p === "number" && p > 0);
+    const vals = tier.rows
+      .map((r) => r.per6)
+      .filter((p): p is number => typeof p === "number" && p > 0);
     return vals.length ? Math.min(...vals) : 0;
   }
   return tier.pricePerPerson ?? 0;
@@ -521,7 +558,8 @@ export default async function SafariDetailPage({ params }: Props) {
       label: "Duration",
       value:
         safari.tripLength === "short"
-          ? safari.durationLabel || `${safari.duration} hr${safari.duration !== 1 ? "s" : ""}`
+          ? safari.durationLabel ||
+            `${safari.duration} hr${safari.duration !== 1 ? "s" : ""}`
           : `${safari.duration} Days · ${nights} Nights`,
     },
     { label: "Country", value: countries.join(", ") },
@@ -613,7 +651,8 @@ export default async function SafariDetailPage({ params }: Props) {
                   <h2 className="font-serif font-normal text-[clamp(30px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-3.5">
                     {safari.tripLength === "short" ? (
                       <em className="italic text-[var(--clay)]">
-                        {safari.durationLabel || `${safari.duration} hr${safari.duration !== 1 ? "s" : ""}`}
+                        {safari.durationLabel ||
+                          `${safari.duration} hr${safari.duration !== 1 ? "s" : ""}`}
                       </em>
                     ) : (
                       <>
@@ -644,8 +683,8 @@ export default async function SafariDetailPage({ params }: Props) {
                   </Stagger>
                 ) : (
                   <p className="text-sm text-[var(--muted)] pt-5">
-                    Detailed stop-by-stop plan available on request — contact
-                    us to get your personalised itinerary.
+                    Detailed stop-by-stop plan available on request — contact us
+                    to get your personalised itinerary.
                   </p>
                 )
               ) : safari.itinerary?.length > 0 ? (
@@ -767,80 +806,85 @@ export default async function SafariDetailPage({ params }: Props) {
       {/* ════════════════════════════════════════════════════════════════════
           LODGES — three pricing tiers (multi-day only)
       ════════════════════════════════════════════════════════════════════ */}
-      {safari.tripLength !== "short" && <section className="py-24 bg-[var(--paper)] border-t border-[var(--line)]">
-        <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
-          <Reveal>
-            <Eyebrow>Where you will stay</Eyebrow>
-            <h2 className="font-serif font-normal text-[clamp(36px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-[14px] mb-[14px]">
-              Handpicked lodges,{" "}
-              <em className="italic text-[var(--clay)]">three</em> tiers.
-            </h2>
-            <p className="text-sm leading-[1.65] text-[var(--muted)] mb-12 max-w-[56ch]">
-              Whether you prefer a budget tented camp, a mid-range lodge, or a
-              luxury safari camp inside the reserve — we work with vetted
-              partners across the full range.
-            </p>
-          </Reveal>
+      {safari.tripLength !== "short" && (
+        <section className="py-24 bg-[var(--paper)] border-t border-[var(--line)]">
+          <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
+            <Reveal>
+              <Eyebrow>Where you will stay</Eyebrow>
+              <h2 className="font-serif font-normal text-[clamp(36px,4.4vw,60px)] leading-[1.02] tracking-[-0.02em] mt-[14px] mb-[14px]">
+                Handpicked lodges,{" "}
+                <em className="italic text-[var(--clay)]">three</em> tiers.
+              </h2>
+              <p className="text-sm leading-[1.65] text-[var(--muted)] mb-12 max-w-[56ch]">
+                Whether you prefer a budget tented camp, a mid-range lodge, or a
+                luxury safari camp inside the reserve — we work with vetted
+                partners across the full range.
+              </p>
+            </Reveal>
 
-          <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-7">
-            {(
-              [
-                { tier: "budget", label: "Budget", em: "options" },
-                { tier: "midRange", label: "Mid-range", em: "options" },
-                { tier: "luxury", label: "Luxury", em: "options" },
-              ] as const
-            ).map(({ tier, label, em }) => {
-              const t = safari.pricing?.[tier];
-              if (!t) return null;
-              const from = tierFromPrice(t);
-              return (
-                <RevealItem
-                  key={tier}
-                  className="p-7 bg-[var(--bg)] border border-[var(--line)]"
-                >
-                  <h3 className="font-serif text-[26px] mb-1.5">
-                    {label} <em className="italic text-[var(--clay)]">{em}</em>
-                  </h3>
-                  {t.accommodationType && (
-                    <p className="text-[13px] text-[var(--muted)] mb-2">{t.accommodationType}</p>
-                  )}
-                  {from > 0 && (
-                    <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)] mb-[18px]">
-                      From <Price amountUsd={from} /> / person · 6 pax
-                    </div>
-                  )}
+            <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-7">
+              {(
+                [
+                  { tier: "budget", label: "Budget", em: "options" },
+                  { tier: "midRange", label: "Mid-range", em: "options" },
+                  { tier: "luxury", label: "Luxury", em: "options" },
+                ] as const
+              ).map(({ tier, label, em }) => {
+                const t = safari.pricing?.[tier];
+                if (!t) return null;
+                const from = tierFromPrice(t);
+                return (
+                  <RevealItem
+                    key={tier}
+                    className="p-7 bg-[var(--bg)] border border-[var(--line)]"
+                  >
+                    <h3 className="font-serif text-[26px] mb-1.5">
+                      {label}{" "}
+                      <em className="italic text-[var(--clay)]">{em}</em>
+                    </h3>
+                    {t.accommodationType && (
+                      <p className="text-[13px] text-[var(--muted)] mb-2">
+                        {t.accommodationType}
+                      </p>
+                    )}
+                    {from > 0 && (
+                      <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-[var(--muted)] mb-[18px]">
+                        From <Price amountUsd={from} /> / person · 6 pax
+                      </div>
+                    )}
 
-                  {t.hotels && t.hotels.length > 0 ? (
-                    <ul className="list-none p-0 m-0">
-                      {t.hotels.map((hotel, i) => (
-                        <li
-                          key={i}
-                          className={`flex justify-between items-baseline text-[14px] ${
-                            i === 0
-                              ? "pb-3"
-                              : "py-3 border-t border-[var(--line)]"
-                          }`}
-                        >
-                          <span className="text-[var(--ink)]">
-                            {hotel.name}
-                          </span>
-                          <span className="text-[var(--clay)] text-[12px] shrink-0 ml-3 tracking-[0.04em]">
-                            {"★".repeat(hotel.rating)}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : t.description ? (
-                    <p className="text-[13px] leading-relaxed text-[var(--muted)] mt-1">
-                      {t.description}
-                    </p>
-                  ) : null}
-                </RevealItem>
-              );
-            })}
-          </Stagger>
-        </div>
-      </section>}
+                    {t.hotels && t.hotels.length > 0 ? (
+                      <ul className="list-none p-0 m-0">
+                        {t.hotels.map((hotel, i) => (
+                          <li
+                            key={i}
+                            className={`flex justify-between items-baseline text-[14px] ${
+                              i === 0
+                                ? "pb-3"
+                                : "py-3 border-t border-[var(--line)]"
+                            }`}
+                          >
+                            <span className="text-[var(--ink)]">
+                              {hotel.name}
+                            </span>
+                            <span className="text-[var(--clay)] text-[12px] shrink-0 ml-3 tracking-[0.04em]">
+                              {"★".repeat(hotel.rating)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : t.description ? (
+                      <p className="text-[13px] leading-relaxed text-[var(--muted)] mt-1">
+                        {t.description}
+                      </p>
+                    ) : null}
+                  </RevealItem>
+                );
+              })}
+            </Stagger>
+          </div>
+        </section>
+      )}
 
       {/* ════════════════════════════════════════════════════════════════════
           HIGHLIGHTS — if available
@@ -884,7 +928,8 @@ export default async function SafariDetailPage({ params }: Props) {
           <div className="max-w-[1480px] mx-auto px-5 sm:px-8 md:px-12">
             <div
               className={`grid grid-cols-1 gap-12 lg:gap-16 ${
-                safari.bestTimeToVisit?.length > 0 && safari.whyChoose?.length > 0
+                safari.bestTimeToVisit?.length > 0 &&
+                safari.whyChoose?.length > 0
                   ? "lg:grid-cols-2"
                   : ""
               }`}
@@ -1013,7 +1058,10 @@ export default async function SafariDetailPage({ params }: Props) {
 
                 return (
                   <RevealItem key={r._id} className="flex flex-col">
-                    <Link href={`/safaris/${r.slug}`} className="flex flex-col h-full">
+                    <Link
+                      href={`/safaris/${r.slug}`}
+                      className="flex flex-col h-full"
+                    >
                       {/* Image */}
                       <div className="aspect-[4/3.4] overflow-hidden bg-[var(--bg-deep)] mb-5 relative">
                         <OptimizedImage
@@ -1065,11 +1113,20 @@ export default async function SafariDetailPage({ params }: Props) {
                             FROM
                           </span>
                           <b className="italic">
-                            <Price amountUsd={getLowestPrice(r.pricing, r.tripLength)} />
+                            <Price
+                              amountUsd={getLowestPrice(
+                                r.pricing,
+                                r.tripLength,
+                              )}
+                            />
                           </b>
                         </div>
                         <span className="font-mono text-[11px] text-[var(--muted)] tracking-[0.14em]">
-                          {formatDuration(r.duration, r.tripLength, r.durationLabel)}
+                          {formatDuration(
+                            r.duration,
+                            r.tripLength,
+                            r.durationLabel,
+                          )}
                         </span>
                       </div>
                     </Link>

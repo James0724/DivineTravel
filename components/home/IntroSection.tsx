@@ -31,12 +31,11 @@ export default function IntroSection() {
   const leftInView = useInView(leftRef, { once: true, margin: "-80px" });
 
   return (
-    <section className="py-16 sm:py-24 lg:py-[120px] bg-bone-bg">
+    <section className="pt-6 sm:pt-16 lg:pt-[120px] bg-bone-bg">
       <div className="container-site">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-24 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-5 sm:gap-10 lg:gap-24 items-start">
           {/* ── Left column ───────────────────────────────────────────── */}
           <div ref={leftRef}>
-            {/* Eyebrow*/}
             <Reveal variant="fadeUp">
               <div className="eyebrow mb-4">
                 <span className="dot" />
@@ -52,8 +51,8 @@ export default function IntroSection() {
               textAfter={t("headingAfter")}
             />
 
-            {/* Contact blocks — staggered slide-up */}
-            <div className="grid sm:grid-cols-1 2xl:grid-cols-2 gap-4 mt-8">
+            {/* Contact blocks — staggered slide-up (desktop only; kept off the mobile fold) */}
+            <div className=" lg:grid sm:grid-cols-1 2xl:grid-cols-2 gap-4 mt-8">
               {contacts.map((c, i) => (
                 <motion.div
                   key={c.label}
@@ -88,16 +87,16 @@ export default function IntroSection() {
             </div>
           </div>
 
-          {/* ── Right column ──────────────────────────────────────────── */}
-          <BlurReveal delay={0.15}>
+          {/* ── Right column (desktop only; kept off the mobile fold entirely) ── */}
+          <BlurReveal delay={0.15} className="hidden lg:block">
             <p
-              className="text-[16px] sm:text-[19px] leading-[1.6] text-bone-ink mb-6"
+              className="text-[19px] leading-[1.6] text-bone-ink mb-5"
               style={{ position: "relative" }}
             >
               {/* Drop cap W — springs in with a bounce */}
               <motion.span
                 className="font-serif float-left text-bone-clay leading-[0.85] pr-2.5 pt-1.5"
-                style={{ fontSize: "clamp(44px, 8vw, 64px)" }}
+                style={{ fontSize: "clamp(42px, 8vw, 62px)" }}
                 initial={{ opacity: 0, scale: 0.55, rotate: -8 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{
@@ -110,26 +109,17 @@ export default function IntroSection() {
               </motion.span>
               {t("paragraph1Rest")}
             </p>
-            <p className="text-[14px] sm:text-sm leading-[1.7] text-bone-muted mb-4">
-              {t("paragraph2")}
-            </p>
-            <p className="text-[14px] sm:text-sm leading-[1.7] text-bone-muted mb-8">
-              {t("paragraph3")}
-            </p>
 
-            {/* Mission quote — slides from left with left-border accent */}
-            <motion.blockquote
-              className="p-5 sm:p-7 bg-bone-paper border-l-[3px] font-serif italic text-[18px] sm:text-[22px] leading-[1.35] text-bone-forest"
+            {/* Mission line — compact, slides from left with left-border accent */}
+            <motion.p
+              className="pl-4 border-l-2 font-serif italic text-sm leading-[1.4] text-bone-forest"
               style={{ borderLeftColor: "#9d4519" }}
               initial={{ opacity: 0, x: -22 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.85, delay: 0.45, ease: EASE }}
             >
-              <span className="block font-mono not-italic text-[10px] uppercase tracking-[0.16em] text-bone-muted mb-3">
-                {t("missionLabel")}
-              </span>
               {t("missionText")}
-            </motion.blockquote>
+            </motion.p>
           </BlurReveal>
         </div>
       </div>

@@ -14,11 +14,12 @@ import Reveal, { Stagger, RevealItem } from "@/components/ui/Reveal";
 import { buildAbsoluteUrl } from "@/lib/utils";
 import type { JournalPost, PostCategory } from "@/types";
 import CtaBand from "@/components/ui/CtaBand";
+import { buildAlternates } from "@/lib/seo/hreflang";
 
 export const revalidate = 3600;
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 const CATEGORY_LABELS: Record<PostCategory, string> = {
@@ -68,7 +69,7 @@ async function getRelatedPosts(
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const post = await getPost(slug);
   if (!post) return { title: "Article Not Found" };
 
@@ -100,7 +101,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: [post.coverImage],
     },
-    alternates: { canonical: `/en/african-travel-blog/${post.slug}` },
+    alternates: buildAlternates(locale, `/african-travel-blog/${post.slug}`),
   };
 }
 

@@ -617,7 +617,7 @@ export function SiteNavigationSchema() {
         name: "Field Journal",
         description:
           "Safari stories, wildlife guides and travel tips from East Africa.",
-        url: `${APP_URL}/journal`,
+        url: `${APP_URL}/african-travel-blog`,
       },
     ],
   };
