@@ -25,6 +25,7 @@ interface SiteSettings {
   youtube: string
   tripadvisor: string
   googleReviews: string
+  googleRating: string
 
   defaultMetaTitle: string
   defaultMetaDescription: string
@@ -51,6 +52,7 @@ const DEFAULT: SiteSettings = {
   youtube: '',
   tripadvisor: '',
   googleReviews: '',
+  googleRating: '',
   defaultMetaTitle: 'Divine Travel Nest Safaris — Kenya, Tanzania, Uganda & Rwanda Safari Tour Packages',
   defaultMetaDescription: 'Expert-guided, tailor-made East Africa safaris. Kenya, Tanzania, Uganda & Rwanda — Budget to Luxury.',
   defaultCurrency: 'USD',
@@ -285,6 +287,12 @@ export default function AdminSettingsPage() {
               placeholder={placeholder}
             />
           ))}
+          <Input
+            label="Google Rating"
+            value={form.googleRating}
+            onChange={(e) => set('googleRating', e.target.value)}
+            placeholder="4.9"
+          />
         </div>
       </SettingsSection>
 

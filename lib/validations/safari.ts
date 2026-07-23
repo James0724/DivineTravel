@@ -35,6 +35,30 @@ const PricingTierSchema = z.object({
   rows:              z.array(SeasonalPriceRowSchema).default([]),
 })
 
+// Internal-only cost-sheet row/season (season × meal-plan basis × 2-7 pax) — mirrors
+// supplier/quote PDFs. Always optional: admin may fill this, the short-format pricing
+// above, both, or neither. Never rendered on the public site.
+const DetailedPriceRowSchema = z.object({
+  mealPlan: z.string().default(''),
+  per2: z.number({ invalid_type_error: 'Enter a price' }).min(0).default(0),
+  per3: z.number({ invalid_type_error: 'Enter a price' }).min(0).default(0),
+  per4: z.number({ invalid_type_error: 'Enter a price' }).min(0).default(0),
+  per5: z.number({ invalid_type_error: 'Enter a price' }).min(0).default(0),
+  per6: z.number({ invalid_type_error: 'Enter a price' }).min(0).default(0),
+  per7: z.number({ invalid_type_error: 'Enter a price' }).min(0).default(0),
+})
+
+const DetailedPricingSeasonSchema = z.object({
+  seasonLabel: z.string().default(''),
+  dateRange:   z.string().optional().default(''),
+  rows:        z.array(DetailedPriceRowSchema).default([]),
+})
+
+const DetailedPricingSchema = z.object({
+  currency: z.string().default('USD'),
+  seasons:  z.array(DetailedPricingSeasonSchema).default([]),
+})
+
 // Field-level requiredness for these two schemas is enforced conditionally in
 // SafariSchema's superRefine (based on tripLength), not here — the array itself
 // is always present in form state even when its type isn't the active one, so
@@ -95,6 +119,8 @@ export const SafariSchema = z.object({
     midRange: PricingTierSchema,
     luxury:   PricingTierSchema,
   }),
+  // Optional, independent of `pricing` — no requiredness rules in superRefine below.
+  detailedPricing: DetailedPricingSchema.default({ currency: 'USD', seasons: [] }),
   // All 24 type values kept in the enum for backward compat with existing data.
   // The admin UI only surfaces the 13 activity types now; traveller/theme
   // chips are no longer shown but remain valid so old records don't break.

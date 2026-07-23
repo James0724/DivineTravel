@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Avis des voyageurs",
+    "description": "De vrais avis de voyageurs qui ont réservé leur safari en Afrique de l'Est avec Divine Travel Nest Safaris."
+  },
+  "hero": {
+    "eyebrow": "Avis des voyageurs",
+    "title": "Ce que disent nos voyageurs",
+    "description": "Chaque avis ici est authentique — écrit par des clients qui ont voyagé avec nous, la plupart provenant directement de notre profil Google Business."
+  },
+  "summary": {
+    "ratingLabel": "sur 5",
+    "reviewCountOne": "Basé sur {count} avis",
+    "reviewCountOther": "Basé sur {count} avis",
+    "readOnGoogle": "Lire tous les avis sur Google",
+    "leaveReview": "Laissez-nous un avis"
+  },
+  "postedOnGoogle": "Publié sur Google",
+  "verified": "Vérifié",
+  "readMore": "Lire l'avis complet",
+  "empty": {
+    "heading": "Les avis arrivent bientôt",
+    "body": "Nous rassemblons les avis de nos clients ici. En attendant, vous pouvez consulter nos derniers avis directement sur Google.",
+    "cta": "Voir nos avis Google"
+  },
+  "ctaBanner": {
+    "heading": "Vous avez voyagé avec nous ?",
+    "body": "Si nous avons rendu votre safari inoubliable, un avis aide d'autres voyageurs à nous trouver — et nous aide à continuer de nous améliorer.",
+    "cta": "Laisser un avis Google"
+  }
+}

@@ -179,6 +179,7 @@ const defaultValues: SafariFormValues & { coverImage: string } = {
     midRange: blankPricingTier(),
     luxury:   blankPricingTier(),
   },
+  detailedPricing: { currency: 'USD', seasons: [] },
   safariType: ['game-drive'],
   difficulty: 'moderate',
   maxGroupSize: 8,
@@ -479,6 +480,155 @@ function ShortSafariPricingTable({
   )
 }
 
+/* ─── DetailedPricingEditor ──────────────────────────────────────────────── */
+// Optional, internal-only cost sheet (season × meal-plan basis × 2–7 pax) mirroring
+// supplier/quote PDFs. Independent of the budget/midRange/luxury tiers above and
+// never rendered on the public site — the tables above are what guests see.
+
+type DetailedRow = { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }
+type DetailedSeason = { seasonLabel: string; dateRange: string; rows: DetailedRow[] }
+type DetailedPricingValue = { currency: string; seasons: DetailedSeason[] }
+
+function blankDetailedRow(mealPlan = ''): DetailedRow {
+  return { mealPlan, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0, per7: 0 }
+}
+
+function blankDetailedSeason(): DetailedSeason {
+  return {
+    seasonLabel: '',
+    dateRange: '',
+    rows: [blankDetailedRow('B'), blankDetailedRow('M'), blankDetailedRow('L')],
+  }
+}
+
+const detailedPaxCols: { key: keyof DetailedRow; label: string }[] = [
+  { key: 'per2', label: '2 PAX' }, { key: 'per3', label: '3 PAX' }, { key: 'per4', label: '4 PAX' },
+  { key: 'per5', label: '5 PAX' }, { key: 'per6', label: '6 PAX' }, { key: 'per7', label: '7 PAX' },
+]
+
+function DetailedPricingEditor({
+  value, onChange,
+}: {
+  value: DetailedPricingValue
+  onChange: (v: DetailedPricingValue) => void
+}) {
+  const seasons = value?.seasons ?? []
+
+  const updateSeason = (i: number, patch: Partial<DetailedSeason>) => {
+    const updated = [...seasons]
+    updated[i] = { ...updated[i], ...patch }
+    onChange({ ...value, seasons: updated })
+  }
+  const removeSeason = (i: number) => onChange({ ...value, seasons: seasons.filter((_, idx) => idx !== i) })
+  const addSeason = () => onChange({ ...value, seasons: [...seasons, blankDetailedSeason()] })
+
+  const updateRow = (si: number, ri: number, patch: Partial<DetailedRow>) => {
+    const rows = [...seasons[si].rows]
+    rows[ri] = { ...rows[ri], ...patch }
+    updateSeason(si, { rows })
+  }
+  const removeRow = (si: number, ri: number) => updateSeason(si, { rows: seasons[si].rows.filter((_, idx) => idx !== ri) })
+  const addRow = (si: number) => updateSeason(si, { rows: [...seasons[si].rows, blankDetailedRow()] })
+
+  return (
+    <div className="space-y-4 rounded-md border border-dashed border-[rgba(23,22,18,0.25)] p-4">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <p className="text-sm font-medium text-bone-ink/80 font-sans">Detailed Pricing Table (Internal)</p>
+          <p className="text-xs text-bone-ink/45 font-sans mt-0.5">
+            Optional — for staff reference / quoting only, matches supplier cost sheets (season × meal plan × pax).
+            Never shown on the website — the table above is what guests see.
+          </p>
+        </div>
+        <button type="button" onClick={addSeason}
+          className="flex items-center gap-1 text-xs font-sans text-bone-forest hover:text-bone-forest/70 transition-colors flex-shrink-0">
+          <Plus size={12} /> Add Season
+        </button>
+      </div>
+
+      {seasons.length === 0 && (
+        <p className="text-xs text-bone-ink/35 font-sans">No detailed pricing added — leave empty if not needed.</p>
+      )}
+
+      {seasons.map((season, si) => (
+        <div key={si} className="space-y-2 rounded border border-[rgba(23,22,18,0.15)] p-3">
+          <div className="flex items-center gap-2">
+            <input
+              value={season.seasonLabel}
+              onChange={(e) => updateSeason(si, { seasonLabel: e.target.value })}
+              placeholder="e.g. Peak Season"
+              className={seasonTextInput + ' max-w-[220px]'}
+            />
+            <input
+              value={season.dateRange}
+              onChange={(e) => updateSeason(si, { dateRange: e.target.value })}
+              placeholder="e.g. 01st July - 30th Sept"
+              className={seasonTextInput}
+            />
+            <button type="button" onClick={() => removeSeason(si)}
+              className="text-bone-ink/25 hover:text-red-500 transition-colors p-1 rounded flex-shrink-0">
+              <X size={14} />
+            </button>
+          </div>
+
+          <div className="overflow-x-auto rounded border border-[rgba(23,22,18,0.15)]">
+            <table className="w-full text-xs font-sans border-collapse">
+              <thead>
+                <tr className="bg-bone-bg border-b border-[rgba(23,22,18,0.1)]">
+                  <th className="text-left px-3 py-2 font-medium text-bone-ink/60 min-w-[110px]">Meal Plan</th>
+                  {detailedPaxCols.map((c) => (
+                    <th key={c.key} className="text-center px-2 py-2 font-medium text-bone-ink/60 min-w-[76px]">{c.label}</th>
+                  ))}
+                  <th className="w-9" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[rgba(23,22,18,0.07)]">
+                {season.rows.map((row, ri) => (
+                  <tr key={ri} className={ri % 2 === 1 ? 'bg-bone-bg/40' : 'bg-bone-paper'}>
+                    <td className="px-2 py-1.5">
+                      <input
+                        value={row.mealPlan}
+                        onChange={(e) => updateRow(si, ri, { mealPlan: e.target.value })}
+                        placeholder="B / M / L"
+                        className={seasonTextInput}
+                      />
+                    </td>
+                    {detailedPaxCols.map((c) => (
+                      <td key={c.key} className="px-2 py-1.5">
+                        <input
+                          type="number"
+                          min={0}
+                          value={row[c.key] === 0 ? '' : row[c.key]}
+                          onChange={(e) => updateRow(si, ri, { [c.key]: e.target.value === '' ? 0 : Number(e.target.value) } as Partial<DetailedRow>)}
+                          placeholder="0"
+                          className={cellInput + ' text-center'}
+                        />
+                      </td>
+                    ))}
+                    <td className="px-1 py-1.5 text-center">
+                      {season.rows.length > 1 ? (
+                        <button type="button" onClick={() => removeRow(si, ri)} className="text-bone-ink/25 hover:text-red-500 transition-colors p-1 rounded">
+                          <X size={13} />
+                        </button>
+                      ) : (
+                        <span className="block w-7" />
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <button type="button" onClick={() => addRow(si)}
+            className="flex items-center gap-1 text-xs font-sans text-bone-forest hover:text-bone-forest/70 transition-colors">
+            <Plus size={12} /> Add Row
+          </button>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /* ─── PricingTierSection ─────────────────────────────────────────────────── */
 
 function PricingTierSection({
@@ -655,6 +805,9 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             midRange: migratePricingTier(existing.pricing.midRange),
             luxury:   migratePricingTier(existing.pricing.luxury),
           },
+          detailedPricing: existing.detailedPricing?.seasons?.length
+            ? existing.detailedPricing
+            : { currency: 'USD', seasons: [] },
           safariType:   existing.safariType?.length ? existing.safariType : ['game-drive'],
           difficulty:   existing.difficulty,
           maxGroupSize: existing.maxGroupSize,
@@ -1204,6 +1357,15 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             ))}
           </div>
         )}
+
+        <Controller control={control} name="detailedPricing"
+          render={({ field }) => (
+            <DetailedPricingEditor
+              value={field.value ?? { currency: 'USD', seasons: [] }}
+              onChange={field.onChange}
+            />
+          )}
+        />
       </CollapsibleSection>
 
       {/* ════════════ 8 · IMAGES ════════════ */}

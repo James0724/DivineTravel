@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "旅客评价",
+    "description": "来自通过 Divine Travel Nest Safaris 预订东非狩猎之旅的旅客的真实评价。"
+  },
+  "hero": {
+    "eyebrow": "旅客评价",
+    "title": "旅客怎么说",
+    "description": "这里的每一条评价都是真实的——由与我们一同旅行的客人撰写，大多数直接来自我们的 Google 商家资料。"
+  },
+  "summary": {
+    "ratingLabel": "满分 5 分",
+    "reviewCountOne": "基于 {count} 条评价",
+    "reviewCountOther": "基于 {count} 条评价",
+    "readOnGoogle": "在 Google 上查看所有评价",
+    "leaveReview": "给我们留言评价"
+  },
+  "postedOnGoogle": "发布于 Google",
+  "verified": "已验证",
+  "readMore": "阅读完整评价",
+  "empty": {
+    "heading": "评价即将上线",
+    "body": "我们正在收集客人的评价。与此同时，您可以直接在 Google 上查看我们最新的评价。",
+    "cta": "查看我们的 Google 评价"
+  },
+  "ctaBanner": {
+    "heading": "和我们一起旅行过吗？",
+    "body": "如果我们让您的狩猎之旅难忘，一条评价可以帮助其他旅客找到我们——也能帮助我们不断改进。",
+    "cta": "在 Google 上留下评价"
+  }
+}

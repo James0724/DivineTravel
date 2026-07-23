@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Opiniones de viajeros",
+    "description": "Reseñas reales de viajeros que reservaron su safari en África Oriental con Divine Travel Nest Safaris."
+  },
+  "hero": {
+    "eyebrow": "Opiniones de viajeros",
+    "title": "Lo que dicen nuestros viajeros",
+    "description": "Cada reseña aquí es genuina, escrita por huéspedes que viajaron con nosotros, la mayoría obtenidas directamente de nuestro perfil de Google Business."
+  },
+  "summary": {
+    "ratingLabel": "de 5",
+    "reviewCountOne": "Basado en {count} reseña",
+    "reviewCountOther": "Basado en {count} reseñas",
+    "readOnGoogle": "Leer todas las reseñas en Google",
+    "leaveReview": "Déjanos una reseña"
+  },
+  "postedOnGoogle": "Publicado en Google",
+  "verified": "Verificado",
+  "readMore": "Leer reseña completa",
+  "empty": {
+    "heading": "Las reseñas están en camino",
+    "body": "Estamos recopilando reseñas de huéspedes aquí. Mientras tanto, puede ver nuestras últimas reseñas directamente en Google.",
+    "cta": "Ver nuestras reseñas de Google"
+  },
+  "ctaBanner": {
+    "heading": "¿Viajaste con nosotros?",
+    "body": "Si hicimos que tu safari fuera inolvidable, una reseña ayuda a otros viajeros a encontrarnos, y nos ayuda a seguir mejorando.",
+    "cta": "Dejar una reseña en Google"
+  }
+}

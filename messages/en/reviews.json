@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Traveller Reviews",
+    "description": "Real reviews from travellers who booked their East Africa safari with Divine Travel Nest Safaris."
+  },
+  "hero": {
+    "eyebrow": "Traveller Reviews",
+    "title": "What our travellers say",
+    "description": "Every review here is genuine — written by guests who travelled with us, most sourced directly from our Google Business profile."
+  },
+  "summary": {
+    "ratingLabel": "out of 5",
+    "reviewCountOne": "Based on {count} review",
+    "reviewCountOther": "Based on {count} reviews",
+    "readOnGoogle": "Read all reviews on Google",
+    "leaveReview": "Leave us a review"
+  },
+  "postedOnGoogle": "Posted on Google",
+  "verified": "Verified",
+  "readMore": "Read full review",
+  "empty": {
+    "heading": "Reviews are on their way",
+    "body": "We're gathering guest reviews here. In the meantime, you can see our latest reviews directly on Google.",
+    "cta": "View our Google reviews"
+  },
+  "ctaBanner": {
+    "heading": "Travelled with us?",
+    "body": "If we made your safari unforgettable, a review helps other travellers find us — and helps us keep improving.",
+    "cta": "Leave a Google review"
+  }
+}

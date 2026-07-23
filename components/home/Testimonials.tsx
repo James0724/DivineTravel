@@ -9,6 +9,7 @@ import { ChevronLeft, ChevronRight, Star, Quote, X } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import type { Testimonial } from '@/types'
+import GoogleIcon from '@/components/icons/GoogleIcon'
 
 async function fetchTestimonials(): Promise<{ data: Testimonial[] }> {
   const res = await fetch('/api/testimonials?featured=true&limit=8')
@@ -164,10 +165,23 @@ export default function Testimonials({ initialData }: TestimonialsProps) {
                       </p>
                       <p className="text-xs text-bone-ink/45">{item.country}</p>
                     </div>
-                    {item.verified && (
-                      <span className="ml-auto text-xs text-bone-forest font-sans bg-bone-forest/10 px-2 py-0.5 rounded-full">
-                        ✓ {t('verified')}
-                      </span>
+                    {item.source === 'google' ? (
+                      <a
+                        href={item.sourceUrl || undefined}
+                        target={item.sourceUrl ? '_blank' : undefined}
+                        rel={item.sourceUrl ? 'noopener noreferrer' : undefined}
+                        className="ml-auto flex items-center gap-1.5 text-xs font-sans font-medium bg-bone-ink/[0.04] hover:bg-bone-ink/[0.08] px-2 py-1 rounded-full transition-colors"
+                        onClick={(e) => !item.sourceUrl && e.preventDefault()}
+                      >
+                        <GoogleIcon className="h-3.5 w-3.5" />
+                        {t('postedOnGoogle')}
+                      </a>
+                    ) : (
+                      item.verified && (
+                        <span className="ml-auto text-xs text-bone-forest font-sans bg-bone-forest/10 px-2 py-0.5 rounded-full">
+                          ✓ {t('verified')}
+                        </span>
+                      )
                     )}
                   </div>
                 </div>
@@ -251,10 +265,23 @@ export default function Testimonials({ initialData }: TestimonialsProps) {
                     </p>
                     <p className="text-xs text-bone-ink/45">{active.country}</p>
                   </div>
-                  {active.verified && (
-                    <span className="ml-auto text-xs text-bone-forest font-sans bg-bone-forest/10 px-2 py-0.5 rounded-full">
-                      ✓ {t('verified')}
-                    </span>
+                  {active.source === 'google' ? (
+                    <a
+                      href={active.sourceUrl || undefined}
+                      target={active.sourceUrl ? '_blank' : undefined}
+                      rel={active.sourceUrl ? 'noopener noreferrer' : undefined}
+                      className="ml-auto flex items-center gap-1.5 text-xs font-sans font-medium bg-bone-ink/[0.04] hover:bg-bone-ink/[0.08] px-2 py-1 rounded-full transition-colors"
+                      onClick={(e) => !active.sourceUrl && e.preventDefault()}
+                    >
+                      <GoogleIcon className="h-3.5 w-3.5" />
+                      {t('postedOnGoogle')}
+                    </a>
+                  ) : (
+                    active.verified && (
+                      <span className="ml-auto text-xs text-bone-forest font-sans bg-bone-forest/10 px-2 py-0.5 rounded-full">
+                        ✓ {t('verified')}
+                      </span>
+                    )
                   )}
                 </div>
               </div>

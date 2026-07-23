@@ -10,6 +10,8 @@ export const TestimonialSchema = z.object({
   safariName:  z.string().max(200).optional(),
   featured:    z.boolean().default(false),
   verified:    z.boolean().default(false),
+  source:      z.enum(['direct', 'google']).default('direct'),
+  sourceUrl:   z.string().url('Invalid source URL').optional().or(z.literal('')),
 })
 
 export type TestimonialFormValues = z.infer<typeof TestimonialSchema>

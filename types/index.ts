@@ -77,6 +77,31 @@ export interface PricingTier {
   description?: string;
 }
 
+export interface DetailedPriceRow {
+  /** Meal-plan / board basis, e.g. "B" (Bed only), "M" (Half board), "L" (Full board) — free text. */
+  mealPlan: string;
+  per2: number;
+  per3: number;
+  per4: number;
+  per5: number;
+  per6: number;
+  per7: number;
+}
+
+export interface DetailedPricingSeason {
+  seasonLabel: string;
+  dateRange?: string;
+  rows: DetailedPriceRow[];
+}
+
+/** Optional internal-only cost sheet (season × meal-plan basis × 2–7 pax), mirroring
+ *  supplier/quote PDFs. Admin reference only — never displayed on the public site;
+ *  `Safari.pricing` is what the frontend always renders. */
+export interface DetailedPricing {
+  currency: string;
+  seasons: DetailedPricingSeason[];
+}
+
 export interface ItineraryDay {
   day: number;
   title: string;
@@ -136,6 +161,8 @@ export interface Safari {
     midRange: PricingTier;
     luxury: PricingTier;
   };
+  /** Optional internal-only cost sheet — admin reference/quoting, never shown on the public site. */
+  detailedPricing?: DetailedPricing;
   images: SafariImage[];
   coverImage: string;
   coverImagePublicId?: string;
@@ -220,6 +247,8 @@ export interface Testimonial {
   safariName?: string;
   featured: boolean;
   verified: boolean;
+  source: "direct" | "google";
+  sourceUrl?: string;
   createdAt: string;
 }
 

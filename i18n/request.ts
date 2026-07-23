@@ -13,6 +13,7 @@ const NAMESPACES = [
   'planMySafari',
   'terms',
   'guidelines',
+  'reviews',
 ] as const
 
 export default getRequestConfig(async ({ requestLocale }) => {

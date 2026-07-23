@@ -142,7 +142,7 @@ export default async function SafarisPage({ searchParams }: Props) {
 
       <TitleHero
         eyebrow="Tours and safaris"
-        title=" Kenya, Tanzania, Uganda & Rwanda safari 2026/2027."
+        title="2026/2027 Safari Packages"
         description="Kenya Masai Mara tours, Tanzania Serengeti migration circuits, Uganda gorilla trekking and Rwanda Volcanoes safaris — 50+ curated packages, every itinerary rewritable for your dates, party size and budget."
         backgroundImage="https://images.pexels.com/photos/10800257/pexels-photo-10800257.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80"
       />

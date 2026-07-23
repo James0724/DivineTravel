@@ -29,6 +29,8 @@ const BLANK = {
   safariName: '',
   featured: false,
   verified: false,
+  source: 'direct' as 'direct' | 'google',
+  sourceUrl: '',
 }
 
 /* ── Add / Edit Modal ── */
@@ -156,6 +158,32 @@ function TestimonialModal({
             placeholder="e.g. Great Wildebeest Migration Safari"
           />
 
+          <div className="grid grid-cols-2 gap-4">
+            <Select
+              label="Source"
+              value={form.source}
+              onChange={(e) => set('source', e.target.value)}
+              options={[
+                { value: 'direct', label: 'Direct / other' },
+                { value: 'google', label: 'Google Review' },
+              ]}
+            />
+            {form.source === 'google' && (
+              <Input
+                label="Link to Google review"
+                type="url"
+                value={form.sourceUrl}
+                onChange={(e) => set('sourceUrl', e.target.value)}
+                placeholder="https://g.page/r/…/review"
+              />
+            )}
+          </div>
+          {form.source === 'google' && (
+            <p className="text-xs text-bone-ink/45 -mt-2">
+              Only add reviews copied verbatim from your real Google Business profile. This badge tells visitors it&apos;s verifiably real — never use it for made-up text.
+            </p>
+          )}
+
           <div className="flex gap-6">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -232,7 +260,7 @@ function TestimonialViewModal({
             <span className="text-bone-ink/45">· {formatDateShort(testimonial.createdAt)}</span>
           </div>
 
-          <div className="flex gap-2 pt-1">
+          <div className="flex flex-wrap gap-2 pt-1">
             {testimonial.featured && (
               <span className="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-bone-forest/10 text-bone-forest">
                 ✓ Featured
@@ -242,6 +270,22 @@ function TestimonialViewModal({
               <span className="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700">
                 ✓ Verified
               </span>
+            )}
+            {testimonial.source === 'google' && (
+              testimonial.sourceUrl ? (
+                <a
+                  href={testimonial.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200"
+                >
+                  ↗ Google Review
+                </a>
+              ) : (
+                <span className="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                  Google Review
+                </span>
+              )
             )}
           </div>
         </div>
@@ -375,7 +419,14 @@ export default function AdminTestimonialsPage() {
                   <tr key={t._id}>
                     <td>
                       <div>
-                        <p className="font-medium text-sm text-bone-ink">{t.name}</p>
+                        <p className="font-medium text-sm text-bone-ink flex items-center gap-1.5">
+                          {t.name}
+                          {t.source === 'google' && (
+                            <span className="text-[10px] font-sans font-medium px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                              Google
+                            </span>
+                          )}
+                        </p>
                         <p className="text-xs text-bone-ink/45">{t.country}</p>
                       </div>
                     </td>

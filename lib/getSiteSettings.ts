@@ -10,6 +10,7 @@ export interface ContactSettings {
   youtube: string
   tripadvisor: string
   googleReviews: string
+  googleRating: string
 }
 
 const FALLBACK: ContactSettings = {
@@ -22,6 +23,7 @@ const FALLBACK: ContactSettings = {
   tripadvisor:
     'https://www.tripadvisor.com/Attraction_Review-g294207-d26155748-Reviews-Divine_Travel_Nest_Safaris-Nairobi.html',
   googleReviews: 'https://share.google/hr0uDk89EOkgVPDGh',
+  googleRating: '4.9',
 }
 
 /** Server-only: fetch the public contact/social fields of the Setting singleton as a plain, serializable object. */
@@ -30,7 +32,7 @@ export async function getContactSettings(): Promise<ContactSettings> {
     await connectDB()
     const doc = await SettingModel.findOne(
       {},
-      'phone whatsapp email facebook instagram youtube tripadvisor googleReviews'
+      'phone whatsapp email facebook instagram youtube tripadvisor googleReviews googleRating'
     ).lean()
 
     if (!doc) return FALLBACK
@@ -44,6 +46,7 @@ export async function getContactSettings(): Promise<ContactSettings> {
       youtube: doc.youtube || '',
       tripadvisor: doc.tripadvisor || FALLBACK.tripadvisor,
       googleReviews: doc.googleReviews || FALLBACK.googleReviews,
+      googleRating: doc.googleRating || FALLBACK.googleRating,
     }
   } catch (error) {
     console.error('[getContactSettings]', error)

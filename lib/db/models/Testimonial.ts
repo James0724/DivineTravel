@@ -12,6 +12,8 @@ export interface ITestimonial extends Document {
   safariName?: string
   featured: boolean
   verified: boolean
+  source: 'direct' | 'google'
+  sourceUrl?: string
   createdAt: Date
   updatedAt: Date
 }
@@ -29,6 +31,8 @@ const TestimonialSchema = new Schema<ITestimonial>(
     safariName: String,
     featured: { type: Boolean, default: false, index: true },
     verified: { type: Boolean, default: false },
+    source: { type: String, enum: ['direct', 'google'], default: 'direct' },
+    sourceUrl: String,
   },
   { timestamps: true }
 )

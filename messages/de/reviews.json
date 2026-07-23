@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Reisebewertungen",
+    "description": "Echte Bewertungen von Reisenden, die ihre Ostafrika-Safari mit Divine Travel Nest Safaris gebucht haben."
+  },
+  "hero": {
+    "eyebrow": "Reisebewertungen",
+    "title": "Was unsere Reisenden sagen",
+    "description": "Jede Bewertung hier ist echt — geschrieben von Gästen, die mit uns gereist sind, die meisten direkt von unserem Google-Unternehmensprofil."
+  },
+  "summary": {
+    "ratingLabel": "von 5",
+    "reviewCountOne": "Basierend auf {count} Bewertung",
+    "reviewCountOther": "Basierend auf {count} Bewertungen",
+    "readOnGoogle": "Alle Bewertungen auf Google lesen",
+    "leaveReview": "Bewertung abgeben"
+  },
+  "postedOnGoogle": "Auf Google veröffentlicht",
+  "verified": "Verifiziert",
+  "readMore": "Vollständige Bewertung lesen",
+  "empty": {
+    "heading": "Bewertungen folgen in Kürze",
+    "body": "Wir sammeln hier Gästebewertungen. In der Zwischenzeit können Sie unsere neuesten Bewertungen direkt auf Google sehen.",
+    "cta": "Unsere Google-Bewertungen ansehen"
+  },
+  "ctaBanner": {
+    "heading": "Mit uns gereist?",
+    "body": "Wenn wir Ihre Safari unvergesslich gemacht haben, hilft eine Bewertung anderen Reisenden, uns zu finden — und hilft uns, uns weiter zu verbessern.",
+    "cta": "Google-Bewertung abgeben"
+  }
+}
