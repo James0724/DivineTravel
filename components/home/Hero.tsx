@@ -12,6 +12,10 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const slides = [
   {
+    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/c_fill,ar_16:9,f_auto,q_auto/v1784902109/Gallarey/herosection_biel7p.jpg",
+    alt: "A trip to the masai mara national reserve in Kenya, Africa",
+  },
+  {
     src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782656201/Gallarey/pexels-luya-29415794_cso8gm.jpg",
     alt: "A Leopard roaming in the African savanna",
   },
@@ -26,6 +30,10 @@ const slides = [
   {
     src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782655855/Gallarey/pexels-gsn-travel-28708345_rfgkdr.jpg",
     alt: "African zebra and wilbest herd grazing in the savanna",
+  },
+  {
+    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/c_fill,ar_16:9,f_auto,q_auto/v1784902104/Gallarey/herosection2_bgwdez.jpg",
+    alt: "our team of safari guides and drivers",
   },
 ];
 

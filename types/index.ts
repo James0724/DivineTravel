@@ -94,10 +94,10 @@ export interface DetailedPricingSeason {
   rows: DetailedPriceRow[];
 }
 
-/** Optional internal-only cost sheet (season × meal-plan basis × 2–7 pax), mirroring
+/** One tier's internal-only cost sheet (season × meal-plan basis × 2–7 pax), mirroring
  *  supplier/quote PDFs. Admin reference only — never displayed on the public site;
  *  `Safari.pricing` is what the frontend always renders. */
-export interface DetailedPricing {
+export interface DetailedPricingTable {
   currency: string;
   seasons: DetailedPricingSeason[];
 }
@@ -161,8 +161,13 @@ export interface Safari {
     midRange: PricingTier;
     luxury: PricingTier;
   };
-  /** Optional internal-only cost sheet — admin reference/quoting, never shown on the public site. */
-  detailedPricing?: DetailedPricing;
+  /** Optional internal-only cost sheets — admin reference/quoting, never shown on the public site.
+   *  One table per pricing tier, mirroring `pricing` above. */
+  detailedPricing?: {
+    budget: DetailedPricingTable;
+    midRange: DetailedPricingTable;
+    luxury: DetailedPricingTable;
+  };
   images: SafariImage[];
   coverImage: string;
   coverImagePublicId?: string;

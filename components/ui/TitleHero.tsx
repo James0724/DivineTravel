@@ -236,7 +236,7 @@ export default function TitleHero({
 
         <motion.p
           className={cn(
-            "mb-2 font-display text-[10px] font-medium uppercase",
+            "mb-2 font-display text-sm font-medium uppercase",
             isTransparent ? "text-orange-200" : "text-bone-muted",
           )}
           style={{ letterSpacing: "clamp(2px, 0.6vw, 5px)" }}
@@ -310,10 +310,9 @@ export default function TitleHero({
         <motion.p
           className={cn(
             "mx-auto max-w-[560px] font-serif italic leading-[1.6]",
-            isTransparent ? "hidden text-white 2xl:block" : "text-bone-muted",
+            isTransparent ? " text-white" : "text-bone-muted",
           )}
           style={{
-            fontSize: "clamp(13px, 1.4vw, 15px)",
             letterSpacing: "0.5px",
           }}
           initial={{ opacity: 0, y: 30 }}

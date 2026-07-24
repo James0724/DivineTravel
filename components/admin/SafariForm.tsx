@@ -158,6 +158,44 @@ function migratePricingTier(tier: Safari['pricing']['budget'], isShort = false) 
   }
 }
 
+type DetailedRow = { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }
+type DetailedSeason = { seasonLabel: string; dateRange: string; rows: DetailedRow[] }
+type DetailedPricingValue = { currency: string; seasons: DetailedSeason[] }
+
+// Default season calendar for the detailed cost sheet — matches the supplier PDF
+// (Peak / High A / High B / Low). Pre-filled as a starting point; every field
+// (label, date range, and all prices) stays fully editable per safari.
+const DEFAULT_DETAILED_SEASONS = [
+  { seasonLabel: 'Peak Season', dateRange: '01st July - 30th Sept' },
+  { seasonLabel: 'High A',      dateRange: '03rd Jan - 31st March' },
+  { seasonLabel: 'High B',      dateRange: '01st Oct - 22nd Dec' },
+  { seasonLabel: 'Low Season',  dateRange: '01st April - 30th June' },
+]
+
+function blankDetailedRow(mealPlan = ''): DetailedRow {
+  return { mealPlan, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0, per7: 0 }
+}
+
+// Pass an index to pre-fill the nth default season (label + date range);
+// omit it (or exceed the default list) for a blank, freely-editable season.
+function blankDetailedSeason(index = -1): DetailedSeason {
+  const def = DEFAULT_DETAILED_SEASONS[index]
+  return {
+    seasonLabel: def?.seasonLabel ?? '',
+    dateRange:   def?.dateRange   ?? '',
+    rows: [blankDetailedRow('B'), blankDetailedRow('M'), blankDetailedRow('L')],
+  }
+}
+
+// One full detailed-pricing table for a single tier, pre-seeded with all 4
+// default seasons (B/M/L rows each) so the table matches the PDF layout from the start.
+function blankDetailedTier(): DetailedPricingValue {
+  return {
+    currency: 'USD',
+    seasons: DEFAULT_DETAILED_SEASONS.map((_, i) => blankDetailedSeason(i)),
+  }
+}
+
 const defaultValues: SafariFormValues & { coverImage: string } = {
   name: '',
   tagline: '',
@@ -179,7 +217,11 @@ const defaultValues: SafariFormValues & { coverImage: string } = {
     midRange: blankPricingTier(),
     luxury:   blankPricingTier(),
   },
-  detailedPricing: { currency: 'USD', seasons: [] },
+  detailedPricing: {
+    budget:   blankDetailedTier(),
+    midRange: blankDetailedTier(),
+    luxury:   blankDetailedTier(),
+  },
   safariType: ['game-drive'],
   difficulty: 'moderate',
   maxGroupSize: 8,
@@ -485,22 +527,6 @@ function ShortSafariPricingTable({
 // supplier/quote PDFs. Independent of the budget/midRange/luxury tiers above and
 // never rendered on the public site — the tables above are what guests see.
 
-type DetailedRow = { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }
-type DetailedSeason = { seasonLabel: string; dateRange: string; rows: DetailedRow[] }
-type DetailedPricingValue = { currency: string; seasons: DetailedSeason[] }
-
-function blankDetailedRow(mealPlan = ''): DetailedRow {
-  return { mealPlan, per2: 0, per3: 0, per4: 0, per5: 0, per6: 0, per7: 0 }
-}
-
-function blankDetailedSeason(): DetailedSeason {
-  return {
-    seasonLabel: '',
-    dateRange: '',
-    rows: [blankDetailedRow('B'), blankDetailedRow('M'), blankDetailedRow('L')],
-  }
-}
-
 const detailedPaxCols: { key: keyof DetailedRow; label: string }[] = [
   { key: 'per2', label: '2 PAX' }, { key: 'per3', label: '3 PAX' }, { key: 'per4', label: '4 PAX' },
   { key: 'per5', label: '5 PAX' }, { key: 'per6', label: '6 PAX' }, { key: 'per7', label: '7 PAX' },
@@ -520,7 +546,8 @@ function DetailedPricingEditor({
     onChange({ ...value, seasons: updated })
   }
   const removeSeason = (i: number) => onChange({ ...value, seasons: seasons.filter((_, idx) => idx !== i) })
-  const addSeason = () => onChange({ ...value, seasons: [...seasons, blankDetailedSeason()] })
+  // Add next default season (Peak → High A → High B → Low) in sequence; blank once exhausted
+  const addSeason = () => onChange({ ...value, seasons: [...seasons, blankDetailedSeason(seasons.length)] })
 
   const updateRow = (si: number, ri: number, patch: Partial<DetailedRow>) => {
     const rows = [...seasons[si].rows]
@@ -805,9 +832,11 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
             midRange: migratePricingTier(existing.pricing.midRange),
             luxury:   migratePricingTier(existing.pricing.luxury),
           },
-          detailedPricing: existing.detailedPricing?.seasons?.length
-            ? existing.detailedPricing
-            : { currency: 'USD', seasons: [] },
+          detailedPricing: {
+            budget:   existing.detailedPricing?.budget?.seasons?.length   ? existing.detailedPricing.budget   : blankDetailedTier(),
+            midRange: existing.detailedPricing?.midRange?.seasons?.length ? existing.detailedPricing.midRange : blankDetailedTier(),
+            luxury:   existing.detailedPricing?.luxury?.seasons?.length   ? existing.detailedPricing.luxury   : blankDetailedTier(),
+          },
           safariType:   existing.safariType?.length ? existing.safariType : ['game-drive'],
           difficulty:   existing.difficulty,
           maxGroupSize: existing.maxGroupSize,
@@ -1338,34 +1367,43 @@ export default function SafariForm({ existing }: { existing?: Safari }) {
                 </div>
               )}
             />
+            <Controller control={control} name="detailedPricing.budget"
+              render={({ field }) => (
+                <DetailedPricingEditor
+                  value={field.value ?? blankDetailedTier()}
+                  onChange={field.onChange}
+                />
+              )}
+            />
           </div>
         ) : (
-          /* ── Multi-day: three tier sections ── */
+          /* ── Multi-day: three tier sections, each with its own detailed cost sheet ── */
           <div className="space-y-8">
             {([{ tier: 'budget' as const, label: 'Budget' }, { tier: 'midRange' as const, label: 'Mid-Range' }, { tier: 'luxury' as const, label: 'Luxury' }]).map(({ tier, label }) => (
-              <Controller key={tier} control={control} name={`pricing.${tier}`}
-                render={({ field }) => (
-                  <PricingTierSection
-                    tier={tier} label={label}
-                    values={field.value}
-                    onChange={(v) => field.onChange({ ...field.value, ...v })}
-                    errors={errors.pricing?.[tier] as PricingTierErrors}
-                    isShort={false}
-                  />
-                )}
-              />
+              <div key={tier} className="space-y-4">
+                <Controller control={control} name={`pricing.${tier}`}
+                  render={({ field }) => (
+                    <PricingTierSection
+                      tier={tier} label={label}
+                      values={field.value}
+                      onChange={(v) => field.onChange({ ...field.value, ...v })}
+                      errors={errors.pricing?.[tier] as PricingTierErrors}
+                      isShort={false}
+                    />
+                  )}
+                />
+                <Controller control={control} name={`detailedPricing.${tier}`}
+                  render={({ field }) => (
+                    <DetailedPricingEditor
+                      value={field.value ?? blankDetailedTier()}
+                      onChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
             ))}
           </div>
         )}
-
-        <Controller control={control} name="detailedPricing"
-          render={({ field }) => (
-            <DetailedPricingEditor
-              value={field.value ?? { currency: 'USD', seasons: [] }}
-              onChange={field.onChange}
-            />
-          )}
-        />
       </CollapsibleSection>
 
       {/* ════════════ 8 · IMAGES ════════════ */}

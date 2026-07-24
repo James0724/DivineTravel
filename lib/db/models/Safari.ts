@@ -97,9 +97,9 @@ const PricingTierSchema = new Schema(
 );
 
 // Internal-only cost-sheet table (season × meal-plan basis × 2–7 pax), mirroring
-// supplier/quote PDFs (e.g. "3 Day Masai Mara" sheets). Independent of the
-// budget/midRange/luxury tiers above and never rendered on the public site —
-// the seasonal `pricing` tiers are what the frontend always shows.
+// supplier/quote PDFs (e.g. "3 Day Masai Mara" sheets). One of these per pricing
+// tier (budget/midRange/luxury) — independent of the seasonal `pricing.rows`
+// tables above and never rendered on the public site.
 const DetailedPriceRowSchema = new Schema(
   {
     mealPlan: { type: String, default: "" }, // e.g. "B", "M", "L" (Bed / Half Board / Full Board) — free text
@@ -122,7 +122,8 @@ const DetailedPricingSeasonSchema = new Schema(
   { _id: false },
 );
 
-const DetailedPricingSchema = new Schema(
+// One tier's detailed cost-sheet table
+const DetailedPricingTableSchema = new Schema(
   {
     currency: { type: String, default: "USD" },
     seasons:  [DetailedPricingSeasonSchema],
@@ -214,14 +215,12 @@ export interface ISafari extends Document {
     midRange: { rows: { seasonLabel: string; dateRange?: string; per1: number; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
     luxury:   { rows: { seasonLabel: string; dateRange?: string; per1: number; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
   };
-  // Internal-only cost sheet — admin reference/quoting, never shown on the public site.
+  // Internal-only cost sheets — admin reference/quoting, never shown on the public site.
+  // One table per pricing tier, mirroring `pricing` above.
   detailedPricing: {
-    currency: string;
-    seasons: {
-      seasonLabel: string;
-      dateRange: string;
-      rows: { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }[];
-    }[];
+    budget:   { currency: string; seasons: { seasonLabel: string; dateRange: string; rows: { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }[] }[] };
+    midRange: { currency: string; seasons: { seasonLabel: string; dateRange: string; rows: { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }[] }[] };
+    luxury:   { currency: string; seasons: { seasonLabel: string; dateRange: string; rows: { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }[] }[] };
   };
   images: { url: string; publicId: string; alt: string }[];
   coverImage: string;
@@ -284,7 +283,11 @@ const SafariSchema = new Schema<ISafari>(
       midRange: { type: PricingTierSchema, default: () => ({}) },
       luxury:   { type: PricingTierSchema, default: () => ({}) },
     },
-    detailedPricing: { type: DetailedPricingSchema, default: () => ({ currency: "USD", seasons: [] }) },
+    detailedPricing: {
+      budget:   { type: DetailedPricingTableSchema, default: () => ({ currency: "USD", seasons: [] }) },
+      midRange: { type: DetailedPricingTableSchema, default: () => ({ currency: "USD", seasons: [] }) },
+      luxury:   { type: DetailedPricingTableSchema, default: () => ({ currency: "USD", seasons: [] }) },
+    },
     images:             [SafariImageSchema],
     coverImage:         { type: String, default: "" },
     coverImagePublicId: { type: String, default: "" },

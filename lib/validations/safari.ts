@@ -54,10 +54,13 @@ const DetailedPricingSeasonSchema = z.object({
   rows:        z.array(DetailedPriceRowSchema).default([]),
 })
 
-const DetailedPricingSchema = z.object({
+// One tier's detailed cost-sheet table
+const DetailedPricingTableSchema = z.object({
   currency: z.string().default('USD'),
   seasons:  z.array(DetailedPricingSeasonSchema).default([]),
 })
+
+const blankDetailedPricingTable = { currency: 'USD', seasons: [] }
 
 // Field-level requiredness for these two schemas is enforced conditionally in
 // SafariSchema's superRefine (based on tripLength), not here — the array itself
@@ -120,7 +123,16 @@ export const SafariSchema = z.object({
     luxury:   PricingTierSchema,
   }),
   // Optional, independent of `pricing` — no requiredness rules in superRefine below.
-  detailedPricing: DetailedPricingSchema.default({ currency: 'USD', seasons: [] }),
+  // One table per tier, mirroring `pricing`.
+  detailedPricing: z.object({
+    budget:   DetailedPricingTableSchema,
+    midRange: DetailedPricingTableSchema,
+    luxury:   DetailedPricingTableSchema,
+  }).default({
+    budget:   blankDetailedPricingTable,
+    midRange: blankDetailedPricingTable,
+    luxury:   blankDetailedPricingTable,
+  }),
   // All 24 type values kept in the enum for backward compat with existing data.
   // The admin UI only surfaces the 13 activity types now; traveller/theme
   // chips are no longer shown but remain valid so old records don't break.
