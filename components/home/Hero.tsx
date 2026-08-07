@@ -12,7 +12,7 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const slides = [
   {
-    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/c_fill,ar_16:9,f_auto,q_auto/v1784902109/Gallarey/herosection_biel7p.jpg",
+    src: "https://res.cloudinary.com/qgyno6bc/image/upload/v1786091557/CLIFF_STILLS15_yalxqf.jpg",
     alt: "A trip to the masai mara national reserve in Kenya, Africa",
   },
   {
