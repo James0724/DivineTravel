@@ -16,7 +16,7 @@ const slides = [
     alt: "A trip to the masai mara national reserve in Kenya, Africa",
   },
   {
-    src: "https://github.com/James0724/DivineTravel/blob/master/public/images/ENTIM%20PVT%20STILLS4.jpg",
+    src: "https://github.com/James0724/DivineTravel/blob/master/public/images/CLIFF%20STILLS1.jpg",
     alt: "A Leopard roaming in the African savanna",
   },
   {
