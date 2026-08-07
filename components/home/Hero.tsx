@@ -20,7 +20,7 @@ const slides = [
     alt: "A Leopard roaming in the African savanna",
   },
   {
-    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782655866/Gallarey/pexels-g-n-403098-13098956_hq5wof.jpg",
+    src: "https://res.cloudinary.com/qgyno6bc/image/upload/v1786091731/ENTIM_PVT_STILLS4_xqmsbu.jpg",
     alt: "Zebra grazing",
   },
   {
