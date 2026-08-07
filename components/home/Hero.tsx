@@ -231,7 +231,7 @@ export default function Hero() {
           <TitleHero
             variant="transparent"
             eyebrow={t("eyebrow")}
-            title="East Africa Safari"
+            title="Kenya Safari and Beyond...."
             description={t("description")}
           />
         </div>
