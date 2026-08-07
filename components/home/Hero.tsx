@@ -32,7 +32,7 @@ const slides = [
     alt: "African zebra and wilbest herd grazing in the savanna",
   },
   {
-    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/c_fill,ar_16:9,f_auto,q_auto/v1784902104/Gallarey/herosection2_bgwdez.jpg",
+    src: "https://res.cloudinary.com/qgyno6bc/image/upload/v1786092208/flight_safaris_lgqjzg.jpg",
     alt: "our team of safari guides and drivers",
   },
 ];
