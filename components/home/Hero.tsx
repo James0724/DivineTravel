@@ -28,7 +28,7 @@ const slides = [
     alt: "African elephant herd at a waterhole in the savanna",
   },
   {
-    src: "https://res.cloudinary.com/dk2j3k15k/image/upload/v1782655855/Gallarey/pexels-gsn-travel-28708345_rfgkdr.jpg",
+    src: "https://res.cloudinary.com/qgyno6bc/image/upload/v1786092152/caption_-_2026-08-02T201134.815_shb9xa.jpg",
     alt: "African zebra and wilbest herd grazing in the savanna",
   },
   {
