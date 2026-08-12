@@ -80,12 +80,6 @@ const ACCREDITATIONS: {
   certImage: string;
 }[] = [
   {
-    key: "kato",
-    logo: "/logos/kato.png",
-    nameKey: "katoName",
-    certImage: "/documents/DIVINE-TRAVEL-NEST-KATO-CERT.jpg",
-  },
-  {
     key: "tra",
     logo: "/logos/tra.png",
     nameKey: "traName",
