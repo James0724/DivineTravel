@@ -13,7 +13,7 @@ const DESTINATION_META = [
     id: "ke",
     count: "07 PARKS",
     image:
-      "https://res.cloudinary.com/dk2j3k15k/image/upload/v1779966309/web_images/destinations/sutirta-budiman-89IBtfoz3Vw-unsplash_oqy9hl.jpg",
+      "https://res.cloudinary.com/qgyno6bc/image/upload/v1786523194/caption_-_2026-07-16T215415.991_zqthzh.jpg",
     href: "/safaris/kenya",
     flag: "https://flagcdn.com/ke.svg",
   },
