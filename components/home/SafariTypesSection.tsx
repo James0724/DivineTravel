@@ -9,6 +9,18 @@ import SiteLink from "@/components/ui/SiteLink";
 import SafariTypeCard from "@/components/safaris/SafariTypeCard";
 import { AnimatedHeading } from "../ui/Heading";
 
+const HOMEPAGE_SAFARI_TYPE_SLUGS = [
+  "wildlife-game-viewing",
+  "walking",
+  "photographic",
+  "cultural",
+  "adventure",
+  "family",
+  "birdwatching",
+  "fly-in",
+  "budget-group",
+];
+
 export default function SafariTypesSection() {
   const t = useTranslations("home.safariTypes");
   const exploreLabel = t("exploreLabel");
