@@ -263,9 +263,108 @@ function SideBoxTitle({
   );
 }
 
+type DetailedTable = NonNullable<Safari["detailedPricing"]>["budget"];
+
+const DETAILED_PAX = [
+  { key: "per2" as const, label: "2 pax" },
+  { key: "per3" as const, label: "3 pax" },
+  { key: "per4" as const, label: "4 pax" },
+  { key: "per5" as const, label: "5 pax" },
+  { key: "per6" as const, label: "6 pax" },
+  { key: "per7" as const, label: "7 pax" },
+];
+
+// Admin cost-sheet (season x meal plan x pax) takes priority over the simple table
+// below whenever real prices have been entered — the admin form pre-seeds blank
+// seasons/rows at 0, which isn't usable data yet.
+function hasDetailedPricing(table?: DetailedTable): boolean {
+  return !!table?.seasons?.some((season) =>
+    season.rows?.some((row) => DETAILED_PAX.some((c) => (row[c.key] ?? 0) > 0)),
+  );
+}
+
+function DetailedPriceTable({ table }: { table: DetailedTable }) {
+  const seasons = table.seasons.filter((season) =>
+    season.rows?.some((row) => DETAILED_PAX.some((c) => (row[c.key] ?? 0) > 0)),
+  );
+
+  return (
+    <div className="space-y-8">
+      {seasons.map((season, si) => {
+        const rows = season.rows.filter((row) =>
+          DETAILED_PAX.some((c) => (row[c.key] ?? 0) > 0),
+        );
+        return (
+          <div key={si}>
+            <div className="mb-3">
+              <span className="font-serif italic text-[var(--clay)] text-[16px]">
+                {season.seasonLabel || "Season"}
+              </span>
+              {season.dateRange && (
+                <span className="ml-2 font-mono text-[9px] tracking-[0.12em] uppercase text-[var(--muted)]">
+                  {season.dateRange}
+                </span>
+              )}
+            </div>
+            <div className="overflow-x-auto border border-[var(--line)]">
+              <table className="w-full text-[13px]">
+                <thead>
+                  <tr className="bg-[var(--paper)] border-b border-[var(--line)]">
+                    <th className="text-left px-5 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[140px] border-r border-[var(--line)]">
+                      Meal plan
+                    </th>
+                    {DETAILED_PAX.map((p) => (
+                      <th
+                        key={p.key}
+                        className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]"
+                      >
+                        {p.label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, ri) => (
+                    <tr
+                      key={ri}
+                      className={`border-b border-[var(--line)] last:border-b-0 ${ri % 2 === 0 ? "bg-[var(--bg)]" : "bg-[var(--paper)]"}`}
+                    >
+                      <td className="px-5 py-4 border-r border-[var(--line)]">
+                        <span className="font-serif italic text-[var(--clay)] text-[15px]">
+                          {row.mealPlan || "—"}
+                        </span>
+                      </td>
+                      {DETAILED_PAX.map((p) => (
+                        <td key={p.key} className="text-center px-3 py-4">
+                          {row[p.key] > 0 ? (
+                            <span className="font-serif text-[15px] text-[var(--ink)]">
+                              <Price amountUsd={row[p.key]} />
+                            </span>
+                          ) : (
+                            <span className="text-[var(--muted)] text-xs">—</span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })}
+      <p className="text-[11px] text-[var(--muted)] font-mono tracking-[0.06em]">
+        * USD per person · 7 pax = best rate · prices vary by season &amp; meal plan
+      </p>
+    </div>
+  );
+}
+
 // Renders pricing table after the itinerary section.
 // Short safaris: flat rate from budget tier (no season rows).
 // Multi-day: mid-range seasonal table with season + date-range row labels.
+// Either branch prefers the admin's detailed cost sheet for that tier when it
+// has real values, falling back to the simple table otherwise.
 function PricingGuideTable({ safari }: { safari: Safari }) {
   const isShort = safari.tripLength === "short";
 
@@ -279,6 +378,9 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
   ];
 
   if (isShort) {
+    const detailedBudget = safari.detailedPricing?.budget;
+    const showDetailed = hasDetailedPricing(detailedBudget);
+
     // Use budget tier flat rate for short safaris
     const budgetRows = safari.pricing?.budget?.rows;
     const row = budgetRows?.[0];
@@ -290,7 +392,7 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
         row.per4 > 0 ||
         row.per5 > 0 ||
         row.per6 > 0);
-    if (!hasData) return null;
+    if (!showDetailed && !hasData) return null;
 
     return (
       <Reveal delay={0.1}>
@@ -303,55 +405,63 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
             Prices per person in USD — the more people in your group, the less
             each person pays.
           </p>
-          <div className="overflow-x-auto border border-[var(--line)]">
-            <table className="w-full text-[13px]">
-              <thead>
-                <tr className="bg-[var(--paper)] border-b border-[var(--line)]">
-                  <th className="text-left px-5 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[140px] border-r border-[var(--line)]">
-                    Group size
-                  </th>
-                  {PAX.map((p) => (
-                    <th
-                      key={p.key}
-                      className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]"
-                    >
-                      {p.label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-[var(--bg)]">
-                  <td className="px-5 py-4 border-r border-[var(--line)]">
-                    <span className="font-serif italic text-[var(--clay)] text-[16px]">
-                      Per person
-                    </span>
-                  </td>
-                  {PAX.map((p) => (
-                    <td key={p.key} className="text-center px-3 py-4">
-                      {row![p.key] > 0 ? (
-                        <span className="font-serif text-[15px] text-[var(--ink)]">
-                          <Price amountUsd={row![p.key]} />
+          {showDetailed ? (
+            <DetailedPriceTable table={detailedBudget!} />
+          ) : (
+            <>
+              <div className="overflow-x-auto border border-[var(--line)]">
+                <table className="w-full text-[13px]">
+                  <thead>
+                    <tr className="bg-[var(--paper)] border-b border-[var(--line)]">
+                      <th className="text-left px-5 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[140px] border-r border-[var(--line)]">
+                        Group size
+                      </th>
+                      {PAX.map((p) => (
+                        <th
+                          key={p.key}
+                          className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]"
+                        >
+                          {p.label}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-[var(--bg)]">
+                      <td className="px-5 py-4 border-r border-[var(--line)]">
+                        <span className="font-serif italic text-[var(--clay)] text-[16px]">
+                          Per person
                         </span>
-                      ) : (
-                        <span className="text-[var(--muted)] text-xs">—</span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="text-[11px] text-[var(--muted)] mt-3 font-mono tracking-[0.06em]">
-            * USD per person · fixed rate year-round · contact us for a tailored
-            quote
-          </p>
+                      </td>
+                      {PAX.map((p) => (
+                        <td key={p.key} className="text-center px-3 py-4">
+                          {row![p.key] > 0 ? (
+                            <span className="font-serif text-[15px] text-[var(--ink)]">
+                              <Price amountUsd={row![p.key]} />
+                            </span>
+                          ) : (
+                            <span className="text-[var(--muted)] text-xs">—</span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-[11px] text-[var(--muted)] mt-3 font-mono tracking-[0.06em]">
+                * USD per person · fixed rate year-round · contact us for a
+                tailored quote
+              </p>
+            </>
+          )}
         </div>
       </Reveal>
     );
   }
 
-  // Multi-day: mid-range seasonal table
+  // Multi-day: mid-range seasonal table (or the detailed cost sheet, when filled in)
+  const detailedMidRange = safari.detailedPricing?.midRange;
+  const showDetailed = hasDetailedPricing(detailedMidRange);
   const rows = safari.pricing?.midRange?.rows;
   const hasData = rows?.some(
     (r) =>
@@ -362,7 +472,7 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
       r.per5 > 0 ||
       r.per6 > 0,
   );
-  if (!hasData) return null;
+  if (!showDetailed && !hasData) return null;
 
   return (
     <Reveal delay={0.1}>
@@ -376,60 +486,66 @@ function PricingGuideTable({ safari }: { safari: Safari }) {
           contact us for a tailored quote.
         </p>
 
-        <div className="overflow-x-auto border border-[var(--line)]">
-          <table className="w-full text-[13px]">
-            <thead>
-              <tr className="bg-[var(--paper)] border-b border-[var(--line)]">
-                <th className="text-left px-5 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[200px] border-r border-[var(--line)]">
-                  Season
-                </th>
-                {PAX.map((p) => (
-                  <th
-                    key={p.key}
-                    className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]"
-                  >
-                    {p.label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows!.map((row, i) => (
-                <tr
-                  key={i}
-                  className={`border-b border-[var(--line)] last:border-b-0 ${i % 2 === 0 ? "bg-[var(--bg)]" : "bg-[var(--paper)]"}`}
-                >
-                  <td className="px-5 py-4 border-r border-[var(--line)]">
-                    <span className="font-serif italic text-[var(--clay)] text-[16px] leading-none block mb-1">
-                      {row.seasonLabel}
-                    </span>
-                    {row.dateRange && (
-                      <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-[var(--muted)]">
-                        {row.dateRange}
-                      </span>
-                    )}
-                  </td>
-                  {PAX.map((p) => (
-                    <td key={p.key} className="text-center px-3 py-4">
-                      {row[p.key] > 0 ? (
-                        <span className="font-serif text-[15px] text-[var(--ink)]">
-                          <Price amountUsd={row[p.key]} />
+        {showDetailed ? (
+          <DetailedPriceTable table={detailedMidRange!} />
+        ) : (
+          <>
+            <div className="overflow-x-auto border border-[var(--line)]">
+              <table className="w-full text-[13px]">
+                <thead>
+                  <tr className="bg-[var(--paper)] border-b border-[var(--line)]">
+                    <th className="text-left px-5 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[200px] border-r border-[var(--line)]">
+                      Season
+                    </th>
+                    {PAX.map((p) => (
+                      <th
+                        key={p.key}
+                        className="text-center px-3 py-3.5 font-mono text-[9px] tracking-[0.18em] uppercase text-[var(--muted)] min-w-[80px]"
+                      >
+                        {p.label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows!.map((row, i) => (
+                    <tr
+                      key={i}
+                      className={`border-b border-[var(--line)] last:border-b-0 ${i % 2 === 0 ? "bg-[var(--bg)]" : "bg-[var(--paper)]"}`}
+                    >
+                      <td className="px-5 py-4 border-r border-[var(--line)]">
+                        <span className="font-serif italic text-[var(--clay)] text-[16px] leading-none block mb-1">
+                          {row.seasonLabel}
                         </span>
-                      ) : (
-                        <span className="text-[var(--muted)] text-xs">—</span>
-                      )}
-                    </td>
+                        {row.dateRange && (
+                          <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-[var(--muted)]">
+                            {row.dateRange}
+                          </span>
+                        )}
+                      </td>
+                      {PAX.map((p) => (
+                        <td key={p.key} className="text-center px-3 py-4">
+                          {row[p.key] > 0 ? (
+                            <span className="font-serif text-[15px] text-[var(--ink)]">
+                              <Price amountUsd={row[p.key]} />
+                            </span>
+                          ) : (
+                            <span className="text-[var(--muted)] text-xs">—</span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                </tbody>
+              </table>
+            </div>
 
-        <p className="text-[11px] text-[var(--muted)] mt-3 font-mono tracking-[0.06em]">
-          * USD per person · mid-range tier · prices may vary by season and
-          availability
-        </p>
+            <p className="text-[11px] text-[var(--muted)] mt-3 font-mono tracking-[0.06em]">
+              * USD per person · mid-range tier · prices may vary by season and
+              availability
+            </p>
+          </>
+        )}
       </div>
     </Reveal>
   );

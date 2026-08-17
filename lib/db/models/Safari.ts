@@ -215,8 +215,9 @@ export interface ISafari extends Document {
     midRange: { rows: { seasonLabel: string; dateRange?: string; per1: number; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
     luxury:   { rows: { seasonLabel: string; dateRange?: string; per1: number; per2: number; per3: number; per4: number; per5: number; per6: number }[]; currency: string; includes: string[]; accommodationType: string; pricePerPerson?: number; description?: string };
   };
-  // Internal-only cost sheets — admin reference/quoting, never shown on the public site.
-  // One table per pricing tier, mirroring `pricing` above.
+  // Cost sheets (season x meal plan x pax), one per pricing tier, mirroring `pricing` above.
+  // When a tier's table has real values, it takes priority over that tier's simple table
+  // on the public safari page; otherwise the simple table is shown.
   detailedPricing: {
     budget:   { currency: string; seasons: { seasonLabel: string; dateRange: string; rows: { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }[] }[] };
     midRange: { currency: string; seasons: { seasonLabel: string; dateRange: string; rows: { mealPlan: string; per2: number; per3: number; per4: number; per5: number; per6: number; per7: number }[] }[] };

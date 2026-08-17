@@ -161,8 +161,9 @@ export interface Safari {
     midRange: PricingTier;
     luxury: PricingTier;
   };
-  /** Optional internal-only cost sheets — admin reference/quoting, never shown on the public site.
-   *  One table per pricing tier, mirroring `pricing` above. */
+  /** Optional cost sheets (season × meal plan × pax), one per pricing tier, mirroring `pricing`
+   *  above. When a tier's table has real values, it's shown on the public safari page in place
+   *  of that tier's simple table; otherwise the simple table is used. */
   detailedPricing?: {
     budget: DetailedPricingTable;
     midRange: DetailedPricingTable;

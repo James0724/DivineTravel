@@ -523,9 +523,10 @@ function ShortSafariPricingTable({
 }
 
 /* ─── DetailedPricingEditor ──────────────────────────────────────────────── */
-// Optional, internal-only cost sheet (season × meal-plan basis × 2–7 pax) mirroring
-// supplier/quote PDFs. Independent of the budget/midRange/luxury tiers above and
-// never rendered on the public site — the tables above are what guests see.
+// Optional cost sheet (season × meal-plan basis × 2–7 pax) mirroring supplier/quote
+// PDFs, one per budget/midRange/luxury tier. When filled in with real values, this
+// table takes priority over the simple tier table above on the public safari page;
+// otherwise the simple table is shown.
 
 const detailedPaxCols: { key: keyof DetailedRow; label: string }[] = [
   { key: 'per2', label: '2 PAX' }, { key: 'per3', label: '3 PAX' }, { key: 'per4', label: '4 PAX' },
@@ -563,8 +564,9 @@ function DetailedPricingEditor({
         <div>
           <p className="text-sm font-medium text-bone-ink/80 font-sans">Detailed Pricing Table (Internal)</p>
           <p className="text-xs text-bone-ink/45 font-sans mt-0.5">
-            Optional — for staff reference / quoting only, matches supplier cost sheets (season × meal plan × pax).
-            Never shown on the website — the table above is what guests see.
+            Optional — matches supplier cost sheets (season × meal plan × pax). If filled in with real
+            values, this replaces the simple table above on the public safari page; otherwise the simple
+            table is shown.
           </p>
         </div>
         <button type="button" onClick={addSeason}
