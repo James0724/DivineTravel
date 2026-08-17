@@ -5,7 +5,7 @@ import { Check } from 'lucide-react'
 import { cn, getPriceTierLabel } from '@/lib/utils'
 import { useCurrency } from '@/lib/currency/useCurrency'
 import Button from '@/components/ui/Button'
-import type { Safari, PriceTier, SeasonalPriceRow } from '@/types'
+import type { Safari, PriceTier, SeasonalPriceRow, DetailedPricingTable, DetailedPriceRow } from '@/types'
 
 interface PricingTiersProps {
   safari: Safari
@@ -128,6 +128,84 @@ function PriceTable({ rows, isShort, displayPrice }: {
   )
 }
 
+type DetailedPriceKey = Exclude<keyof DetailedPriceRow, 'mealPlan'>
+
+const detailedPaxCols: { key: DetailedPriceKey; label: string }[] = [
+  { key: 'per2', label: '2 pax' }, { key: 'per3', label: '3 pax' }, { key: 'per4', label: '4 pax' },
+  { key: 'per5', label: '5 pax' }, { key: 'per6', label: '6 pax' }, { key: 'per7', label: '7 pax' },
+]
+
+// Only treat the detailed cost sheet as "present" once real prices have been entered —
+// the admin form pre-seeds the 4 default seasons/rows at 0, which isn't usable data yet.
+function hasDetailedPricing(table?: DetailedPricingTable): boolean {
+  return !!table?.seasons?.some((season) =>
+    season.rows?.some((row) => detailedPaxCols.some((c) => (row[c.key] ?? 0) > 0))
+  )
+}
+
+// Season × meal-plan-basis price table (the long-format cost sheet), shown in place
+// of the short table whenever an admin has filled it in for this tier.
+function DetailedPriceTable({ table, displayPrice }: {
+  table: DetailedPricingTable
+  displayPrice: (usd: number) => string
+}) {
+  const seasons = table.seasons.filter((season) =>
+    season.rows?.some((row) => detailedPaxCols.some((c) => (row[c.key] ?? 0) > 0))
+  )
+  if (!seasons.length) return null
+
+  return (
+    <div className="space-y-3">
+      {seasons.map((season, si) => {
+        const rows = season.rows.filter((row) => detailedPaxCols.some((c) => (row[c.key] ?? 0) > 0))
+        return (
+          <div key={si} className="overflow-x-auto rounded border border-[rgba(23,22,18,0.1)]">
+            <div className="px-2.5 py-1.5 bg-bone-bg/60 border-b border-[rgba(23,22,18,0.08)]">
+              <span className="text-xs font-sans font-semibold text-bone-ink/80">{season.seasonLabel || 'Season'}</span>
+              {season.dateRange && (
+                <span className="ml-2 text-[10px] text-bone-ink/40 font-sans">{season.dateRange}</span>
+              )}
+            </div>
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="bg-bone-bg/60">
+                  <th className="text-left px-2.5 py-2 font-sans font-medium text-bone-ink/50 border-b border-[rgba(23,22,18,0.08)]">
+                    Meal Plan
+                  </th>
+                  {detailedPaxCols.map((c) => (
+                    <th key={c.key} className="text-center px-2 py-2 font-sans font-medium text-bone-ink/50 border-b border-[rgba(23,22,18,0.08)]">
+                      {c.label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row, ri) => (
+                  <tr key={ri} className={ri % 2 === 0 ? 'bg-transparent' : 'bg-bone-bg/30'}>
+                    <td className="px-2.5 py-2 font-sans text-bone-ink/70 font-medium">{row.mealPlan || '—'}</td>
+                    {detailedPaxCols.map((c) => {
+                      const val = row[c.key] as number
+                      const isMin = c.key === 'per7'
+                      return (
+                        <td key={c.key} className={`text-center px-2 py-2 font-sans ${isMin ? 'font-semibold text-bone-forest' : 'text-bone-ink/70'}`}>
+                          {val > 0 ? displayPrice(val) : '—'}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
+      })}
+      <p className="px-1 text-[10px] text-bone-ink/35 font-sans">
+        Per person · 7 pax = best rate
+      </p>
+    </div>
+  )
+}
+
 export default function PricingTiers({ safari, selectedTier, onSelect }: PricingTiersProps) {
   const { displayPrice } = useCurrency()
   const isShort = safari.tripLength === 'short'
@@ -156,6 +234,8 @@ export default function PricingTiers({ safari, selectedTier, onSelect }: Pricing
         {tiers.map(({ key, config, data, fromPrice }) => {
           const isSelected = selectedTier === key
           const rows = data?.rows ?? []
+          const detailedTable = safari.detailedPricing?.[key]
+          const showDetailed = hasDetailedPricing(detailedTable)
 
           return (
             <motion.div
@@ -210,13 +290,18 @@ export default function PricingTiers({ safari, selectedTier, onSelect }: Pricing
                 </div>
               )}
 
-              {/* Seasonal price table */}
-              {rows.length > 0 && (
+              {/* Seasonal price table — long-format cost sheet when the admin has
+                  filled one in for this tier, otherwise the standard short table */}
+              {(showDetailed || rows.length > 0) && (
                 <div className="mb-4">
                   <p className="text-xs font-sans font-medium text-bone-ink/60 uppercase tracking-wide mb-2">
                     {isShort ? 'Pricing' : 'Seasonal Rates'}
                   </p>
-                  <PriceTable rows={rows} isShort={isShort} displayPrice={displayPrice} />
+                  {showDetailed ? (
+                    <DetailedPriceTable table={detailedTable!} displayPrice={displayPrice} />
+                  ) : (
+                    <PriceTable rows={rows} isShort={isShort} displayPrice={displayPrice} />
+                  )}
                 </div>
               )}
 
