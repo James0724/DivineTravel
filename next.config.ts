@@ -110,10 +110,15 @@ const nextConfig: NextConfig = {
       { source: "/tag/:tag*", destination: "/en/african-travel-blog", permanent: true },
       // /journal was a duplicate of /african-travel-blog (same Post data under
       // a different URL) — redirect any indexed/bookmarked /journal URLs to
-      // the one canonical blog path.
-      { source: "/:locale/journal", destination: "/:locale/african-travel-blog", permanent: true },
+      // the one canonical blog path. `:locale` is pinned to the real locales
+      // so these don't swallow /admin/journal and /admin/journal/new.
       {
-        source: "/:locale/journal/:slug",
+        source: "/:locale(en|fr|de|es|ru|zh)/journal",
+        destination: "/:locale/african-travel-blog",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fr|de|es|ru|zh)/journal/:slug",
         destination: "/:locale/african-travel-blog/:slug",
         permanent: true,
       },
